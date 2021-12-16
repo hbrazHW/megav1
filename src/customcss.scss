@@ -28,7 +28,37 @@ body::-webkit-scrollbar-thumb {
   background-color: #ffffff;
   border-radius: 4px;
 }
+body::-webkit-scrollbar,
+.table-responsive::-webkit-scrollbar,
+.table-body::-webkit-scrollbar,
+.lista-body::-webkit-scrollbar,
+.modal-Garantia::-webkit-scrollbar {
+  width: 10px;
+  /* Tamaño del scroll en vertical */
+  height: 0;
+  /* Tamaño del scroll en horizontal */
+  overflow-x: hidden;
+  background-color: #E8EAF6 !important;
+}
 
+body::-webkit-scrollbar-thumb,
+.table-responsive::-webkit-scrollbar-thumb,
+.modal-Garantia::-webkit-scrollbar-thumb  {
+  background: #0d6efd !important;
+  border-radius: 3px;
+}
+
+// .modal-body{
+//   background-color: #e0e0e0 !important;
+// }
+.table-body::-webkit-scrollbar-thumb,
+.table-responsive::-webkit-scrollbar-thumb,
+.lista-body::-webkit-scrollbar-thumb,
+.modal-Garantia::-webkit-scrollbar-thumb  {
+  // background: #3949AB;
+  background-color: #0d6efd;
+  border-radius: 4px;
+}
 // Login
 .login {
   overflow-y: hidden; /* Hide vertical scrollbar */
@@ -553,47 +583,47 @@ select#telefono {
 }
 
 //footer
-.footer {
-  width: 100%;
-  height: 10vh;
-  background-color: #231f20;
-  color: #ffffff;
-  padding: 10px;
-}
+// .footer {
+//   width: 100%;
+//   height: 10vh;
+//   background-color: #231f20;
+//   color: #ffffff;
+//   padding: 10px;
+// }
 
-.footer-redes {
-  width: 70%;
-  bottom: 40px;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 5fr 1fr;
-}
+// .footer-redes {
+//   width: 70%;
+//   bottom: 40px;
+//   left: 0;
+//   right: 0;
+//   margin: 0 auto;
+//   display: grid;
+//   grid-template-columns: 5fr 1fr;
+// }
 
-.redes-links {
-  display: grid;
-  width: 100%;
-  grid-template-columns: 0fr 0fr 0fr;
-}
+// .redes-links {
+//   display: grid;
+//   width: 100%;
+//   grid-template-columns: 0fr 0fr 0fr;
+// }
 
-.fa-facebook-f,
-.fa-instagram,
-.fa-youtube {
-  color: #ffffff;
-  font-size: 22px;
-  margin: 5%;
-  padding: 10px;
-  border-bottom: 4px solid transparent;
-}
+// .fa-facebook-f,
+// .fa-instagram,
+// .fa-youtube {
+//   color: #ffffff;
+//   font-size: 22px;
+//   margin: 5%;
+//   padding: 10px;
+//   border-bottom: 4px solid transparent;
+// }
 
-.fa-facebook-f:hover,
-.fa-instagram:hover,
-.fa-youtube:hover {
-  border-color: #f58220;
-  transition: all 0.3s ease-out;
-  transition: 1s;
-}
+// .fa-facebook-f:hover,
+// .fa-instagram:hover,
+// .fa-youtube:hover {
+//   border-color: #f58220;
+//   transition: all 0.3s ease-out;
+//   transition: 1s;
+// }
 
 .derechos {
   font-size: 18px;
