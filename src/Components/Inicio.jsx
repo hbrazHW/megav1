@@ -3,6 +3,7 @@ import { withRouter, NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useSpring, animated } from "react-spring";
 import { consultaFETCHcasosResueltos, consultaFETCHmisCasosActivos } from "../Redux/Casos";
+import {obtenerLegales} from "../Redux/DocumentosLegales"
 import Tabla from '../Components/Tabla'
 import { COLUMNASMCA } from '../Tables/ColumnasMCA'
 import { COLUMNASCR } from '../Tables/ColumnasCR'
@@ -16,9 +17,12 @@ const Inicio = () => {
   const [llamadaMisCasosActivos, setLlamadaMisCasosActivos] = React.useState(false)
   const [casosResueltos, setCasosResueltos] = React.useState([])
   const [llamadaCasosResueltos, setLlamadaCasosResueltos] = React.useState(false)
+  const [legales, setLegales] = React.useState([]);
+  const [llamadaLegales, setlLlmadaLegales] = React.useState(false);
   //Selectores
   const misCasosActivosSelector = useSelector(store => store.casos.misCasosActivos)
   const casosResueltosSelector = useSelector(store => store.casos.casosResueltos)
+  const legalesSelector = useSelector((store) => store.legales.legales)
 
   //Columnas
   const [columnasMisCasosActivos, setColumnasMisCasosActivos] = React.useState([])
@@ -57,8 +61,20 @@ const Inicio = () => {
       }
     }
 
+    //legales 
+    if (legales.length === 0) {
+      if (legalesSelector.length > 0 && llamadaLegales === true) {
+        setLegales(legalesSelector);
+      
+      } else if (llamadaLegales === false) {
+        obtenerlegal();
+        setlLlmadaLegales(true);
+      }
+    }
 
-  }, [misCasosActivosSelector, casosResueltosSelector]);
+
+
+  }, [misCasosActivosSelector, casosResueltosSelector, legalesSelector ]);
 
 
   const obtenerCasosResueltos = () => {
@@ -68,6 +84,12 @@ const Inicio = () => {
   const obtenerMisCasosA = () => {
     dispatch(consultaFETCHmisCasosActivos())
   }
+
+  const obtenerlegal = () => {
+    dispatch(obtenerLegales());
+  };
+
+
 
   return (
     <animated.div className="container" style={fade}>
