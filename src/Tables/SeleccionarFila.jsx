@@ -2,13 +2,17 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons'
-import { obtenerOperacionIdSeleccionada } from '../Redux/Operaciones'
+import {obtenerLegales} from '../Redux/DocumentosLegales'
+import {obtenerLegalesId} from "../Redux/DocumentosLegales"
 
 const SeleccionarFila = ({value}) => {
     const dispatch = useDispatch()
 
     const obtenerId = (id) => {
-        dispatch(obtenerOperacionIdSeleccionada(id));
+        dispatch(obtenerLegales(id))
+        setTimeout(()=> {
+            obtenerLegalesId(id)
+        },500);
     }
 
     return (
@@ -23,7 +27,7 @@ const SeleccionarFila = ({value}) => {
                     data-bs-target="#exampleModal"
                     onClick={e => obtenerId(e.target.id)}
                 >
-                    Cargar Documento
+                    Ver Legales
                 </button>
             </ul>
         </div>

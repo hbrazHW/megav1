@@ -6,10 +6,12 @@ import { Entidad, UrlApiDynamics } from "../Keys";
 const dataInicial = {
   loading: false,
   legales: [],
+  legalesId: ''
 };
 
 //types
 const OBTENER_LEGALES_EXITO = "OBTENER_LEGALES_EXITO";
+const LEGALESID_EXITO = "LEGALESID_EXITO"
 const LOADING = "LOADING";
 const ERROR = "ERROR";
 
@@ -22,6 +24,8 @@ export default function documentosLegalesReducers(state = dataInicial, action) {
       return { ...state, loading: true };
     case OBTENER_LEGALES_EXITO:
       return { ...state, legales: action.payload, loading: false };
+    case LEGALESID_EXITO:
+      return  { ...state, legalesId: action.payload, loading: false };
     default:
       return { ...state };
   }
@@ -62,3 +66,14 @@ export const obtenerLegales = () => async (dispatch) => {
     });
   }
 };
+
+export const obtenerLegalesId = (id) => (dispatch) => {
+  if (id !== undefined) {
+      dispatch({
+          type: LEGALESID_EXITO,
+          legalesId: id
+          
+      });
+
+  }
+}

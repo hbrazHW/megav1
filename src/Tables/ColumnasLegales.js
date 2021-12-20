@@ -1,5 +1,6 @@
 import React from 'react'
 import Moment from 'moment'
+import SeleccionarFila from '../Tables/SeleccionarFila'
 
 export const COLUMNASLEGALES = [
     {
@@ -30,6 +31,14 @@ export const COLUMNASLEGALES = [
     Cell: ({ value }) => { return value ? <p className=" m-0 fw-bolder texto-lista m-0">{Moment(value).format("DD-MM-YYYY")}</p> : '-' }
    },
 
+   {
+    accessor: 'new_documentoslegalesid',
+    Cell: ({ value }) => {
+        return (
+            <SeleccionarFila value={value} />
+        )
+    }
+}
    
 
 ]
