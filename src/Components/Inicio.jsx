@@ -7,6 +7,8 @@ import {obtenerLegales} from "../Redux/DocumentosLegales"
 import Tabla from '../Components/Tabla'
 import { COLUMNASMCA } from '../Tables/ColumnasMCA'
 import { COLUMNASCR } from '../Tables/ColumnasCR'
+import { COLUMNASLEGALES } from "../Tables/ColumnasLegales"
+
 
 const Inicio = () => {
   //Constantes
@@ -19,6 +21,7 @@ const Inicio = () => {
   const [llamadaCasosResueltos, setLlamadaCasosResueltos] = React.useState(false)
   const [legales, setLegales] = React.useState([]);
   const [llamadaLegales, setlLlmadaLegales] = React.useState(false);
+  
   //Selectores
   const misCasosActivosSelector = useSelector(store => store.casos.misCasosActivos)
   const casosResueltosSelector = useSelector(store => store.casos.casosResueltos)
@@ -27,6 +30,7 @@ const Inicio = () => {
   //Columnas
   const [columnasMisCasosActivos, setColumnasMisCasosActivos] = React.useState([])
   const [columnasCasosResueltos, setColumnasCasosResueltos] = React.useState([])
+  const [columnasLegales, setColumnasLegales] = React.useState([])
 
   const fade = useSpring({
     from: {
@@ -65,9 +69,10 @@ const Inicio = () => {
     if (legales.length === 0) {
       if (legalesSelector.length > 0 && llamadaLegales === true) {
         setLegales(legalesSelector);
-      
+        setColumnasLegales(COLUMNASLEGALES)
       } else if (llamadaLegales === false) {
         obtenerlegal();
+        setColumnasLegales(COLUMNASLEGALES)
         setlLlmadaLegales(true);
       }
     }
@@ -152,7 +157,7 @@ const Inicio = () => {
               </div>
               <div className="card doc-cards pad borde-none">
                 <div className="lista-header color-header pad">
-                  {/* inserir tabla  */}
+                {legales.length > 0 ? (<Tabla lineas={legales} columnas={columnasLegales} titulo={'legales'} header={false} />) : null}
                   <div className="contenedor-spinner" id="spinner1">
                     {/* <div
                     className="lds-roller float-none  d-flex justify-content-center mx--1"

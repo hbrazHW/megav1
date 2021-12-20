@@ -34,15 +34,20 @@ export const obtenerLegales = () => async (dispatch) => {
   });
   var entidad = "new_documentoslegaleses";
   var fetch =
-    "<fetch mapping='logical' distinct='false'>" +
-    "<entity name='new_documentoslegales'>" +
-    "<attribute name='new_documentoslegalesid' />" +
-    "<attribute name='new_name' />" +
-    "<attribute name='createdon' />" +
-    "<order attribute='new_name' descending='false' />" +
-    "</entity>" +
-    "</fetch>";
-
+  "<fetch mapping='logical' distinct='false'>" +
+  "<entity name='new_documentoslegales'>" +
+  "<attribute name='new_documentoslegalesid' />" +
+  "<attribute name='new_name' />" +
+  "<attribute name='createdon' />" +
+  "<attribute name='new_sede' />" +
+  "<attribute name='new_personaquerecepcion' />" +
+  "<attribute name='new_fechaderecepcin' />" +
+  "<attribute name='overriddencreatedon' />" +
+  "<attribute name='new_descripcindeldocumento' />" +
+  "<attribute name='createdby' />" +
+  "<order attribute='new_name' descending='false' />" +
+"</entity>" +
+"</fetch>";
   try {
     const response = await axios.get(
       `${UrlApiDynamics}ConsultaFetch?Entidad=${entidad}&fetch=${fetch}&cuit=${Entidad}`
