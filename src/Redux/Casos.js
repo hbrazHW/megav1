@@ -5,10 +5,12 @@ const dataInicial = {
     loading: false,
     misCasosActivos: [],
     casosResueltos: [],
+    asuntos: []
 };
 
 
 //types
+const OBTENER_NOMBRE_ASUNTOS = "OBTENER_NOMBRE_ASUNTOS"
 const OBTENER_MIS_CASOS_ACTIVOS = "OBTENER_MIS_CASOS_ACTIVOS";
 const OBTENER_CASOS_RESUELTOS = 'OBTENER_CASOS_RESUELTOS'
 const LOADING = "LOADING";
@@ -17,6 +19,8 @@ const ERROR = "ERROR";
 //reducer
 export default function casosReducers(state = dataInicial, action) {
     switch (action.type) {
+        case OBTENER_NOMBRE_ASUNTOS:
+            return { ...state, asuntos: action.payload, loading: false };
         case OBTENER_MIS_CASOS_ACTIVOS:
             return { ...state, misCasosActivos: action.payload, loading: false };
         case OBTENER_CASOS_RESUELTOS:
@@ -102,6 +106,33 @@ export const consultaFETCHcasosResueltos = () => async (dispatch) => {
         );
         dispatch({
             type: OBTENER_CASOS_RESUELTOS,
+            payload: response.data,
+        });
+    } catch (error) {
+        dispatch({
+            type: ERROR,
+        });
+    }
+};
+
+export const consultaFETCHnombresAsuntos = () => async (dispatch) => {
+    dispatch({
+        type: LOADING,
+    });
+
+    var entidad = "subjects";
+    var fetch = "<fetch  mapping='logical' distinct='false'>" +
+        "<entity name='subject'>" +
+        "<attribute name='title' />" +
+        "</entity>" +
+        "</fetch>";
+
+    try {
+        const response = await axios.get(
+            `${UrlApiDynamics}ConsultaFetch?Entidad=${entidad}&fetch=${fetch}&cuit=${Entidad}`
+        );
+        dispatch({
+            type: OBTENER_NOMBRE_ASUNTOS,
             payload: response.data,
         });
     } catch (error) {

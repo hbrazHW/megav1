@@ -1,12 +1,17 @@
 import React from 'react'
 import Moment from 'moment'
+import Asuntos from './Asuntos'
 
 export const COLUMNASCR = [
     {
         Header: 'Asunto',
         footer: 'Asunto',
         accessor: '_subjectid_value',
-        Cell: ({ value }) => { return value ? <p className=" m-0  texto-lista m-0">{value}</p> : '-' }
+        Cell: ({value}) => {
+            return(
+                <Asuntos id={value} />
+            )
+        }
     },
     {
         Header: 'Razón para el estado',

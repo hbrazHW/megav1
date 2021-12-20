@@ -15,7 +15,7 @@ import { COLUMNASCR } from '../Tables/ColumnasCR'
 import { consultaFETCHbusquedaPersonal } from "../Redux/RecursosHumanos";
 import { COLUMNASBPA } from "../Tables/ColumnasBPA";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faClipboardList, faIdBadge, faFile,faCheckCircle, faTimesCircle, faEnvelope } from '@fortawesome/free-solid-svg-icons'
+import { faClipboardList, faIdBadge, faFile, faCheckCircle, faTimesCircle, faEnvelope } from '@fortawesome/free-solid-svg-icons'
 
 const Inicio = () => {
   //Constantes
@@ -42,14 +42,14 @@ const Inicio = () => {
   const [columnasCasosResueltos, setColumnasCasosResueltos] = React.useState([])
   const [columnasRrhh, setColumnasRrhh] = React.useState([])
   const [columnasLegales, setColumnasLegales] = React.useState([]);
-  
+
   //modalLegales
   const [show, setShow] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [mensaje, setMensaje] = React.useState("");
   const [error, setError] = React.useState(false);
   const [step, setStep] = React.useState(1);
-  
+
 
 
   const fade = useSpring({
@@ -99,7 +99,7 @@ const Inicio = () => {
         setlLlmadaLegales(true);
       }
     }
- 
+
     if (busquedaPersonal.length === 0) {
       if (recursosHumanosSelector.length > 0 && llamadaBusquedaP === true) {
         setBusquedaPersonal(recursosHumanosSelector)
@@ -113,6 +113,7 @@ const Inicio = () => {
 
   }, [misCasosActivosSelector, casosResueltosSelector, recursosHumanosSelector, legalesSelector]);
 
+  console.log("state:", busquedaPersonal)
 
   const obtenerPersonal = () => {
     dispatch(consultaFETCHbusquedaPersonal())
@@ -159,7 +160,7 @@ const Inicio = () => {
 
 
       <div className="row pb-5">
-        <div className="col-sm-7 p-2 mt-3">
+        <div className="col-sm-12 p-2 mt-3">
           <div className="card shadow p-3 border-0 h-auto d-flex justify-content-start pad">
             <div>
               <h6 className="fw-bolder">Mis Casos Activos</h6>
@@ -180,7 +181,7 @@ const Inicio = () => {
           </div>
         </div>
 
-        <div className="col-sm-5 p-2 mt-3">
+        <div className="col-sm-12 p-2 mt-3">
           <div className="card shadow p-3 border-0 h-auto d-flex justify-content-start pad">
             <div>
               <h6 className="fw-bolder">Casos Resueltos</h6>
@@ -202,7 +203,7 @@ const Inicio = () => {
         </div>
       </div>
       <div className="col-sm-12">
-      <div className="card p-2 shadow pad borde-none sgr mb-4">
+        <div className="card p-2 shadow pad borde-none sgr mb-4">
           <div className="card-body p-0 ">
             <div className="row">
               <div className="col-10">
@@ -266,21 +267,21 @@ const Inicio = () => {
           </div>
         </div>
         <div className="col-sm-12">
-        <div className="card p-2 shadow pad borde-none sgr mb-4">
-          <div className="card-body p-0 ">
-            <div className="row">
-              <div className="col-10">
-                <div className="p-2">
-                  <h4 className="fw-bold pt-2 mx-2 pb-2 fw-bolder m-0 ">Recursos Humanos</h4>
+          <div className="card p-2 shadow pad borde-none sgr mb-4">
+            <div className="card-body p-0 ">
+              <div className="row">
+                <div className="col-10">
+                  <div className="p-2">
+                    <h4 className="fw-bold pt-2 mx-2 pb-2 fw-bolder m-0 ">Recursos Humanos</h4>
+                  </div>
                 </div>
-              </div>
-              <div className="col-2 d-flex justify-content-center align-items-center">
-                <FontAwesomeIcon icon={faIdBadge} className="fs-1 upload-file atras" color="rgb(245,130,32)" />
-              </div>
+                <div className="col-2 d-flex justify-content-center align-items-center">
+                  <FontAwesomeIcon icon={faIdBadge} className="fs-1 upload-file atras" color="rgb(245,130,32)" />
+                </div>
 
+              </div>
             </div>
           </div>
-        </div>
 
           <div className="row pb-5">
             <div className="col-sm-12 p-2 mt-3">
@@ -386,18 +387,18 @@ const Inicio = () => {
                         </div>
                       </div>
                       <div className="col-sm-4 col-md-12">
-                      <div className="mb-2 p-2">
-                      <label className="form-label fw-bolder lbl-precalificacion required">
-                        Persona que Recepcionó
-                      </label>
-                      <input
-                        type="search"
-                        id="search"
-                        name="busqueda"
-                        className="form-control requerido"
-                        required
-                      />
-                    </div>
+                        <div className="mb-2 p-2">
+                          <label className="form-label fw-bolder lbl-precalificacion required">
+                            Persona que Recepcionó
+                          </label>
+                          <input
+                            type="search"
+                            id="search"
+                            name="busqueda"
+                            className="form-control requerido"
+                            required
+                          />
+                        </div>
                       </div>
 
                       <div className="col-sm-4 col-md-12">
@@ -410,9 +411,9 @@ const Inicio = () => {
                             id="ticket"
                             name="ticket"
                             className="form-control desabilitado"
-                            // onChange={e => setTicket(e.target.value)}
-                            // value={ticket}
-                            // disabled
+                          // onChange={e => setTicket(e.target.value)}
+                          // value={ticket}
+                          // disabled
                           />
                         </div>
                       </div>
