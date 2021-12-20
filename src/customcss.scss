@@ -17,7 +17,7 @@ body::-webkit-scrollbar,
   background-color: #ffffff !important;
 }
 body::-webkit-scrollbar-thumb {
-  background: #231f20 !important;
+  background: #e41a4c !important;
 }
 // .modal-body{
 //   background-color: #e0e0e0 !important;
@@ -645,8 +645,9 @@ select#telefono {
 }
 
 
-
-
+.badge{
+  font-size: 12px !important;
+}
 
 
 @import "~bootstrap/scss/bootstrap";

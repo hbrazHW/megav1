@@ -3,61 +3,54 @@ import { withRouter, NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useSpring, animated } from "react-spring";
 import { Toast, Spinner } from "react-bootstrap";
-import {
-  faCheckCircle,
-  faTimesCircle,
-  faEnvelope,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MultiStepProgressBar from "./MultiStepProgressBar";
 import "react-step-progress-bar/styles.css";
 import Select from "react-select";
-import {
-  consultaFETCHcasosResueltos,
-  consultaFETCHmisCasosActivos,
-} from "../Redux/Casos";
 import { obtenerLegales } from "../Redux/DocumentosLegales";
-import Tabla from "../Components/Tabla";
-import { COLUMNASMCA } from "../Tables/ColumnasMCA";
-import { COLUMNASCR } from "../Tables/ColumnasCR";
 import { COLUMNASLEGALES } from "../Tables/ColumnasLegales";
+import { consultaFETCHcasosResueltos, consultaFETCHmisCasosActivos } from "../Redux/Casos";
+import Tabla from '../Components/Tabla'
+import { COLUMNASMCA } from '../Tables/ColumnasMCA'
+import { COLUMNASCR } from '../Tables/ColumnasCR'
+import { consultaFETCHbusquedaPersonal } from "../Redux/RecursosHumanos";
+import { COLUMNASBPA } from "../Tables/ColumnasBPA";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faClipboardList, faIdBadge, faFile,faCheckCircle, faTimesCircle, faEnvelope } from '@fortawesome/free-solid-svg-icons'
 
 const Inicio = () => {
   //Constantes
   const dispatch = useDispatch();
 
   //Hooks
+  const [misCasosActivos, setMisCasosActivos] = React.useState([])
+  const [llamadaMisCasosActivos, setLlamadaMisCasosActivos] = React.useState(false)
+  const [casosResueltos, setCasosResueltos] = React.useState([])
+  const [llamadaCasosResueltos, setLlamadaCasosResueltos] = React.useState(false)
+  const [busquedaPersonal, setBusquedaPersonal] = React.useState([])
+  const [llamadaBusquedaP, setLlamadaBusquedaP] = React.useState(false)
+  const [legales, setLegales] = React.useState([]);
+  const [llamadaLegales, setlLlmadaLegales] = React.useState(false);
+
+  //Selectores
+  const misCasosActivosSelector = useSelector(store => store.casos.misCasosActivos)
+  const casosResueltosSelector = useSelector(store => store.casos.casosResueltos)
+  const recursosHumanosSelector = useSelector(store => store.recursosHumanos.busquedaPersonal)
+  const legalesSelector = useSelector((store) => store.legales.legales);
+
+  //Columnas
+  const [columnasMisCasosActivos, setColumnasMisCasosActivos] = React.useState([])
+  const [columnasCasosResueltos, setColumnasCasosResueltos] = React.useState([])
+  const [columnasRrhh, setColumnasRrhh] = React.useState([])
+  const [columnasLegales, setColumnasLegales] = React.useState([]);
+  
+  //modalLegales
   const [show, setShow] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [mensaje, setMensaje] = React.useState("");
   const [error, setError] = React.useState(false);
   const [step, setStep] = React.useState(1);
-  const [misCasosActivos, setMisCasosActivos] = React.useState([]);
-  const [llamadaMisCasosActivos, setLlamadaMisCasosActivos] =
-    React.useState(false);
-  const [casosResueltos, setCasosResueltos] = React.useState([]);
-  const [llamadaCasosResueltos, setLlamadaCasosResueltos] =
-    React.useState(false);
-  const [legales, setLegales] = React.useState([]);
-  const [llamadaLegales, setlLlmadaLegales] = React.useState(false);
+  
 
-  //Selectores
-  const misCasosActivosSelector = useSelector(
-    (store) => store.casos.misCasosActivos
-  );
-  const casosResueltosSelector = useSelector(
-    (store) => store.casos.casosResueltos
-  );
-  const legalesSelector = useSelector((store) => store.legales.legales);
-
-  //Columnas
-  const [columnasMisCasosActivos, setColumnasMisCasosActivos] = React.useState(
-    []
-  );
-  const [columnasCasosResueltos, setColumnasCasosResueltos] = React.useState(
-    []
-  );
-  const [columnasLegales, setColumnasLegales] = React.useState([]);
 
   const fade = useSpring({
     from: {
@@ -95,7 +88,7 @@ const Inicio = () => {
       }
     }
 
-    //legales
+
     if (legales.length === 0) {
       if (legalesSelector.length > 0 && llamadaLegales === true) {
         setLegales(legalesSelector);
@@ -106,7 +99,25 @@ const Inicio = () => {
         setlLlmadaLegales(true);
       }
     }
-  }, [misCasosActivosSelector, casosResueltosSelector, legalesSelector]);
+ 
+    if (busquedaPersonal.length === 0) {
+      if (recursosHumanosSelector.length > 0 && llamadaBusquedaP === true) {
+        setBusquedaPersonal(recursosHumanosSelector)
+        setColumnasRrhh(COLUMNASBPA)
+      } else if (llamadaBusquedaP === false) {
+        obtenerPersonal()
+        setColumnasRrhh(COLUMNASBPA)
+        setLlamadaBusquedaP(true)
+      }
+    }
+
+  }, [misCasosActivosSelector, casosResueltosSelector, recursosHumanosSelector, legalesSelector]);
+
+
+  const obtenerPersonal = () => {
+    dispatch(consultaFETCHbusquedaPersonal())
+  }
+
 
   const obtenerCasosResueltos = () => {
     dispatch(consultaFETCHcasosResueltos());
@@ -122,17 +133,33 @@ const Inicio = () => {
 
   return (
     <animated.div className="container" style={fade}>
+
       <div className="col-sm-12 mt-4">
-        <div className="card shadow borde-none pad mb-4 pt-3 pb-3">
-          <div className="col-sm-12 m-0">
-            <span className="separador-titulo float-start m-0"></span>
-            <p className="pt-2 mx-2 pb-2 fw-bolder m-0 ">Casos</p>
+
+        <div className="card p-2 shadow pad borde-none sgr mb-4">
+          <div className="card-body p-0 ">
+            <div className="row">
+              <div className="col-10">
+                <div className="p-2">
+                  <h4 className="fw-bold pt-2 mx-2 pb-2 fw-bolder m-0 ">Casos</h4>
+                </div>
+              </div>
+              <div className="col-2 d-flex justify-content-center align-items-center">
+                <FontAwesomeIcon icon={faClipboardList} className="fs-1 upload-file atras" color="rgb(245,130,32)" />
+              </div>
+            </div>
           </div>
         </div>
+
       </div>
 
+      {/* <div className="bg-green d-flex justify-content-center pad-icon">
+        <FontAwesomeIcon icon={faClipboardList} className="fs-5 upload-file atras" color="#eee" />
+      </div> */}
+
+
       <div className="row pb-5">
-        <div className="col-sm-8 p-2 mt-3">
+        <div className="col-sm-7 p-2 mt-3">
           <div className="card shadow p-3 border-0 h-auto d-flex justify-content-start pad">
             <div>
               <h6 className="fw-bolder">Mis Casos Activos</h6>
@@ -153,7 +180,7 @@ const Inicio = () => {
           </div>
         </div>
 
-        <div className="col-sm-4 p-2 mt-3">
+        <div className="col-sm-5 p-2 mt-3">
           <div className="card shadow p-3 border-0 h-auto d-flex justify-content-start pad">
             <div>
               <h6 className="fw-bolder">Casos Resueltos</h6>
@@ -175,10 +202,19 @@ const Inicio = () => {
         </div>
       </div>
       <div className="col-sm-12">
-        <div className="card shadow borde-none pad  mb-4 pt-3 pb-3">
-          <div className="col-sm-12 m-0">
-            <span className="separador-titulo float-start m-0"></span>
-            <p className="pt-2 mx-2 pb-2 fw-bolder m-0 ">Documentos Legales</p>
+      <div className="card p-2 shadow pad borde-none sgr mb-4">
+          <div className="card-body p-0 ">
+            <div className="row">
+              <div className="col-10">
+                <div className="p-2">
+                  <h4 className="fw-bold pt-2 mx-2 pb-2 fw-bolder m-0 ">Documentos Legales</h4>
+                </div>
+              </div>
+              <div className="col-2 d-flex justify-content-center align-items-center">
+                <FontAwesomeIcon icon={faFile} className="fs-1 upload-file atras" color="rgb(245,130,32)" />
+              </div>
+            </div>
+
           </div>
         </div>
         <div className="row pb-5">
@@ -230,48 +266,32 @@ const Inicio = () => {
           </div>
         </div>
         <div className="col-sm-12">
-          <div className="card shadow borde-none pad  mb-4 pt-3 pb-3">
-            <div className="col-sm-12 m-0">
-              <span className="separador-titulo float-start m-0"></span>
-              <p className="pt-2 mx-2 pb-2 fw-bolder m-0 ">Recursos Humanos</p>
+        <div className="card p-2 shadow pad borde-none sgr mb-4">
+          <div className="card-body p-0 ">
+            <div className="row">
+              <div className="col-10">
+                <div className="p-2">
+                  <h4 className="fw-bold pt-2 mx-2 pb-2 fw-bolder m-0 ">Recursos Humanos</h4>
+                </div>
+              </div>
+              <div className="col-2 d-flex justify-content-center align-items-center">
+                <FontAwesomeIcon icon={faIdBadge} className="fs-1 upload-file atras" color="rgb(245,130,32)" />
+              </div>
+
             </div>
           </div>
+        </div>
+
           <div className="row pb-5">
-            <div className="col-12 col-sm-6 col-md-6 col-lg-12 p-2 mt-3">
+            <div className="col-sm-12 p-2 mt-3">
               <div className="card shadow p-3 border-0 h-auto d-flex justify-content-start pad">
                 <div>
-                  <h6 className="fw-bolder">Evaluación de Periodo de Prueba</h6>
+                  <h6 className="fw-bolder">Busquedas de personal Abiertas</h6>
                   <hr className="hr-width hr-principal" />
                 </div>
-                <div className="card doc-cards pad borde-none">
-                  <div className="lista-header color-header pad">
-                    {/* inserir tabla  */}
-                    <div className="contenedor-spinner" id="spinner1">
-                      {/* <div
-                    className="lds-roller float-none  d-flex justify-content-center mx--1"
-                    id="spinner"
-                  >
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                  </div> */}
-                    </div>
-
-                    <div className="row p-3">
-                      <div className="col-12 color-header text-center c-black fw-bolder">
-                        <NavLink
-                          className="fuente nav-link text-center padd-menu-link"
-                          to="/RecursosHumanos"
-                        >
-                          Ver más
-                        </NavLink>
-                      </div>
-                    </div>
+                <div className="card pad borde-none">
+                  <div className="">
+                    {busquedaPersonal.length > 0 ? (<Tabla lineas={busquedaPersonal} columnas={columnasRrhh} titulo={'rr-hh'} header={false} />) : null}
                   </div>
                 </div>
               </div>
