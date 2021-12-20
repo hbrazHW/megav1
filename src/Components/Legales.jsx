@@ -29,8 +29,9 @@ const Legales = () => {
                         id="autor"
                         name="autor"
                         className="form-control requerido"
-                        placeholder="Nombre del autor..."
+                        placeholder="---"
                         required
+                        
                       />
                     </div>
                   </div>
