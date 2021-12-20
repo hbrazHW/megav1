@@ -1,5 +1,8 @@
 import React from 'react'
 import Moment from 'moment'
+import Contacts from './Contacts'
+import Puesto from './Puesto'
+import Cuenta from './Cuenta'
 
 export const COLUMNASBPA = [
     {
@@ -21,25 +24,41 @@ export const COLUMNASBPA = [
         Header: 'Puesto',
         footer: 'Puesto',
         accessor: '_new_puesto_value',
-        Cell: ({ value }) => { return value ? <p className=" m-0  texto-lista m-0">{value}</p> : '-' }
+        Cell: ({value}) => {
+            return(
+                <Puesto id={value} />
+            )
+        }
     },
     {
         Header: 'Autorizado por',
         footer: 'Autorizado por',
         accessor: '_new_autorizadopor_value',
-        Cell: ({ value }) => { return value ? <p className=" m-0  texto-lista m-0">{value}</p> : '-' }
+        Cell: ({value}) => {
+            return(
+                <Contacts id={value} />
+            )
+        }
     },
     {
         Header: 'Sucursal',
         footer: 'Sucursal',
         accessor: '_new_sucursal_value',
-        Cell: ({ value }) => { return value ? <p className=" m-0  texto-lista m-0">{value}</p> : '-' }
+        Cell: ({value}) => {
+            return(
+                <Cuenta id={value} />
+            )
+        }
     },
     {
         Header: 'Reportara a',
         footer: 'Reportara a',
         accessor: '_new_reportaraa_value',
-        Cell: ({ value }) => { return value ? <p className=" m-0  texto-lista m-0">{value}</p> : '-' }
+        Cell: ({value}) => {
+            return(
+                <Contacts id={value} />
+            )
+        }
     },
     {
         Header: 'Jornada Laboral',

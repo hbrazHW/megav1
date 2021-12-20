@@ -18,6 +18,7 @@ import asuntoCasoReducers from '../Redux/AsuntoCaso'
 import casosReducers from '../Redux/Casos'
 import  documentosLegalesReducers  from '../Redux/DocumentosLegales'
 import recursosHumanosReducers from '../Redux/RecursosHumanos'
+import contactsReducers from '../Redux/Contact'
 
 
 
@@ -40,8 +41,8 @@ const rootReducer = combineReducers({
    asunto: asuntoCasoReducers,
    casos: casosReducers,
    legales: documentosLegalesReducers,
-   recursosHumanos: recursosHumanosReducers
-
+   recursosHumanos: recursosHumanosReducers,
+   contacts: contactsReducers
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
