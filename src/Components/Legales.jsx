@@ -1,10 +1,68 @@
 import React from "react";
 import Select from "react-select";
+import { useSpring, animated } from "react-spring";
+import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCloudUploadAlt } from "@fortawesome/free-solid-svg-icons";
 
 const Legales = () => {
+  const dispatch = useDispatch();
+
+  //hooks
+  const [autor, setAutor] = React.useState([]);
+  const [llamadaAutor, setlLlmadaAutor] = React.useState(false);
+  const [selectAutor, setSelectAutor] = React.useState([]);
+  const [autorSeleccionar, SetAutorSeleccionar] = React.useState("");
+
+
+  const fade = useSpring({
+    from: {
+      opacity: 0,
+    },
+    to: {
+      opacity: 1,
+      delay: 1500,
+    },
+  });
+
+
+  // React.useEffect(() => {
+  //   //debugger;
+  //   if (autor.length === 0) {
+  //     if (autorSelector.length > 0 && llamadaAutor === true) {
+  //       setAutor(autorSelector);
+  //       completarOpcionAutor(autorSelector);
+  //     } else if (llamadaAutor === false) {
+  //       obtenerAut();
+  //       setlLlmadaAutor(true);
+  //     }
+  //   }
+  // }, []);
+
+    const completarOpcionAutor = (autor) => {
+      const aut = [];
+      autor.forEach((item) => {
+        var autorlegal = { value: item.contact, label: item._new_cliente_value };
+        aut.push(autorlegal);
+      });
+      setSelectAutor(aut);
+    };
+
+
+    const autorHandle = (valor) => {
+      SetAutorSeleccionar(valor.value);
+    };
+  
+
+    // const obtenerAut = () => {
+    //   dispatch(obtenerAutor());
+    // };
+
   return (
+    <animated.div>
+
+
+    
     <div>
       <div className="modal-dialog modal-dialog-centered modal-xl shadow-lg p-3 mb-5 bg-body rounded">
         <div className="modal-content">
@@ -27,10 +85,13 @@ const Legales = () => {
                       <input
                         type="text"
                         id="autor"
+                        onChange={(e) => autorHandle(e)}
+                        options={selectAutor}
                         name="autor"
                         className="form-control requerido"
                         placeholder="---"
                         required
+                        disabled
                         
                       />
                     </div>
@@ -98,13 +159,14 @@ const Legales = () => {
                       <label className="form-label fw-bolder lbl-precalificacion required">
                         Persona que Recepcionó
                       </label>
-                      <input
-                        type="search"
-                        id="search"
-                        name="busqueda"
-                        className="form-control requerido"
+                      <Select
+                        type="select"
+                        id="select"
+                        name="personarep"
+                        className="basic multi-select requerido"
+                        classNamePrefix="select"
                         required
-                      />
+                      ></Select>
                     </div>
                     <div className="col-sm-4 col-md-12">
                       <div className="mb-2 p-2">
@@ -112,22 +174,28 @@ const Legales = () => {
                           Sede
                         </label>
                         <input
-                          type="search"
-                          id="search"
-                          name="sede"
-                          className="form-control requerido"
-                          required
-                        />
+                        type="text"
+                        id="autor"
+                        // onChange={(e) => autorHandle(e)}
+                        // options={selectAutor}
+                        name="autor"
+                        className="form-control requerido"
+                        placeholder="---"
+                        required
+                        disabled
+                      />
                       </div>
                       <div className="mb-2 p-2">
                         <label className="form-label fw-bolder lbl-precalificacion ">
                           Razón para el estado
                         </label>
                         <input
-                          type="hidden"
+                          type="text"
                           id="razon"
                           name="razon"
-                          className="form"
+                          className="form-control desabilitado"
+                          placeholder="Sin recepcionar"
+                          disabled
                         />
                       </div>
                     </div>
@@ -193,6 +261,7 @@ const Legales = () => {
         </div>
       </div>
     </div>
+    </animated.div>
   );
 };
 

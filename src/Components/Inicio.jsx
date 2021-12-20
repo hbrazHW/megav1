@@ -8,49 +8,70 @@ import "react-step-progress-bar/styles.css";
 import Select from "react-select";
 import { obtenerLegales } from "../Redux/DocumentosLegales";
 import { COLUMNASLEGALES } from "../Tables/ColumnasLegales";
-import { consultaFETCHcasosResueltos, consultaFETCHmisCasosActivos } from "../Redux/Casos";
-import Tabla from '../Components/Tabla'
-import { COLUMNASMCA } from '../Tables/ColumnasMCA'
-import { COLUMNASCR } from '../Tables/ColumnasCR'
+import {
+  consultaFETCHcasosResueltos,
+  consultaFETCHmisCasosActivos,
+} from "../Redux/Casos";
+import Tabla from "../Components/Tabla";
+import { COLUMNASMCA } from "../Tables/ColumnasMCA";
+import { COLUMNASCR } from "../Tables/ColumnasCR";
 import { consultaFETCHbusquedaPersonal } from "../Redux/RecursosHumanos";
 import { COLUMNASBPA } from "../Tables/ColumnasBPA";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faClipboardList, faIdBadge, faFile,faCheckCircle, faTimesCircle, faEnvelope } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faClipboardList,
+  faIdBadge,
+  faFile,
+  faCheckCircle,
+  faTimesCircle,
+  faEnvelope,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Inicio = () => {
   //Constantes
   const dispatch = useDispatch();
 
   //Hooks
-  const [misCasosActivos, setMisCasosActivos] = React.useState([])
-  const [llamadaMisCasosActivos, setLlamadaMisCasosActivos] = React.useState(false)
-  const [casosResueltos, setCasosResueltos] = React.useState([])
-  const [llamadaCasosResueltos, setLlamadaCasosResueltos] = React.useState(false)
-  const [busquedaPersonal, setBusquedaPersonal] = React.useState([])
-  const [llamadaBusquedaP, setLlamadaBusquedaP] = React.useState(false)
+  const [misCasosActivos, setMisCasosActivos] = React.useState([]);
+  const [llamadaMisCasosActivos, setLlamadaMisCasosActivos] =
+    React.useState(false);
+  const [casosResueltos, setCasosResueltos] = React.useState([]);
+  const [llamadaCasosResueltos, setLlamadaCasosResueltos] =
+    React.useState(false);
+  const [busquedaPersonal, setBusquedaPersonal] = React.useState([]);
+  const [llamadaBusquedaP, setLlamadaBusquedaP] = React.useState(false);
   const [legales, setLegales] = React.useState([]);
   const [llamadaLegales, setlLlmadaLegales] = React.useState(false);
+  const [autor, setAutor] = React.useState("");
 
   //Selectores
-  const misCasosActivosSelector = useSelector(store => store.casos.misCasosActivos)
-  const casosResueltosSelector = useSelector(store => store.casos.casosResueltos)
-  const recursosHumanosSelector = useSelector(store => store.recursosHumanos.busquedaPersonal)
+  const misCasosActivosSelector = useSelector(
+    (store) => store.casos.misCasosActivos
+  );
+  const casosResueltosSelector = useSelector(
+    (store) => store.casos.casosResueltos
+  );
+  const recursosHumanosSelector = useSelector(
+    (store) => store.recursosHumanos.busquedaPersonal
+  );
   const legalesSelector = useSelector((store) => store.legales.legales);
 
   //Columnas
-  const [columnasMisCasosActivos, setColumnasMisCasosActivos] = React.useState([])
-  const [columnasCasosResueltos, setColumnasCasosResueltos] = React.useState([])
-  const [columnasRrhh, setColumnasRrhh] = React.useState([])
+  const [columnasMisCasosActivos, setColumnasMisCasosActivos] = React.useState(
+    []
+  );
+  const [columnasCasosResueltos, setColumnasCasosResueltos] = React.useState(
+    []
+  );
+  const [columnasRrhh, setColumnasRrhh] = React.useState([]);
   const [columnasLegales, setColumnasLegales] = React.useState([]);
-  
+
   //modalLegales
   const [show, setShow] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [mensaje, setMensaje] = React.useState("");
   const [error, setError] = React.useState(false);
   const [step, setStep] = React.useState(1);
-  
-
 
   const fade = useSpring({
     from: {
@@ -88,7 +109,6 @@ const Inicio = () => {
       }
     }
 
-
     if (legales.length === 0) {
       if (legalesSelector.length > 0 && llamadaLegales === true) {
         setLegales(legalesSelector);
@@ -99,25 +119,33 @@ const Inicio = () => {
         setlLlmadaLegales(true);
       }
     }
- 
+
     if (busquedaPersonal.length === 0) {
       if (recursosHumanosSelector.length > 0 && llamadaBusquedaP === true) {
-        setBusquedaPersonal(recursosHumanosSelector)
-        setColumnasRrhh(COLUMNASBPA)
+        setBusquedaPersonal(recursosHumanosSelector);
+        setColumnasRrhh(COLUMNASBPA);
       } else if (llamadaBusquedaP === false) {
-        obtenerPersonal()
-        setColumnasRrhh(COLUMNASBPA)
-        setLlamadaBusquedaP(true)
+        obtenerPersonal();
+        setColumnasRrhh(COLUMNASBPA);
+        setLlamadaBusquedaP(true);
       }
     }
 
-  }, [misCasosActivosSelector, casosResueltosSelector, recursosHumanosSelector, legalesSelector]);
-
+    if (legalesSelector !== undefined) {
+      if (legalesSelector !== "") {
+        completarCamposLegales(legalesSelector);
+      }
+    }
+  }, [
+    misCasosActivosSelector,
+    casosResueltosSelector,
+    recursosHumanosSelector,
+    legalesSelector,
+  ]);
 
   const obtenerPersonal = () => {
-    dispatch(consultaFETCHbusquedaPersonal())
-  }
-
+    dispatch(consultaFETCHbusquedaPersonal());
+  };
 
   const obtenerCasosResueltos = () => {
     dispatch(consultaFETCHcasosResueltos());
@@ -131,32 +159,42 @@ const Inicio = () => {
     dispatch(obtenerLegales());
   };
 
+  const completarCamposLegales = (id) => {
+    legales
+      .filter((item) => item.new_documentoslegalesid == id)
+      .map((item) => {
+        setAutor(item._createdby_value);
+      });
+  };
+
   return (
     <animated.div className="container" style={fade}>
-
       <div className="col-sm-12 mt-4">
-
         <div className="card p-2 shadow pad borde-none sgr mb-4">
           <div className="card-body p-0 ">
             <div className="row">
               <div className="col-10">
                 <div className="p-2">
-                  <h4 className="fw-bold pt-2 mx-2 pb-2 fw-bolder m-0 ">Casos</h4>
+                  <h4 className="fw-bold pt-2 mx-2 pb-2 fw-bolder m-0 ">
+                    Casos
+                  </h4>
                 </div>
               </div>
               <div className="col-2 d-flex justify-content-center align-items-center">
-                <FontAwesomeIcon icon={faClipboardList} className="fs-1 upload-file atras" color="rgb(245,130,32)" />
+                <FontAwesomeIcon
+                  icon={faClipboardList}
+                  className="fs-1 upload-file atras"
+                  color="rgb(245,130,32)"
+                />
               </div>
             </div>
           </div>
         </div>
-
       </div>
 
       {/* <div className="bg-green d-flex justify-content-center pad-icon">
         <FontAwesomeIcon icon={faClipboardList} className="fs-5 upload-file atras" color="#eee" />
       </div> */}
-
 
       <div className="row pb-5">
         <div className="col-sm-7 p-2 mt-3">
@@ -202,19 +240,24 @@ const Inicio = () => {
         </div>
       </div>
       <div className="col-sm-12">
-      <div className="card p-2 shadow pad borde-none sgr mb-4">
+        <div className="card p-2 shadow pad borde-none sgr mb-4">
           <div className="card-body p-0 ">
             <div className="row">
               <div className="col-10">
                 <div className="p-2">
-                  <h4 className="fw-bold pt-2 mx-2 pb-2 fw-bolder m-0 ">Documentos Legales</h4>
+                  <h4 className="fw-bold pt-2 mx-2 pb-2 fw-bolder m-0 ">
+                    Documentos Legales
+                  </h4>
                 </div>
               </div>
               <div className="col-2 d-flex justify-content-center align-items-center">
-                <FontAwesomeIcon icon={faFile} className="fs-1 upload-file atras" color="rgb(245,130,32)" />
+                <FontAwesomeIcon
+                  icon={faFile}
+                  className="fs-1 upload-file atras"
+                  color="rgb(245,130,32)"
+                />
               </div>
             </div>
-
           </div>
         </div>
         <div className="row pb-5">
@@ -266,21 +309,26 @@ const Inicio = () => {
           </div>
         </div>
         <div className="col-sm-12">
-        <div className="card p-2 shadow pad borde-none sgr mb-4">
-          <div className="card-body p-0 ">
-            <div className="row">
-              <div className="col-10">
-                <div className="p-2">
-                  <h4 className="fw-bold pt-2 mx-2 pb-2 fw-bolder m-0 ">Recursos Humanos</h4>
+          <div className="card p-2 shadow pad borde-none sgr mb-4">
+            <div className="card-body p-0 ">
+              <div className="row">
+                <div className="col-10">
+                  <div className="p-2">
+                    <h4 className="fw-bold pt-2 mx-2 pb-2 fw-bolder m-0 ">
+                      Recursos Humanos
+                    </h4>
+                  </div>
+                </div>
+                <div className="col-2 d-flex justify-content-center align-items-center">
+                  <FontAwesomeIcon
+                    icon={faIdBadge}
+                    className="fs-1 upload-file atras"
+                    color="rgb(245,130,32)"
+                  />
                 </div>
               </div>
-              <div className="col-2 d-flex justify-content-center align-items-center">
-                <FontAwesomeIcon icon={faIdBadge} className="fs-1 upload-file atras" color="rgb(245,130,32)" />
-              </div>
-
             </div>
           </div>
-        </div>
 
           <div className="row pb-5">
             <div className="col-sm-12 p-2 mt-3">
@@ -291,7 +339,14 @@ const Inicio = () => {
                 </div>
                 <div className="card pad borde-none">
                   <div className="">
-                    {busquedaPersonal.length > 0 ? (<Tabla lineas={busquedaPersonal} columnas={columnasRrhh} titulo={'rr-hh'} header={false} />) : null}
+                    {busquedaPersonal.length > 0 ? (
+                      <Tabla
+                        lineas={busquedaPersonal}
+                        columnas={columnasRrhh}
+                        titulo={"rr-hh"}
+                        header={false}
+                      />
+                    ) : null}
                   </div>
                 </div>
               </div>
@@ -366,7 +421,7 @@ const Inicio = () => {
               </div>
               <form name="Alyc">
                 <div className="row w-auto d-flex justify-content-center">
-                  <div className="col-8">
+                  <div className="col-12">
                     <h6 className="fw-bolder">Detalles del documento Legal</h6>
                     <div className="row">
                       <div className="col-sm-4 col-md-12">
@@ -386,54 +441,52 @@ const Inicio = () => {
                         </div>
                       </div>
                       <div className="col-sm-4 col-md-12">
-                      <div className="mb-2 p-2">
-                      <label className="form-label fw-bolder lbl-precalificacion required">
-                        Persona que Recepcionó
-                      </label>
-                      <input
-                        type="search"
-                        id="search"
-                        name="busqueda"
-                        className="form-control requerido"
-                        required
-                      />
-                    </div>
+                        <div className="mb-2 p-2">
+                          <label className="form-label fw-bolder lbl-precalificacion required">
+                            Persona que Recepcionó
+                          </label>
+                          <input
+                            type="search"
+                            id="search"
+                            name="busqueda"
+                            className="form-control requerido"
+                            required
+                            disabled
+                          />
+                        </div>
                       </div>
 
                       <div className="col-sm-4 col-md-12">
                         <div className="mb-2 p-2">
-                          <label className="form-label fw-bolder lbl-precalificacion">
-                            Ticket
+                          <label className="form-label fw-bolder lbl-precalificacion required">
+                            Descripción del Documeto
                           </label>
                           <input
                             type="text"
-                            id="ticket"
-                            name="ticket"
+                            id="text"
+                            name="descripcion"
                             className="form-control desabilitado"
-                            // onChange={e => setTicket(e.target.value)}
-                            // value={ticket}
-                            // disabled
+                            required
+                            disabled
                           />
                         </div>
                       </div>
                       <div className="col-sm-4 col-md-12">
                         <div className="mb-2 p-2">
                           <label className="form-label fw-bolder lbl-precalificacion">
-                            Estado
+                            Fecha de Creación
                           </label>
                           <input
-                            type="text"
-                            id="estado"
-                            name="estado"
+                            type="date"
+                            id="date"
+                            name="date"
                             className="form-control desabilitado"
-                            // onChange={e => setEstado(e.target.value)}
-                            // value={estado}
                             disabled
                           />
                         </div>
                       </div>
                     </div>
-                    <h6 className="fw-bolder requerido">Descripción</h6>
+                    <h6 className="fw-bolder requerido">Observaciones</h6>
                     <div className="row">
                       <div className="col-12">
                         <div class="form-group">
@@ -451,8 +504,8 @@ const Inicio = () => {
                     <br />
                   </div>
                   <div className="col-4">
-                    <h6 className="fw-bolder">Resolución:</h6>
-                    <div className="contenedor-spinner" id="spinner4">
+                    <h6 className="fw-bolder"></h6>
+                    {/* <div className="contenedor-spinner" id="spinner4">
                       <div
                         className="lds-roller float-none w-100 d-flex justify-content-center mx--1"
                         id="spinner"
@@ -466,8 +519,8 @@ const Inicio = () => {
                         <div></div>
                         <div></div>
                       </div>
-                    </div>
-                    <ul className="list-group">
+                    </div> */}
+                    {/* <ul className="list-group">
                       {legalesSelector.map((item) => {
                         return (
                           <li className="list-group-item d-flex align-items-center">
@@ -482,7 +535,7 @@ const Inicio = () => {
                           </li>
                         );
                       })}
-                    </ul>
+                    </ul> */}
                   </div>
                 </div>
               </form>

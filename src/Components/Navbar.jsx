@@ -264,6 +264,41 @@ const Navbar = (props) => {
             className="collapse navbar-collapse"
             id="navbarToggleExternalContent"
           >
+            {/* <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarScrollingDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Crear Formularios
+              </a>
+              <ul
+                class="dropdown-menu"
+                aria-labelledby="navbarScrollingDropdown"
+              >
+                <li>
+                  <a class="dropdown-item" href="Casos.jsx">
+                    Formulario de Casos
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#">
+                    Formulario Documentos Legales
+                  </a>
+                </li>
+                <li>
+                  <hr class="dropdown-divider" />
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#">
+                    Recursos Humanos
+                  </a>
+                </li>
+              </ul>
+            </li> */}
             <div className="w-100 d-flex align-items-center">
               <div className="m-auto">
                 <ul className="navbar-nav">
