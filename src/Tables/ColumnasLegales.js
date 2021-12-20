@@ -6,14 +6,14 @@ export const COLUMNASLEGALES = [
     {
         Header: 'Autor',
         footer: 'Autor',
-        accessor: 'systemuser',
+        accessor: '_createdby_value',
         Cell: ({ value }) => { return value ? <p className=" m-0 fw-bolder texto-lista m-0">{value}</p> : '-' }
     },
 
     {
         Header: 'Persona que recepcionó',
         footer: 'Persona que recepcionó',
-        accessor: 'fullname',
+        accessor: '_new_personaquerecepcion_value',
         Cell: ({ value }) => { return value ? <p className=" m-0 fw-bolder texto-lista m-0">{value}</p> : '-' }
     },
   
