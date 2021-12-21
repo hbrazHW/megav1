@@ -5,11 +5,13 @@ const dataInicial = {
     loading: false,
     misCasosActivos: [],
     casosResueltos: [],
-    asuntos: []
+    asuntos: [],
+    casoid: '',
 };
 
 
 //types
+const OBTENER_CASO_EXITO = "OBTENER_CASO_EXITO"
 const OBTENER_NOMBRE_ASUNTOS = "OBTENER_NOMBRE_ASUNTOS"
 const OBTENER_MIS_CASOS_ACTIVOS = "OBTENER_MIS_CASOS_ACTIVOS";
 const OBTENER_CASOS_RESUELTOS = 'OBTENER_CASOS_RESUELTOS'
@@ -19,6 +21,8 @@ const ERROR = "ERROR";
 //reducer
 export default function casosReducers(state = dataInicial, action) {
     switch (action.type) {
+        case OBTENER_CASO_EXITO:
+            return { ...state, casoid: action.casoid }
         case OBTENER_NOMBRE_ASUNTOS:
             return { ...state, asuntos: action.payload, loading: false };
         case OBTENER_MIS_CASOS_ACTIVOS:
@@ -124,6 +128,7 @@ export const consultaFETCHnombresAsuntos = () => async (dispatch) => {
     var fetch = "<fetch  mapping='logical' distinct='false'>" +
         "<entity name='subject'>" +
         "<attribute name='title' />" +
+        "<attribute name='subjectid' />"+
         "</entity>" +
         "</fetch>";
 
@@ -141,3 +146,12 @@ export const consultaFETCHnombresAsuntos = () => async (dispatch) => {
         });
     }
 };
+
+export const obtenerCasosId = (id) => (dispatch) => {
+    if (id !== undefined) {
+        dispatch({
+            type: OBTENER_CASO_EXITO,
+            casoid: id
+        })
+    }
+}

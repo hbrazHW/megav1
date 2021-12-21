@@ -1,6 +1,7 @@
 import React from 'react'
 import Moment from 'moment'
 import Asuntos from './Asuntos'
+import SeleccionarMCA from './SeleccionarMCA'
 
 export const COLUMNASMCA = [
     {
@@ -24,6 +25,14 @@ export const COLUMNASMCA = [
         footer: 'Fecha de Alta',
         accessor: 'new_fechaalta',
         Cell: ({ value }) => { return value ? <p className=" m-0  texto-lista m-0">{Moment(value).format("DD-MM-YYYY")}</p> : '-' }
+    },
+    {
+        accessor: 'incidentid',
+        Cell: ({ value }) => {
+            return (
+                <SeleccionarMCA value={value} />
+            )
+        }
     },
     
 ]
