@@ -1,6 +1,7 @@
 import React from 'react'
 import Moment from 'moment'
 import Asuntos from './Asuntos'
+import SeleccionarCR from './SeleccionarCR'
 
 export const COLUMNASCR = [
     {
@@ -34,6 +35,14 @@ export const COLUMNASCR = [
         footer: 'Número de caso',
         accessor: 'ticketnumber',
         Cell: ({ value }) => { return value ? <p className=" m-0  texto-lista m-0">{value}</p> : '-' }
+    },
+    {
+        accessor: 'incidentid',
+        Cell: ({ value }) => {
+            return (
+                <SeleccionarCR value={value} />
+            )
+        }
     },
     
 ]

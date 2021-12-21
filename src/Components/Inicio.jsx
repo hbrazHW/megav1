@@ -31,11 +31,14 @@ const Inicio = () => {
   const [legales, setLegales] = React.useState([]);
   const [llamadaLegales, setlLlmadaLegales] = React.useState(false);
 
+
+
   //Selectores
   const misCasosActivosSelector = useSelector(store => store.casos.misCasosActivos)
   const casosResueltosSelector = useSelector(store => store.casos.casosResueltos)
   const recursosHumanosSelector = useSelector(store => store.recursosHumanos.busquedaPersonal)
   const legalesSelector = useSelector((store) => store.legales.legales);
+  const casoIdSelector = useSelector(store => store.casos.casoid)
 
   //Columnas
   const [columnasMisCasosActivos, setColumnasMisCasosActivos] = React.useState([])
@@ -50,7 +53,7 @@ const Inicio = () => {
   const [error, setError] = React.useState(false);
   const [step, setStep] = React.useState(1);
 
-
+  const [idSeleccionado, setIdseleccionado] = React.useState("")
 
   const fade = useSpring({
     from: {
@@ -111,9 +114,33 @@ const Inicio = () => {
       }
     }
 
-  }, [misCasosActivosSelector, casosResueltosSelector, recursosHumanosSelector, legalesSelector]);
+    if (casoIdSelector !== undefined) {
+      if (casoIdSelector !== '') {
+        setIdseleccionado(casoIdSelector)
+      }
+    }
 
-  console.log("state:", busquedaPersonal)
+
+  }, [misCasosActivosSelector, casosResueltosSelector, recursosHumanosSelector, legalesSelector, casoIdSelector]);
+
+//   const completarCamposCaso = (id) => {
+//     casos.filter(item => item.incidentid == id).map(item => {
+//         setTitulo(item.title)
+//         setTicket(item.ticketnumber)
+//        // setResolucionCaso(item.activityid)
+//         if(item.statuscode === "1"){
+//             setEstado('En Curso')
+//         }else if(item.statuscode === "4"){
+//             setEstado('En Investigación')
+//         }else{
+//             setEstado("Caso Creado")
+//         }
+//         setDescripcion(item.description)
+//         determinarEtapa(item.statuscode)
+//     })
+// }
+
+console.log("desde el hook:",idSeleccionado)
 
   const obtenerPersonal = () => {
     dispatch(consultaFETCHbusquedaPersonal())
@@ -158,7 +185,6 @@ const Inicio = () => {
         <FontAwesomeIcon icon={faClipboardList} className="fs-5 upload-file atras" color="#eee" />
       </div> */}
 
-
       <div className="row pb-5">
         <div className="col-sm-12 p-2 mt-3">
           <div className="card shadow p-3 border-0 h-auto d-flex justify-content-start pad">
@@ -167,6 +193,7 @@ const Inicio = () => {
               <hr className="hr-width hr-principal" />
             </div>
             <div className="card pad borde-none">
+
               <div className="">
                 {misCasosActivos.length > 0 ? (
                   <Tabla
@@ -291,6 +318,7 @@ const Inicio = () => {
                   <hr className="hr-width hr-principal" />
                 </div>
                 <div className="card pad borde-none">
+
                   <div className="">
                     {busquedaPersonal.length > 0 ? (<Tabla lineas={busquedaPersonal} columnas={columnasRrhh} titulo={'rr-hh'} header={false} />) : null}
                   </div>
@@ -524,6 +552,8 @@ const Inicio = () => {
           </div>
         </div>
       </div>
+
+
     </animated.div>
   );
 };
