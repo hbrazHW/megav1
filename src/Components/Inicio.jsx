@@ -39,6 +39,7 @@ const Inicio = () => {
   const recursosHumanosSelector = useSelector(store => store.recursosHumanos.busquedaPersonal)
   const legalesSelector = useSelector((store) => store.legales.legales);
   const casoIdSelector = useSelector(store => store.casos.casoid)
+  const legalesIdSelector = useSelector(store => store.legales.legalesId)
 
   //Columnas
   const [columnasMisCasosActivos, setColumnasMisCasosActivos] = React.useState([])
@@ -54,6 +55,8 @@ const Inicio = () => {
   const [step, setStep] = React.useState(1);
 
   const [idSeleccionado, setIdseleccionado] = React.useState("")
+  const [titulo, setTitulo] = React.useState('')
+  const [titulo2, setTitulo2] = React.useState('')
 
   const fade = useSpring({
     from: {
@@ -113,34 +116,36 @@ const Inicio = () => {
         setLlamadaBusquedaP(true)
       }
     }
+  
+    if (legalesIdSelector !== undefined) {
+      if (legalesIdSelector !== '') {
+        completarCamposLegales(legalesIdSelector)
+      }
+    }
 
     if (casoIdSelector !== undefined) {
       if (casoIdSelector !== '') {
-        setIdseleccionado(casoIdSelector)
+        completarCamposCaso(casoIdSelector)
       }
     }
 
 
-  }, [misCasosActivosSelector, casosResueltosSelector, recursosHumanosSelector, legalesSelector, casoIdSelector]);
+  }, [misCasosActivosSelector, casosResueltosSelector, recursosHumanosSelector, legalesSelector, legalesIdSelector, casoIdSelector]);
 
-//   const completarCamposCaso = (id) => {
-//     casos.filter(item => item.incidentid == id).map(item => {
-//         setTitulo(item.title)
-//         setTicket(item.ticketnumber)
-//        // setResolucionCaso(item.activityid)
-//         if(item.statuscode === "1"){
-//             setEstado('En Curso')
-//         }else if(item.statuscode === "4"){
-//             setEstado('En Investigación')
-//         }else{
-//             setEstado("Caso Creado")
-//         }
-//         setDescripcion(item.description)
-//         determinarEtapa(item.statuscode)
-//     })
-// }
+  const completarCamposLegales = (id) => {
+    legales.filter(item => item.new_documentoslegalesid == id).map(item => {
+      setTitulo2(item.new_documentoslegalesid)
+    })
+  }
 
-console.log("desde el hook:",idSeleccionado)
+  const completarCamposCaso = (id) => {
+      misCasosActivos.filter(item => item.incidentid == id).map(item => {
+        setTitulo(item._subjectid_value)
+      })
+    }
+
+  console.log("este es el titulo:", titulo)
+  console.log("este es el titulo2:", titulo2)
 
   const obtenerPersonal = () => {
     dispatch(consultaFETCHbusquedaPersonal())
