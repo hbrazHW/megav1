@@ -25,7 +25,7 @@ export default function documentosLegalesReducers(state = dataInicial, action) {
     case OBTENER_LEGALES_EXITO:
       return { ...state, legales: action.payload, loading: false };
     case LEGALESID_EXITO:
-      return  { ...state, legalesId: action.payload, loading: false };
+      return  { ...state, legalesId: action.legalesId, loading: false };
     default:
       return { ...state };
   }
@@ -50,8 +50,8 @@ export const obtenerLegales = () => async (dispatch) => {
   "<attribute name='new_descripcindeldocumento' />" +
   "<attribute name='createdby' />" +
   "<order attribute='new_name' descending='false' />" +
-"</entity>" +
-"</fetch>";
+  "</entity>" +
+  "</fetch>";
   try {
     const response = await axios.get(
       `${UrlApiDynamics}ConsultaFetch?Entidad=${entidad}&fetch=${fetch}&cuit=${Entidad}`

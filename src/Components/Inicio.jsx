@@ -39,6 +39,7 @@ const Inicio = () => {
   const recursosHumanosSelector = useSelector(store => store.recursosHumanos.busquedaPersonal)
   const legalesSelector = useSelector((store) => store.legales.legales);
   const casoIdSelector = useSelector(store => store.casos.casoid)
+  const legalesIdSelector = useSelector (store => store.legales.legalesId)
 
   //Columnas
   const [columnasMisCasosActivos, setColumnasMisCasosActivos] = React.useState([])
@@ -54,6 +55,7 @@ const Inicio = () => {
   const [step, setStep] = React.useState(1);
 
   const [idSeleccionado, setIdseleccionado] = React.useState("")
+  const [legalesIdSeleccionado, setLegalesIdseleccionado] = React.useState("")
 
   const fade = useSpring({
     from: {
@@ -119,10 +121,21 @@ const Inicio = () => {
         setIdseleccionado(casoIdSelector)
       }
     }
+     
+    
+
+    if(legalesIdSelector !== undefined) {
+      if(legalesIdSelector !== '') {
+          setLegalesIdseleccionado(legalesIdSelector)
+      }
+    }
+
+  }, [misCasosActivosSelector, casosResueltosSelector, recursosHumanosSelector, legalesSelector, casoIdSelector, legalesIdSelector]);
 
 
-  }, [misCasosActivosSelector, casosResueltosSelector, recursosHumanosSelector, legalesSelector, casoIdSelector]);
 
+
+  
 //   const completarCamposCaso = (id) => {
 //     casos.filter(item => item.incidentid == id).map(item => {
 //         setTitulo(item.title)
@@ -140,7 +153,8 @@ const Inicio = () => {
 //     })
 // }
 
-console.log("desde el hook:",idSeleccionado)
+console.log("desde el hook:",legalesIdSeleccionado)
+
 
   const obtenerPersonal = () => {
     dispatch(consultaFETCHbusquedaPersonal())
@@ -372,11 +386,11 @@ console.log("desde el hook:",idSeleccionado)
           <div className="modal-content">
             <div className="modal-body">
               <div className="row">
-                <div className="col-8">
+                <div className="col-12">
                   <h6 className="fw-bolder">Documentos Legales</h6>
                   <hr className="hr-width hr-principal" />
                 </div>
-                <div className="col-4">
+                <div className="col-12">
                   <button
                     type="button"
                     className="btn-close float-end"
@@ -395,7 +409,7 @@ console.log("desde el hook:",idSeleccionado)
               </div>
               <form name="Alyc">
                 <div className="row w-auto d-flex justify-content-center">
-                  <div className="col-8">
+                  <div className="col-12">
                     <h6 className="fw-bolder">Detalles del documento Legal</h6>
                     <div className="row">
                       <div className="col-sm-4 col-md-12">
@@ -432,12 +446,12 @@ console.log("desde el hook:",idSeleccionado)
                       <div className="col-sm-4 col-md-12">
                         <div className="mb-2 p-2">
                           <label className="form-label fw-bolder lbl-precalificacion">
-                            Ticket
+                          Descripción del Documento
                           </label>
                           <input
                             type="text"
-                            id="ticket"
-                            name="ticket"
+                            id="descrip"
+                            name="descrip"
                             className="form-control desabilitado"
                           // onChange={e => setTicket(e.target.value)}
                           // value={ticket}
@@ -448,7 +462,7 @@ console.log("desde el hook:",idSeleccionado)
                       <div className="col-sm-4 col-md-12">
                         <div className="mb-2 p-2">
                           <label className="form-label fw-bolder lbl-precalificacion">
-                            Estado
+                          Fecha de creación
                           </label>
                           <input
                             type="text"
@@ -462,7 +476,7 @@ console.log("desde el hook:",idSeleccionado)
                         </div>
                       </div>
                     </div>
-                    <h6 className="fw-bolder requerido">Descripción</h6>
+                    <h6 className="fw-bolder requerido">Observaciones</h6>
                     <div className="row">
                       <div className="col-12">
                         <div class="form-group">
@@ -479,7 +493,7 @@ console.log("desde el hook:",idSeleccionado)
                     </div>
                     <br />
                   </div>
-                  <div className="col-4">
+                  {/* <div className="col-4">
                     <h6 className="fw-bolder">Resolución:</h6>
                     <div className="contenedor-spinner" id="spinner4">
                       <div
@@ -512,7 +526,7 @@ console.log("desde el hook:",idSeleccionado)
                         );
                       })}
                     </ul>
-                  </div>
+                  </div> */}
                 </div>
               </form>
             </div>
