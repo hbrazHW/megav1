@@ -16,8 +16,9 @@ import divisasReducers from '../Redux/Divisa'
 import clienteCasoReducers from '../Redux/ClienteCaso'
 import asuntoCasoReducers from '../Redux/AsuntoCaso'
 import casosReducers from '../Redux/Casos'
-import  documentosLegalesReducers  from '../Redux/DocumentosLegales'
+import documentosLegalesReducers  from '../Redux/DocumentosLegales'
 import recursosHumanosReducers from '../Redux/RecursosHumanos'
+import autorLegalesReducers from '../Redux/AutorLegales'
 
 
 
@@ -40,7 +41,8 @@ const rootReducer = combineReducers({
    asunto: asuntoCasoReducers,
    casos: casosReducers,
    legales: documentosLegalesReducers,
-   recursosHumanos: recursosHumanosReducers
+   recursosHumanos: recursosHumanosReducers,
+   autor: autorLegalesReducers
 
 })
 

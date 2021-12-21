@@ -4,6 +4,7 @@ import { useSpring, animated } from "react-spring";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCloudUploadAlt } from "@fortawesome/free-solid-svg-icons";
+import {obtenerAutor} from "../Redux/AutorLegales"
 
 const Legales = () => {
   const dispatch = useDispatch();
@@ -15,6 +16,15 @@ const Legales = () => {
   const [autorSeleccionar, SetAutorSeleccionar] = React.useState("");
 
 
+  //reducers
+  const autorSelector = useSelector((store) => store.autor.autor)
+
+
+  //
+
+
+
+ 
   const fade = useSpring({
     from: {
       opacity: 0,
@@ -25,38 +35,41 @@ const Legales = () => {
     },
   });
 
-
-  // React.useEffect(() => {
-  //   //debugger;
-  //   if (autor.length === 0) {
-  //     if (autorSelector.length > 0 && llamadaAutor === true) {
-  //       setAutor(autorSelector);
-  //       completarOpcionAutor(autorSelector);
-  //     } else if (llamadaAutor === false) {
-  //       obtenerAut();
-  //       setlLlmadaAutor(true);
-  //     }
-  //   }
-  // }, []);
-
-    const completarOpcionAutor = (autor) => {
-      const aut = [];
-      autor.forEach((item) => {
-        var autorlegal = { value: item.contact, label: item._new_cliente_value };
-        aut.push(autorlegal);
-      });
-      setSelectAutor(aut);
-    };
+  React.useEffect(() => {
+    //debugger;
+    if (autor.length === 0) {
+      if (autorSelector.length > 0 && llamadaAutor === true) {
+        setAutor(autorSelector);
+        completarOpcionAutor(autorSelector);
+      } else if (llamadaAutor === false) {
+        obteneraut();
+        setlLlmadaAutor(true);
+      }
+    }
+  }, [autorSelector]);
 
 
-    const autorHandle = (valor) => {
-      SetAutorSeleccionar(valor.value);
-    };
-  
+  const obteneraut = () => {
+    dispatch(obtenerAutor());
+  };
+ 
 
-    // const obtenerAut = () => {
-    //   dispatch(obtenerAutor());
-    // };
+  const completarOpcionAutor = (autor) => {
+    const aut = [];
+    autor.forEach((item) => {
+      var a = { value: item._createdby_value, label: item._createdby_value };
+      aut.push(a);
+    });
+    setSelectAutor(aut);
+  };
+
+
+  const autorHandle = (valor) => {
+    SetAutorSeleccionar(valor.value);
+  };
+   
+
+  console.log(autorSeleccionar);
 
   return (
     <animated.div>
@@ -82,18 +95,16 @@ const Legales = () => {
                       <label className="form-label fw-bolder lbl-precalificacion required">
                         Autor
                       </label>
-                      <input
-                        type="text"
-                        id="autor"
-                        onChange={(e) => autorHandle(e)}
-                        options={selectAutor}
-                        name="autor"
-                        className="form-control requerido"
-                        placeholder="---"
-                        required
-                        disabled
-                        
-                      />
+                      <Select
+                      type="text"
+                      id="autor"
+                      onChange={(e) => autorHandle(e)}
+                      options={selectAutor}
+                      name="autor"
+                      className="basic multi-select"
+                      required
+                      disabled
+                      ></Select>
                     </div>
                   </div>
 

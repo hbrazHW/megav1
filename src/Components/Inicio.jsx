@@ -6,7 +6,7 @@ import { Toast, Spinner } from "react-bootstrap";
 import MultiStepProgressBar from "./MultiStepProgressBar";
 import "react-step-progress-bar/styles.css";
 import Select from "react-select";
-import { obtenerLegales } from "../Redux/DocumentosLegales";
+import { obtenerLegales  } from "../Redux/DocumentosLegales";
 import { COLUMNASLEGALES } from "../Tables/ColumnasLegales";
 import {
   consultaFETCHcasosResueltos,
@@ -43,6 +43,7 @@ const Inicio = () => {
   const [legales, setLegales] = React.useState([]);
   const [llamadaLegales, setlLlmadaLegales] = React.useState(false);
   const [autor, setAutor] = React.useState("");
+  const [LegalesCreado, setLegalesCreado] = React.useState('')
 
   //Selectores
   const misCasosActivosSelector = useSelector(
@@ -55,6 +56,9 @@ const Inicio = () => {
     (store) => store.recursosHumanos.busquedaPersonal
   );
   const legalesSelector = useSelector((store) => store.legales.legales);
+  const legalesIdSelector = useSelector((store) => store.legales.legalesId);
+
+  
 
   //Columnas
   const [columnasMisCasosActivos, setColumnasMisCasosActivos] = React.useState(
@@ -131,9 +135,9 @@ const Inicio = () => {
       }
     }
 
-    if (legalesSelector !== undefined) {
-      if (legalesSelector !== "") {
-        completarCamposLegales(legalesSelector);
+    if (legalesIdSelector !== undefined) {
+      if (legalesIdSelector !== "") {
+        completarCamposLegales(legalesIdSelector);
       }
     }
   }, [
@@ -141,6 +145,7 @@ const Inicio = () => {
     casosResueltosSelector,
     recursosHumanosSelector,
     legalesSelector,
+    legalesIdSelector
   ]);
 
   const obtenerPersonal = () => {
@@ -166,6 +171,28 @@ const Inicio = () => {
         setAutor(item._createdby_value);
       });
   };
+
+  console.log("Legal",autor)
+
+//   const completarCamposCaso = (id) => {
+//     casos.filter(item => item.incidentid == id).map(item => {
+//         setTitulo(item.title)
+//         setTicket(item.ticketnumber)
+//        // setResolucionCaso(item.activityid)
+//         if(item.statuscode === "1"){
+//             setEstado('En Curso')
+//         }else if(item.statuscode === "4"){
+//             setEstado('En Investigación')
+//         }else{
+//             setEstado("Caso Creado")
+//         }
+//         setDescripcion(item.description)
+//         determinarEtapa(item.statuscode)
+//     })
+// }
+
+
+
 
   return (
     <animated.div className="container" style={fade}>
@@ -432,12 +459,13 @@ const Inicio = () => {
                           <input
                             type="text"
                             id="autor"
+                            // onChange={(e) => autorHandle(e)}
+                            // options={selectAutor}
                             name="autor"
                             className="form-control requerido"
                             placeholder="---"
                             required
-                            disabled
-                          />
+                          /> 
                         </div>
                       </div>
                       <div className="col-sm-4 col-md-12">

@@ -32,7 +32,7 @@ export default function documentosLegalesReducers(state = dataInicial, action) {
 }
 
 // actions
-export const obtenerLegales = () => async (dispatch) => {
+export const obtenerLegales = (new_documentoslegalesid) => async (dispatch) => {
   dispatch({
     type: LOADING,
   });

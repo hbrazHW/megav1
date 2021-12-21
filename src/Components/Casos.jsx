@@ -79,7 +79,7 @@ const Casos = () => {
   const completarOpcionAsunto = (asunto) => {
     const asunt = [];
     asunto.forEach((item) => {
-      var a = { value: item.title, label: item.title};
+      var a = { value: item.title, label: item.incidentid};
       asunt.push(a)
 
     });
@@ -88,7 +88,7 @@ const Casos = () => {
 
 
 
-  console.log(clienteSeleccionar);
+  console.log();
 
   const clienteHandle = (valor) => {
     SetClienteSeleccionar(valor.value);
@@ -146,7 +146,6 @@ const Casos = () => {
                             name="colors"
                             className="basic multi-select"
                             ClassNamePrefix="select"
-                            placeholder="Elegir cliente..."
                             required
                           ></Select>
                         </div>
@@ -186,6 +185,8 @@ const Casos = () => {
                           <Select
                             className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
                             id="asunto"
+                            onChange={(e) => asuntoHandle(e)}
+                            options={selectAsunto}
                             name="asunto"
                             className="basic multi-select"
                             ClassNamePrefix="select"
