@@ -31,6 +31,16 @@ const Inicio = () => {
   const [legales, setLegales] = React.useState([]);
   const [llamadaLegales, setlLlmadaLegales] = React.useState(false);
   const [numCaso, setNumCaso] = React.useState([]);
+  const [fechaAltaCaso, setFechaAltaCaso] = React.useState([]);
+  const [asuntoCaso, setAsuntoCaso] = React.useState([]);
+  const [asuntoCasoResuelto, setAsuntoCasoResuelto] = React.useState([]);
+  const [razonEstado, setRazonEstado] = React.useState([]);
+  const [numCasoResuelto, setNumCasoResuelto] = React.useState([]);
+  const [comentarioCasoResuelto, setComentarioCasoResuelto] = React.useState([]);
+  const [autor, setAutor] = React.useState([]);
+  const [personRecepciono, setPersonRecepciono] = React.useState([])
+  const [descripcionDelDocumento, setDescripcionDelDocumento] = React.useState([])
+  const [fechaCreacion, setFechaCreacion] = React.useState([])
 
   //Selectores
   const misCasosActivosSelector = useSelector(store => store.casos.misCasosActivos)
@@ -117,15 +127,21 @@ const Inicio = () => {
 
     if (casoIdSelector !== undefined) {
       if (casoIdSelector !== '') {
-        setIdseleccionado(casoIdSelector)
+        completarCaso(casoIdSelector)
       }
     }
-     
+    
+
+    if (casoIdSelector !== undefined) {
+      if (casoIdSelector !== '') {
+        completarCasoResuelto(casoIdSelector)
+      }
+    }
     
 
     if(legalesIdSelector !== undefined) {
       if(legalesIdSelector !== '') {
-          setLegalesIdseleccionado(legalesIdSelector)
+        completarLegales(legalesIdSelector)
       }
     }
 
@@ -137,14 +153,9 @@ const Inicio = () => {
 
 
   
-//   const setIdseleccionado = (id) => {
-//     misCasosActivos.filter(item => item.incidentid == id).map(item => {
-//         setNumCaso(item.ticketnumber)
-      
-//     })
-// }
 
-console.log("desde el hook:",legalesIdSeleccionado)
+
+
 
 
   const obtenerPersonal = () => {
@@ -163,6 +174,85 @@ console.log("desde el hook:",legalesIdSeleccionado)
   const obtenerlegal = () => {
     dispatch(obtenerLegales());
   };
+
+
+
+  const completarLegales = (id) => {
+    legales.filter(item => item.new_documentoslegalesid == id).map(item => {
+        setAutor(item._createdby_value)
+        setPersonRecepciono(item._new_personaquerecepcion_value)
+        setDescripcionDelDocumento( descripcionDocumento (item.new_descripcindeldocumento))
+        setFechaCreacion(item.createdon)  
+
+    })
+}
+
+
+
+const descripcionDocumento = (value) => {
+  switch (value) {
+    case 100000000:
+      return 'CARTA DOCUMENTO'
+  case 100000001:
+      return 'TELEGRAMA'
+  case 100000002:
+      return 'CONTRATO'
+  case 100000003:
+      return 'DENUNCIA'
+  case 100000004:
+      return 'MANDAMIENTO DE INTIMACIÓN'
+  case 100000005:
+      return 'ACTA'
+  case 100000006:
+      return 'NOTA'
+  case 100000007:
+      return 'OTROS'
+  case 100000008:
+      return 'CÉDULA'
+  case 100000009:
+      return 'OFICIO'
+  case 100000010:
+      return 'DEMANDA'  
+  }
+}
+
+
+   const completarCaso = (id) => {
+     misCasosActivos.filter(item => item.incidentid == id).map(item => {
+       setNumCaso(item.ticketnumber)
+       setAsuntoCaso(item._subjectid_value)
+       setFechaAltaCaso(item.new_fechaalta)
+
+
+     })
+   }
+
+   const completarCasoResuelto = (id) => {
+    casosResueltos.filter(item => item.incidentid == id).map(item => {
+      setAsuntoCasoResuelto(item._subjectid_value)
+      setRazonEstado(descripcionRazonEstado (item.statuscode))
+      setNumCasoResuelto(item.ticketnumber)
+      setComentarioCasoResuelto(item.new_comentarios)
+
+    })
+  }
+
+
+  const descripcionRazonEstado = (value) =>{
+    switch (value) {
+      case 5:
+          return 'Cerrado'  
+      case 1000:
+          return 'Información proporcionada '
+    }     
+
+  }
+
+ 
+console.log("resueltos", casosResueltos )
+
+
+
 
   return (
     <animated.div className="container" style={fade}>
@@ -332,7 +422,7 @@ console.log("desde el hook:",legalesIdSeleccionado)
             </div>
           </div>
         </div>
-   ////inicio del modal de mis casos activos     
+   {/* ////inicio del modal de mis casos activos      */}
         <div className="row">
           <div className="col-4 position-fixed bottom-0 end-0 p-5 noti">
             <Toast className="half-black" show={show} autohide color="lime">
@@ -392,14 +482,14 @@ console.log("desde el hook:",legalesIdSeleccionado)
                   ></button>
                 </div>
               </div>
-              <div className="w-100 d-flex justify-content-center">
+              {/* <div className="w-100 d-flex justify-content-center">
                 <div className="card shadow p-4 border-0 h-auto pad w-100 mb-4">
                   <div>
-                    {/* inserir la barra de flujo de Barrita de estados (flujo de proceso de negocio */}
+                    inserir la barra de flujo de Barrita de estados (flujo de proceso de negocio
                     Titulo del caso (cliente) | estado del caso | fecha de Alta 
                   </div>
                 </div>
-              </div>
+              </div> */}
               <form name="Alyc">
                 <div className="row w-auto d-flex justify-content-center">
                   <div className="col-12">
@@ -414,7 +504,8 @@ console.log("desde el hook:",legalesIdSeleccionado)
                             type="text"
                             id="numberticket"
                             name="numberticket"
-                            className="form-control requerido"
+                            value={numCaso}
+                            className="form-control desabilitado"
                             required
                             disabled
                           />
@@ -428,8 +519,9 @@ console.log("desde el hook:",legalesIdSeleccionado)
                           <input
                             type="asunto"
                             id="asunto"
+                            value={asuntoCaso}
                             name="asuntocaso"
-                            className="form-control requerido"
+                            className="form-control desabilitado"
                             required
                           />
                         </div>
@@ -441,11 +533,12 @@ console.log("desde el hook:",legalesIdSeleccionado)
                           Fecha de Alta
                           </label>
                           <input
-                            type="date"
+                            type="text"
                             id="fechaAlta"
                             name="fechaAlta"
+                            value={fechaAltaCaso}
                             className="form-control desabilitado"
-                             disabled
+                            disabled
                           />
                         </div>
                       </div>
@@ -464,8 +557,8 @@ console.log("desde el hook:",legalesIdSeleccionado)
                         </div>
                       </div>
                     </div>
-                    <h6 className="fw-bolder requerido">Comentarios</h6>
-                    <div className="row">
+                    {/* <h6 className="fw-bolder requerido">Comentarios</h6> */}
+                    {/* <div className="row">
                       <div className="col-12">
                         <div class="form-group">
                           <textarea
@@ -479,11 +572,11 @@ console.log("desde el hook:",legalesIdSeleccionado)
                         </div>
                       </div>
                     </div>
-                    <br />
+                    <br /> */}
                   </div>
-                  <div className="col-12">
+                  {/* <div className="col-12">
                     <h6 className="fw-bolder">Actividades de los Casos realizado por:</h6>
-                    {/* <div className="contenedor-spinner" id="spinner4">
+                    <div className="contenedor-spinner" id="spinner4">
                       <div
                         className="lds-roller float-none w-100 d-flex justify-content-center mx--1"
                         id="spinner"
@@ -497,7 +590,7 @@ console.log("desde el hook:",legalesIdSeleccionado)
                         <div></div>
                         <div></div>
                       </div>
-                    </div> */}
+                    </div>
                     <ul className="list-group">
                       {legalesSelector.map((item) => {
                         return (
@@ -514,7 +607,7 @@ console.log("desde el hook:",legalesIdSeleccionado)
                         );
                       })}
                     </ul>
-                  </div>
+                  </div> */}
                 </div>
               </form>
             </div>
@@ -614,13 +707,13 @@ console.log("desde el hook:",legalesIdSeleccionado)
                   ></button>
                 </div>
               </div>
-              <div className="w-100 d-flex justify-content-center">
+              {/* <div className="w-100 d-flex justify-content-center">
                 <div className="card shadow p-4 border-0 h-auto pad w-100 mb-4">
                   <div>
                   <MultiStepProgressBar currentStep={step} />
                   </div>
                 </div>
-              </div>
+              </div> */}
               <form name="Alyc">
                 <div className="row w-auto d-flex justify-content-center">
                   <div className="col-8">
@@ -634,6 +727,7 @@ console.log("desde el hook:",legalesIdSeleccionado)
                           <input
                             type="asunto"
                             id="asunto"
+                            value={asuntoCasoResuelto}
                             name="asuntocaso"
                             className="form-control requerido"
                             required
@@ -649,6 +743,7 @@ console.log("desde el hook:",legalesIdSeleccionado)
                             type="text"
                             id="razonEstado"
                             name="razonEstado"
+                            value={razonEstado}
                             className="form-control desabilitado"
                              disabled
                           />
@@ -663,6 +758,7 @@ console.log("desde el hook:",legalesIdSeleccionado)
                             type="text"
                             id="estadoCaso"
                             name="estadoCaso"
+                            value={numCasoResuelto}
                             className="form-control desabilitado"
                             disabled
                           />
@@ -672,7 +768,22 @@ console.log("desde el hook:",legalesIdSeleccionado)
                   </div>
                   <div className="col-4">
                     <h6 className="fw-bolder">Resolucion:</h6>
-                    <div className="contenedor-spinner" id="spinner4">
+                     <div className="row">
+                      <div className="col-12">
+                        <div class="form-group">
+                          <textarea
+                            className="form-control mt-2"
+                            id="exampleFormControlTextarea1"
+                            value={comentarioCasoResuelto}
+                            rows="2"
+                            disabled
+                          ></textarea>
+                        </div>
+                      </div>
+                    </div>
+
+
+                    {/* <div className="contenedor-spinner" id="spinner4">
                       <div
                         className="lds-roller float-none w-100 d-flex justify-content-center mx--1"
                         id="spinner"
@@ -686,7 +797,7 @@ console.log("desde el hook:",legalesIdSeleccionado)
                         <div></div>
                         <div></div>
                       </div>
-                    </div>
+                    </div> */}
                     <ul className="list-group">
                       {legalesSelector.map((item) => {
                         return (
@@ -804,11 +915,11 @@ console.log("desde el hook:",legalesIdSeleccionado)
                 </div>
               </div>
               <div className="w-100 d-flex justify-content-center">
-                <div className="card shadow p-4 border-0 h-auto pad w-100 mb-4">
+                {/* <div className="card shadow p-4 border-0 h-auto pad w-100 mb-4">
                   <div>
                     <MultiStepProgressBar currentStep={step} />
                   </div>
-                </div>
+                </div> */}
               </div>
               <form name="Alyc">
                 <div className="row w-auto d-flex justify-content-center">
@@ -823,9 +934,9 @@ console.log("desde el hook:",legalesIdSeleccionado)
                           <input
                             type="text"
                             id="autor"
+                            value={autor}
                             name="autor"
                             className="form-control requerido"
-                            placeholder="---"
                             required
                             disabled
                           />
@@ -837,11 +948,13 @@ console.log("desde el hook:",legalesIdSeleccionado)
                             Persona que Recepcionó
                           </label>
                           <input
-                            type="search"
-                            id="search"
-                            name="busqueda"
-                            className="form-control requerido"
+                            type="text"
+                            id="person"
+                            value={personRecepciono}
+                            name="person"
+                            className="form-control desabilitado"
                             required
+                            disabled
                           />
                         </div>
                       </div>
@@ -855,10 +968,9 @@ console.log("desde el hook:",legalesIdSeleccionado)
                             type="text"
                             id="descrip"
                             name="descrip"
+                            value={descripcionDelDocumento}
                             className="form-control desabilitado"
-                          // onChange={e => setTicket(e.target.value)}
-                          // value={ticket}
-                          // disabled
+                            disabled
                           />
                         </div>
                       </div>
@@ -869,31 +981,29 @@ console.log("desde el hook:",legalesIdSeleccionado)
                           </label>
                           <input
                             type="text"
+                            value={fechaCreacion}
                             id="estado"
                             name="estado"
                             className="form-control desabilitado"
-                            // onChange={e => setEstado(e.target.value)}
-                            // value={estado}
                             disabled
                           />
                         </div>
                       </div>
                     </div>
-                    <h6 className="fw-bolder requerido">Observaciones</h6>
-                    <div className="row">
+                    {/* <h6 className="fw-bolder requerido">Observaciones</h6> */}
+                    {/* <div className="row">
                       <div className="col-12">
                         <div class="form-group">
                           <textarea
                             className="form-control mt-2"
                             id="exampleFormControlTextarea1"
                             rows="7"
-                            // onChange={e => setDescripcion(e.target.value)}
-                            // value={descripcion}
                             placeholder="comentanos un poco más..."
+                            disabled
                           ></textarea>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                     <br />
                   </div>
                   {/* <div className="col-4">

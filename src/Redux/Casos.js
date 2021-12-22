@@ -94,6 +94,7 @@ export const consultaFETCHcasosResueltos = () => async (dispatch) => {
         "<attribute name='customerid' />" +
         "<attribute name='new_vencimiento' />" +
         "<attribute name='incidentid' />" +
+        "<attribute name='new_comentarios' />" +
         "<order attribute='ticketnumber' descending='false' />" +
         "<filter type='and'>" +
         "<condition attribute='statecode' operator='eq' value='1' />" +

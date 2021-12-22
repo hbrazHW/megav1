@@ -9,14 +9,10 @@ export const COLUMNASLEGALES = [
     {
         Header: 'Autor',
         footer: 'Autor',
-        accessor: 'accountid',
-        // Cell: ({ value }) => { return value ? <p className=" m-0  texto-lista m-0">{value}</p> : '-' }
-        Cell: ({value}) => {
-            return(
-                <Cuenta id={value} />
-            )
-        }
+        accessor: '_createdby_value',
+        Cell: ({ value }) => { return value ? <p className=" m-0  texto-lista m-0">{value}</p> : '-' }
     },
+
 
     {
         Header: 'Persona que recepcionó',
