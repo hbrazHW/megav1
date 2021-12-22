@@ -19,7 +19,7 @@ import casosReducers from '../Redux/Casos'
 import  documentosLegalesReducers  from '../Redux/DocumentosLegales'
 import recursosHumanosReducers from '../Redux/RecursosHumanos'
 import contactsReducers from '../Redux/Contact'
-
+import autorLegalesReducers from '../Redux/AutorLegales'
 
 
 
@@ -42,7 +42,8 @@ const rootReducer = combineReducers({
    casos: casosReducers,
    legales: documentosLegalesReducers,
    recursosHumanos: recursosHumanosReducers,
-   contacts: contactsReducers
+   contacts: contactsReducers,
+   autor: autorLegalesReducers
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

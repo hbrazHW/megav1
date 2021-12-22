@@ -3,13 +3,19 @@ import Moment from 'moment'
 import SeleccionarFila from '../Tables/SeleccionarFila'
 import Asuntos from './Asuntos'
 import Contacts from './Contacts'
+import Cuenta from './Cuenta'
 
 export const COLUMNASLEGALES = [
     {
         Header: 'Autor',
         footer: 'Autor',
-        accessor: '_createdby_value',
-        Cell: ({ value }) => { return value ? <p className=" m-0  texto-lista m-0">{value}</p> : '-' }
+        accessor: 'accountid',
+        // Cell: ({ value }) => { return value ? <p className=" m-0  texto-lista m-0">{value}</p> : '-' }
+        Cell: ({value}) => {
+            return(
+                <Cuenta id={value} />
+            )
+        }
     },
 
     {
@@ -73,6 +79,7 @@ export const COLUMNASLEGALES = [
             )
         }
     }
-
+   
+    
 
 ]

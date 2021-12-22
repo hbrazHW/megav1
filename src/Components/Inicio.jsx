@@ -30,8 +30,7 @@ const Inicio = () => {
   const [llamadaBusquedaP, setLlamadaBusquedaP] = React.useState(false)
   const [legales, setLegales] = React.useState([]);
   const [llamadaLegales, setlLlmadaLegales] = React.useState(false);
-
-
+  const [numCaso, setNumCaso] = React.useState([]);
 
   //Selectores
   const misCasosActivosSelector = useSelector(store => store.casos.misCasosActivos)
@@ -130,26 +129,18 @@ const Inicio = () => {
       }
     }
 
+    
+
   }, [misCasosActivosSelector, casosResueltosSelector, recursosHumanosSelector, legalesSelector, casoIdSelector, legalesIdSelector]);
 
 
 
 
   
-//   const completarCamposCaso = (id) => {
-//     casos.filter(item => item.incidentid == id).map(item => {
-//         setTitulo(item.title)
-//         setTicket(item.ticketnumber)
-//        // setResolucionCaso(item.activityid)
-//         if(item.statuscode === "1"){
-//             setEstado('En Curso')
-//         }else if(item.statuscode === "4"){
-//             setEstado('En Investigación')
-//         }else{
-//             setEstado("Caso Creado")
-//         }
-//         setDescripcion(item.description)
-//         determinarEtapa(item.statuscode)
+//   const setIdseleccionado = (id) => {
+//     misCasosActivos.filter(item => item.incidentid == id).map(item => {
+//         setNumCaso(item.ticketnumber)
+      
 //     })
 // }
 
@@ -341,6 +332,418 @@ console.log("desde el hook:",legalesIdSeleccionado)
             </div>
           </div>
         </div>
+   ////inicio del modal de mis casos activos     
+        <div className="row">
+          <div className="col-4 position-fixed bottom-0 end-0 p-5 noti">
+            <Toast className="half-black" show={show} autohide color="lime">
+              <Toast.Body className="text-white">
+                {/* <div className="row p-2">
+                  {loading ? (
+                    <Spinner animation="border" role="status" variant="primary">
+                      <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                  ) : (
+                    <div className="col-1 mx-2">
+                      {error ? (
+                        <FontAwesomeIcon
+                          icon={faTimesCircle}
+                          className="fs-3 upload-file atras"
+                          color="#dc3545"
+                        />
+                      ) : (
+                        <FontAwesomeIcon
+                          icon={faCheckCircle}
+                          className="fs-3 upload-file atras"
+                          color="#198754"
+                        />
+                      )}
+                    </div>
+                  )}
+
+                  <div className="col-10 mt-1 ml-5">{mensaje}</div>
+                </div> */}
+              </Toast.Body>
+            </Toast>
+          </div>
+        </div>
+      </div>
+      <div
+        className="modal fade bd-example-modal-xl"
+        id="modalMCA"
+        tabIndex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-centered modal-xl">
+          <div className="modal-content">
+            <div className="modal-body">
+              <div className="row">
+                <div className="col-12">
+                  <h6 className="fw-bolder">Casos Activos</h6>
+                  <hr className="hr-width hr-principal" />
+                </div>
+                <div className="col-12">
+                  <button
+                    type="button"
+                    className="btn-close float-end"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                    id="myInput"
+                  ></button>
+                </div>
+              </div>
+              <div className="w-100 d-flex justify-content-center">
+                <div className="card shadow p-4 border-0 h-auto pad w-100 mb-4">
+                  <div>
+                    {/* inserir la barra de flujo de Barrita de estados (flujo de proceso de negocio */}
+                    Titulo del caso (cliente) | estado del caso | fecha de Alta 
+                  </div>
+                </div>
+              </div>
+              <form name="Alyc">
+                <div className="row w-auto d-flex justify-content-center">
+                  <div className="col-12">
+                    <h6 className="fw-bolder">Detalles del caso activo</h6>
+                    <div className="row">
+                      <div className="col-sm-4 col-md-12">
+                        <div className="mb-2 p-2">
+                          <label className="form-label fw-bolder lbl-precalificacion required">
+                          Numero de Caso
+                          </label>
+                          <input
+                            type="text"
+                            id="numberticket"
+                            name="numberticket"
+                            className="form-control requerido"
+                            required
+                            disabled
+                          />
+                        </div>
+                      </div>
+                      <div className="col-sm-4 col-md-12">
+                        <div className="mb-2 p-2">
+                          <label className="form-label fw-bolder lbl-precalificacion required">
+                          Asunto
+                          </label>
+                          <input
+                            type="asunto"
+                            id="asunto"
+                            name="asuntocaso"
+                            className="form-control requerido"
+                            required
+                          />
+                        </div>
+                      </div>
+
+                      <div className="col-sm-4 col-md-12">
+                        <div className="mb-2 p-2">
+                          <label className="form-label fw-bolder lbl-precalificacion">
+                          Fecha de Alta
+                          </label>
+                          <input
+                            type="date"
+                            id="fechaAlta"
+                            name="fechaAlta"
+                            className="form-control desabilitado"
+                             disabled
+                          />
+                        </div>
+                      </div>
+                      <div className="col-sm-4 col-md-12">
+                        <div className="mb-2 p-2">
+                          <label className="form-label fw-bolder lbl-precalificacion">
+                          Estado del Caso
+                          </label>
+                          <input
+                            type="text"
+                            id="estadoCaso"
+                            name="estadoCaso"
+                            className="form-control desabilitado"
+                            disabled
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <h6 className="fw-bolder requerido">Comentarios</h6>
+                    <div className="row">
+                      <div className="col-12">
+                        <div class="form-group">
+                          <textarea
+                            className="form-control mt-2"
+                            id="exampleFormControlTextarea1"
+                            rows="7"
+                            // onChange={e => setDescripcion(e.target.value)}
+                            // value={descripcion}
+                            placeholder="comentanos un poco más..."
+                          ></textarea>
+                        </div>
+                      </div>
+                    </div>
+                    <br />
+                  </div>
+                  <div className="col-12">
+                    <h6 className="fw-bolder">Actividades de los Casos realizado por:</h6>
+                    {/* <div className="contenedor-spinner" id="spinner4">
+                      <div
+                        className="lds-roller float-none w-100 d-flex justify-content-center mx--1"
+                        id="spinner"
+                      >
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                      </div>
+                    </div> */}
+                    <ul className="list-group">
+                      {legalesSelector.map((item) => {
+                        return (
+                          <li className="list-group-item d-flex align-items-center">
+                            <p className="fw-bolder">
+                              <FontAwesomeIcon
+                                icon={faEnvelope}
+                                className="fs-6 upload-file atras mx-1"
+                                color="#000"
+                              />
+                              {item.null}
+                            </p>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-4 position-fixed bottom-0 end-0 p-5 noti">
+            <Toast className="half-black" show={show} autohide color="lime">
+              <Toast.Body className="text-white">
+                <div className="row p-2">
+                  {loading ? (
+                    <Spinner animation="border" role="status" variant="primary">
+                      <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                  ) : (
+                    <div className="col-1 mx-2">
+                      {error ? (
+                        <FontAwesomeIcon
+                          icon={faTimesCircle}
+                          className="fs-3 upload-file atras"
+                          color="#dc3545"
+                        />
+                      ) : (
+                        <FontAwesomeIcon
+                          icon={faCheckCircle}
+                          className="fs-3 upload-file atras"
+                          color="#198754"
+                        />
+                      )}
+                    </div>
+                  )}
+
+                  <div className="col-10 mt-1 ml-5">{mensaje}</div>
+                </div>
+              </Toast.Body>
+            </Toast>
+          </div>
+        </div>
+{/* // fin del modal de Mis casos Activos */}
+{/* //inicio de casos resueltos modal*/}
+<div className="row">
+          <div className="col-4 position-fixed bottom-0 end-0 p-5 noti">
+            <Toast className="half-black" show={show} autohide color="lime">
+              <Toast.Body className="text-white">
+                <div className="row p-2">
+                  {loading ? (
+                    <Spinner animation="border" role="status" variant="primary">
+                      <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                  ) : (
+                    <div className="col-1 mx-2">
+                      {error ? (
+                        <FontAwesomeIcon
+                          icon={faTimesCircle}
+                          className="fs-3 upload-file atras"
+                          color="#dc3545"
+                        />
+                      ) : (
+                        <FontAwesomeIcon
+                          icon={faCheckCircle}
+                          className="fs-3 upload-file atras"
+                          color="#198754"
+                        />
+                      )}
+                    </div>
+                  )}
+
+                  <div className="col-10 mt-1 ml-5">{mensaje}</div>
+                </div>
+              </Toast.Body>
+            </Toast>
+          </div>
+        </div>
+      </div>
+      <div
+        className="modal fade bd-example-modal-xl"
+        id="modalCR"
+        tabIndex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-centered modal-xl">
+          <div className="modal-content">
+            <div className="modal-body">
+              <div className="row">
+                <div className="col-8">
+                  <h6 className="fw-bolder">Casos Resueltos</h6>
+                  <hr className="hr-width hr-principal" />
+                </div>
+                <div className="col-12">
+                  <button
+                    type="button"
+                    className="btn-close float-end"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                    id="myInput"
+                  ></button>
+                </div>
+              </div>
+              <div className="w-100 d-flex justify-content-center">
+                <div className="card shadow p-4 border-0 h-auto pad w-100 mb-4">
+                  <div>
+                  <MultiStepProgressBar currentStep={step} />
+                  </div>
+                </div>
+              </div>
+              <form name="Alyc">
+                <div className="row w-auto d-flex justify-content-center">
+                  <div className="col-8">
+                    <h6 className="fw-bolder">Detalles del caso resuelto</h6>
+                    <div className="row">
+                      <div className="col-sm-4 col-md-12">
+                        <div className="mb-2 p-2">
+                          <label className="form-label fw-bolder lbl-precalificacion required">
+                          Asunto
+                          </label>
+                          <input
+                            type="asunto"
+                            id="asunto"
+                            name="asuntocaso"
+                            className="form-control requerido"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div className="col-sm-4 col-md-12">
+                        <div className="mb-2 p-2">
+                          <label className="form-label fw-bolder lbl-precalificacion">
+                            Razón para el estado
+                          </label>
+                          <input
+                            type="text"
+                            id="razonEstado"
+                            name="razonEstado"
+                            className="form-control desabilitado"
+                             disabled
+                          />
+                        </div>
+                      </div>
+                      <div className="col-sm-4 col-md-12">
+                        <div className="mb-2 p-2">
+                          <label className="form-label fw-bolder lbl-precalificacion">
+                           Número de caso
+                          </label>
+                          <input
+                            type="text"
+                            id="estadoCaso"
+                            name="estadoCaso"
+                            className="form-control desabilitado"
+                            disabled
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-4">
+                    <h6 className="fw-bolder">Resolucion:</h6>
+                    <div className="contenedor-spinner" id="spinner4">
+                      <div
+                        className="lds-roller float-none w-100 d-flex justify-content-center mx--1"
+                        id="spinner"
+                      >
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                      </div>
+                    </div>
+                    <ul className="list-group">
+                      {legalesSelector.map((item) => {
+                        return (
+                          <li className="list-group-item d-flex align-items-center">
+                            <p className="fw-bolder">
+                              <FontAwesomeIcon
+                                icon={faEnvelope}
+                                className="fs-6 upload-file atras mx-1"
+                                color="#000"
+                              />
+                              {item.null}
+                            </p>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-4 position-fixed bottom-0 end-0 p-5 noti">
+            <Toast className="half-black" show={show} autohide color="lime">
+              <Toast.Body className="text-white">
+                <div className="row p-2">
+                  {loading ? (
+                    <Spinner animation="border" role="status" variant="primary">
+                      <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                  ) : (
+                    <div className="col-1 mx-2">
+                      {error ? (
+                        <FontAwesomeIcon
+                          icon={faTimesCircle}
+                          className="fs-3 upload-file atras"
+                          color="#dc3545"
+                        />
+                      ) : (
+                        <FontAwesomeIcon
+                          icon={faCheckCircle}
+                          className="fs-3 upload-file atras"
+                          color="#198754"
+                        />
+                      )}
+                    </div>
+                  )}
+
+                  <div className="col-10 mt-1 ml-5">{mensaje}</div>
+                </div>
+              </Toast.Body>
+            </Toast>
+          </div>
+        </div>
+        {/* //fin de mis casos resueltos modal */}
+{/* // inicio del modal de documentos legales */}
         <div className="row">
           <div className="col-4 position-fixed bottom-0 end-0 p-5 noti">
             <Toast className="half-black" show={show} autohide color="lime">
