@@ -3,6 +3,7 @@ import Moment from 'moment'
 import SeleccionarFila from '../Tables/SeleccionarFila'
 import Asuntos from './Asuntos'
 import Contacts from './Contacts'
+import Cuenta from './Cuenta'
 
 export const COLUMNASLEGALES = [
     {
@@ -11,6 +12,7 @@ export const COLUMNASLEGALES = [
         accessor: '_createdby_value',
         Cell: ({ value }) => { return value ? <p className=" m-0  texto-lista m-0">{value}</p> : '-' }
     },
+
 
     {
         Header: 'Persona que recepcionó',
@@ -73,6 +75,7 @@ export const COLUMNASLEGALES = [
             )
         }
     }
-
+   
+    
 
 ]

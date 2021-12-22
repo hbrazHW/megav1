@@ -50,8 +50,8 @@ export const obtenerLegales = () => async (dispatch) => {
   "<attribute name='new_descripcindeldocumento' />" +
   "<attribute name='createdby' />" +
   "<order attribute='new_name' descending='false' />" +
-"</entity>" +
-"</fetch>";
+  "</entity>" +
+  "</fetch>";
   try {
     const response = await axios.get(
       `${UrlApiDynamics}ConsultaFetch?Entidad=${entidad}&fetch=${fetch}&cuit=${Entidad}`

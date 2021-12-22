@@ -210,6 +210,20 @@ const Casos = () => {
                   </div>
                   <div className="mb-2 p-2">
                     <label className="form-label fw-bolder lbl-precalificacion required">
+                    Estado del Caso
+                    </label>
+                    <Select
+                      className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
+                      id="EstadodelCaso"
+                      name="EstadodelCaso"
+                      className="basic multi-select"
+                      ClassNamePrefix="select"
+                      placeholder="Elegir estado..."
+                      required
+                    ></Select>
+                  </div>
+                  <div className="mb-2 p-2">
+                    <label className="form-label fw-bolder lbl-precalificacion required">
                       Sede
                     </label>
                     <Select
@@ -304,7 +318,20 @@ const Casos = () => {
                       name="aescala"
                       className="basic multi-select"
                       ClassNamePrefix="select"
-                      placeholder="Elegir area a escalar..."
+                      placeholder="si tiene datos en ese campo (renombrar a Area a Derivar)"
+                    ></Select>
+                  </div>
+                  <div className="mb-2 p-2">
+                    <label className="form-label fw-bolder lbl-precalificacion ">
+                      Area a Derivar
+                    </label>
+                    <Select
+                      className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
+                      id="aderivar"
+                      name="aderivar"
+                      className="basic multi-select"
+                      ClassNamePrefix="select"
+                      placeholder="si tiene datos el campo (Area a escalar) ese campo se activa"
                     ></Select>
                   </div>
                 </div>
