@@ -150,15 +150,6 @@ const Inicio = () => {
 
   }, [misCasosActivosSelector, casosResueltosSelector, recursosHumanosSelector, legalesSelector, casoIdSelector, legalesIdSelector]);
 
-
-
-
-  
-
-
-
-
-
   const obtenerPersonal = () => {
     dispatch(consultaFETCHbusquedaPersonal())
   }
@@ -175,7 +166,6 @@ const Inicio = () => {
   const obtenerlegal = () => {
     dispatch(obtenerLegales());
   };
-
 
 
   const completarLegales = (id) => {
@@ -251,9 +241,6 @@ const descripcionDocumento = (value) => {
 
  
 console.log("resueltos", casosResueltos )
-
-
-
 
   return (
     <animated.div className="container" style={fade}>
@@ -450,7 +437,6 @@ console.log("resueltos", casosResueltos )
                       )}
                     </div>
                   )}
-
                   <div className="col-10 mt-1 ml-5">{mensaje}</div>
                 </div> */}
               </Toast.Body>
@@ -882,7 +868,6 @@ console.log("resueltos", casosResueltos )
                       )}
                     </div>
                   )}
-
                   <div className="col-10 mt-1 ml-5">{mensaje}</div>
                 </div> */}
               </Toast.Body>
