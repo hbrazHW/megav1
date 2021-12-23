@@ -24,11 +24,11 @@ const RecursosHumanos = () => {
                 Busqueda de personal
               </button>
             </li>
-            <li className="nav-item" role="presentation">
+            {/* <li className="nav-item" role="presentation">
               <button className="nav-link fw-bolder text-dark" id="evaluacion-tab" data-bs-toggle="tab" data-bs-target="#evaluacion" type="button" role="tab" aria-controls="evaluacion" aria-selected="false">
                 Evaluación periodo de prueba
               </button>
-            </li>
+            </li> */}
           </ul>
 
           <div className="tab-content">
@@ -419,7 +419,7 @@ const RecursosHumanos = () => {
                 </div>
               </div>
 
-              <div className="col-sm-4 col-md-12">
+              {/* <div className="col-sm-4 col-md-12">
                 <div className="mb-2 p-2">
                   <label className="form-label fw-bolder lbl-precalificacion required">
                     Nombre
@@ -517,7 +517,7 @@ const RecursosHumanos = () => {
                     ></Select>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
 
           </div>

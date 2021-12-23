@@ -158,8 +158,8 @@ const Login = (props) => {
                                 </div>
                                 <div className="row mt-4">
                                     <div className="col-sm-12">
-                                        <button className="btn btn-primary btn-lg btn-block w-100"
-                                            type="button"
+                                        <button className="btn btn-dark btn-lg btn-block w-100"
+                                            type="submit"
                                             onClick={ProcesarLogin}
                                         >Ingresar</button>
                                     </div>
