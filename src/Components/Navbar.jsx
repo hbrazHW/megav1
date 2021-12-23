@@ -11,6 +11,7 @@ import perfiRandom from "../img/foto-perfil-random.png";
 import { useDispatch, useSelector } from "react-redux";
 import { obtenerNotificaciones } from "../Redux/Notificaciones";
 import { obtenerCuenta } from "../Redux/Cuenta";
+import { obtenerContacto } from "../Redux/Contacto";
 import { useSpring, animated } from "react-spring";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -27,6 +28,9 @@ const Navbar = (props) => {
   const [menu, setMenu] = React.useState(false);
   const [llamadaNotificaciones, setLlamadaNotificaciones] =
     React.useState(false);
+  const [contacto, setContacto] = React.useState([]);
+  const [llamadaContactos, setLlamadaContactos] = React.useState(false);
+
   //Estados
   const activo = useSelector((store) => store.usuarios.activo);
   const accountid = useSelector((store) => store.usuarios.accountid);
@@ -34,6 +38,9 @@ const Navbar = (props) => {
     (store) => store.notificaciones.notificaciones
   );
   const cuentaSelector = useSelector((store) => store.cuenta.cuenta);
+  const contactoSelector = useSelector((store) => store.contactos.contacto);
+  const contactid = useSelector((store) => store.usuarios.contactid);
+
   const fade = useSpring({
     from: {
       opacity: 0,
@@ -55,13 +62,28 @@ const Navbar = (props) => {
         const res = await obtenerNotificacionesCuenta();
         setLlamadaNotificaciones(true);
       }
+      if (
+        Object.keys(contactoSelector).length > 0 &&
+        llamadaContactos === true
+      ) {
+        setContacto(contactoSelector);
+      } else if (
+        Object.keys(contactoSelector).length === 0 &&
+        llamadaContactos === false
+      ) {
+        obtenerMiContacto();
+        setLlamadaContactos(true);
+      }
+
       if (Object.keys(cuentaSelector).length != 0) {
         setCuenta(cuentaSelector);
       } else {
         const resCuenta = await obtenerMiCuenta();
       }
     }
-  }, [activo, notificacionesSelector, cuentaSelector]);
+  }, [activo, notificacionesSelector, cuentaSelector, contactoSelector]);
+
+  console.log("contacto", contacto);
 
   const obtenerNotificacionesCuenta = async () => {
     dispatch(obtenerNotificaciones(accountid));
@@ -69,6 +91,10 @@ const Navbar = (props) => {
 
   const obtenerMiCuenta = async () => {
     dispatch(obtenerCuenta(accountid));
+  };
+
+  const obtenerMiContacto = async () => {
+    dispatch(obtenerContacto(contactid));
   };
 
   const CerrarSesion = () => {
@@ -377,14 +403,17 @@ const Navbar = (props) => {
                               />
                             </div>
                             <div className="col-10">
-                              <p className="perfil-nombre m-0 fw-bolder">
-                                {cuenta != undefined ? cuenta.Name : ""}
-                              </p>
-                              <p className="perfil-email m-0">
-                                {cuenta != undefined
-                                  ? cuenta.emailaddress1
-                                  : ""}
-                              </p>
+                              {contacto.map((item) => (
+                                <h5 className="perfil-nombre m-0 fw-bolder">
+                                  {item.fullname}
+                                </h5>
+                              ))}
+
+                              {contacto.map((item) => (
+                                <p className="perfil-email m-0 ">
+                                  {item.emailaddress1}
+                                </p>
+                              ))}
                             </div>
                           </div>
                           <div className="row border-bottom pb-1">

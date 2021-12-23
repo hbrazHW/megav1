@@ -3,9 +3,19 @@ import Select from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCloudUploadAlt } from "@fortawesome/free-solid-svg-icons";
 import { useSpring, animated } from "react-spring";
+import { obtenerLegales } from "../Redux/DocumentosLegales";
+import { useDispatch, useSelector } from "react-redux";
 
 
 const Legales = () => {
+  const dispatch = useDispatch();
+
+  //const legales
+  const [autor, setAutor] = React.useState([])
+  const [llamadaAutor, setLlamadaAutor] = React.useState(false)
+  const [selectAutor, setSelectAutor] = React.useState([]);
+  const autorSelector = useSelector(store => store.autor.autor)
+  const [autorSeleccionar, SetAutorSeleccionar] = React.useState("");
 
   const fade = useSpring({
     from: {
@@ -16,6 +26,43 @@ const Legales = () => {
       delay: 1500,
     },
   });
+
+  React.useEffect(() => {
+
+    if (autor.length === 0) {
+      if (autorSelector.length > 0 && llamadaAutor === true) {
+        setAutor(autorSelector);
+        completarOpcionAutor(autorSelector);
+      } else if (llamadaAutor === false) {
+        obtenerAutores();
+        setLlamadaAutor(true);
+      }
+    }
+
+ 
+
+  }, [autorSelector]);
+
+
+  const obtenerAutores = () => {
+    dispatch(obtenerLegales())
+  }
+
+
+  const completarOpcionAutor = (autor) => {
+    const aut = [];
+    autor.forEach((item) => {
+      var a = { value: item.createdby, label: item.createdby};
+      autor.push(a);
+    });
+    setSelectAutor(aut);
+  };
+
+ console.log("autor", autor)
+
+  const autorHandle = (valor) => {
+    SetAutorSeleccionar(valor.value);
+  };
 
   return (
 
@@ -39,15 +86,19 @@ const Legales = () => {
                     <label className="form-label fw-bolder lbl-precalificacion required">
                       Autor
                     </label>
-                    <input
-                      type="text"
-                      id="autor"
-                      name="autor"
-                      className="form-control requerido"
-                      placeholder="---"
-                      required
+                    <Select
+                         type="select"
+                         id="select"
+                         name="autor"
+                         onChange={(e) => autorHandle(e)}
+                         options={selectAutor}
+                         name="colors"
+                         className="basic multi-select requerido"
+                         classNamePrefix="select"
+                         placeholder="Elegir autor..."
+                         required
 
-                    />
+                    ></Select>
                   </div>
                 </div>
 

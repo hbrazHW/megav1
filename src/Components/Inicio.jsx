@@ -132,32 +132,19 @@ const Inicio = () => {
       }
     }
     
-
     if (casoIdSelector !== undefined) {
       if (casoIdSelector !== '') {
         completarCasoResuelto(casoIdSelector)
       }
     }
     
-
     if(legalesIdSelector !== undefined) {
       if(legalesIdSelector !== '') {
         completarLegales(legalesIdSelector)
       }
     }
 
-    
-
   }, [misCasosActivosSelector, casosResueltosSelector, recursosHumanosSelector, legalesSelector, casoIdSelector, legalesIdSelector]);
-
-
-
-
-  
-
-
-
-
 
   const obtenerPersonal = () => {
     dispatch(consultaFETCHbusquedaPersonal())
