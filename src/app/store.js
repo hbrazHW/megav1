@@ -20,6 +20,7 @@ import  documentosLegalesReducers  from '../Redux/DocumentosLegales'
 import recursosHumanosReducers from '../Redux/RecursosHumanos'
 import contactsReducers from '../Redux/Contact'
 import autorLegalesReducers from '../Redux/AutorLegales'
+import contactosReducers from '../Redux/Contacto'
 
 
 
@@ -43,7 +44,9 @@ const rootReducer = combineReducers({
    legales: documentosLegalesReducers,
    recursosHumanos: recursosHumanosReducers,
    contacts: contactsReducers,
-   autor: autorLegalesReducers
+   autor: autorLegalesReducers,
+   contactos: contactosReducers,
+
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
