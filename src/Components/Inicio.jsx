@@ -164,7 +164,6 @@ const Inicio = () => {
   };
 
 
-
   const completarLegales = (id) => {
     legales.filter(item => item.new_documentoslegalesid == id).map(item => {
         setAutor(item._createdby_value)
@@ -238,9 +237,6 @@ const descripcionDocumento = (value) => {
 
  
 console.log("resueltos", casosResueltos )
-
-
-
 
   return (
     <animated.div className="container" style={fade}>
