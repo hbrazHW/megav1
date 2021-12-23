@@ -132,6 +132,8 @@ const Inicio = () => {
 
   }, [misCasosActivosSelector, casosResueltosSelector, recursosHumanosSelector, legalesSelector, legalesIdSelector, casoIdSelector]);
 
+  console.log(casosResueltos)
+
   const completarCamposLegales = (id) => {
     legales.filter(item => item.new_documentoslegalesid == id).map(item => {
       setTitulo2(item.new_documentoslegalesid)
@@ -143,9 +145,6 @@ const Inicio = () => {
         setTitulo(item._subjectid_value)
       })
     }
-
-  console.log("este es el titulo:", titulo)
-  console.log("este es el titulo2:", titulo2)
 
   const obtenerPersonal = () => {
     dispatch(consultaFETCHbusquedaPersonal())

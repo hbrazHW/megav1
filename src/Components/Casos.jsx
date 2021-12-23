@@ -12,7 +12,7 @@ import { consultaFETCHnombresAsuntos } from "../Redux/Casos";
 
 const Casos = () => {
   const dispatch = useDispatch();
-  
+
   //hooks
   const [contacts, setContacts] = React.useState([])
   const [llamada, setLlamada] = React.useState(false)
@@ -43,6 +43,10 @@ const Casos = () => {
       delay: 1500,
     },
   });
+
+  // const handlePaste = (e) => {
+  //   const value = e.clipboardData.files[0];
+  // }
 
   React.useEffect(() => {
 
@@ -78,7 +82,7 @@ const Casos = () => {
 
   }, [contactSelector, sucursalSelector]);
 
-  console.log("state: ", asuntos);
+  
 
   const obtenerAsuntos = () => {
     dispatch(consultaFETCHnombresAsuntos())
@@ -94,7 +98,7 @@ const Casos = () => {
 
   //handle del select de asuntos
 
-  
+
   // const selectOnChange = (event) => {
   //   setSelected(event.target.value)
   // }
@@ -355,6 +359,13 @@ const Casos = () => {
                 </div>
               </div> */}
             </div>
+            <div className="col-sm-6">
+
+              <div class="input-group ms-3 mb-3">
+                <input type="file" className="form-control" id="inputGroupFile02"  />
+              </div>
+            </div>
+
             <div class="d-flex align-items-end justify-content-end">
               <button
                 type="submit"
