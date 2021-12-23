@@ -5,10 +5,16 @@ const dataInicial = {
     loading: false,
     busquedaPersonal: [],
     puesto: [],
-    cuentas: []
+    cuentas: [],
+    areas: [],
+    sucursales: [],
+    autorizadoPor: [],
 };
 
 //types
+const OBTENER_AUTORIZADO_POR = 'OBTENER_AUTORIZADO_POR'
+const OBTENER_SUCURSALES = 'OBTENER_SUCURSALES'
+const OBTENER_AREAS = 'OBTENER_AREAS'
 const OBTENER_CUENTA = 'OBTENER_CUENTA'
 const OBTENER_PUESTO = 'OBTENER_PUESTO';
 const OBTENER_BUSQUEDA_ABIERTA = "OBTENER_BUSQUEDA_ABIERTA";
@@ -18,6 +24,12 @@ const ERROR = "ERROR";
 //reducers
 export default function recursosHumanosReducers(state = dataInicial, action) {
     switch (action.type) {
+        case OBTENER_AUTORIZADO_POR:
+            return { ...state, autorizadoPor: action.payload, loading: false}
+        case OBTENER_SUCURSALES:
+            return { ...state, sucursales: action.payload, loading: false }
+        case OBTENER_AREAS:
+            return { ...state, areas: action.payload, loading: false }
         case OBTENER_CUENTA:
             return { ...state, cuentas: action.payload, loading: false };
         case OBTENER_PUESTO:
@@ -133,4 +145,100 @@ export const consultaFETCHcuentas = () => async (dispatch) => {
     }
 };
 
+export const consultaFETCHareas = () => async (dispatch) => {
+    dispatch({
+        type: LOADING,
+    });
+    var entidad = "new_areas";
+    var fetch = "<fetch mapping='logical' distinct='false'>" +
+        "<entity name='new_area'>" +
+        "<attribute name='new_areaid' />" +
+        "<attribute name='new_name' />" +
+        "<order attribute='new_name' descending='false' />" +
+        "</entity>" +
+        "</fetch>";
 
+    try {
+        const response = await axios.get(
+            `${UrlApiDynamics}ConsultaFetch?Entidad=${entidad}&fetch=${fetch}&cuit=${Entidad}`
+        );
+        dispatch({
+            type: OBTENER_AREAS,
+            payload: response.data,
+        });
+    } catch (error) {
+        dispatch({
+            type: ERROR,
+        });
+    }
+};
+
+//una consulta diferente ya que en el tenant filtra sucursales como este fetch
+export const consultaFETCHsedesRH = () => async (dispatch) => {
+    dispatch({
+        type: LOADING,
+    });
+
+    var entidad = "accounts";
+    var fetch = "<fetch mapping='logical' distinct='true'>" +
+        "<entity name='account'>" +
+        "<attribute name='name' />" +
+        "<attribute name='primarycontactid' />" +
+        "<attribute name='telephone1' />" +
+        "<attribute name='accountid' />" +
+        "<attribute name='new_sedeclienteinterno' />" +
+        "<order attribute='name' descending='false' />" +
+        "<link-entity name='contact' from='parentcustomerid' to='accountid' link-type='inner' alias='af' />" +
+        "</entity>" +
+        "</fetch>";
+
+    try {
+        const response = await axios.get(
+            `${UrlApiDynamics}ConsultaFetch?Entidad=${entidad}&fetch=${fetch}&cuit=${Entidad}`
+        );
+        dispatch({
+            type: OBTENER_SUCURSALES,
+            payload: response.data,
+        });
+    } catch (error) {
+        dispatch({
+            type: ERROR,
+        });
+    }
+}
+
+export const consultaFETCHautorizadoPor = () => async (dispatch) => {
+    dispatch({
+        type: LOADING,
+    });
+
+    var entidad = "contacts";
+    var fetch = "<fetch mapping='logical' distinct='false'>" +
+        "<entity name='contact'>" +
+        "<attribute name='fullname' />" +
+        "<attribute name='parentcustomerid' />" +
+        "<attribute name='telephone1' />" +
+        "<attribute name='emailaddress1' />" +
+        "<attribute name='contactid' />" +
+        "<order attribute='fullname' descending='false' />" +
+        "<filter type='and'>" +
+        "<condition attribute='statecode' operator='eq' value='0' />" +
+        "<condition attribute='new_tipodecliente' operator='eq' value='100000000' />" +
+        "</filter>" +
+        "</entity>" +
+        "</fetch>";
+
+    try {
+        const response = await axios.get(
+            `${UrlApiDynamics}ConsultaFetch?Entidad=${entidad}&fetch=${fetch}&cuit=${Entidad}`
+        );
+        dispatch({
+            type: OBTENER_AUTORIZADO_POR,
+            payload: response.data,
+        });
+    } catch (error) {
+        dispatch({
+            type: ERROR,
+        });
+    }
+}

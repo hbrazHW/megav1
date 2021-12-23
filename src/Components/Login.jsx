@@ -22,18 +22,18 @@ const Login = (props) => {
     const [mensaje, setMensaje] = React.useState('')
     const [error, setError] = React.useState(false)
 
-    // React.useEffect(() => {
-    //     if (activo) {
-    //         props.history.push('/')
-    //     } else if (errorSelector && log) {
-    //         document.getElementById("login").style.display = "block"
-    //         document.getElementById("spinner-login").style.display = "none"
-    //         setError(true)
-    //         setMensaje("La constraseña o la cuenta es incorrecta")
-    //         setShow(true)
-    //         dispatch(limpiarError())
-    //     }
-    // }, [activo, errorSelector, props.history])
+    React.useEffect(() => {
+        if (activo) {
+            props.history.push('/')
+        } else if (errorSelector && log) {
+            document.getElementById("login").style.display = "block"
+            document.getElementById("spinner-login").style.display = "none"
+            setError(true)
+            setMensaje("La constraseña o la cuenta es incorrecta")
+            setShow(true)
+            dispatch(limpiarError())
+        }
+    }, [activo, errorSelector, props.history])
 
     const fade = useSpring({
         from: {
@@ -82,8 +82,8 @@ const Login = (props) => {
                     // const registro = dispatch(registrarUsuario(mail, pass, accountid))
                 }
             })
-        // document.getElementById("login").style.display = "none"
-        // document.getElementById("spinner-login").style.display = "block"
+        document.getElementById("login").style.display = "none"
+        document.getElementById("spinner-login").style.display = "block"
         // dispatch(loginUsuario(mail, pass))
         setLog(true)
     }
@@ -159,8 +159,7 @@ const Login = (props) => {
                                 <div className="row mt-4">
                                     <div className="col-sm-12">
                                         <button className="btn btn-primary btn-lg btn-block w-100"
-                                            type="button"
-                                            onClick={ProcesarLogin}
+                                            type="submit"
                                         >Ingresar</button>
                                     </div>
                                 </div>
