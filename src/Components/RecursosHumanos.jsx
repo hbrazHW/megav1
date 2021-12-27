@@ -1,8 +1,87 @@
 import React from "react";
 import Select from "react-select";
 import { useSpring, animated } from "react-spring";
+import { useDispatch, useSelector } from "react-redux";
+import { consultaFETCHpuesto, consultaFETCHareas, consultaFETCHsedesRH, consultaFETCHautorizadoPor, cargarForm } from "../Redux/RecursosHumanos";
 
 const RecursosHumanos = () => {
+  const dispatch = useDispatch();
+
+  const [puesto, setPuesto] = React.useState([])
+  const [llamadaPuesto, setLlamadaPuesto] = React.useState(false)
+  const puestoSelector = useSelector(store => store.recursosHumanos.puesto)
+  const [selecPuesto, setSelectPuesto] = React.useState([])
+
+  const [areas, setAreas] = React.useState([])
+  const [llamadaAreas, setLlamadaAreas] = React.useState(false)
+  const areasSelector = useSelector(store => store.recursosHumanos.areas)
+  const [selectArea, setSelectArea] = React.useState([])
+
+  const [sucursales, setSucursales] = React.useState([])
+  const [llamadaSucursales, setLlamadasSucursales] = React.useState(false)
+  const sucursalesSelector = useSelector(store => store.recursosHumanos.sucursales)
+  const [selectSucursal, setSelectSucursal] = React.useState([])
+
+  const [autorizado, setAutorizado] = React.useState([])
+  const [llamadaAutorizado, setLlamadaAutorizado] = React.useState(false)
+  const autorizadoSelector = useSelector(store => store.recursosHumanos.autorizadoPor)
+  const [selectAutorizado, setSelectAutorizado] = React.useState([])
+
+  const [puestoSeleccionar, setPuestoSeleccionar] = React.useState('')
+  const [mBusqueda, setMbusquedaSeleccionar] = React.useState('')
+  const [tipBusqueda, setTipBusqueda] = React.useState('')
+  const [descripcion, setDescripcion] = React.useState('')
+  const [personaAcargo, setPersonaAcargo] = React.useState('')
+  const [jornada, setJornada] = React.useState('')
+  const [observaciones, setObservaciones] = React.useState('')
+  const [areaSeleccionar, setAreaSeleccionar] = React.useState('')
+  const [sucursalSeleccionar, setSucursalSeleccionar] = React.useState('')
+  const [autorizadoSeleccionar, setAutorizadoSeleccionar] = React.useState('')
+  const [reporta, setReportaSeleccionar] = React.useState('')
+
+  React.useEffect(() => {
+    if (puesto.length === 0) {
+      if (puestoSelector.length > 0 && llamadaPuesto === true) {
+        setPuesto(puestoSelector)
+        completarOpcionPuesto(puestoSelector)
+      } else if (llamadaPuesto === false) {
+        setLlamadaPuesto(true)
+        obtenerPuesto()
+      }
+    }
+
+    if (areas.length === 0) {
+      if (areasSelector.length > 0 && llamadaAreas === true) {
+        setAreas(areasSelector)
+        completarOpcionAreas(areasSelector)
+      } else if (llamadaAreas === false) {
+        setLlamadaAreas(true)
+        obtenerArea()
+      }
+    }
+
+    if (sucursales.length === 0) {
+      if (sucursalesSelector.length > 0 && llamadaSucursales === true) {
+        setSucursales(sucursalesSelector)
+        completarOpcionSedes(sucursalesSelector)
+      } else if (llamadaSucursales === false) {
+        setLlamadasSucursales(true)
+        obtenerSucursales()
+      }
+    }
+
+    if (autorizado.length === 0) {
+      if (autorizadoSelector.length > 0 && llamadaAutorizado === true) {
+        setAutorizado(autorizadoSelector)
+        completarOpcionAutorizado(autorizadoSelector)
+      } else if (llamadaAutorizado === false) {
+        setLlamadaAutorizado(true)
+        obtenerAutorizado()
+      }
+    }
+
+  }, [puestoSelector, areasSelector, sucursalesSelector, autorizadoSelector])
+
 
   const fade = useSpring({
     from: {
@@ -13,6 +92,90 @@ const RecursosHumanos = () => {
       delay: 1500,
     },
   });
+
+  const enviarFormulario = (e) => {
+    e.preventDefault()
+    dispatch(cargarForm(puestoSeleccionar, mBusqueda, descripcion, sucursalSeleccionar, areaSeleccionar, reporta, jornada, observaciones, personaAcargo, tipBusqueda, autorizadoSeleccionar, ))
+  }
+
+  const obtenerAutorizado = () => {
+    dispatch(consultaFETCHautorizadoPor())
+  }
+  const obtenerSucursales = () => {
+    dispatch(consultaFETCHsedesRH())
+  }
+  const obtenerArea = () => {
+    dispatch(consultaFETCHareas())
+  }
+  const obtenerPuesto = () => {
+    dispatch(consultaFETCHpuesto())
+  }
+
+  const completarOpcionPuesto = (puesto) => {
+    const puest = [];
+    puesto.forEach((item) => {
+      var p = { value: item.new_cargoid, label: item.new_name };
+      puest.push(p);
+    });
+    setSelectPuesto(puest);
+  };
+  const completarOpcionAreas = (areas) => {
+    const area = [];
+    areas.forEach((item) => {
+      var a = { value: item.new_areaid, label: item.new_name };
+      area.push(a);
+    });
+    setSelectArea(area);
+  };
+  const completarOpcionSedes = (sedes) => {
+    const sucu = [];
+    sedes.forEach((item) => {
+      var s = { value: item.accountid, label: item.name };
+      sucu.push(s);
+    });
+    setSelectSucursal(sucu);
+  };
+  const completarOpcionAutorizado = (aut) => {
+    const autorizado = [];
+    aut.forEach((item) => {
+      var a = { value: item.contactid, label: item.fullname };
+      autorizado.push(a);
+    });
+    setSelectAutorizado(autorizado);
+  };
+
+  const reportaHandle = (valor) => {
+    setReportaSeleccionar(valor.value)
+  }
+  const autorizadoHandle = (valor) => {
+    setAutorizadoSeleccionar(valor.value)
+  }
+  const puestoHandle = (valor) => {
+    setPuestoSeleccionar(valor.value)
+  }
+  const motivoBusquedaHandle = (valor) => {
+    setMbusquedaSeleccionar(valor.value)
+  }
+  const tipoBusquedaHandle = (valor) => {
+    setTipBusqueda(valor.value)
+  }
+  const areaHandle = (valor) => {
+    setAreaSeleccionar(valor.value)
+  }
+  const sedeHandle = (valor) => {
+    setSucursalSeleccionar(valor.value)
+  }
+
+  const motivoBusqueda = [
+    { value: '100000000', label: 'Nuevo Puesto' },
+    { value: '100000001', label: 'Reemplazo' },
+  ]
+
+  const tipoBusqueda = [
+    { value: '100000000', label: 'Interna' },
+    { value: '100000001', label: 'Externa' },
+    { value: '100000002', label: 'Interna/Externa' },
+  ]
 
   return (
     <animated.div className="container" style={fade}>
@@ -35,210 +198,232 @@ const RecursosHumanos = () => {
 
 
             <div className="tab-pane fade show active p-3" id="busqueda" role="tabpanel" aria-labelledby="busqueda-tab">
-              <div className="col-sm-4 col-md-12">
-                <div className="mb-2 p-2">
-                  <label className="form-label fw-bolder lbl-precalificacion required">
-                    Puesto a cubrir
-                  </label>
-                  <Select
-                    type="select"
-                    id="select"
-                    name="puestoAC"
-                    className="basic multi-select"
-                    classNamePrefix="select"
-                    placeholder="Elegir puesto"
-                    required
-                  ></Select>
+              <form onSubmit={enviarFormulario}>
+                <div className="col-sm-4 col-md-12">
+                  <div className="mb-2 p-2">
+                    <label className="form-label fw-bolder lbl-precalificacion required">
+                      Puesto a cubrir
+                    </label>
+                    <Select
+                      onChange={e => puestoHandle(e)}
+                      options={selecPuesto}
+                      type="select"
+                      id="select"
+                      name="puestoAC"
+                      className="basic multi-select"
+                      classNamePrefix="select"
+                      placeholder="Elegir puesto"
+                      required
+                    ></Select>
+                  </div>
                 </div>
-              </div>
 
-              <div className="col-sm-4 col-md-12">
-                <div className="mb-2 p-2">
-                  <label className="form-label fw-bolder lbl-precalificacion required">
-                    Motivo de búsqueda
-                  </label>
-                  <Select
-                    type="select"
-                    id="select"
-                    name="motbusq"
-                    className="basic multi-select"
-                    classNamePrefix="select"
-                    placeholder="Elegir motivo de búsqueda"
-                    required
-                  ></Select>
+                <div className="col-sm-4 col-md-12">
+                  <div className="mb-2 p-2">
+                    <label className="form-label fw-bolder lbl-precalificacion required">
+                      Motivo de búsqueda
+                    </label>
+                    <Select
+                      onChange={e => motivoBusquedaHandle(e)}
+                      options={motivoBusqueda}
+                      type="select"
+                      id="select"
+                      name="motbusq"
+                      className="basic multi-select"
+                      classNamePrefix="select"
+                      placeholder="Elegir motivo de búsqueda"
+                      required
+                    ></Select>
+                  </div>
                 </div>
-              </div>
 
-              <div className="col-sm-4 col-md-12">
-                <div className="mb-2 p-2">
-                  <label className="form-label fw-bolder lbl-precalificacion required">
-                    Tipo de búsqueda
-                  </label>
-                  <Select
-                    type="select"
-                    id="select"
-                    name="tipobusq"
-                    className="basic multi-select"
-                    classNamePrefix="select"
-                    placeholder="Elegir Tipo de búsqueda"
-                    required
-                  ></Select>
+                <div className="col-sm-4 col-md-12">
+                  <div className="mb-2 p-2">
+                    <label className="form-label fw-bolder lbl-precalificacion required">
+                      Tipo de búsqueda
+                    </label>
+                    <Select
+                      onChange={e => tipoBusquedaHandle(e)}
+                      options={tipoBusqueda}
+                      type="select"
+                      id="select"
+                      name="tipobusq"
+                      className="basic multi-select"
+                      classNamePrefix="select"
+                      placeholder="Elegir Tipo de búsqueda"
+                      required
+                    ></Select>
+                  </div>
                 </div>
-              </div>
 
-              <div className="col-sm-4 col-md-12">
-                <div className="mb-2 p-2">
-                  <label className="form-label fw-bolder lbl-precalificacion">
-                    Autorizado por
-                  </label>
-                  <Select
-                    type="select"
-                    id="select"
-                    name="autpor"
-                    className="basic multi-select"
-                    classNamePrefix="select"
-                    placeholder="Elegir responsable..."
-                  ></Select>
+                <div className="col-sm-4 col-md-12">
+                  <div className="mb-2 p-2">
+                    <label className="form-label fw-bolder lbl-precalificacion">
+                      Autorizado por
+                    </label>
+                    <Select
+                      onChange={e => autorizadoHandle(e)}
+                      options={selectAutorizado}
+                      type="select"
+                      id="select"
+                      name="autpor"
+                      className="basic multi-select"
+                      classNamePrefix="select"
+                      placeholder="Elegir responsable..."
+                    ></Select>
+                  </div>
                 </div>
-              </div>
 
-              <div className="col-sm-4 col-md-12">
-                <div className="mb-2 p-2">
-                  <label className="form-label fw-bolder lbl-precalificacion required">
-                    Motivo del reemplazo
-                  </label>
-                  <textarea
-                    className="form-control mt-2"
-                    id="exampleFormControlTextarea1"
-                    rows="3"
-                    placeholder="comentanos un poco más..."
-                    required
-                  ></textarea>
+                <div className="col-sm-4 col-md-12">
+                  <div className="mb-2 p-2">
+                    <label className="form-label fw-bolder lbl-precalificacion required">
+                      Motivo del reemplazo
+                    </label>
+                    <textarea
+                      onChange={e => setDescripcion(e.target.value)}
+                      value={descripcion}
+                      className="form-control mt-2"
+                      id="exampleFormControlTextarea1"
+                      rows="3"
+                      placeholder="comentanos un poco más..."
+                      required
+                    ></textarea>
+                  </div>
                 </div>
-              </div>
 
-              <div className="col-sm-4 col-md-12">
-                <div className="mb-2 p-2">
-                  <label className="form-label fw-bolder lbl-precalificacion required">
-                    Sucursal
-                  </label>
-                  <Select
-                    type="select"
-                    id="select"
-                    name="sucursal"
-                    className="basic multi-select"
-                    classNamePrefix="select"
-                    placeholder="Elegir sucursal..."
-                    required
-                  ></Select>
+                <div className="col-sm-4 col-md-12">
+                  <div className="mb-2 p-2">
+                    <label className="form-label fw-bolder lbl-precalificacion required">
+                      Sucursal
+                    </label>
+                    <Select
+                      onChange={e => sedeHandle(e)}
+                      options={selectSucursal}
+                      type="select"
+                      id="select"
+                      name="sucursal"
+                      className="basic multi-select"
+                      classNamePrefix="select"
+                      placeholder="Elegir sucursal..."
+                      required
+                    ></Select>
+                  </div>
                 </div>
-              </div>
 
-              <div className="col-sm-4 col-md-12">
-                <div className="mb-2 p-2">
-                  <label className="form-label fw-bolder lbl-precalificacion required">
-                    Area
-                  </label>
-                  <Select
-                    type="select"
-                    id="select"
-                    name="area"
-                    className="basic multi-select"
-                    classNamePrefix="select"
-                    placeholder="Elegir Area..."
-                    required
-                  ></Select>
+                <div className="col-sm-4 col-md-12">
+                  <div className="mb-2 p-2">
+                    <label className="form-label fw-bolder lbl-precalificacion required">
+                      Area
+                    </label>
+                    <Select
+                      onChange={e => areaHandle(e)}
+                      options={selectArea}
+                      type="select"
+                      id="select"
+                      name="area"
+                      className="basic multi-select"
+                      classNamePrefix="select"
+                      placeholder="Elegir Area..."
+                      required
+                    ></Select>
+                  </div>
                 </div>
-              </div>
 
-              <div className="col-sm-4 col-md-12">
-                <div className="mb-2 p-2">
-                  <label className="form-label fw-bolder lbl-precalificacion required">
-                    Reporta a
-                  </label>
-                  <Select
-                    type="select"
-                    id="select"
-                    name="reporA"
-                    className="basic multi-select"
-                    classNamePrefix="select"
-                    placeholder="Elegir responsable..."
-                    required
-                  ></Select>
+                <div className="col-sm-4 col-md-12">
+                  <div className="mb-2 p-2">
+                    <label className="form-label fw-bolder lbl-precalificacion required">
+                      Reporta a
+                    </label>
+                    <Select
+                      onChange={e => reportaHandle(e)}
+                      options={selectAutorizado}
+                      type="select"
+                      id="select"
+                      name="reporA"
+                      className="basic multi-select"
+                      classNamePrefix="select"
+                      placeholder="Elegir responsable..."
+                      required
+                    ></Select>
+                  </div>
                 </div>
-              </div>
 
-              <div className="col-sm-4 col-md-12">
-                <div className="mb-2 p-2">
-                  <label className="form-label fw-bolder lbl-precalificacion required">
-                    Personas a cargo
-                  </label>
-                  <label className="radio">
-                    {" "}
-                    <label label="radio" className="me-2">
+                <div className="col-sm-4 col-md-12">
+                  <div className="mb-2 p-2">
+                    <label className="form-label fw-bolder lbl-precalificacion required">
+                      Personas a cargo
+                    </label>
+                    <label className="radio">
                       {" "}
+                      <label label="radio" className="me-2">
+                        {" "}
+                        <input
+                          type="radio"
+                          name="personacargo"
+                          value="No"
+                          onClick={() => setPersonaAcargo('no')}
+                        />
+                        No
+                      </label>
                       <input
                         type="radio"
                         name="personacargo"
-                        value="No"
-
+                        value="Si"
+                        onClick={() => setPersonaAcargo('si')}
                       />
-                      No
+                      Si
+                    </label>
+                  </div>
+                </div>
+
+                <div className="col-sm-4 col-md-12">
+                  <div className="mb-2 p-2">
+                    <label className="form-label fw-bolder lbl-precalificacion required">
+                      Jornada de Trabajo
                     </label>
                     <input
-                      type="radio"
-                      name="personacargo"
-                      value="Si"
+                      onChange={e => setJornada(e.target.value)}
+                      value={jornada}
+                      type="text"
+                      id="text"
+                      name="jtrabajo"
+                      className="form-control"
+                      placeholder="Cuáles son los dias y horarios de trabajo?"
+                      required
                     />
-                    Si
-                  </label>
+                  </div>
                 </div>
-              </div>
 
-              <div className="col-sm-4 col-md-12">
-                <div className="mb-2 p-2">
-                  <label className="form-label fw-bolder lbl-precalificacion required">
-                    Jornada de Trabajo
-                  </label>
-                  <input
-                    type="text"
-                    id="text"
-                    name="jtrabajo"
-                    className="form-control"
-                    placeholder="Cuáles son los dias y horarios de trabajo?"
-                    required
-                  />
+                <div className="col-sm-4 col-md-12">
+                  <div className="mb-2 p-2">
+                    <label className="form-label fw-bolder lbl-precalificacion required">
+                      Observaciones/ requisitos del puesto
+                    </label>
+                    <textarea
+                      onChange={e => setObservaciones(e.target.value)}
+                      value={observaciones}
+                      className="form-control mt-2"
+                      id="exampleFormControlTextarea1"
+                      rows="10"
+                      placeholder="comentanos un poco más..."
+                      required
+                    ></textarea>
+                  </div>
                 </div>
-              </div>
 
-              <div className="col-sm-4 col-md-12">
-                <div className="mb-2 p-2">
-                  <label className="form-label fw-bolder lbl-precalificacion required">
-                    Observaciones/ requisitos del puesto
-                  </label>
-                  <textarea
-                    className="form-control mt-2"
-                    id="exampleFormControlTextarea1"
-                    rows="10"
-                    placeholder="comentanos un poco más..."
-                    required
-                  ></textarea>
+                <div class="d-flex align-items-end justify-content-end">
+                  <button
+                    type="submit"
+                    name="btnSubmitAlyc"
+                    className="btn btn-secondary"
+                  >
+                    Enviar
+                  </button>
                 </div>
-              </div>
-
-              <div class="d-flex align-items-end justify-content-end">
-                <button
-                  type="submit"
-                  name="btnSubmitAlyc"
-                  className="btn btn-secondary"
-                >
-                  Enviar
-                </button>
-              </div>
-
+              </form>
             </div>
 
-            <div className="tab-pane fade show p-3" id="evaluacion" role="tabpanel" aria-labelledby="evaluacion-tab">
+            {/* <div className="tab-pane fade show p-3" id="evaluacion" role="tabpanel" aria-labelledby="evaluacion-tab">
               <div className="col-sm-4 col-md-12">
                 <div className="mb-2 p-2">
                   <label className="form-label fw-bolder lbl-precalificacion required">
@@ -255,7 +440,6 @@ const RecursosHumanos = () => {
                   ></Select>
                 </div>
               </div>
-
               <div className="col-sm-4 col-md-12">
                 <div className="mb-2 p-2">
                   <label className="form-label fw-bolder lbl-precalificacion required">
@@ -272,7 +456,6 @@ const RecursosHumanos = () => {
                   ></Select>
                 </div>
               </div>
-
               <div className="col-sm-4 col-md-12">
                 <div className="mb-2 p-2">
                   <label className="form-label fw-bolder lbl-precalificacion">
@@ -287,7 +470,6 @@ const RecursosHumanos = () => {
                   />
                 </div>
               </div>
-
               <div className="col-sm-4 col-md-12">
                 <div className="mb-2 p-2">
                   <label className="form-label fw-bolder lbl-precalificacion">
@@ -303,7 +485,6 @@ const RecursosHumanos = () => {
                   ></Select>
                 </div>
               </div>
-
               <div className="col-sm-4 col-md-12">
                 <div className="mb-2 p-2">
                   <label className="form-label fw-bolder lbl-precalificacion">
@@ -319,7 +500,6 @@ const RecursosHumanos = () => {
                   ></Select>
                 </div>
               </div>
-
               <div className="col-sm-4 col-md-12">
                 <div className="mb-2 p-2">
                   <label className="form-label fw-bolder lbl-precalificacion">
@@ -336,7 +516,6 @@ const RecursosHumanos = () => {
                   ></Select>
                 </div>
               </div>
-
               <div className="col-sm-4 col-md-12">
                 <div className="mb-2 p-2">
                   <label className="form-label fw-bolder lbl-precalificacion">
@@ -352,7 +531,6 @@ const RecursosHumanos = () => {
                   ></Select>
                 </div>
               </div>
-
               <div className="col-sm-4 col-md-12">
                 <div className="mb-2 p-2">
                   <label className="form-label fw-bolder lbl-precalificacion">
@@ -366,7 +544,6 @@ const RecursosHumanos = () => {
                   />
                 </div>
               </div>
-
               <div className="col-sm-4 col-md-12">
                 <div className="mb-2 p-2">
                   <label className="form-label fw-bolder lbl-precalificacion required">
@@ -392,7 +569,6 @@ const RecursosHumanos = () => {
                   </label>
                 </div>
               </div>
-
               <div className="col-sm-4 col-md-12">
                 <div className="mb-2 p-2">
                   <label className="form-label fw-bolder lbl-precalificacion required">
@@ -418,8 +594,7 @@ const RecursosHumanos = () => {
                   </label>
                 </div>
               </div>
-
-              {/* <div className="col-sm-4 col-md-12">
+              <div className="col-sm-4 col-md-12">
                 <div className="mb-2 p-2">
                   <label className="form-label fw-bolder lbl-precalificacion required">
                     Nombre
@@ -434,18 +609,14 @@ const RecursosHumanos = () => {
                   />
                 </div>
               </div>
-              {/* aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa */}
-
+              
               <hr />
-
               <h6 className="fw-bolder">
                 Completar segun la Performance alcanzada
               </h6>
-
               <div className="row">
                 <h6 className="mt-3 ms-3 fw-bolder text-secondary">Comentarios</h6>
               </div>
-
               <div className="row">
                 <div className="col-sm-2 p-5">
                   <h6 className="fw-bolder">30 dias:</h6>
@@ -461,7 +632,6 @@ const RecursosHumanos = () => {
                   </div>
                 </div>
               </div>
-
               <div className="row">
                 <div className="col-sm-2 p-5">
                   <h6 className="fw-bolder">60 dias:</h6>
@@ -477,7 +647,6 @@ const RecursosHumanos = () => {
                   </div>
                 </div>
               </div>
-
               <div className="row">
                 <div className="col-sm-2 p-5">
                   <h6 className="fw-bolder">80 dias:</h6>
@@ -494,11 +663,9 @@ const RecursosHumanos = () => {
                 </div>
               </div>
               <br />
-
               <h6 className="mt-3 ms-3 fw-bolder text-secondary">
                 Definicion de Continuidad
               </h6>
-
               <div className="row">
                 <div className="col-sm-2 p-3">
                   <h6 className="ms-3 fw-bolder">
@@ -517,8 +684,8 @@ const RecursosHumanos = () => {
                     ></Select>
                   </div>
                 </div>
-              </div> */}
-            </div>
+              </div>
+            </div> */}
 
           </div>
         </div>

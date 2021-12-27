@@ -9,30 +9,44 @@ import { obtenerAsunto } from "../Redux/AsuntoCaso";
 import { consultaFETCHcontacts } from "../Redux/Contact";
 import { consultaFETCHcuentas } from "../Redux/RecursosHumanos";
 import { consultaFETCHnombresAsuntos } from "../Redux/Casos";
+import { obtenerContacto } from "../Redux/Contacto";
 
 const Casos = () => {
   const dispatch = useDispatch();
-  
+
   //hooks
   const [contacts, setContacts] = React.useState([])
   const [llamada, setLlamada] = React.useState(false)
   const [selectCliente, setSelectCliente] = React.useState([]);
   const contactSelector = useSelector(store => store.contacts.contacts)
-  const [clienteSeleccionar, SetClienteSeleccionar] = React.useState("");
+
 
   const [sucursal, setSucursal] = React.useState([])
   const [llamadaSucu, setLlamadaSucu] = React.useState(false)
   const sucursalSelector = useSelector(store => store.recursosHumanos.cuentas)
   const [selectSucu, setSelectSucu] = React.useState([]);
-  const [sucursalSeleccionar, SetSucursalSeleccionar] = React.useState("");
 
   const [asuntos, setAsuntos] = React.useState([])
   const [llamadaAsuntos, setLlamadaAsuntos] = React.useState(false)
   const asuntosSelector = useSelector(store => store.casos.asuntos)
   const [selectAsunto, setSelectAsunto] = React.useState([]);
-  const [asuntoSeleccionar, setAsuntoSeleccionar] = React.useState("");
+
+  const [contacto, setContacto] = React.useState([]);
+  const [llamadaContactos, setLlamadaContactos] = React.useState(false);
+  const contactoSelector = useSelector((store) => store.contactos.contacto);
+  const contactid = useSelector((store) => store.usuarios.contactid);
   //----------------------
+  //datos para el post
+  const [clienteSeleccionar, SetClienteSeleccionar] = React.useState("");
+  const [sucursalSeleccionar, SetSucursalSeleccionar] = React.useState("");
+  //hook del asuntoPrimario
   const [selected, setSelected] = React.useState("")
+  //-----------------------
+  const [asuntoSeleccionar, setAsuntoSeleccionar] = React.useState("");
+  const [tipoC, setTipoC] = React.useState("")
+  const [fecha, setFecha] = React.useState("")
+  const [comentarios, setComentarios] = React.useState("")
+  const [solicitante, setSolicitante] = React.useState("")
 
   const fade = useSpring({
     from: {
@@ -54,31 +68,55 @@ const Casos = () => {
         obtenerContactos();
         setLlamada(true);
       }
-    }
 
-    if (sucursal.length === 0) {
-      if (sucursalSelector.length > 0 && llamadaSucu === true) {
-        setSucursal(sucursalSelector);
-        completarOpcionSede(sucursalSelector);
-      } else if (llamadaSucu === false) {
-        obtenerCuentas();
-        setLlamadaSucu(true);
+
+      if (sucursal.length === 0) {
+        if (sucursalSelector.length > 0 && llamadaSucu === true) {
+          setSucursal(sucursalSelector);
+          completarOpcionSede(sucursalSelector);
+        } else if (llamadaSucu === false) {
+          obtenerCuentas();
+          setLlamadaSucu(true);
+        }
+      }
+
+      if (asuntos.length === 0) {
+        if (asuntosSelector.length > 0 && llamadaAsuntos === true) {
+          setAsuntos(asuntosSelector);
+          completarOpcionAsunto(asuntosSelector);
+        } else if (llamadaAsuntos === false) {
+          obtenerAsuntos();
+          setLlamadaAsuntos(true);
+        }
+      }
+
+      if (
+        Object.keys(contactoSelector).length > 0 &&
+        llamadaContactos === true
+      ) {
+        setContacto(contactoSelector);
+
+
+      } else if (
+        Object.keys(contactoSelector).length === 0 &&
+        llamadaContactos === false
+      ) {
+        obtenerMiContacto();
+        setLlamadaContactos(true);
+      }
+
+      if (contacto.length > 0) {
+        var cliente = contacto.map(item => item.contactid)
+        SetClienteSeleccionar(cliente[0])
       }
     }
+  }, [contactSelector, sucursalSelector, contactoSelector]);
 
-    if (asuntos.length === 0) {
-      if (asuntosSelector.length > 0 && llamadaAsuntos === true) {
-        setAsuntos(asuntosSelector);
-        completarOpcionAsunto(asuntosSelector);
-      } else if (llamadaAsuntos === false) {
-        obtenerAsuntos();
-        setLlamadaAsuntos(true);
-      }
-    }
 
-  }, [contactSelector, sucursalSelector]);
 
-  console.log("state: ", asuntos);
+  const obtenerMiContacto = async () => {
+    dispatch(obtenerContacto(contactid));
+  }
 
   const obtenerAsuntos = () => {
     dispatch(consultaFETCHnombresAsuntos())
@@ -91,6 +129,52 @@ const Casos = () => {
   const obtenerContactos = () => {
     dispatch(consultaFETCHcontacts())
   }
+
+  //------handle del select de asuntosPrimarios
+
+  const selectOnChange = (valor) => {
+    setSelected(valor.value)
+  }
+  //VALOR POR DEFECTO
+  const valueInput = 'seleccionado correctamente' //completar con las opciones
+  let opcionesAsunto = ''
+  let input = ''
+  //HANDLE DE LA SELECCION PAYROLL
+  if (selected === '5') {
+    opcionesAsunto = valueInput
+  }
+  //MOSTRAR INPUTS
+  if (opcionesAsunto) {
+    input =
+      <div>
+        <div className="mb-2 p-2">
+          <label className="form-label fw-bolder lbl-precalificacion">
+            Solicitante
+          </label>
+          <input
+            onChange={e => setSolicitante(e.target.value)}
+            className="form-control"
+            id="solicitante"
+            name="solicitante"
+            placeholder=""
+          />
+        </div>
+        <div className="mb-2 p-2">
+          <label className="form-label fw-bolder lbl-precalificacion">
+            Puesto del solicitante
+          </label>
+          <Select
+            className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
+            id="psol"
+            name="psol"
+            className="basic multi-select"
+            ClassNamePrefix="select"
+            placeholder="..."
+          ></Select>
+        </div>
+      </div>
+  }
+  //----------------------------
 
   const completarOpcionCliente = (cliente) => {
     const client = [];
@@ -133,6 +217,30 @@ const Casos = () => {
     SetSucursalSeleccionar(valor.value);
   };
 
+  const tipoCasoHandle = (valor) => {
+    setTipoC(valor.value)
+  }
+
+  const tipoCaso = [
+    { value: '1', label: 'Consulta' },
+    { value: '2', label: 'Reclamo' },
+    { value: '3', label: 'Pedido' },
+  ]
+
+  const tipoAsuntoPrimario = [
+    { value: '1', label: 'SISTEMAS' },
+    { value: '2', label: 'ADMINISTRACION' },
+    { value: '3', label: 'COMUNICACIONES' },
+    { value: '4', label: 'FM' },
+    { value: '5', label: 'PAYROLL' },
+    { value: '6', label: 'COMERCIAL' },
+    { value: '7', label: 'CORPORATIVO' },
+    { value: '8', label: 'DISEÑO' },
+    { value: '9', label: 'SEGURIDAD' },
+    { value: '10', label: 'FITER - MESA DE AYUDA' },
+    { value: '100000000', label: 'GESTION MEDICA' },
+  ]
+
   return (
     <animated.div className="container" style={fade}>
       <div className="col-sm-12 mt-4">
@@ -154,6 +262,7 @@ const Casos = () => {
                       Fecha Alta
                     </label>
                     <input
+                      onChange={e => setFecha(e.target.value)}
                       type="datetime-local"
                       id="date"
                       name="altar"
@@ -168,37 +277,19 @@ const Casos = () => {
                     <label className="form-label fw-bolder lbl-precalificacion required">
                       Cliente
                     </label>
-                    <Select
-                      className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
-                      id="cliente"
-                      onChange={(e) => clienteHandle(e)}
-                      options={selectCliente}
-                      name="colors"
-                      name="cliente"
-                      name="colors"
-                      className="basic multi-select"
-                      ClassNamePrefix="select"
-                      placeholder="Elegir cliente..."
-                      required
-                    ></Select>
+                    <input
+                      id="disabledInput"
+                      value={contacto.map(item => item.fullname)}
+                      type="text"
+                      id="text"
+                      name="usuario"
+                      className="form-control"
+
+                    />
                   </div>
                   <div className="mb-2 p-2">
                     <label className="form-label fw-bolder lbl-precalificacion required">
-                    Estado del Caso
-                    </label>
-                    <Select
-                      className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
-                      id="EstadodelCaso"
-                      name="EstadodelCaso"
-                      className="basic multi-select"
-                      ClassNamePrefix="select"
-                      placeholder="Elegir estado..."
-                      required
-                    ></Select>
-                  </div>
-                  <div className="mb-2 p-2">
-                    <label className="form-label fw-bolder lbl-precalificacion required">
-                      Sede
+                      Sucursal
                     </label>
                     <Select
                       className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
@@ -217,6 +308,8 @@ const Casos = () => {
                       Asunto Primario
                     </label>
                     <Select
+                      onChange={(e) => selectOnChange(e)}
+                      options={tipoAsuntoPrimario}
                       className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
                       id="asuntoprima"
                       name="asunto-prima"
@@ -225,6 +318,9 @@ const Casos = () => {
                       placeholder="Elegir asunto primario..."
                       required
                     ></Select>
+                    {
+                      input
+                    }
                   </div>
 
                   <div className="mb-2 p-2">
@@ -248,64 +344,14 @@ const Casos = () => {
                       Tipo de caso
                     </label>
                     <Select
+                      onChange={(e) => tipoCasoHandle(e)}
+                      options={tipoCaso}
                       className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
                       id="tcaso"
                       name="tcaso"
                       className="basic multi-select"
                       ClassNamePrefix="select"
-                      placeholder="..."
-                    ></Select>
-                  </div>
-                  <div className="mb-2 p-2">
-                    <label className="form-label fw-bolder lbl-precalificacion">
-                      Solicitante
-                    </label>
-                    <Select
-                      className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
-                      id="solicitante"
-                      name="solicitante"
-                      className="basic multi-select"
-                      ClassNamePrefix="select"
-                      placeholder="Elegir solicitante..."
-                    ></Select>
-                  </div>
-                  <div className="mb-2 p-2">
-                    <label className="form-label fw-bolder lbl-precalificacion">
-                      Puesto del solicitante
-                    </label>
-                    <Select
-                      className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
-                      id="psol"
-                      name="psol"
-                      className="basic multi-select"
-                      ClassNamePrefix="select"
-                      placeholder="Elegir puesto..."
-                    ></Select>
-                  </div>
-                  <div className="mb-2 p-2">
-                    <label className="form-label fw-bolder lbl-precalificacion ">
-                      Area a escalar
-                    </label>
-                    <Select
-                      className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
-                      id="aescala"
-                      name="aescala"
-                      className="basic multi-select"
-                      ClassNamePrefix="select"
-                      placeholder="si tiene datos en ese campo (renombrar a Area a Derivar)"
-                    ></Select>
-                  </div>
-                  <div className="mb-2 p-2">
-                    <label className="form-label fw-bolder lbl-precalificacion ">
-                      Area a Derivar
-                    </label>
-                    <Select
-                      className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
-                      id="aderivar"
-                      name="aderivar"
-                      className="basic multi-select"
-                      ClassNamePrefix="select"
-                      placeholder="si tiene datos el campo (Area a escalar) ese campo se activa"
+                      placeholder="Elegir tipo de caso..."
                     ></Select>
                   </div>
                 </div>
@@ -319,6 +365,7 @@ const Casos = () => {
                 <div className="col-12 w-100">
                   <div class="form-group">
                     <textarea
+                      onChange={e => setComentarios(e.target.value)}
                       className="form-control mt-2"
                       id="exampleFormControlTextarea1"
                       rows="3"
