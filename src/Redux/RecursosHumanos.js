@@ -9,9 +9,12 @@ const dataInicial = {
     areas: [],
     sucursales: [],
     autorizadoPor: [],
+    ticket: '',
+    resultadoCaso: ''
 };
 
 //types
+const CARGA_DATOS_EXITO = 'CARGA_DATOS_EXITO'
 const OBTENER_AUTORIZADO_POR = 'OBTENER_AUTORIZADO_POR'
 const OBTENER_SUCURSALES = 'OBTENER_SUCURSALES'
 const OBTENER_AREAS = 'OBTENER_AREAS'
@@ -24,6 +27,8 @@ const ERROR = "ERROR";
 //reducers
 export default function recursosHumanosReducers(state = dataInicial, action) {
     switch (action.type) {
+        case CARGA_DATOS_EXITO:
+            return { ...state, resultadoCaso: action.resultadoCaso, ticket: action.ticket}
         case OBTENER_AUTORIZADO_POR:
             return { ...state, autorizadoPor: action.payload, loading: false}
         case OBTENER_SUCURSALES:
@@ -240,5 +245,27 @@ export const consultaFETCHautorizadoPor = () => async (dispatch) => {
         dispatch({
             type: ERROR,
         });
+    }
+}
+
+export const cargarForm = (puesto, motivoBusqueda, motivoReemplazo,sucursal, area , reporta, jornada, observaciones, reemplazode, tipoDeBusqueda, autorizadoPor) => async (dispatch) => {
+    dispatch({
+        type: LOADING,
+        resultadoCaso: 'LOADING'
+    })
+    try { 
+        const response = await axios.post(`${UrlApiDynamics}Busquedadepersonal?puesto=${puesto}&motivoBusqueda=${motivoBusqueda}&motivoReemplazo=${motivoReemplazo}&sucursal=${sucursal}&area=${area}&reporta=${reporta}&jornada=${jornada}&observaciones=${observaciones}&reemplazode=${reemplazode}&tipoDeBusqueda=${tipoDeBusqueda}&autorizadoPor=${autorizadoPor}&cuit=${Entidad}`)
+           console.log("response", response)
+        dispatch({
+            type: CARGA_DATOS_EXITO,
+            ticket: response.data,
+            resultadoCaso: 'EXITO',
+           
+        })
+    } catch (error) {
+        dispatch({
+            type: ERROR,
+            resultadoCaso: 'ERROR'
+        })
     }
 }

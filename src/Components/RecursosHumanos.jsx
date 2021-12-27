@@ -2,7 +2,7 @@ import React from "react";
 import Select from "react-select";
 import { useSpring, animated } from "react-spring";
 import { useDispatch, useSelector } from "react-redux";
-import { consultaFETCHpuesto, consultaFETCHareas, consultaFETCHsedesRH, consultaFETCHautorizadoPor } from "../Redux/RecursosHumanos";
+import { consultaFETCHpuesto, consultaFETCHareas, consultaFETCHsedesRH, consultaFETCHautorizadoPor, cargarForm } from "../Redux/RecursosHumanos";
 
 const RecursosHumanos = () => {
   const dispatch = useDispatch();
@@ -25,7 +25,7 @@ const RecursosHumanos = () => {
   const [autorizado, setAutorizado] = React.useState([])
   const [llamadaAutorizado, setLlamadaAutorizado] = React.useState(false)
   const autorizadoSelector = useSelector(store => store.recursosHumanos.autorizadoPor)
-  const [selectAutorizado, setSelectAutorizado] = React.useState()
+  const [selectAutorizado, setSelectAutorizado] = React.useState([])
 
   const [puestoSeleccionar, setPuestoSeleccionar] = React.useState('')
   const [mBusqueda, setMbusquedaSeleccionar] = React.useState('')
@@ -92,6 +92,11 @@ const RecursosHumanos = () => {
       delay: 1500,
     },
   });
+
+  const enviarFormulario = (e) => {
+    e.preventDefault()
+    dispatch(cargarForm(puestoSeleccionar, mBusqueda, descripcion, sucursalSeleccionar, areaSeleccionar, reporta, jornada, observaciones, personaAcargo, tipBusqueda, autorizadoSeleccionar, ))
+  }
 
   const obtenerAutorizado = () => {
     dispatch(consultaFETCHautorizadoPor())
@@ -193,7 +198,7 @@ const RecursosHumanos = () => {
 
 
             <div className="tab-pane fade show active p-3" id="busqueda" role="tabpanel" aria-labelledby="busqueda-tab">
-              <form>
+              <form onSubmit={enviarFormulario}>
                 <div className="col-sm-4 col-md-12">
                   <div className="mb-2 p-2">
                     <label className="form-label fw-bolder lbl-precalificacion required">
