@@ -92,32 +92,6 @@ const Casos = () => {
     dispatch(consultaFETCHcontacts())
   }
 
-  //handle del select de asuntos
-
-  
-  // const selectOnChange = (event) => {
-  //   setSelected(event.target.value)
-  // }
-
-  // const valueInput = '' //completar con las opciones
-
-  // let opcionesAsunto = null
-  // let input = null
-
-  // if(selected === 'opcion1'){
-  //   opcionesAsunto = ''
-  // } else if (selected === 'opcion2'){
-  //   opcionesAsunto = valueInput
-  // } else if (selected === 'opcion3'){
-  //   opcionesAsunto = ''
-  // }
-
-  // if(opcionesAsunto){
-  //   input = <input className="form-control" value={valueInput} />
-  // }
-
-  //----------------------------
-
   const completarOpcionCliente = (cliente) => {
     const client = [];
     cliente.forEach((item) => {
