@@ -7,6 +7,7 @@ import { obtenerLegales } from "../Redux/DocumentosLegales";
 import { useDispatch, useSelector } from "react-redux";
 import { consultaFETCHcuentas } from "../Redux/RecursosHumanos";
 import { consultaFETCHcontacts } from "../Redux/Contact";
+import { obtenerContacto } from "../Redux/Contacto";
 
 
 const Legales = () => {
@@ -30,7 +31,12 @@ const Legales = () => {
   const [selectCliente, setSelectCliente] = React.useState([]);
   const contactSelector = useSelector(store => store.contacts.contacts)
   const [clienteSeleccionar, SetClienteSeleccionar] = React.useState("");
+  const [Docdescripcion, setDocDescripcion] = React.useState('')
 
+  const [contacto, setContacto] = React.useState([]);
+  const [llamadaContactos, setLlamadaContactos] = React.useState(false);
+  const contactoSelector = useSelector((store) => store.contactos.contacto);
+  const contactid = useSelector((store) => store.usuarios.contactid);
 
   const fade = useSpring({
     from: {
@@ -67,7 +73,19 @@ const Legales = () => {
         setLlamadaSucu(true);
       }
     }
-
+      
+    if (
+      Object.keys(contactoSelector).length > 0 &&
+      llamadaContactos === true
+    ) {
+      setContacto(contactoSelector);
+    } else if (
+      Object.keys(contactoSelector).length === 0 &&
+      llamadaContactos === false
+    ) {
+      obtenerMiContacto();
+      setLlamadaContactos(true);
+    }
 
     if (contacts.length === 0) {
       if (contactSelector.length > 0 && llamada === true) {
@@ -79,7 +97,7 @@ const Legales = () => {
       }
     }
 
-  }, [legalesIdSelector, legalesSelector, sucursalSelector, contactSelector]);
+  }, [legalesIdSelector, legalesSelector, sucursalSelector, contactSelector, contactoSelector]);
 
   const obtenerlegal = () => {
     dispatch(obtenerLegales());
@@ -94,6 +112,10 @@ const Legales = () => {
   }
 
 
+  const obtenerMiContacto = async () => {
+    dispatch(obtenerContacto(contactid));
+  }
+
   const completarOpcionCliente = (cliente) => {
     const client = [];
     cliente.forEach((item) => {
@@ -106,7 +128,8 @@ const Legales = () => {
 
   const completarLegales = (id) => {
     legales.filter(item => item.new_documentoslegalesid == id).map(item => {
-        setAutor(item._new_personaquerecepcion_value)  
+        setAutor(item._new_personaquerecepcion_value) 
+         
     })
 }
 
@@ -129,21 +152,25 @@ const sucuHandle = (valor) => {
   SetSucursalSeleccionar(valor.value);
 };
 
+const docDescripcionHandle = (valor) => {
+  setDocDescripcion(valor.value)
+}
 
-//   const completarOpcionAutor = (autor) => {
-//     const aut = [];
-//     autor.forEach((item) => {
-//       var a = { value: item.createdby, label: item.createdby};
-//       autor.push(a);
-//     });
-//     setSelectAutor(aut);
-//   };
 
-//  console.log("autor", autor)
+const docDescripcion = [
+  {value: '100000000', label: 'CARTA DOCUMENTO'},
+  {value: '100000001', label: 'TELEGRAMA'},
+  {value: '100000002', label: 'CONTRATO'},
+  {value: '100000003', label: 'DENUNCIA'},
+  {value: '100000004', label: 'ACTA'},
+  {value: '100000005', label: 'NOTA'},
+  {value: '100000006', label: 'OTROS'},
+  {value: '100000007', label: 'CÉDULA'},
+  {value: '100000009', label: 'OFICIO'},
+  {value: '100000010', label: 'DEMANDA'},  
+]
 
-//   const autorHandle = (valor) => {
-//     SetAutorSeleccionar(valor.value);
-//   };
+
 
   return (
 
@@ -168,13 +195,20 @@ const sucuHandle = (valor) => {
                       Autor
                     </label>
                     <input
-                            type="text"
-                            id="autor"
-                            value={autor}
-                            name="autor"
-                            className="form-control requerido"
-                            required
-                            disabled
+
+                    //  {contacto.map((item) => (
+                    //   <h5 className="perfil-nombre m-0 fw-bolder">
+                    //      {item.fullname}
+                    //        </h5>
+                    //            ))}
+                             type="text"
+                             id="autor"
+                             value={contacto}
+                             name="autor"
+                             className="form-control requerido"
+                             required
+                             placeholder=" --- "
+                             disabled
                           />
                   </div>
                 </div>
@@ -229,6 +263,8 @@ const sucuHandle = (valor) => {
                     <Select
                       type="select"
                       id="select"
+                      onChange={e => docDescripcionHandle(e)}
+                      options={docDescripcion}
                       name="descripcion"
                       className="basic multi-select requerido"
                       classNamePrefix="select"

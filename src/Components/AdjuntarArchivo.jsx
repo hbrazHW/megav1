@@ -1,10 +1,21 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import useFileUpload from "react-use-file-upload";
+import styled from "styled-components";
 import axios from "axios";
+import Uploady, {
+  useItemStartListener,
+  useItemFinalizeListener,
+} from "@rpldy/uploady";
+import { getMockSenderEnhancer } from "@rpldy/mock-sender";
+import whithPasteUpload from "@rpldy/upload-paste";
+import UploadPreview from "@rpldy/upload-preview";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { copyImageToClipboard, getBlobFromImageElement,
-  copyBlobToClipboard } from "copy-image-clipboard";
+import {
+  copyImageToClipboard,
+  getBlobFromImageElement,
+  copyBlobToClipboard,
+} from "copy-image-clipboard";
 
 const AdjuntarArchivo = () => {
   const {
@@ -20,38 +31,37 @@ const AdjuntarArchivo = () => {
     removeFile,
   } = useFileUpload();
 
-  // const [isPaste, setIsPaste] = useState (false);
- 
-  // const handlePaste = () =>{
-  //   setIsPaste(true);
+  const mockSenderEnhancer = getMockSenderEnhancer();
+  const PreviewContainer = styled.div`
+    margin-top: 20px;
 
-  // };
-        
-// const target = document.querySelector("div.target");
+    img {
+      max-width: 400px;
+    }
+  `;
+  const StyledInput = styled.input`
+    width: 600px;
+    height: 64px;
+    font-size: 18px;
+    margin: 20px 0;
+    padding: 80px;
+  `;
 
-// target.addEventListener("paste" (e))=>{
-//   const item = 
-//   e.clipboardData.items[0];
-  
-//   if(item.type.indexOf("image") === 0{
-//     const blob = item.getAsfile();
-//     const reader =new FileReader ();
-//     reader.onload = (e) =>{
-//       document.getElementById("image").src = e.target.result;
-//     };
-//     reader.reasAsDataURL(blob);
-//   }
-//    e.preventDefault();
-// });
- 
+  const PasteInput = whithPasteUpload(StyledInput);
+
+  const UploadStatus = () => {
+    const [status, setStatus] = useState(null);
+    useItemStartListener(() => setStatus("cargando..."));
+    useItemFinalizeListener(() => setStatus("Archivo copiado!..."));
+
+    return status;
+  };
 
   const inputRef = useRef();
-  const imageElement = document.getElementById('image')
+  const imageElement = document.getElementById("image");
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const formData = createFormData();
-
     try {
       axios.post("https://some-api.com", formData, {
         "content-type": "multipart/form-data",
@@ -60,7 +70,6 @@ const AdjuntarArchivo = () => {
       console.error("Error archivo incompatible");
     }
   };
-
   // Pass the image src attribute here
   copyImageToClipboard("assets/image*")
     .then(() => {
@@ -78,49 +87,32 @@ const AdjuntarArchivo = () => {
     .catch((e) => {
       console.log("Error: ", e.message);
     });
-
-    getBlobFromImageElement(imageElement)
+  getBlobFromImageElement(imageElement)
     .then((blob) => {
-      return copyBlobToClipboard(blob)
+      return copyBlobToClipboard(blob);
     })
     .then(() => {
-      console.log('Blob Copied')
+      console.log("Blob Copied");
     })
     .catch((e) => {
-      console.log('Error: ', e.message)
-    })
-   
-    // useEffect(() => {
-     
-    //   setTimeout( ()=>{
-    //     if(isPaste) setIsPaste(false);
-    //   }, 2000 )
-       
-     
-    // }, [isPaste])
+      console.log("Error: ", e.message);
+    });
 
   return (
     <div ClassName="upload">
       <h1>Subir Archivos</h1>
-
-      <p>
-        Por favor, Arrastre o seleccione tus archivos en el box a la derecha
-      </p>
-
       <div className="form-container">
         <div>
           <ul>
             {fileNames.map((name) => (
               <li key={name}>
                 <span>{name}</span>
-
                 <span onClick={() => removeFile(name)}>
                   <i className="fa fa-times" />
                 </span>
               </li>
             ))}
           </ul>
-
           {files.length > 0 && (
             <ul>
               <li>Tipos de archivos: {fileTypes.join(", ")}</li>
@@ -135,24 +127,20 @@ const AdjuntarArchivo = () => {
         </div>
 
         {/* Provide a drop zone and an alternative button inside it to upload files. */}
-        <copyImageToClipboard  >
-
-          <div
-            style={{
-              marginTop: 5,
-              padding: 10,
-              fontStyle: "italic",
-              color: "red",
-              border: "1px solid red",
-              height: 500,
-            }}
-
-          >
-            Paste Area 
+        <Uploady debug enhancer={mockSenderEnhancer}>
+          <div className="">
+            <PasteInput
+              extraProps={{
+                placeholder: "pega acá tu printScreen con el comando Ctrl+V",
+              }}
+            />
+            <UploadStatus />
+            <PreviewContainer>
+              <UploadPreview />
+            </PreviewContainer>
           </div>
+        </Uploady>
 
-        </copyImageToClipboard>
-       
         <div
           onDragEnter={handleDragDropEvent}
           onDragOver={handleDragDropEvent}
@@ -162,12 +150,16 @@ const AdjuntarArchivo = () => {
           }}
         >
           <p>Arrastre y suelte aca tus archivos</p>
+          {/* <PasteInput
+              extraProps={{
+                placeholder: "Arrastre y suelte aca tus archivo",
+              }}
+            /> */}
 
           <button onClick={() => inputRef.current.click()}>
             O seleccione tus archivos para subirlos
           </button>
 
-              
           {/* Hide the crappy looking default HTML input */}
           <input
             ref={inputRef}
@@ -178,7 +170,6 @@ const AdjuntarArchivo = () => {
           />
         </div>
       </div>
-    
       <div className="submit">
         <button onClick={handleSubmit}>Enviar</button>
       </div>

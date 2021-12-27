@@ -25,6 +25,7 @@ import Legales from './Components/Legales';
 import Casos from './Components/Casos'
 import RecursosHumanos from './Components/RecursosHumanos';
 import AdjuntarArchivo from './Components/AdjuntarArchivo';
+import PastePrint from './Components/PastePrint';
 
 function App() {
   //Consantes
@@ -69,6 +70,7 @@ function App() {
             <Route component={Casos} path="/Casos" exact />
             <Route component={RecursosHumanos} path="/RecursosHumanos" exact />
             <Route component={AdjuntarArchivo} path="/AdjuntarArchivo" exact />
+            <Route component={PastePrint} path="/PastePrint" exact />
           </Switch>
         <Footer loggedUser={loggedUser} />
       </div>
