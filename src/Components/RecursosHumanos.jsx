@@ -95,7 +95,7 @@ const RecursosHumanos = () => {
 
   const enviarFormulario = (e) => {
     e.preventDefault()
-    dispatch(cargarForm(puestoSeleccionar, mBusqueda, descripcion, sucursalSeleccionar, areaSeleccionar, reporta, jornada, observaciones, personaAcargo, tipBusqueda, autorizadoSeleccionar, ))
+    dispatch(cargarForm(puestoSeleccionar, mBusqueda, descripcion, sucursalSeleccionar, areaSeleccionar, reporta, jornada, observaciones, tipBusqueda, autorizadoSeleccionar ))
   }
 
   const obtenerAutorizado = () => {

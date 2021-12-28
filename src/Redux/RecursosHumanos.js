@@ -248,13 +248,13 @@ export const consultaFETCHautorizadoPor = () => async (dispatch) => {
     }
 }
 
-export const cargarForm = (puesto, motivoBusqueda, motivoReemplazo,sucursal, area , reporta, jornada, observaciones, reemplazode, tipoDeBusqueda, autorizadoPor) => async (dispatch) => {
+export const cargarForm = (puesto, motivoBusqueda, motivoReemplazo,sucursal, area , reporta, jornada, observaciones, tipoDeBusqueda, autorizadoPor) => async (dispatch) => {
     dispatch({
         type: LOADING,
         resultadoCaso: 'LOADING'
     })
     try { 
-        const response = await axios.post(`${UrlApiDynamics}Busquedadepersonal?puesto=${puesto}&motivoBusqueda=${motivoBusqueda}&motivoReemplazo=${motivoReemplazo}&sucursal=${sucursal}&area=${area}&reporta=${reporta}&jornada=${jornada}&observaciones=${observaciones}&reemplazode=${reemplazode}&tipoDeBusqueda=${tipoDeBusqueda}&autorizadoPor=${autorizadoPor}&cuit=${Entidad}`)
+        const response = await axios.post(`${UrlApiDynamics}Busquedadepersonal?puesto=${puesto}&motivoBusqueda=${motivoBusqueda}&motivoReemplazo=${motivoReemplazo}&sucursal=${sucursal}&area=${area}&reporta=${reporta}&jornada=${jornada}&observaciones=${observaciones}&tipoDeBusqueda=${tipoDeBusqueda}&autorizadoPor=${autorizadoPor}&cuit=${Entidad}`)
            console.log("response", response)
         dispatch({
             type: CARGA_DATOS_EXITO,
