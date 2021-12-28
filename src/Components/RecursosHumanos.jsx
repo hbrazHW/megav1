@@ -95,7 +95,7 @@ const RecursosHumanos = () => {
 
   const enviarFormulario = (e) => {
     e.preventDefault()
-    dispatch(cargarForm(puestoSeleccionar, mBusqueda, descripcion, sucursalSeleccionar, areaSeleccionar, reporta, jornada, observaciones, personaAcargo, tipBusqueda, autorizadoSeleccionar, ))
+    dispatch(cargarForm(puestoSeleccionar, mBusqueda, descripcion, sucursalSeleccionar, areaSeleccionar, reporta, jornada, observaciones, tipBusqueda, autorizadoSeleccionar ))
   }
 
   const obtenerAutorizado = () => {
@@ -184,7 +184,7 @@ const RecursosHumanos = () => {
           <ul className="nav nav-tabs" id="myTab" role="tablist">
             <li className="nav-item" role="presentation">
               <button className="nav-link fw-bolder text-dark active" id="busqueda-tab" data-bs-toggle="tab" data-bs-target="#busqueda" type="button" role="tab" aria-controls="busqueda" aria-selected="true">
-                Busqueda de personal
+                Crear Busqueda de personal
               </button>
             </li>
             {/* <li className="nav-item" role="presentation">
@@ -609,7 +609,6 @@ const RecursosHumanos = () => {
                   />
                 </div>
               </div>
-              
               <hr />
               <h6 className="fw-bolder">
                 Completar segun la Performance alcanzada

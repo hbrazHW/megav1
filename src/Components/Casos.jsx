@@ -8,8 +8,6 @@ import { useSpring, animated } from "react-spring";
 import { obtenerAsunto } from "../Redux/AsuntoCaso";
 import { consultaFETCHcontacts } from "../Redux/Contact";
 import { consultaFETCHcuentas } from "../Redux/RecursosHumanos";
-import { consultaFETCHnombresAsuntos } from "../Redux/Casos";
-import { obtenerContacto } from "../Redux/Contacto";
 import { useDropzone } from "react-dropzone";
 import useFileUpload from "react-use-file-upload";
 import styled from "styled-components";
@@ -26,6 +24,8 @@ import {
   getBlobFromImageElement,
   copyBlobToClipboard,
 } from "copy-image-clipboard";
+import { cargarForm, consultaFETCHnombresAsuntos } from "../Redux/Casos";
+import { obtenerContacto } from "../Redux/Contacto";
 
 const Casos = () => {
   const dispatch = useDispatch();
@@ -34,7 +34,9 @@ const Casos = () => {
   const [contacts, setContacts] = React.useState([]);
   const [llamada, setLlamada] = React.useState(false);
   const [selectCliente, setSelectCliente] = React.useState([]);
-  const contactSelector = useSelector((store) => store.contacts.contacts);
+  const contactSelector = useSelector(store => store.contacts.contacts)
+
+
 
   const [sucursal, setSucursal] = React.useState([]);
   const [llamadaSucu, setLlamadaSucu] = React.useState(false);
@@ -42,29 +44,16 @@ const Casos = () => {
     (store) => store.recursosHumanos.cuentas
   );
   const [selectSucu, setSelectSucu] = React.useState([]);
-
   const [asuntos, setAsuntos] = React.useState([]);
   const [llamadaAsuntos, setLlamadaAsuntos] = React.useState(false);
   const asuntosSelector = useSelector((store) => store.casos.asuntos);
   const [selectAsunto, setSelectAsunto] = React.useState([]);
-
   const [contacto, setContacto] = React.useState([]);
   const [llamadaContactos, setLlamadaContactos] = React.useState(false);
   const contactoSelector = useSelector((store) => store.contactos.contacto);
   const contactid = useSelector((store) => store.usuarios.contactid);
   //----------------------
   //datos para el post
-  const [clienteSeleccionar, SetClienteSeleccionar] = React.useState("");
-  const [sucursalSeleccionar, SetSucursalSeleccionar] = React.useState("");
-  //hook del asuntoPrimario
-  const [selected, setSelected] = React.useState("");
-  //-----------------------
-  const [asuntoSeleccionar, setAsuntoSeleccionar] = React.useState("");
-  const [tipoC, setTipoC] = React.useState("");
-  const [fecha, setFecha] = React.useState("");
-  const [comentarios, setComentarios] = React.useState("");
-  const [solicitante, setSolicitante] = React.useState("");
-
   const {
     files,
     fileNames,
@@ -145,6 +134,20 @@ const Casos = () => {
       console.log("Error: ", e.message);
     });
 
+
+  const [fecha, setFecha] = React.useState("")
+  const [clienteSeleccionar, SetClienteSeleccionar] = React.useState("");
+  const [sede, setSede] = React.useState("")
+  //selected es referencia a asunto primario
+  const [selected, setSelected] = React.useState("")
+  const [solicitante, setSolicitante] = React.useState("")
+  const [puestoSolicitante, setPuestoSolicitante] = React.useState("")
+  const [asuntoSeleccionar, setAsuntoSeleccionar] = React.useState("");
+  const [tipoC, setTipoC] = React.useState("")
+  const [comentarios, setComentarios] = React.useState("")
+
+
+
   const fade = useSpring({
     from: {
       opacity: 0,
@@ -160,6 +163,12 @@ const Casos = () => {
       if (contactSelector.length > 0 && llamada === true) {
         setContacts(contactSelector);
         completarOpcionCliente(contactSelector);
+        let contactomatch = []
+        contactSelector.filter(cntc => cntc.contactid === contactid).map(item => (
+          contactomatch.push(item)
+        ))
+        console.log("resultado:", contactomatch)
+        setSede(contactomatch[0]._parentcustomerid_value)
       } else if (llamada === false) {
         obtenerContactos();
         setLlamada(true);
@@ -183,6 +192,7 @@ const Casos = () => {
           obtenerAsuntos();
           setLlamadaAsuntos(true);
         }
+        
       }
 
       if (
@@ -190,6 +200,8 @@ const Casos = () => {
         llamadaContactos === true
       ) {
         setContacto(contactoSelector);
+
+
       } else if (
         Object.keys(contactoSelector).length === 0 &&
         llamadaContactos === false
@@ -199,15 +211,33 @@ const Casos = () => {
       }
 
       if (contacto.length > 0) {
-        var cliente = contacto.map((item) => item.contactid);
-        SetClienteSeleccionar(cliente[0]);
+        var cliente = contacto.map(item => item.contactid)
+        console.log("cliente:", cliente)
+        SetClienteSeleccionar(cliente[0])
       }
+
     }
   }, [contactSelector, sucursalSelector, contactoSelector]);
 
+  console.log("fecha:", fecha)
+  console.log("cliente:", clienteSeleccionar)
+  console.log("sede:", sede)
+  console.log("selectedPrimario:", selected)
+  console.log("solicitante:", solicitante)
+  console.log("puesto solicitante:", puestoSolicitante)
+  console.log("asunto:", asuntoSeleccionar)
+  console.log("tipoc", tipoC)
+  console.log("comentarios:", comentarios)
+
+  const enviarFormulario = (e) => {
+    e.preventDefault()
+    dispatch(cargarForm(clienteSeleccionar, asuntoSeleccionar, fecha, selected, solicitante, puestoSolicitante, tipoC, comentarios, sede))
+  }
+
   const obtenerMiContacto = async () => {
     dispatch(obtenerContacto(contactid));
-  };
+  }
+
 
   const obtenerAsuntos = () => {
     dispatch(consultaFETCHnombresAsuntos());
@@ -218,32 +248,37 @@ const Casos = () => {
   };
 
   const obtenerContactos = () => {
-    dispatch(consultaFETCHcontacts());
-  };
+
+    dispatch(consultaFETCHcontacts())
+  }
+
 
   //------handle del select de asuntosPrimarios
 
   const selectOnChange = (valor) => {
-    setSelected(valor.value);
-  };
+
+    setSelected(valor.value)
+  }
   //VALOR POR DEFECTO
-  const valueInput = "seleccionado correctamente"; //completar con las opciones
-  let opcionesAsunto = "";
-  let input = "";
+  const valueInput = 'seleccionado correctamente' //completar con las opciones
+  let opcionesAsunto = ''
+  let input = ''
   //HANDLE DE LA SELECCION PAYROLL
-  if (selected === "5") {
-    opcionesAsunto = valueInput;
+  if (selected === '5') {
+    opcionesAsunto = valueInput
   }
   //MOSTRAR INPUTS
   if (opcionesAsunto) {
-    input = (
+    input =
+
       <div>
         <div className="mb-2 p-2">
           <label className="form-label fw-bolder lbl-precalificacion">
             Solicitante
           </label>
           <input
-            onChange={(e) => setSolicitante(e.target.value)}
+            onChange={e => setSolicitante(e.target.value)}
+
             className="form-control"
             id="solicitante"
             name="solicitante"
@@ -254,19 +289,27 @@ const Casos = () => {
           <label className="form-label fw-bolder lbl-precalificacion">
             Puesto del solicitante
           </label>
-          <Select
-            className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
+
+          <input
+            onChange={e => setPuestoSolicitante(e.target.value)}
             id="psol"
             name="psol"
-            className="basic multi-select"
-            ClassNamePrefix="select"
-            placeholder="..."
-          ></Select>
+            className="form-control"
+            placeholder=""
+          />
         </div>
       </div>
-    );
+
   }
   //----------------------------
+
+  const obtenerNombreSede = (sede) => {
+    let sedeMatch = ''
+    sucursal.filter(s => s.accountid === sede).map(item => (
+      sedeMatch = item.name
+    ))
+    return sedeMatch
+  }
 
   const completarOpcionCliente = (cliente) => {
     const client = [];
@@ -299,13 +342,31 @@ const Casos = () => {
     setAsuntoSeleccionar(valor.value);
   };
 
-  const clienteHandle = (valor) => {
-    SetClienteSeleccionar(valor.value);
-  };
+  const tipoCasoHandle = (valor) => {
+    setTipoC(valor.value)
+  }
 
-  const sucuHandle = (valor) => {
-    SetSucursalSeleccionar(valor.value);
-  };
+
+
+  const tipoCaso = [
+    { value: '1', label: 'Consulta' },
+    { value: '2', label: 'Reclamo' },
+    { value: '3', label: 'Pedido' },
+  ]
+
+  const tipoAsuntoPrimario = [
+    { value: '1', label: 'SISTEMAS' },
+    { value: '2', label: 'ADMINISTRACION' },
+    { value: '3', label: 'COMUNICACIONES' },
+    { value: '4', label: 'FM' },
+    { value: '5', label: 'PAYROLL' },
+    { value: '6', label: 'COMERCIAL' },
+    { value: '7', label: 'CORPORATIVO' },
+    { value: '8', label: 'DISEÑO' },
+    { value: '9', label: 'SEGURIDAD' },
+    { value: '10', label: 'FITER - MESA DE AYUDA' },
+    { value: '100000000', label: 'GESTION MEDICA' },
+  ]
 
   const tipoCasoHandle = (valor) => {
     setTipoC(valor.value);
@@ -340,7 +401,7 @@ const Casos = () => {
               <h4 className="fw-bolder text-center">Crear Nuevo Caso</h4>
             </div>
           </div>
-          <form>
+          <form onSubmit={enviarFormulario}>
             <div className="row w-auto d-flex justify-content-center">
               <h6 className="fw-bolder">Información general</h6>
               <div className="row">
@@ -350,7 +411,7 @@ const Casos = () => {
                       Fecha Alta
                     </label>
                     <input
-                      onChange={(e) => setFecha(e.target.value)}
+                      onChange={e => setFecha(e.target.value)}
                       type="datetime-local"
                       id="date"
                       name="altar"
@@ -367,7 +428,7 @@ const Casos = () => {
                     </label>
                     <input
                       id="disabledInput"
-                      value={contacto.map((item) => item.fullname)}
+                      value={contacto.map(item => item.fullname)}
                       type="text"
                       id="text"
                       name="usuario"
@@ -378,17 +439,13 @@ const Casos = () => {
                     <label className="form-label fw-bolder lbl-precalificacion required">
                       Sucursal
                     </label>
-                    <Select
-                      className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
+                    <input
                       id="Sucursal"
-                      onChange={(e) => sucuHandle(e)}
-                      options={selectSucu}
+                      value={obtenerNombreSede(sede)}
                       name="sucursal"
-                      className="basic multi-select"
-                      ClassNamePrefix="select"
-                      placeholder="Elegir sucursal..."
+                      className="form-control"
                       required
-                    ></Select>
+                    />
                   </div>
                   <div className="mb-2 p-2">
                     <label className="form-label fw-bolder lbl-precalificacion required">
@@ -405,7 +462,10 @@ const Casos = () => {
                       placeholder="Elegir asunto primario..."
                       required
                     ></Select>
-                    {input}
+
+                    {
+                      input
+                    }
                   </div>
 
                   <div className="mb-2 p-2">
@@ -450,7 +510,7 @@ const Casos = () => {
                 <div className="col-12 w-100">
                   <div class="form-group">
                     <textarea
-                      onChange={(e) => setComentarios(e.target.value)}
+                      onChange={e => setComentarios(e.target.value)}
                       className="form-control mt-2"
                       id="exampleFormControlTextarea1"
                       rows="3"
