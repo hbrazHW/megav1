@@ -3,9 +3,9 @@ import Select from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCloudUploadAlt } from "@fortawesome/free-solid-svg-icons";
 import { useSpring, animated } from "react-spring";
-import { obtenerLegales } from "../Redux/DocumentosLegales";
+import { obtenerLegales,  cargarForm} from "../Redux/DocumentosLegales";
 import { useDispatch, useSelector } from "react-redux";
-import { consultaFETCHcuentas } from "../Redux/RecursosHumanos";
+import { consultaFETCHcuentas,  } from "../Redux/RecursosHumanos";
 import { consultaFETCHcontacts } from "../Redux/Contact";
 import { obtenerContacto } from "../Redux/Contacto";
 
@@ -14,7 +14,6 @@ const Legales = () => {
   const dispatch = useDispatch();
 
   //const legales
-  const [autor, setAutor] = React.useState([])
   const legalesSelector = useSelector((store) => store.legales.legales);
   const legalesIdSelector = useSelector (store => store.legales.legalesId)
   const [legales, setLegales] = React.useState([]);
@@ -37,6 +36,17 @@ const Legales = () => {
   const [llamadaContactos, setLlamadaContactos] = React.useState(false);
   const contactoSelector = useSelector((store) => store.contactos.contacto);
   const contactid = useSelector((store) => store.usuarios.contactid);
+  const [fecha, setFecha] = React.useState("");
+
+
+ // autor, fechaRecepcion, descripcionDoc, sede, persona, observaciones
+ const [autor, setAutor] = React.useState('')
+ const [fechaRecepcion, setFechaRecepcion] = React.useState('')
+ const [descripcionDoc, setDescripcionDoc] = React.useState('')
+ const [sede, setSede] = React.useState('')
+ const [persona, setPersona] = React.useState('')
+ const [observaciones, setObservaciones] = React.useState('')
+
 
   const fade = useSpring({
     from: {
@@ -47,6 +57,7 @@ const Legales = () => {
       delay: 1500,
     },
   });
+
 
   React.useEffect(() => {
     if (legales.length === 0) {
@@ -97,7 +108,18 @@ const Legales = () => {
       }
     }
 
+    if (contacto.length > 0) {
+      var autor = contacto.map(item => item.contactid)
+      console.log("autor:", autor)
+      setAutor(autor[0])
+    }
+
   }, [legalesIdSelector, legalesSelector, sucursalSelector, contactSelector, contactoSelector]);
+
+  const enviarFormulario = (e) => {
+    e.preventDefault()
+    dispatch(cargarForm( autor, fechaRecepcion, descripcionDoc, sede, persona, observaciones ))
+  }
 
   const obtenerlegal = () => {
     dispatch(obtenerLegales());
@@ -152,10 +174,20 @@ const sucuHandle = (valor) => {
   SetSucursalSeleccionar(valor.value);
 };
 
-const docDescripcionHandle = (valor) => {
-  setDocDescripcion(valor.value)
+const setDescripcionDocHandle = (valor) => {
+  setDescripcionDoc(valor.value)
 }
 
+
+const sedeHandle = (valor) => {
+  setSede(valor.value)
+}
+ 
+
+const personaHandle = (valor) => {
+  setPersona(valor.value)
+}
+   
 
 const docDescripcion = [
   {value: '100000000', label: 'CARTA DOCUMENTO'},
@@ -178,14 +210,12 @@ const docDescripcion = [
     <animated.div className="container" style={fade}>
       <div className="col-sm-12 mt-4">
         <div className="card p-2 shadow pad borde-none sgr mb-4">
-
           <div className="row">
             <div className="m-2">
               <h4 className="fw-bolder text-center">Crear Documento Legal</h4>
-
             </div>
           </div>
-          <form>
+          <form onSubmit={enviarFormulario}>
             <div className="row w-auto d-flex justify-content-center">
               <h6 className="fw-bolder">Ficha</h6>
               <div className="row">
@@ -213,10 +243,11 @@ const docDescripcion = [
                       Fecha de Recepción
                     </label>
                     <input
-                      type="date"
-                      id="date"
-                      className="form-control requerido"
-                      placeholder="Elegir fecha..."
+                      onChange={(e) => setFechaRecepcion(e.target.value)}
+                      type="datetime-local"
+                      id="fechaRecepcion"
+                      name="fechaRecepcion"
+                      className="form-control"
                       required
                     ></input>
                   </div>
@@ -227,10 +258,11 @@ const docDescripcion = [
                       Fecha de modificación
                     </label>
                     <input
-                      type="date"
+                      type="datetime-local"
                       id="date"
-                      name="date"
+                      name="altar"
                       className="form-control desabilitado"
+                      required
                       disabled
                     />
                   </div>
@@ -241,11 +273,12 @@ const docDescripcion = [
                       Fecha de Creación
                     </label>
                     <input
-                      type="date"
-                      id="date"
-                      name="date"
-                      className="form-control desabilitado"
-                      disabled
+                       type="datetime-local"
+                       id="date"
+                       name="altar"
+                       className="form-control"
+                       required
+                       disabled
                     />
                   </div>
                 </div>
@@ -256,10 +289,10 @@ const docDescripcion = [
                     </label>
                     <Select
                       type="select"
-                      id="select"
-                      onChange={e => docDescripcionHandle(e)}
+                      id="descripcionDoc"
+                      onChange={e => setDescripcionDocHandle(e)}
                       options={docDescripcion}
-                      name="descripcion"
+                      name="descripcionDoc"
                       className="basic multi-select requerido"
                       classNamePrefix="select"
                       required
@@ -273,12 +306,10 @@ const docDescripcion = [
                     </label>
                     <Select
                       className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
-                      id="cliente"
-                      onChange={(e) => clienteHandle(e)}
+                      id="persona"
+                      onChange={(e) => personaHandle(e)}
                       options={selectCliente}
-                      name="colors"
-                      name="cliente"
-                      name="colors"
+                      name="persona"
                       className="basic multi-select"
                       ClassNamePrefix="select"
                       placeholder="Elegir persona..."
@@ -292,10 +323,10 @@ const docDescripcion = [
                       </label>
                       <Select
                       className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
-                      id="Sucursal"
-                      onChange={(e) => sucuHandle(e)}
+                      id="sede"
+                      onChange={(e) => sedeHandle(e)}
                       options={selectSucu}
-                      name="sucursal"
+                      name="sede"
                       className="basic multi-select"
                       ClassNamePrefix="select"
                       placeholder="Elegir Sede..."
@@ -307,10 +338,12 @@ const docDescripcion = [
                         Razón para el estado
                       </label>
                       <input
-                        type="hidden"
+                        type="text"
                         id="razon"
                         name="razon"
-                        className="form"
+                        className="form-control desabilitado"
+                        placeholder="Sin Recepcionar"
+                        disabled
                       />
                     </div>
                   </div>
@@ -326,10 +359,11 @@ const docDescripcion = [
                   <div class="form-group">
                     <textarea
                       className="form-control mt-2"
-                      id="exampleFormControlTextarea1"
+                      id="observaciones"
+                      name="observaciones"
                       rows="3"
-                      // onChange={e => setDescripcion(e.target.value)}
-                      // value={descripcion}
+                      onChange={e => setObservaciones(e.target.value)}
+                      value={observaciones}
                       placeholder="comentanos un poco más..."
                     ></textarea>
                     <br />
@@ -342,7 +376,7 @@ const docDescripcion = [
               <button
                 type="submit"
                 name="btnSubmitAlyc"
-                className="btn btn-secondary"
+                className="btn btn-outline-dark me-md-5"
               >
                 Enviar
               </button>

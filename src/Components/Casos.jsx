@@ -27,7 +27,6 @@ import {
   copyBlobToClipboard,
 } from "copy-image-clipboard";
 
-
 const Casos = () => {
   const dispatch = useDispatch();
 
@@ -487,10 +486,15 @@ const Casos = () => {
             </div>
 
             <div class="card">
-              <div class="card-header fw-bolder d-grid gap-5 d-md-flex justify-content-center">Adjuntar Archivos <FontAwesomeIcon icon={faFile} className="fs-4 justify-content-center" color="rgb(245,130,32)" /></div>
-             
-               
-             
+              <div class="card-header fw-bolder d-grid gap-5 d-md-flex justify-content-center">
+                Adjuntar Archivos{" "}
+                <FontAwesomeIcon
+                  icon={faFile}
+                  className="fs-4 justify-content-center"
+                  color="rgb(245,130,32)"
+                />
+              </div>
+
               <div class="card-body">
                 <h5 class="card-title">Detalles de sus archivos</h5>
                 <div>
@@ -498,38 +502,35 @@ const Casos = () => {
                     {fileNames.map((name) => (
                       <li key={name}>
                         <span>{name}</span>
-                        <span
-                         onClick={() => removeFile(name)}
-                         
-                         >
+                        <span onClick={() => removeFile(name)}>
                           <i className="fa fa-times" />
                         </span>
                       </li>
                     ))}
-                  </ul> 
-                   {files.length > 0 && (
+                  </ul>
+                  {files.length > 0 && (
                     <ul>
-                      <li>Tipos de archivos:
-                         {fileTypes.join(", ")}
+                      <li>
+                        Tipos de archivos:
+                        {fileTypes.join(", ")}
                       </li>
-                      <li>Tamaño total:
-                         {totalSize}
-                         </li>
-                      <li>Total Bytes:
-                         {totalSizeInBytes}
-                         </li>
+                      <li>
+                        Tamaño total:
+                        {totalSize}
+                      </li>
+                      <li>
+                        Total Bytes:
+                        {totalSizeInBytes}
+                      </li>
 
                       <li className="clear-all">
-                        <button
-                         onClick={() => clearAllFiles()}
-
-                         >
+                        <button onClick={() => clearAllFiles()}>
                           Limpiar todo
                         </button>
                       </li>
                     </ul>
                   )}
-                </div> 
+                </div>
 
                 {/* Provide a drop zone and an alternative button inside it to upload files. */}
                 <Uploady debug enhancer={mockSenderEnhancer}>
@@ -547,19 +548,17 @@ const Casos = () => {
                   </div>
                 </Uploady>
                 <div
-                
-                onDragEnter={handleDragDropEvent}
-                onDragOver={handleDragDropEvent}
-                onDrop={(e) => {
-                  handleDragDropEvent(e);
-                  setFiles(e, "a");
-                }}
+                  onDragEnter={handleDragDropEvent}
+                  onDragOver={handleDragDropEvent}
+                  onDrop={(e) => {
+                    handleDragDropEvent(e);
+                    setFiles(e, "a");
+                  }}
                 >
                   <br />
                   <p>Arrastre y suelte aca tus archivos</p>
 
-                  <br/>
-                  
+                  <br />
 
                   <button
                     type="button"
