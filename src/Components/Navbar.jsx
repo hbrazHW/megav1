@@ -255,7 +255,7 @@ const Navbar = (props) => {
                               </p>
                             </div>
                           </div>
-                          <div className="row border-bottom pb-1">
+                          {/* <div className="row border-bottom pb-1">
                             <div className="col-12 mt-2">
                               <Link
                                 className=" mr-5 text-decoration-none"
@@ -266,7 +266,7 @@ const Navbar = (props) => {
                                 </button>
                               </Link>
                             </div>
-                          </div>
+                          </div> */}
                           <div className="col-12 mt-2">
                             <div className="mt-1">
                               <button
@@ -416,7 +416,7 @@ const Navbar = (props) => {
                               ))}
                             </div>
                           </div>
-                          <div className="row border-bottom pb-1">
+                          {/* <div className="row border-bottom pb-1">
                             <div className="col-12 mt-2">
                               <Link
                                 className=" mr-5 text-decoration-none"
@@ -427,7 +427,7 @@ const Navbar = (props) => {
                                 </button>
                               </Link>
                             </div>
-                          </div>
+                          </div> */}
                           <div className="col-12 mt-2">
                             <div className="mt-1">
                               <button

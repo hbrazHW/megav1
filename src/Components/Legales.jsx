@@ -1,36 +1,54 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import Select from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCloudUploadAlt } from "@fortawesome/free-solid-svg-icons";
+import { faFile } from "@fortawesome/free-solid-svg-icons";
 import { useSpring, animated } from "react-spring";
-import { obtenerLegales,  cargarForm} from "../Redux/DocumentosLegales";
+import { obtenerLegales, cargarForm } from "../Redux/DocumentosLegales";
 import { useDispatch, useSelector } from "react-redux";
-import { consultaFETCHcuentas,  } from "../Redux/RecursosHumanos";
+import { consultaFETCHcuentas } from "../Redux/RecursosHumanos";
 import { consultaFETCHcontacts } from "../Redux/Contact";
 import { obtenerContacto } from "../Redux/Contacto";
-
+import { useDropzone } from "react-dropzone";
+import useFileUpload from "react-use-file-upload";
+import styled from "styled-components";
+import axios from "axios";
+import Uploady, {
+  useItemStartListener,
+  useItemFinalizeListener,
+} from "@rpldy/uploady";
+import { getMockSenderEnhancer } from "@rpldy/mock-sender";
+import whithPasteUpload from "@rpldy/upload-paste";
+import UploadPreview from "@rpldy/upload-preview";
+import { obtenerDocumentosPorCuenta, cargarDocumentacionPorCuenta } from '../Redux/CarpetaDigital'
+import {
+  copyImageToClipboard,
+  getBlobFromImageElement,
+  copyBlobToClipboard,
+} from "copy-image-clipboard";
 
 const Legales = () => {
   const dispatch = useDispatch();
 
   //const legales
   const legalesSelector = useSelector((store) => store.legales.legales);
-  const legalesIdSelector = useSelector (store => store.legales.legalesId)
+  const legalesIdSelector = useSelector((store) => store.legales.legalesId);
   const [legales, setLegales] = React.useState([]);
   const [llamadaLegales, setlLlmadaLegales] = React.useState(false);
 
-  const [sucursal, setSucursal] = React.useState([])
-  const [llamadaSucu, setLlamadaSucu] = React.useState(false)
-  const sucursalSelector = useSelector(store => store.recursosHumanos.cuentas)
+  const [sucursal, setSucursal] = React.useState([]);
+  const [llamadaSucu, setLlamadaSucu] = React.useState(false);
+  const sucursalSelector = useSelector(
+    (store) => store.recursosHumanos.cuentas
+  );
   const [selectSucu, setSelectSucu] = React.useState([]);
   const [sucursalSeleccionar, SetSucursalSeleccionar] = React.useState("");
 
-  const [contacts, setContacts] = React.useState([])
-  const [llamada, setLlamada] = React.useState(false)
+  const [contacts, setContacts] = React.useState([]);
+  const [llamada, setLlamada] = React.useState(false);
   const [selectCliente, setSelectCliente] = React.useState([]);
-  const contactSelector = useSelector(store => store.contacts.contacts)
+  const contactSelector = useSelector((store) => store.contacts.contacts);
   const [clienteSeleccionar, SetClienteSeleccionar] = React.useState("");
-  const [Docdescripcion, setDocDescripcion] = React.useState('')
+  const [Docdescripcion, setDocDescripcion] = React.useState("");
 
   const [contacto, setContacto] = React.useState([]);
   const [llamadaContactos, setLlamadaContactos] = React.useState(false);
@@ -38,15 +56,52 @@ const Legales = () => {
   const contactid = useSelector((store) => store.usuarios.contactid);
   const [fecha, setFecha] = React.useState("");
 
+  // autor, fechaRecepcion, descripcionDoc, sede, persona, observaciones
+  const [autor, setAutor] = React.useState("");
+  const [fechaRecepcion, setFechaRecepcion] = React.useState("");
+  const [descripcionDoc, setDescripcionDoc] = React.useState("");
+  const [sede, setSede] = React.useState("");
+  const [persona, setPersona] = React.useState("");
+  const [observaciones, setObservaciones] = React.useState("");
 
- // autor, fechaRecepcion, descripcionDoc, sede, persona, observaciones
- const [autor, setAutor] = React.useState('')
- const [fechaRecepcion, setFechaRecepcion] = React.useState('')
- const [descripcionDoc, setDescripcionDoc] = React.useState('')
- const [sede, setSede] = React.useState('')
- const [persona, setPersona] = React.useState('')
- const [observaciones, setObservaciones] = React.useState('')
+  ///mensajes
+  const [show, setShow] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+  const [mensaje, setMensaje] = React.useState("");
+  const [error, setError] = React.useState(false);
+//upload archivo
 
+const [selectedFiles, setSelectedFiles] = React.useState([])
+const [isFilePicked, setIsFilePicked] = React.useState(false);
+const [documentoId, setDocumentoId] = React.useState('')
+const [documento, setDocumento] = React.useState('')
+
+  const mockSenderEnhancer = getMockSenderEnhancer();
+const PreviewContainer = styled.div`
+margin-top: 20px;
+
+img {
+  max-width: 400px;
+}
+`;
+const StyledInput = styled.input`
+ width: 300px;
+ height:34px;
+ font-size: 18px;
+ margin: 20px 0;
+ padding: 80px;
+
+`;
+// const PasteUploadDropZone = whithPasteUpload(StyleDropZone);
+
+const PasteInput = whithPasteUpload(StyledInput);
+
+const UploadStatus = () => {
+    const [status, setStatus] = useState(null);
+    useItemStartListener(() => setStatus("cargando..."));
+    useItemFinalizeListener(() => setStatus ("Archivo copiado!..."));
+  return status;
+}
 
   const fade = useSpring({
     from: {
@@ -58,23 +113,22 @@ const Legales = () => {
     },
   });
 
-
   React.useEffect(() => {
     if (legales.length === 0) {
       if (legalesSelector.length > 0 && llamadaLegales === true) {
         setLegales(legalesSelector);
       } else if (llamadaLegales === false) {
-        obtenerlegal()
+        obtenerlegal();
         setlLlmadaLegales(true);
       }
     }
 
-    if(legalesIdSelector !== undefined) {
-      if(legalesIdSelector !== '') {
-        completarLegales(legalesIdSelector)
+    if (legalesIdSelector !== undefined) {
+      if (legalesIdSelector !== "") {
+        completarLegales(legalesIdSelector);
       }
     }
- 
+
     if (sucursal.length === 0) {
       if (sucursalSelector.length > 0 && llamadaSucu === true) {
         setSucursal(sucursalSelector);
@@ -84,11 +138,8 @@ const Legales = () => {
         setLlamadaSucu(true);
       }
     }
-      
-    if (
-      Object.keys(contactoSelector).length > 0 &&
-      llamadaContactos === true
-    ) {
+
+    if (Object.keys(contactoSelector).length > 0 && llamadaContactos === true) {
       setContacto(contactoSelector);
     } else if (
       Object.keys(contactoSelector).length === 0 &&
@@ -109,34 +160,47 @@ const Legales = () => {
     }
 
     if (contacto.length > 0) {
-      var autor = contacto.map(item => item.contactid)
-      console.log("autor:", autor)
-      setAutor(autor[0])
+      var autor = contacto.map((item) => item.contactid);
+      console.log("autor:", autor);
+      setAutor(autor[0]);
     }
-
-  }, [legalesIdSelector, legalesSelector, sucursalSelector, contactSelector, contactoSelector]);
+  }, [
+    legalesIdSelector,
+    legalesSelector,
+    sucursalSelector,
+    contactSelector,
+    contactoSelector,
+  ]);
 
   const enviarFormulario = (e) => {
-    e.preventDefault()
-    dispatch(cargarForm( autor, fechaRecepcion, descripcionDoc, sede, persona, observaciones ))
-  }
+    e.preventDefault();
+    dispatch(
+      cargarForm(
+        autor,
+        fechaRecepcion,
+        descripcionDoc,
+        sede,
+        persona,
+        observaciones
+      )
+    );
+  };
 
   const obtenerlegal = () => {
     dispatch(obtenerLegales());
   };
 
   const obtenerCuentas = () => {
-    dispatch(consultaFETCHcuentas())
-  }
+    dispatch(consultaFETCHcuentas());
+  };
 
   const obtenerContactos = () => {
-    dispatch(consultaFETCHcontacts())
-  }
-
+    dispatch(consultaFETCHcontacts());
+  };
 
   const obtenerMiContacto = async () => {
     dispatch(obtenerContacto(contactid));
-  }
+  };
 
   const completarOpcionCliente = (cliente) => {
     const client = [];
@@ -147,66 +211,108 @@ const Legales = () => {
     setSelectCliente(client);
   };
 
-
   const completarLegales = (id) => {
-    legales.filter(item => item.new_documentoslegalesid == id).map(item => {
-        setAutor(item._new_personaquerecepcion_value) 
-         
-    })
-}
+    legales
+      .filter((item) => item.new_documentoslegalesid == id)
+      .map((item) => {
+        setAutor(item._new_personaquerecepcion_value);
+      });
+  };
 
-const completarOpcionSede = (sede) => {
-  const sucursal = [];
-  sede.forEach((item) => {
-    var a = { value: item.accountid, label: item.name };
-    sucursal.push(a)
+  const completarOpcionSede = (sede) => {
+    const sucursal = [];
+    sede.forEach((item) => {
+      var a = { value: item.accountid, label: item.name };
+      sucursal.push(a);
+    });
+    setSelectSucu(sucursal);
+  };
 
-  });
-  setSelectSucu(sucursal);
+  const clienteHandle = (valor) => {
+    SetClienteSeleccionar(valor.value);
+  };
+
+  const sucuHandle = (valor) => {
+    SetSucursalSeleccionar(valor.value);
+  };
+
+  const setDescripcionDocHandle = (valor) => {
+    setDescripcionDoc(valor.value);
+  };
+
+  const sedeHandle = (valor) => {
+    setSede(valor.value);
+  };
+
+  const personaHandle = (valor) => {
+    setPersona(valor.value);
+  };
+
+  const changeHandler = (event) => {
+    setSelectedFiles(event.target.files)
+    setIsFilePicked(true);
 };
 
+const handleSubmission = (e) => {
+  e.preventDefault()
 
-const clienteHandle = (valor) => {
-  SetClienteSeleccionar(valor.value);
-};
+  if (documentoId === '') {
+      document.getElementById("documento").classList.add('is-invalid')
+      setMensaje("El documento es requerido!")
+      setError(true)
+      setShow(true)
+      return
+  } else {
+      document.getElementById("documento").classList.remove('is-invalid')
+      document.getElementById("documento").classList.add("is-valid")
+  }
+  if (selectedFiles.length === 0) {
+      document.getElementById("adjunto").classList.add('is-invalid')
+      setMensaje("El archivo adjunto es requerido!")
+      setError(true)
+      setShow(true)
+      return
+  } else {
+      document.getElementById("adjunto").classList.remove('is-invalid')
+      document.getElementById("adjunto").classList.add("is-valid")
+  }
 
-const sucuHandle = (valor) => {
-  SetSucursalSeleccionar(valor.value);
-};
+  const formData = new FormData();
+  for (let index = 0; index < selectedFiles.length; index++) {
+      let element = selectedFiles[index];
+      formData.append(`body${index}`, element);
+  }
+  // formData.append('body', selectedFiles);
+  const config = {
+      headers: {
+          'content-type': 'multipart/form-data',
+      },
+  };
 
-const setDescripcionDocHandle = (valor) => {
-  setDescripcionDoc(valor.value)
-}
+  
 
-
-const sedeHandle = (valor) => {
-  setSede(valor.value)
-}
+  dispatch(cargarDocumentacionPorCuenta(formData, config, documentoId, documento))
+  setMensaje("La subida del archivo fue exitosa!")
+  setError(false)
+  setShow(true)
  
-
-const personaHandle = (valor) => {
-  setPersona(valor.value)
-}
-   
-
-const docDescripcion = [
-  {value: '100000000', label: 'CARTA DOCUMENTO'},
-  {value: '100000001', label: 'TELEGRAMA'},
-  {value: '100000002', label: 'CONTRATO'},
-  {value: '100000003', label: 'DENUNCIA'},
-  {value: '100000004', label: 'ACTA'},
-  {value: '100000005', label: 'NOTA'},
-  {value: '100000006', label: 'OTROS'},
-  {value: '100000007', label: 'CÉDULA'},
-  {value: '100000009', label: 'OFICIO'},
-  {value: '100000010', label: 'DEMANDA'},  
-]
+};
 
 
+  const docDescripcion = [
+    { value: "100000000", label: "CARTA DOCUMENTO" },
+    { value: "100000001", label: "TELEGRAMA" },
+    { value: "100000002", label: "CONTRATO" },
+    { value: "100000003", label: "DENUNCIA" },
+    { value: "100000004", label: "ACTA" },
+    { value: "100000005", label: "NOTA" },
+    { value: "100000006", label: "OTROS" },
+    { value: "100000007", label: "CÉDULA" },
+    { value: "100000009", label: "OFICIO" },
+    { value: "100000010", label: "DEMANDA" },
+  ];
 
   return (
-
-    
     <animated.div className="container" style={fade}>
       <div className="col-sm-12 mt-4">
         <div className="card p-2 shadow pad borde-none sgr mb-4">
@@ -225,15 +331,15 @@ const docDescripcion = [
                       Autor
                     </label>
                     <input
-                             type="text"
-                             id="autor"
-                             value={contacto.map(item => item.fullname)}
-                             name="autor"
-                             className="form-control requerido"
-                             required
-                             placeholder=" --- "
-                             disabled
-                          />
+                      type="text"
+                      id="autor"
+                      value={contacto.map((item) => item.fullname)}
+                      name="autor"
+                      className="form-control requerido"
+                      required
+                      placeholder=" --- "
+                      disabled
+                    />
                   </div>
                 </div>
 
@@ -273,12 +379,12 @@ const docDescripcion = [
                       Fecha de Creación
                     </label>
                     <input
-                       type="datetime-local"
-                       id="date"
-                       name="altar"
-                       className="form-control"
-                       required
-                       disabled
+                      type="datetime-local"
+                      id="date"
+                      name="altar"
+                      className="form-control"
+                      required
+                      disabled
                     />
                   </div>
                 </div>
@@ -290,7 +396,7 @@ const docDescripcion = [
                     <Select
                       type="select"
                       id="descripcionDoc"
-                      onChange={e => setDescripcionDocHandle(e)}
+                      onChange={(e) => setDescripcionDocHandle(e)}
                       options={docDescripcion}
                       name="descripcionDoc"
                       className="basic multi-select requerido"
@@ -322,16 +428,16 @@ const docDescripcion = [
                         Sede
                       </label>
                       <Select
-                      className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
-                      id="sede"
-                      onChange={(e) => sedeHandle(e)}
-                      options={selectSucu}
-                      name="sede"
-                      className="basic multi-select"
-                      ClassNamePrefix="select"
-                      placeholder="Elegir Sede..."
-                      required
-                    ></Select>
+                        className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
+                        id="sede"
+                        onChange={(e) => sedeHandle(e)}
+                        options={selectSucu}
+                        name="sede"
+                        className="basic multi-select"
+                        ClassNamePrefix="select"
+                        placeholder="Elegir Sede..."
+                        required
+                      ></Select>
                     </div>
                     <div className="mb-2 p-2">
                       <label className="form-label fw-bolder lbl-precalificacion ">
@@ -362,7 +468,7 @@ const docDescripcion = [
                       id="observaciones"
                       name="observaciones"
                       rows="3"
-                      onChange={e => setObservaciones(e.target.value)}
+                      onChange={(e) => setObservaciones(e.target.value)}
                       value={observaciones}
                       placeholder="comentanos un poco más..."
                     ></textarea>
@@ -372,22 +478,57 @@ const docDescripcion = [
               </div>
               <br />
             </div>
-            <div class="d-flex align-items-end justify-content-end">
-              <button
-                type="submit"
-                name="btnSubmitAlyc"
-                className="btn btn-outline-dark me-md-5"
-              >
-                Enviar
-              </button>
+            <div class="card">
+              <div class="card-header fw-bolder d-grid gap-5 d-md-flex justify-content-center">
+                Adjuntar Archivos{" "}
+                <FontAwesomeIcon
+                  icon={faFile}
+                  className="fs-4 justify-content-center"
+                  color="rgb(245,130,32)"
+                />
+              </div>
+
+              <div className="row">
+                <div className="custom-input-file col-12 mt-4">
+                  <div class="form-group borde_discontinuo">
+                    <Uploady debug enhancer={mockSenderEnhancer}>
+                      <div className="card-header fw-bolder d-grid gap-5 d-md-flex justify-content-center">
+                        <h3>Copia y pega su archivo</h3>
+                        <PasteInput
+                          extraProps={{
+                            placeholder:
+                              " PrtSc y Ctrl+V",
+                          }}
+                        />
+                        <UploadStatus />
+                        <PreviewContainer>
+                          <UploadPreview />
+                        </PreviewContainer>
+                      </div>
+                    </Uploady>
+                    <input
+                      type="file"
+                      className="fw-bolder input-file "
+                      name="file"
+                      id="adjunto"
+                      onChange={changeHandler}
+                      multiple
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
-
+            <button
+              type="submit"
+              name="btnSubmitAlyc"
+              className="btn btn-dark btn-md mt-4 text-center block"
+            >
+              Crear Legal
+            </button>
           </form>
-
         </div>
       </div>
     </animated.div>
-
   );
 };
 
