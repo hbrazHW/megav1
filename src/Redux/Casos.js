@@ -162,13 +162,13 @@ export const obtenerCasosId = (id) => (dispatch) => {
     }
 }
 
-export const cargarForm = (contactid, asunto, fechaAlta, asuntoPrimario, solicitante, puestoSolicitante, tipoCaso, comentarios, sucursal) => async (dispatch) => {
+export const cargarForm = (contactid, asunto, fechaAlta, asuntoPrimario, solicitante, puestoSolicitante, tipoCaso, comentarios, sucursal, file, config) => async (dispatch) => {
     dispatch({
         type: LOADING,
         resultadoCaso: 'LOADING'
     })
     try { 
-        const response = await axios.post(`${UrlApiDynamics}Casos?contactid=${contactid}&asunto=${asunto}&fechaAlta=${fechaAlta}&asuntoPrimario=${asuntoPrimario}&solicitante=${solicitante}&puestoSolicitante=${puestoSolicitante}&tipoCaso=${tipoCaso}&comentarios=${comentarios}&sucursal=${sucursal}&cuit=${Entidad}`)
+        const response = await axios.post(`${UrlApiDynamics}Casos?contactid=${contactid}&asunto=${asunto}&fechaAlta=${fechaAlta}&asuntoPrimario=${asuntoPrimario}&solicitante=${solicitante}&puestoSolicitante=${puestoSolicitante}&tipoCaso=${tipoCaso}&comentarios=${comentarios}&sucursal=${sucursal}&cuit=${Entidad}`, file, config)
            console.log("response", response)
         dispatch({
             type: CARGA_CASOS_EXITO,

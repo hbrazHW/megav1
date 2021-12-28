@@ -145,7 +145,7 @@ const Casos = () => {
   const [asuntoSeleccionar, setAsuntoSeleccionar] = React.useState("");
   const [tipoC, setTipoC] = React.useState("")
   const [comentarios, setComentarios] = React.useState("")
-
+  const [selectedFiles, setSelectedFiles] = React.useState([])
 
 
   const fade = useSpring({
@@ -192,7 +192,7 @@ const Casos = () => {
           obtenerAsuntos();
           setLlamadaAsuntos(true);
         }
-        
+
       }
 
       if (
@@ -231,8 +231,25 @@ const Casos = () => {
 
   const enviarFormulario = (e) => {
     e.preventDefault()
-    dispatch(cargarForm(clienteSeleccionar, asuntoSeleccionar, fecha, selected, solicitante, puestoSolicitante, tipoC, comentarios, sede))
+
+    const formData = new FormData();
+    for (let index = 0; index < selectedFiles.length; index++) {
+      let element = selectedFiles[index];
+      formData.append(`body${index}`, element);
+    }
+    // formData.append('body', selectedFiles);
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data',
+      },
+    };
+
+    dispatch(cargarForm(clienteSeleccionar, asuntoSeleccionar, fecha, selected, solicitante, puestoSolicitante, tipoC, comentarios, sede, formData, config))
   }
+
+  const changeHandler = (event) => {
+    setSelectedFiles(event.target.files)
+  };
 
   const obtenerMiContacto = async () => {
     dispatch(obtenerContacto(contactid));
@@ -616,9 +633,8 @@ const Casos = () => {
               </div>
               <div className="d-grid gap-5 d-md-flex justify-content-md-end">
                 <button
-                  type="button"
+                  type="submit"
                   className="btn btn-outline-dark me-md-5"
-                  onClick={handleSubmit}
                 >
                   Enviar
                 </button>
