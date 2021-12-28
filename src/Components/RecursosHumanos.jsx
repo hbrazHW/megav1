@@ -184,7 +184,7 @@ const RecursosHumanos = () => {
           <ul className="nav nav-tabs" id="myTab" role="tablist">
             <li className="nav-item" role="presentation">
               <button className="nav-link fw-bolder text-dark active" id="busqueda-tab" data-bs-toggle="tab" data-bs-target="#busqueda" type="button" role="tab" aria-controls="busqueda" aria-selected="true">
-                Busqueda de personal
+                Crear Busqueda de personal
               </button>
             </li>
             {/* <li className="nav-item" role="presentation">

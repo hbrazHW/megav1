@@ -7,10 +7,13 @@ const dataInicial = {
     casosResueltos: [],
     asuntos: [],
     casoid: '',
+    ticket: '',
+    resultadoCaso: '',
 };
 
 
 //types
+const CARGA_CASOS_EXITO = "CARGA_CASOS_EXITO"
 const OBTENER_CASO_EXITO = "OBTENER_CASO_EXITO"
 const OBTENER_NOMBRE_ASUNTOS = "OBTENER_NOMBRE_ASUNTOS"
 const OBTENER_MIS_CASOS_ACTIVOS = "OBTENER_MIS_CASOS_ACTIVOS";
@@ -21,6 +24,8 @@ const ERROR = "ERROR";
 //reducer
 export default function casosReducers(state = dataInicial, action) {
     switch (action.type) {
+        case CARGA_CASOS_EXITO:
+            return { ...state, resultadoCaso: action.resultadoCaso, ticket: action.ticket}
         case OBTENER_CASO_EXITO:
             return { ...state, casoid: action.casoid }
         case OBTENER_NOMBRE_ASUNTOS:
@@ -153,6 +158,28 @@ export const obtenerCasosId = (id) => (dispatch) => {
         dispatch({
             type: OBTENER_CASO_EXITO,
             casoid: id
+        })
+    }
+}
+
+export const cargarForm = (contactid, asunto, fechaAlta, asuntoPrimario, solicitante, puestoSolicitante, tipoCaso, comentarios, sucursal) => async (dispatch) => {
+    dispatch({
+        type: LOADING,
+        resultadoCaso: 'LOADING'
+    })
+    try { 
+        const response = await axios.post(`${UrlApiDynamics}Casos?contactid=${contactid}&asunto=${asunto}&fechaAlta=${fechaAlta}&asuntoPrimario=${asuntoPrimario}&solicitante=${solicitante}&puestoSolicitante=${puestoSolicitante}&tipoCaso=${tipoCaso}&comentarios=${comentarios}&sucursal=${sucursal}&cuit=${Entidad}`)
+           console.log("response", response)
+        dispatch({
+            type: CARGA_CASOS_EXITO,
+            ticket: response.data,
+            resultadoCaso: 'EXITO',
+           
+        })
+    } catch (error) {
+        dispatch({
+            type: ERROR,
+            resultadoCaso: 'ERROR'
         })
     }
 }
