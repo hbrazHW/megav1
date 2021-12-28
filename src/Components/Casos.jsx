@@ -89,7 +89,7 @@ const Casos = () => {
     const [status, setStatus] = useState(null);
     useItemStartListener(() => setStatus("cargando..."));
     useItemFinalizeListener(() => setStatus("Archivo copiado!..."));
-
+    console.log("status:",status)
     return status;
   };
 
