@@ -195,15 +195,9 @@ const docDescripcion = [
                       Autor
                     </label>
                     <input
-
-                    //  {contacto.map((item) => (
-                    //   <h5 className="perfil-nombre m-0 fw-bolder">
-                    //      {item.fullname}
-                    //        </h5>
-                    //            ))}
                              type="text"
                              id="autor"
-                             value={contacto}
+                             value={contacto.map(item => item.fullname)}
                              name="autor"
                              className="form-control requerido"
                              required

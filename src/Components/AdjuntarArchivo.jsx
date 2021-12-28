@@ -40,11 +40,11 @@ const AdjuntarArchivo = () => {
     }
   `;
   const StyledInput = styled.input`
-    width: 600px;
-    height: 64px;
+    width: 408px;
+    height: 34px;
     font-size: 18px;
     margin: 20px 0;
-    padding: 80px;
+    padding: 33px;
   `;
 
   const PasteInput = whithPasteUpload(StyledInput);
@@ -99,80 +99,93 @@ const AdjuntarArchivo = () => {
     });
 
   return (
-    <div ClassName="upload">
-      <h1>Subir Archivos</h1>
-      <div className="form-container">
-        <div>
-          <ul>
-            {fileNames.map((name) => (
-              <li key={name}>
-                <span>{name}</span>
-                <span onClick={() => removeFile(name)}>
-                  <i className="fa fa-times" />
-                </span>
-              </li>
-            ))}
-          </ul>
-          {files.length > 0 && (
+    <div ClassName="container">
+      <form>
+        <h1>Subir Archivos</h1>
+        <div className="container">
+          <div>
             <ul>
-              <li>Tipos de archivos: {fileTypes.join(", ")}</li>
-              <li>Tamaño total: {totalSize}</li>
-              <li>Total Bytes: {totalSizeInBytes}</li>
-
-              <li className="clear-all">
-                <button onClick={() => clearAllFiles()}>Limpiar todo</button>
-              </li>
+              {fileNames.map((name) => (
+                <li key={name}>
+                  <span>{name}</span>
+                  <span onClick={() => removeFile(name)}>
+                    <i className="fa fa-times" />
+                  </span>
+                </li>
+              ))}
             </ul>
-          )}
-        </div>
+            {files.length > 0 && (
+              <ul>
+                <li>Tipos de archivos: {fileTypes.join(", ")}</li>
+                <li>Tamaño total: {totalSize}</li>
+                <li>Total Bytes: {totalSizeInBytes}</li>
 
-        {/* Provide a drop zone and an alternative button inside it to upload files. */}
-        <Uploady debug enhancer={mockSenderEnhancer}>
-          <div className="">
-            <PasteInput
-              extraProps={{
-                placeholder: "pega acá tu printScreen con el comando Ctrl+V",
-              }}
-            />
-            <UploadStatus />
-            <PreviewContainer>
-              <UploadPreview />
-            </PreviewContainer>
+                <li className="clear-all">
+                  <button onClick={() => clearAllFiles()}>Limpiar todo</button>
+                </li>
+              </ul>
+            )}
           </div>
-        </Uploady>
 
-        <div
-          onDragEnter={handleDragDropEvent}
-          onDragOver={handleDragDropEvent}
-          onDrop={(e) => {
-            handleDragDropEvent(e);
-            setFiles(e, "a");
-          }}
-        >
-          <p>Arrastre y suelte aca tus archivos</p>
-          {/* <PasteInput
+          {/* Provide a drop zone and an alternative button inside it to upload files. */}
+          <Uploady debug enhancer={mockSenderEnhancer}>
+            <div className="container">
+              <PasteInput
+                extraProps={{
+                  placeholder: "copía con (PrtSc) y pega con (Ctrl+V) acá",
+                }}
+              />
+              <UploadStatus />
+              <PreviewContainer>
+                <UploadPreview />
+              </PreviewContainer>
+            </div>
+          </Uploady>
+
+          <div
+            onDragEnter={handleDragDropEvent}
+            onDragOver={handleDragDropEvent}
+            onDrop={(e) => {
+              handleDragDropEvent(e);
+              setFiles(e, "a");
+            }}
+          >
+            <p>Arrastre y suelte aca tus archivos</p>
+            {/* <PasteInput
               extraProps={{
                 placeholder: "Arrastre y suelte aca tus archivo",
               }}
             /> */}
 
-          <button onClick={() => inputRef.current.click()}>
-            O seleccione tus archivos para subirlos
-          </button>
+            <button
+              type="button"
+              class="btn btn-outline-dark"
+              onClick={() => inputRef.current.click()}
+            >
+              O seleccione tus archivos para subirlos
+            </button>
 
-          {/* Hide the crappy looking default HTML input */}
-          <input
-            ref={inputRef}
-            type="file"
-            multiple
-            style={{ display: "none" }}
-            onChange={(e) => setFiles(e, "a")}
-          />
+            {/* Hide the crappy looking default HTML input */}
+            <input
+              ref={inputRef}
+              type="file"
+              multiple
+              style={{ display: "none" }}
+              onChange={(e) => setFiles(e, "a")}
+            />
+          </div>
+          <br />
         </div>
-      </div>
-      <div className="submit">
-        <button onClick={handleSubmit}>Enviar</button>
-      </div>
+        <div className="submit">
+          <button
+            type="button"
+            class="d-flex align-items-end justify-content-end"
+            onClick={handleSubmit}
+          >
+            Enviar
+          </button>
+        </div>
+      </form>
     </div>
   );
 };
