@@ -346,14 +346,6 @@ const Casos = () => {
     setTipoC(valor.value)
   }
 
-
-
-  const tipoCaso = [
-    { value: '1', label: 'Consulta' },
-    { value: '2', label: 'Reclamo' },
-    { value: '3', label: 'Pedido' },
-  ]
-
   const tipoAsuntoPrimario = [
     { value: '1', label: 'SISTEMAS' },
     { value: '2', label: 'ADMINISTRACION' },
@@ -368,29 +360,12 @@ const Casos = () => {
     { value: '100000000', label: 'GESTION MEDICA' },
   ]
 
-  const tipoCasoHandle = (valor) => {
-    setTipoC(valor.value);
-  };
-
   const tipoCaso = [
     { value: "1", label: "Consulta" },
     { value: "2", label: "Reclamo" },
     { value: "3", label: "Pedido" },
   ];
 
-  const tipoAsuntoPrimario = [
-    { value: "1", label: "SISTEMAS" },
-    { value: "2", label: "ADMINISTRACION" },
-    { value: "3", label: "COMUNICACIONES" },
-    { value: "4", label: "FM" },
-    { value: "5", label: "PAYROLL" },
-    { value: "6", label: "COMERCIAL" },
-    { value: "7", label: "CORPORATIVO" },
-    { value: "8", label: "DISEÑO" },
-    { value: "9", label: "SEGURIDAD" },
-    { value: "10", label: "FITER - MESA DE AYUDA" },
-    { value: "100000000", label: "GESTION MEDICA" },
-  ];
 
   return (
     <animated.div className="container" style={fade}>

@@ -218,67 +218,6 @@ export const consultaFETCHsedesRH = () => async (dispatch) => {
     });
   }
 };
-export const consultaFETCHareas = () => async (dispatch) => {
-    dispatch({
-        type: LOADING,
-    });
-    var entidad = "new_areas";
-    var fetch = "<fetch mapping='logical' distinct='false'>" +
-        "<entity name='new_area'>" +
-        "<attribute name='new_areaid' />" +
-        "<attribute name='new_name' />" +
-        "<order attribute='new_name' descending='false' />" +
-        "</entity>" +
-        "</fetch>";
-
-    try {
-        const response = await axios.get(
-            `${UrlApiDynamics}ConsultaFetch?Entidad=${entidad}&fetch=${fetch}&cuit=${Entidad}`
-        );
-        dispatch({
-            type: OBTENER_AREAS,
-            payload: response.data,
-        });
-    } catch (error) {
-        dispatch({
-            type: ERROR,
-        });
-    }
-};
-
-//una consulta diferente ya que en el tenant filtra sucursales como este fetch
-export const consultaFETCHsedesRH = () => async (dispatch) => {
-    dispatch({
-        type: LOADING,
-    });
-
-    var entidad = "accounts";
-    var fetch = "<fetch mapping='logical' distinct='true'>" +
-        "<entity name='account'>" +
-        "<attribute name='name' />" +
-        "<attribute name='primarycontactid' />" +
-        "<attribute name='telephone1' />" +
-        "<attribute name='accountid' />" +
-        "<attribute name='new_sedeclienteinterno' />" +
-        "<order attribute='name' descending='false' />" +
-        "<link-entity name='contact' from='parentcustomerid' to='accountid' link-type='inner' alias='af' />" +
-        "</entity>" +
-        "</fetch>";
-
-    try {
-        const response = await axios.get(
-            `${UrlApiDynamics}ConsultaFetch?Entidad=${entidad}&fetch=${fetch}&cuit=${Entidad}`
-        );
-        dispatch({
-            type: OBTENER_SUCURSALES,
-            payload: response.data,
-        });
-    } catch (error) {
-        dispatch({
-            type: ERROR,
-        });
-    }
-}
 
 export const consultaFETCHautorizadoPor = () => async (dispatch) => {
     dispatch({
