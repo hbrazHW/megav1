@@ -440,7 +440,6 @@ const RecursosHumanos = () => {
                   ></Select>
                 </div>
               </div>
-
               <div className="col-sm-4 col-md-12">
                 <div className="mb-2 p-2">
                   <label className="form-label fw-bolder lbl-precalificacion required">
@@ -457,7 +456,6 @@ const RecursosHumanos = () => {
                   ></Select>
                 </div>
               </div>
-
               <div className="col-sm-4 col-md-12">
                 <div className="mb-2 p-2">
                   <label className="form-label fw-bolder lbl-precalificacion">
@@ -472,7 +470,6 @@ const RecursosHumanos = () => {
                   />
                 </div>
               </div>
-
               <div className="col-sm-4 col-md-12">
                 <div className="mb-2 p-2">
                   <label className="form-label fw-bolder lbl-precalificacion">
@@ -488,7 +485,6 @@ const RecursosHumanos = () => {
                   ></Select>
                 </div>
               </div>
-
               <div className="col-sm-4 col-md-12">
                 <div className="mb-2 p-2">
                   <label className="form-label fw-bolder lbl-precalificacion">
@@ -504,7 +500,6 @@ const RecursosHumanos = () => {
                   ></Select>
                 </div>
               </div>
-
               <div className="col-sm-4 col-md-12">
                 <div className="mb-2 p-2">
                   <label className="form-label fw-bolder lbl-precalificacion">
@@ -521,7 +516,6 @@ const RecursosHumanos = () => {
                   ></Select>
                 </div>
               </div>
-
               <div className="col-sm-4 col-md-12">
                 <div className="mb-2 p-2">
                   <label className="form-label fw-bolder lbl-precalificacion">
@@ -537,7 +531,6 @@ const RecursosHumanos = () => {
                   ></Select>
                 </div>
               </div>
-
               <div className="col-sm-4 col-md-12">
                 <div className="mb-2 p-2">
                   <label className="form-label fw-bolder lbl-precalificacion">
@@ -551,7 +544,6 @@ const RecursosHumanos = () => {
                   />
                 </div>
               </div>
-
               <div className="col-sm-4 col-md-12">
                 <div className="mb-2 p-2">
                   <label className="form-label fw-bolder lbl-precalificacion required">
@@ -577,7 +569,6 @@ const RecursosHumanos = () => {
                   </label>
                 </div>
               </div>
-
               <div className="col-sm-4 col-md-12">
                 <div className="mb-2 p-2">
                   <label className="form-label fw-bolder lbl-precalificacion required">
@@ -603,7 +594,6 @@ const RecursosHumanos = () => {
                   </label>
                 </div>
               </div>
-
               <div className="col-sm-4 col-md-12">
                 <div className="mb-2 p-2">
                   <label className="form-label fw-bolder lbl-precalificacion required">
@@ -619,18 +609,13 @@ const RecursosHumanos = () => {
                   />
                 </div>
               </div>
-              
-
               <hr />
-
               <h6 className="fw-bolder">
                 Completar segun la Performance alcanzada
               </h6>
-
               <div className="row">
                 <h6 className="mt-3 ms-3 fw-bolder text-secondary">Comentarios</h6>
               </div>
-
               <div className="row">
                 <div className="col-sm-2 p-5">
                   <h6 className="fw-bolder">30 dias:</h6>
@@ -646,7 +631,6 @@ const RecursosHumanos = () => {
                   </div>
                 </div>
               </div>
-
               <div className="row">
                 <div className="col-sm-2 p-5">
                   <h6 className="fw-bolder">60 dias:</h6>
@@ -662,7 +646,6 @@ const RecursosHumanos = () => {
                   </div>
                 </div>
               </div>
-
               <div className="row">
                 <div className="col-sm-2 p-5">
                   <h6 className="fw-bolder">80 dias:</h6>
@@ -679,11 +662,9 @@ const RecursosHumanos = () => {
                 </div>
               </div>
               <br />
-
               <h6 className="mt-3 ms-3 fw-bolder text-secondary">
                 Definicion de Continuidad
               </h6>
-
               <div className="row">
                 <div className="col-sm-2 p-3">
                   <h6 className="ms-3 fw-bolder">

@@ -6,7 +6,9 @@ import { Entidad, UrlApiDynamics } from "../Keys";
 const dataInicial = {
   loading: false,
   legales: [],
-  legalesId: ''
+  legalesId: '',
+  ticket:'',
+  resultadoCaso:''
 };
 
 //types
@@ -14,10 +16,14 @@ const OBTENER_LEGALES_EXITO = "OBTENER_LEGALES_EXITO";
 const LEGALESID_EXITO = "LEGALESID_EXITO"
 const LOADING = "LOADING";
 const ERROR = "ERROR";
+const CARGA_DATOS_EXITO = "CARGA_DATOS_EXITO"
+
 
 //reducers
 export default function documentosLegalesReducers(state = dataInicial, action) {
   switch (action.type) {
+    case CARGA_DATOS_EXITO:
+      return { ...state, resultadoCaso: action.resultadoCaso, ticket: action.ticket};
     case ERROR:
       return { ...dataInicial };
     case LOADING:
@@ -28,8 +34,11 @@ export default function documentosLegalesReducers(state = dataInicial, action) {
       return  { ...state, legalesId: action.legalesId, loading: false };
     default:
       return { ...state };
+      
   }
 }
+
+
 
 // actions
 export const obtenerLegales = () => async (dispatch) => {
@@ -48,6 +57,7 @@ export const obtenerLegales = () => async (dispatch) => {
   "<attribute name='new_fechaderecepcin' />" +
   "<attribute name='overriddencreatedon' />" +
   "<attribute name='new_descripcindeldocumento' />" +
+  "<attribute name='statecode' />" +
   "<attribute name='createdby' />" +
   "<order attribute='new_name' descending='false' />" +
   "</entity>" +
@@ -75,5 +85,27 @@ export const obtenerLegalesId = (id) => (dispatch) => {
           
       });
 
+  }
+}
+
+export const cargarForm = ( autor, fechaRecepcion, descripcionDoc, sede, persona, observaciones  ) => async (dispatch) => {
+  dispatch({
+      type: LOADING,
+      resultadoCaso: 'LOADING'
+  })
+  try { 
+      const response = await axios.post(`${UrlApiDynamics}Documentoslegales?autor=${autor}&fechaRecepcion=${fechaRecepcion}&descripcionDoc=${descripcionDoc}&sede=${sede}&persona=${persona}&observaciones=${observaciones}&cuit=${Entidad}`)
+         console.log("response", response)
+      dispatch({
+          type: CARGA_DATOS_EXITO,
+          ticket: response.data,
+          resultadoCaso: 'EXITO',
+         
+      })
+  } catch (error) {
+      dispatch({
+          type: ERROR,
+          resultadoCaso: 'ERROR'
+      })
   }
 }

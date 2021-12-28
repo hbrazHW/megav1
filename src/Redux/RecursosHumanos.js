@@ -2,6 +2,7 @@ import axios from "axios";
 import { Entidad, UrlApiDynamics } from "../Keys";
 
 const dataInicial = {
+
     loading: false,
     busquedaPersonal: [],
     puesto: [],
@@ -48,108 +49,175 @@ export default function recursosHumanosReducers(state = dataInicial, action) {
         default:
             return { ...state };
     }
+
 }
 
 export const consultaFETCHbusquedaPersonal = () => async (dispatch) => {
-    dispatch({
-        type: LOADING,
-    });
-    var entidad = "new_busquedadepersonals";
-    var fetch = "<fetch mapping='logical' distinct='false'>" +
-        "<entity name='new_busquedadepersonal'>" +
-        "<attribute name='createdon' />" +
-        "<attribute name='new_puesto' />" +
-        "<attribute name='statuscode' />" +
-        "<attribute name='new_autorizadopor' />" +
-        "<attribute name='new_sucursal' />" +
-        "<attribute name='new_reportaraa' />" +
-        "<attribute name='new_personasacargosino' />" +
-        "<attribute name='new_jornadalaboral' />" +
-        "<attribute name='new_descripciongeneraldelpuesto' />" +
-        "<attribute name='new_tipodepuesto' />" +
-        "<attribute name='new_busquedadepersonalid' />" +
-        "<order attribute='createdon' descending='true' />" +
-        "<filter type='and'>" +
-        "<condition attribute='statecode' operator='eq' value='0' />" +
-        "</filter>" +
-        "</entity>" +
-        "</fetch>";
+  dispatch({
+    type: LOADING,
+  });
+  var entidad = "new_busquedadepersonals";
+  var fetch =
+    "<fetch mapping='logical' distinct='false'>" +
+    "<entity name='new_busquedadepersonal'>" +
+    "<attribute name='createdon' />" +
+    "<attribute name='new_puesto' />" +
+    "<attribute name='statuscode' />" +
+    "<attribute name='new_autorizadopor' />" +
+    "<attribute name='new_sucursal' />" +
+    "<attribute name='new_reportaraa' />" +
+    "<attribute name='new_personasacargosino' />" +
+    "<attribute name='new_jornadalaboral' />" +
+    "<attribute name='new_descripciongeneraldelpuesto' />" +
+    "<attribute name='new_tipodepuesto' />" +
+    "<attribute name='new_busquedadepersonalid' />" +
+    "<order attribute='createdon' descending='true' />" +
+    "<filter type='and'>" +
+    "<condition attribute='statecode' operator='eq' value='0' />" +
+    "</filter>" +
+    "</entity>" +
+    "</fetch>";
 
-    try {
-        const response = await axios.get(
-            `${UrlApiDynamics}ConsultaFetch?Entidad=${entidad}&fetch=${fetch}&cuit=${Entidad}`
-        );
-        dispatch({
-            type: OBTENER_BUSQUEDA_ABIERTA,
-            payload: response.data,
-        });
-    } catch (error) {
-        dispatch({
-            type: ERROR,
-        });
-    }
+  try {
+    const response = await axios.get(
+      `${UrlApiDynamics}ConsultaFetch?Entidad=${entidad}&fetch=${fetch}&cuit=${Entidad}`
+    );
+    dispatch({
+      type: OBTENER_BUSQUEDA_ABIERTA,
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ERROR,
+    });
+  }
 };
 
 export const consultaFETCHpuesto = () => async (dispatch) => {
-    dispatch({
-        type: LOADING,
-    });
-    var entidad = "new_cargos";
-    var fetch = "<fetch mapping='logical' distinct='false'>" +
-        "<entity name='new_cargo'>" +
-        "<attribute name='new_cargoid' />" +
-        "<attribute name='new_name' />" +
-        "<attribute name='createdon' />" +
-        "<order attribute='new_name' descending='false' />" +
-        "</entity>" +
-        "</fetch>";
+  dispatch({
+    type: LOADING,
+  });
+  var entidad = "new_cargos";
+  var fetch =
+    "<fetch mapping='logical' distinct='false'>" +
+    "<entity name='new_cargo'>" +
+    "<attribute name='new_cargoid' />" +
+    "<attribute name='new_name' />" +
+    "<attribute name='createdon' />" +
+    "<order attribute='new_name' descending='false' />" +
+    "</entity>" +
+    "</fetch>";
 
-    try {
-        const response = await axios.get(
-            `${UrlApiDynamics}ConsultaFetch?Entidad=${entidad}&fetch=${fetch}&cuit=${Entidad}`
-        );
-        dispatch({
-            type: OBTENER_PUESTO,
-            payload: response.data,
-        });
-    } catch (error) {
-        dispatch({
-            type: ERROR,
-        });
-    }
+  try {
+    const response = await axios.get(
+      `${UrlApiDynamics}ConsultaFetch?Entidad=${entidad}&fetch=${fetch}&cuit=${Entidad}`
+    );
+    dispatch({
+      type: OBTENER_PUESTO,
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ERROR,
+    });
+  }
 };
 
 export const consultaFETCHcuentas = () => async (dispatch) => {
-    dispatch({
-        type: LOADING,
-    });
-    var entidad = "accounts";
-    var fetch = "<fetch mapping='logical' distinct='false'>" +
-        "<entity name='account'>" +
-        "<attribute name='name' />" +
-        "<attribute name='accountid' />" +
-        "<order attribute='name' descending='false' />" +
-        "<filter type='and'>" +
-        "<condition attribute='statecode' operator='eq' value='0' />" +
-        "</filter>" +
-        "</entity>" +
-        "</fetch>";
+  dispatch({
+    type: LOADING,
+  });
+  var entidad = "accounts";
+  var fetch =
+    "<fetch mapping='logical' distinct='false'>" +
+    "<entity name='account'>" +
+    "<attribute name='name' />" +
+    "<attribute name='accountid' />" +
+    "<order attribute='name' descending='false' />" +
+    "<filter type='and'>" +
+    "<condition attribute='statecode' operator='eq' value='0' />" +
+    "</filter>" +
+    "</entity>" +
+    "</fetch>";
 
-    try {
-        const response = await axios.get(
-            `${UrlApiDynamics}ConsultaFetch?Entidad=${entidad}&fetch=${fetch}&cuit=${Entidad}`
-        );
-        dispatch({
-            type: OBTENER_CUENTA,
-            payload: response.data,
-        });
-    } catch (error) {
-        dispatch({
-            type: ERROR,
-        });
-    }
+  try {
+    const response = await axios.get(
+      `${UrlApiDynamics}ConsultaFetch?Entidad=${entidad}&fetch=${fetch}&cuit=${Entidad}`
+    );
+    dispatch({
+      type: OBTENER_CUENTA,
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ERROR,
+    });
+  }
 };
 
+export const consultaFETCHareas = () => async (dispatch) => {
+  dispatch({
+    type: LOADING,
+  });
+  var entidad = "new_areas";
+  var fetch =
+    "<fetch mapping='logical' distinct='false'>" +
+    "<entity name='new_area'>" +
+    "<attribute name='new_areaid' />" +
+    "<attribute name='new_name' />" +
+    "<order attribute='new_name' descending='false' />" +
+    "</entity>" +
+    "</fetch>";
+
+  try {
+    const response = await axios.get(
+      `${UrlApiDynamics}ConsultaFetch?Entidad=${entidad}&fetch=${fetch}&cuit=${Entidad}`
+    );
+    dispatch({
+      type: OBTENER_AREAS,
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+//una consulta diferente ya que en el tenant filtra sucursales como este fetch
+export const consultaFETCHsedesRH = () => async (dispatch) => {
+  dispatch({
+    type: LOADING,
+  });
+
+  var entidad = "accounts";
+  var fetch =
+    "<fetch mapping='logical' distinct='true'>" +
+    "<entity name='account'>" +
+    "<attribute name='name' />" +
+    "<attribute name='primarycontactid' />" +
+    "<attribute name='telephone1' />" +
+    "<attribute name='accountid' />" +
+    "<attribute name='new_sedeclienteinterno' />" +
+    "<order attribute='name' descending='false' />" +
+    "<link-entity name='contact' from='parentcustomerid' to='accountid' link-type='inner' alias='af' />" +
+    "</entity>" +
+    "</fetch>";
+
+  try {
+    const response = await axios.get(
+      `${UrlApiDynamics}ConsultaFetch?Entidad=${entidad}&fetch=${fetch}&cuit=${Entidad}`
+    );
+    dispatch({
+      type: OBTENER_SUCURSALES,
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
 export const consultaFETCHareas = () => async (dispatch) => {
     dispatch({
         type: LOADING,
@@ -269,3 +337,4 @@ export const cargarForm = (puesto, motivoBusqueda, motivoReemplazo,sucursal, are
         })
     }
 }
+
