@@ -37,7 +37,7 @@ export default function casosReducers(state = dataInicial, action) {
         case ERROR:
             return { ...dataInicial };
         case LOADING:
-            return { ...state, loading: true };
+            return { ...state, loading: true, resultadoCaso: action.resultadoCaso };
         default:
             return { ...state };
     }
@@ -74,6 +74,7 @@ export const consultaFETCHmisCasosActivos = () => async (dispatch) => {
         dispatch({
             type: OBTENER_MIS_CASOS_ACTIVOS,
             payload: response.data,
+            resultadoCaso: 'PENDING'
         });
     } catch (error) {
         dispatch({

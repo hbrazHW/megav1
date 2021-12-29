@@ -2,9 +2,13 @@ import React from "react";
 import Select from "react-select";
 import { useSpring, animated } from "react-spring";
 import { useDispatch, useSelector } from "react-redux";
-import { consultaFETCHpuesto, consultaFETCHareas, consultaFETCHsedesRH, consultaFETCHautorizadoPor, cargarForm } from "../Redux/RecursosHumanos";
+import { consultaFETCHpuesto, consultaFETCHareas, consultaFETCHsedesRH, consultaFETCHautorizadoPor, cargarForm, consultaFETCHbusquedaPersonal } from "../Redux/RecursosHumanos";
+import { Toast, Spinner } from 'react-bootstrap'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCloudUploadAlt, faCheckCircle, faTimesCircle, faEnvelope, faClipboardList, faCircle } from '@fortawesome/free-solid-svg-icons'
+import { withRouter, NavLink } from 'react-router-dom'
 
-const RecursosHumanos = () => {
+const RecursosHumanos = (props) => {
   const dispatch = useDispatch();
 
   const [puesto, setPuesto] = React.useState([])
@@ -38,6 +42,12 @@ const RecursosHumanos = () => {
   const [sucursalSeleccionar, setSucursalSeleccionar] = React.useState('')
   const [autorizadoSeleccionar, setAutorizadoSeleccionar] = React.useState('')
   const [reporta, setReportaSeleccionar] = React.useState('')
+
+  const [mensaje, setMensaje] = React.useState('')
+  const [loading, setLoading] = React.useState(false)
+  const [show, setShow] = React.useState(false)
+  const [error, setError] = React.useState(false)
+  const resultado = useSelector(store => store.recursosHumanos.resultadoCaso)
 
   React.useEffect(() => {
     if (puesto.length === 0) {
@@ -80,7 +90,14 @@ const RecursosHumanos = () => {
       }
     }
 
-  }, [puestoSelector, areasSelector, sucursalesSelector, autorizadoSelector])
+    if (resultado !== undefined) {
+      if (resultado !== '') {
+        cargaExito()
+        
+      }
+    }
+
+  }, [puestoSelector, areasSelector, sucursalesSelector, autorizadoSelector, resultado])
 
 
   const fade = useSpring({
@@ -95,7 +112,54 @@ const RecursosHumanos = () => {
 
   const enviarFormulario = (e) => {
     e.preventDefault()
-    dispatch(cargarForm(puestoSeleccionar, mBusqueda, descripcion, sucursalSeleccionar, areaSeleccionar, reporta, jornada, observaciones, tipBusqueda, autorizadoSeleccionar ))
+    dispatch(cargarForm(puestoSeleccionar, mBusqueda, descripcion, sucursalSeleccionar, areaSeleccionar, reporta, jornada, observaciones, tipBusqueda, autorizadoSeleccionar))
+    setLoading(true)
+    setMensaje("Cargando...")
+    setShow(true)
+    limpiarForm()
+  }
+
+  const limpiarForm = () => {
+    setPuestoSeleccionar('')
+    setMbusquedaSeleccionar('')
+    setTipBusqueda('')
+    setDescripcion('')
+    setPersonaAcargo('')
+    setJornada('')
+    setObservaciones('')
+    setAreaSeleccionar('')
+    setSucursalSeleccionar('')
+    setAutorizadoSeleccionar('')
+    setReportaSeleccionar('')
+  }
+
+  const cargaExito = () => {
+    if (resultado === "EXITO") {
+      setMensaje("La búsqueda fue creada con éxito!")
+      setError(false)
+      setLoading(false)
+      setShow(true)
+      setTimeout(() => {
+        obtenerBusquedaPersonal()
+        props.history.push('/')
+      }, 500);
+      setTimeout(() => {
+        setShow(false)
+      }, 1500)
+    }
+    else if (resultado === "ERROR") {
+      setMensaje("Error al crear búsqueda!")
+      setError(true)
+      setLoading(false)
+      setShow(true)
+      setTimeout(() => {
+        setShow(false)
+      }, 3000);
+    }
+  }
+
+  const obtenerBusquedaPersonal = () => {
+    dispatch(consultaFETCHbusquedaPersonal())
   }
 
   const obtenerAutorizado = () => {
@@ -422,7 +486,30 @@ const RecursosHumanos = () => {
                 </div>
               </form>
             </div>
+            <div className="row">
+              <div className="col-4 position-fixed bottom-0 end-0 p-5 noti">
+                <Toast className="half-black" show={show} autohide color="lime">
+                  <Toast.Body className="text-white">
+                    <div className="row p-2">
+                      {
+                        loading ?
+                          <Spinner animation="border" role="status" variant="primary">
+                            <span className="visually-hidden">Loading...</span>
+                          </Spinner>
+                          :
+                          <div className="col-1 mx-2">
+                            {error ? <FontAwesomeIcon icon={faTimesCircle} className="fs-3 upload-file atras" color="#dc3545" /> : <FontAwesomeIcon icon={faCheckCircle} className="fs-3 upload-file atras" color="#198754" />}
+                          </div>
+                      }
 
+                      <div className="col-10 mt-1 ml-5">
+                        {mensaje}
+                      </div>
+                    </div>
+                  </Toast.Body>
+                </Toast>
+              </div>
+            </div>
             {/* <div className="tab-pane fade show p-3" id="evaluacion" role="tabpanel" aria-labelledby="evaluacion-tab">
               <div className="col-sm-4 col-md-12">
                 <div className="mb-2 p-2">
@@ -693,4 +780,4 @@ const RecursosHumanos = () => {
   );
 };
 
-export default RecursosHumanos;
+export default withRouter(RecursosHumanos);

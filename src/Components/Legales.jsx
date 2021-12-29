@@ -1,21 +1,22 @@
 import React from "react";
 import Select from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCloudUploadAlt } from "@fortawesome/free-solid-svg-icons";
 import { useSpring, animated } from "react-spring";
-import { obtenerLegales,  cargarForm} from "../Redux/DocumentosLegales";
+import { obtenerLegales, cargarForm } from "../Redux/DocumentosLegales";
 import { useDispatch, useSelector } from "react-redux";
-import { consultaFETCHcuentas,  } from "../Redux/RecursosHumanos";
+import { consultaFETCHcuentas, } from "../Redux/RecursosHumanos";
 import { consultaFETCHcontacts } from "../Redux/Contact";
 import { obtenerContacto } from "../Redux/Contacto";
+import { Toast, Spinner } from 'react-bootstrap'
+import { faCloudUploadAlt, faCheckCircle, faTimesCircle, faEnvelope, faClipboardList, faCircle } from '@fortawesome/free-solid-svg-icons'
+import { withRouter, NavLink } from 'react-router-dom'
 
-
-const Legales = () => {
+const Legales = (props) => {
   const dispatch = useDispatch();
 
   //const legales
   const legalesSelector = useSelector((store) => store.legales.legales);
-  const legalesIdSelector = useSelector (store => store.legales.legalesId)
+  const legalesIdSelector = useSelector(store => store.legales.legalesId)
   const [legales, setLegales] = React.useState([]);
   const [llamadaLegales, setlLlmadaLegales] = React.useState(false);
 
@@ -39,14 +40,19 @@ const Legales = () => {
   const [fecha, setFecha] = React.useState("");
 
 
- // autor, fechaRecepcion, descripcionDoc, sede, persona, observaciones
- const [autor, setAutor] = React.useState('')
- const [fechaRecepcion, setFechaRecepcion] = React.useState('')
- const [descripcionDoc, setDescripcionDoc] = React.useState('')
- const [sede, setSede] = React.useState('')
- const [persona, setPersona] = React.useState('')
- const [observaciones, setObservaciones] = React.useState('')
+  // autor, fechaRecepcion, descripcionDoc, sede, persona, observaciones
+  const [autor, setAutor] = React.useState('')
+  const [fechaRecepcion, setFechaRecepcion] = React.useState('')
+  const [descripcionDoc, setDescripcionDoc] = React.useState('')
+  const [sede, setSede] = React.useState('')
+  const [persona, setPersona] = React.useState('')
+  const [observaciones, setObservaciones] = React.useState('')
 
+  const [mensaje, setMensaje] = React.useState('')
+  const [loading, setLoading] = React.useState(false)
+  const [show, setShow] = React.useState(false)
+  const [error, setError] = React.useState(false)
+  const resultado = useSelector(store => store.legales.resultadoCaso)
 
   const fade = useSpring({
     from: {
@@ -69,12 +75,12 @@ const Legales = () => {
       }
     }
 
-    if(legalesIdSelector !== undefined) {
-      if(legalesIdSelector !== '') {
+    if (legalesIdSelector !== undefined) {
+      if (legalesIdSelector !== '') {
         completarLegales(legalesIdSelector)
       }
     }
- 
+
     if (sucursal.length === 0) {
       if (sucursalSelector.length > 0 && llamadaSucu === true) {
         setSucursal(sucursalSelector);
@@ -84,7 +90,7 @@ const Legales = () => {
         setLlamadaSucu(true);
       }
     }
-      
+
     if (
       Object.keys(contactoSelector).length > 0 &&
       llamadaContactos === true
@@ -110,15 +116,58 @@ const Legales = () => {
 
     if (contacto.length > 0) {
       var autor = contacto.map(item => item.contactid)
-      console.log("autor:", autor)
       setAutor(autor[0])
     }
 
-  }, [legalesIdSelector, legalesSelector, sucursalSelector, contactSelector, contactoSelector]);
+    if (resultado !== undefined) {
+      if (resultado !== '') {
+        cargaExito()
+      }
+    }
+
+  }, [legalesIdSelector, legalesSelector, sucursalSelector, contactSelector, contactoSelector, resultado]);
 
   const enviarFormulario = (e) => {
     e.preventDefault()
-    dispatch(cargarForm( autor, fechaRecepcion, descripcionDoc, sede, persona, observaciones ))
+    dispatch(cargarForm(autor, fechaRecepcion, descripcionDoc, sede, persona, observaciones))
+    setLoading(true)
+    setMensaje("Cargando...")
+    setShow(true)
+    limpiarForm()
+  }
+
+  const limpiarForm = () => {
+    setAutor('')
+    setFechaRecepcion('')
+    setDescripcionDoc('')
+    setSede('')
+    setPersona('')
+    setObservaciones('')
+  }
+
+  const cargaExito = () => {
+    if (resultado === "EXITO") {
+      setMensaje("El documento fue creado con éxito!")
+      setError(false)
+      setLoading(false)
+      setShow(true)
+      setTimeout(() => {
+        obtenerlegal()
+        props.history.push('/')
+      }, 500);
+      setTimeout(() => {
+        setShow(false)
+      }, 1500)
+    }
+    else if (resultado === "ERROR") {
+      setMensaje("Error al crear documento!")
+      setError(true)
+      setLoading(false)
+      setShow(true)
+      setTimeout(() => {
+        setShow(false)
+      }, 3000);
+    }
   }
 
   const obtenerlegal = () => {
@@ -150,63 +199,63 @@ const Legales = () => {
 
   const completarLegales = (id) => {
     legales.filter(item => item.new_documentoslegalesid == id).map(item => {
-        setAutor(item._new_personaquerecepcion_value) 
-         
+      setAutor(item._new_personaquerecepcion_value)
+
     })
-}
+  }
 
-const completarOpcionSede = (sede) => {
-  const sucursal = [];
-  sede.forEach((item) => {
-    var a = { value: item.accountid, label: item.name };
-    sucursal.push(a)
+  const completarOpcionSede = (sede) => {
+    const sucursal = [];
+    sede.forEach((item) => {
+      var a = { value: item.accountid, label: item.name };
+      sucursal.push(a)
 
-  });
-  setSelectSucu(sucursal);
-};
-
-
-const clienteHandle = (valor) => {
-  SetClienteSeleccionar(valor.value);
-};
-
-const sucuHandle = (valor) => {
-  SetSucursalSeleccionar(valor.value);
-};
-
-const setDescripcionDocHandle = (valor) => {
-  setDescripcionDoc(valor.value)
-}
+    });
+    setSelectSucu(sucursal);
+  };
 
 
-const sedeHandle = (valor) => {
-  setSede(valor.value)
-}
- 
+  const clienteHandle = (valor) => {
+    SetClienteSeleccionar(valor.value);
+  };
 
-const personaHandle = (valor) => {
-  setPersona(valor.value)
-}
-   
+  const sucuHandle = (valor) => {
+    SetSucursalSeleccionar(valor.value);
+  };
 
-const docDescripcion = [
-  {value: '100000000', label: 'CARTA DOCUMENTO'},
-  {value: '100000001', label: 'TELEGRAMA'},
-  {value: '100000002', label: 'CONTRATO'},
-  {value: '100000003', label: 'DENUNCIA'},
-  {value: '100000004', label: 'ACTA'},
-  {value: '100000005', label: 'NOTA'},
-  {value: '100000006', label: 'OTROS'},
-  {value: '100000007', label: 'CÉDULA'},
-  {value: '100000009', label: 'OFICIO'},
-  {value: '100000010', label: 'DEMANDA'},  
-]
+  const setDescripcionDocHandle = (valor) => {
+    setDescripcionDoc(valor.value)
+  }
+
+
+  const sedeHandle = (valor) => {
+    setSede(valor.value)
+  }
+
+
+  const personaHandle = (valor) => {
+    setPersona(valor.value)
+  }
+
+
+  const docDescripcion = [
+    { value: '100000000', label: 'CARTA DOCUMENTO' },
+    { value: '100000001', label: 'TELEGRAMA' },
+    { value: '100000002', label: 'CONTRATO' },
+    { value: '100000003', label: 'DENUNCIA' },
+    { value: '100000004', label: 'ACTA' },
+    { value: '100000005', label: 'NOTA' },
+    { value: '100000006', label: 'OTROS' },
+    { value: '100000007', label: 'CÉDULA' },
+    { value: '100000009', label: 'OFICIO' },
+    { value: '100000010', label: 'DEMANDA' },
+  ]
 
 
 
   return (
 
-    
+
     <animated.div className="container" style={fade}>
       <div className="col-sm-12 mt-4">
         <div className="card p-2 shadow pad borde-none sgr mb-4">
@@ -225,15 +274,15 @@ const docDescripcion = [
                       Autor
                     </label>
                     <input
-                             type="text"
-                             id="autor"
-                             value={contacto.map(item => item.fullname)}
-                             name="autor"
-                             className="form-control requerido"
-                             required
-                             placeholder=" --- "
-                             disabled
-                          />
+                      type="text"
+                      id="autor"
+                      value={contacto.map(item => item.fullname)}
+                      name="autor"
+                      className="form-control requerido"
+                      required
+                      placeholder=" --- "
+                      disabled
+                    />
                   </div>
                 </div>
 
@@ -273,12 +322,12 @@ const docDescripcion = [
                       Fecha de Creación
                     </label>
                     <input
-                       type="datetime-local"
-                       id="date"
-                       name="altar"
-                       className="form-control"
-                       required
-                       disabled
+                      type="datetime-local"
+                      id="date"
+                      name="altar"
+                      className="form-control"
+                      required
+                      disabled
                     />
                   </div>
                 </div>
@@ -322,16 +371,16 @@ const docDescripcion = [
                         Sede
                       </label>
                       <Select
-                      className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
-                      id="sede"
-                      onChange={(e) => sedeHandle(e)}
-                      options={selectSucu}
-                      name="sede"
-                      className="basic multi-select"
-                      ClassNamePrefix="select"
-                      placeholder="Elegir Sede..."
-                      required
-                    ></Select>
+                        className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
+                        id="sede"
+                        onChange={(e) => sedeHandle(e)}
+                        options={selectSucu}
+                        name="sede"
+                        className="basic multi-select"
+                        ClassNamePrefix="select"
+                        placeholder="Elegir Sede..."
+                        required
+                      ></Select>
                     </div>
                     <div className="mb-2 p-2">
                       <label className="form-label fw-bolder lbl-precalificacion ">
@@ -383,7 +432,30 @@ const docDescripcion = [
             </div>
 
           </form>
+          <div className="row">
+            <div className="col-4 position-fixed bottom-0 end-0 p-5 noti">
+              <Toast className="half-black" show={show} autohide color="lime">
+                <Toast.Body className="text-white">
+                  <div className="row p-2">
+                    {
+                      loading ?
+                        <Spinner animation="border" role="status" variant="primary">
+                          <span className="visually-hidden">Loading...</span>
+                        </Spinner>
+                        :
+                        <div className="col-1 mx-2">
+                          {error ? <FontAwesomeIcon icon={faTimesCircle} className="fs-3 upload-file atras" color="#dc3545" /> : <FontAwesomeIcon icon={faCheckCircle} className="fs-3 upload-file atras" color="#198754" />}
+                        </div>
+                    }
 
+                    <div className="col-10 mt-1 ml-5">
+                      {mensaje}
+                    </div>
+                  </div>
+                </Toast.Body>
+              </Toast>
+            </div>
+          </div>
         </div>
       </div>
     </animated.div>
@@ -391,4 +463,4 @@ const docDescripcion = [
   );
 };
 
-export default Legales;
+export default withRouter(Legales);

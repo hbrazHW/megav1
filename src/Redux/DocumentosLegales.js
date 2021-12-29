@@ -27,7 +27,7 @@ export default function documentosLegalesReducers(state = dataInicial, action) {
     case ERROR:
       return { ...dataInicial };
     case LOADING:
-      return { ...state, loading: true };
+      return { ...state, loading: true, resultadoCaso: action.resultadoCaso };
     case OBTENER_LEGALES_EXITO:
       return { ...state, legales: action.payload, loading: false };
     case LEGALESID_EXITO:
@@ -69,6 +69,7 @@ export const obtenerLegales = () => async (dispatch) => {
     dispatch({
       type: OBTENER_LEGALES_EXITO,
       payload: response.data,
+      resultadoCaso: 'PENDING'
     });
   } catch (error) {
     dispatch({
