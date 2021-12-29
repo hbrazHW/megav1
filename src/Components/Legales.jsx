@@ -491,22 +491,7 @@ const handleSubmission = (e) => {
               <div className="row">
                 <div className="custom-input-file col-12 mt-4">
                   <div class="form-group borde_discontinuo">
-                    <Uploady debug enhancer={mockSenderEnhancer}>
-                      <div className="card-header fw-bolder d-grid gap-5 d-md-flex justify-content-center">
-                        <h3>Copia y pega su archivo</h3>
-                        <PasteInput
-                          extraProps={{
-                            placeholder:
-                              " PrtSc y Ctrl+V",
-                          }}
-                        />
-                        <UploadStatus />
-                        <PreviewContainer>
-                          <UploadPreview />
-                        </PreviewContainer>
-                      </div>
-                    </Uploady>
-                    <input
+                  <input
                       type="file"
                       className="fw-bolder input-file "
                       name="file"
@@ -514,6 +499,30 @@ const handleSubmission = (e) => {
                       onChange={changeHandler}
                       multiple
                     />
+                    <Uploady debug enhancer={mockSenderEnhancer}>
+                      <div className="card-header fw-bolder d-grid gap-5 d-md-flex justify-content-center">
+                        <h3></h3>
+                        <div className="card-header fw-bolder d-grid gap-5 d-md-flex justify-content">
+
+                        <PasteInput
+                          extraProps={{
+                            placeholder:
+                              " Ctrl+C y Ctrl+V",
+                          }}
+                        />
+                        </div>
+                        <div className="card-header fw-bolder d-grid gap-5 d-md-flex ">
+                        <PreviewContainer>
+                          <div className="container">
+                          <UploadStatus />
+                          <UploadPreview />
+                          </div>
+                         
+                        </PreviewContainer>
+                        </div>
+                      </div>
+                    </Uploady>
+                   
                   </div>
                 </div>
               </div>
