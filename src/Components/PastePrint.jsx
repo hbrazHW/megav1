@@ -16,17 +16,6 @@ img {
   max-width: 400px;
 }
 `;
-
-// const StyleDropZone = styled(UploadDropZone)`
-// width: 400px;
-// height: 200px;
-// border: 1px solid #f1f1f1;
-// display: flex;
-// align-items: center;
-// margin-bottom: 10px
-
-// `;
-
 const StyledInput = styled.input`
  width: 600px;
  height:64px;
@@ -35,7 +24,6 @@ const StyledInput = styled.input`
  padding: 80px;
 
 `;
-
 // const PasteUploadDropZone = whithPasteUpload(StyleDropZone);
 
 const PasteInput = whithPasteUpload(StyledInput);
@@ -44,24 +32,14 @@ const UploadStatus = () => {
     const [status, setStatus] = useState(null);
     useItemStartListener(() => setStatus("cargando..."));
     useItemFinalizeListener(() => setStatus ("Archivo copiado!..."));
-
   return status;
 }
-
 const PastePrint = () => {
-
 
     return (
         <Uploady debug enhancer={mockSenderEnhancer}>
         <div className="">
             <h2>Subi tus archivos</h2>
-            {/* <PasteUploadDropZone params={{test: "paste"}}>
-                Podes arrastrar aca tus archivos!
-                <br />
-                o
-                <br />
-                copia y pega tu archivo para cargarlo
-            </PasteUploadDropZone> */}
             <PasteInput extraProps={{placeholder:"pega acá tu printScreen con el comando Ctrl+V"}} />
             <UploadStatus />
             <PreviewContainer>

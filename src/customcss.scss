@@ -650,5 +650,13 @@ select#telefono {
   font-size: 12px !important;
 }
 
+.plus{
+  color: whitesmoke;
 
+}
+
+.plus:hover {
+  color: #f58220;
+  transition: 1s;
+}
 @import "~bootstrap/scss/bootstrap";
