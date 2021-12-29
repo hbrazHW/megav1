@@ -66,28 +66,9 @@ const Login = (props) => {
         }
 
         dispatch(loginUsuario(mail, pass))
-
-        fetch("http://localhost:58371/api/Account?filter=emailaddress1 eq '" + mail + "'&cuit=OneClickSgr")
-            .then(response => response.json())
-            .then(data => {
-                const cuenta = data
-                debugger;
-                let accountid = cuenta[0].Accountid
-                if (accountid != undefined) {
-                    firebase.collection('usuarios').doc('rKIZIeMicoQ55E8qjOQFEz7r9bz1').set({
-                        email: 'samsungsa@gmail.com',
-                        uid: 'rKIZIeMicoQ55E8qjOQFEz7r9bz1',
-                        accountid: accountid
-                    })
-                    // const registro = dispatch(registrarUsuario(mail, pass, accountid))
-                }
-            })
-        document.getElementById("login").style.display = "none"
-        document.getElementById("spinner-login").style.display = "block"
-        // dispatch(loginUsuario(mail, pass))
         setLog(true)
     }
-
+    
   
     return (
         <animated.div className="portada" style={fade} > 
@@ -96,9 +77,9 @@ const Login = (props) => {
                     <div className="lds-roller float-none w-100 d-flex justify-content-center mx--1" id="spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
                 </div>
                 <div className="p-2 col-sm-8 col-md-5 col-lg-4 col-xl-3" id="login">
-                    <div className="mb-5 img-thumbail ">
+                    {/* <div className="mb-5 img-thumbail ">
                         <img className="rounded mx-auto d-block contenedor-logo logo-login" src={logo} alt="" />
-                    </div>
+                    </div> */}
                     <div className="card shadow border-0 h-auto d-flex justify-content-start borde-none pad">
                         <div className="card-header bg-white h-100 d-flex align-items-center pad borde-none">
                             <div className="col-sm-5">
