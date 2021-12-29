@@ -66,28 +66,9 @@ const Login = (props) => {
         }
 
         dispatch(loginUsuario(mail, pass))
-
-        fetch("http://localhost:58371/api/Account?filter=emailaddress1 eq '" + mail + "'&cuit=OneClickSgr")
-            .then(response => response.json())
-            .then(data => {
-                const cuenta = data
-                debugger;
-                let accountid = cuenta[0].Accountid
-                if (accountid != undefined) {
-                    firebase.collection('usuarios').doc('rKIZIeMicoQ55E8qjOQFEz7r9bz1').set({
-                        email: 'samsungsa@gmail.com',
-                        uid: 'rKIZIeMicoQ55E8qjOQFEz7r9bz1',
-                        accountid: accountid
-                    })
-                    // const registro = dispatch(registrarUsuario(mail, pass, accountid))
-                }
-            })
-        document.getElementById("login").style.display = "none"
-        document.getElementById("spinner-login").style.display = "block"
-        // dispatch(loginUsuario(mail, pass))
         setLog(true)
     }
-
+    
   
     return (
         <animated.div className="portada" style={fade} > 
