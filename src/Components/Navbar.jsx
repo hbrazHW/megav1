@@ -18,7 +18,7 @@ import {
   faAlignJustify,
   faAlignCenter,
 } from "@fortawesome/free-solid-svg-icons";
-import logo from "../img/logomega.png";
+import logo from "../img/megablanco.png";
 
 const Navbar = (props) => {
   //Constantes
@@ -144,7 +144,7 @@ const Navbar = (props) => {
             <div className="col-9">
               <div className="w-auto d-flex justify-content-center">
                 <Link className="navbar-brand m-0" to="/">
-                  <img className="logo" src={logo} alt="logo" />
+                  <img className="logo-menu" src={logo} alt="logo" />
                 </Link>
               </div>
             </div>
