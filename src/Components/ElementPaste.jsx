@@ -53,6 +53,9 @@ export const ElementPaste = ({props, tipo}) => {
                 }
                 dispatch(cargarArchivos(casoidSelector, formData, config, tipo))
                 setArchivos([])
+
+
+                
             }
         }
     }, [casoidSelector])

@@ -6,6 +6,7 @@ const dataInicial = {
     misCasosActivos: [],
     casosResueltos: [],
     asuntos: [],
+    archivos: [],
     casoid: '',
     ticket: '',
     resultadoCaso: '',
@@ -18,6 +19,7 @@ const OBTENER_CASO_EXITO = "OBTENER_CASO_EXITO"
 const OBTENER_NOMBRE_ASUNTOS = "OBTENER_NOMBRE_ASUNTOS"
 const OBTENER_MIS_CASOS_ACTIVOS = "OBTENER_MIS_CASOS_ACTIVOS";
 const OBTENER_CASOS_RESUELTOS = 'OBTENER_CASOS_RESUELTOS'
+const ADJUNTOS_EXITO = 'ADJUNTOS_EXITO'
 const LOADING = "LOADING";
 const ERROR = "ERROR";
 
@@ -25,7 +27,7 @@ const ERROR = "ERROR";
 export default function casosReducers(state = dataInicial, action) {
     switch (action.type) {
         case CARGA_CASOS_EXITO:
-            return { ...state, resultadoCaso: action.resultadoCaso, ticket: action.ticket}
+            return { ...state, resultadoCaso: action.resultadoCaso, ticket: action.ticket }
         case OBTENER_CASO_EXITO:
             return { ...state, casoid: action.casoid }
         case OBTENER_NOMBRE_ASUNTOS:
@@ -38,6 +40,8 @@ export default function casosReducers(state = dataInicial, action) {
             return { ...dataInicial };
         case LOADING:
             return { ...state, loading: true };
+        case ADJUNTOS_EXITO:
+            return { ...state, archivos: action.payload };
         default:
             return { ...state };
     }
@@ -134,7 +138,7 @@ export const consultaFETCHnombresAsuntos = () => async (dispatch) => {
     var fetch = "<fetch  mapping='logical' distinct='false'>" +
         "<entity name='subject'>" +
         "<attribute name='title' />" +
-        "<attribute name='subjectid' />"+
+        "<attribute name='subjectid' />" +
         "</entity>" +
         "</fetch>";
 
@@ -167,14 +171,14 @@ export const cargarForm = (contactid, asunto, fechaAlta, asuntoPrimario, solicit
         type: LOADING,
         resultadoCaso: 'LOADING'
     })
-    try { 
+    try {
         const response = await axios.post(`${UrlApiDynamics}Casos?contactid=${contactid}&asunto=${asunto}&fechaAlta=${fechaAlta}&asuntoPrimario=${asuntoPrimario}&solicitante=${solicitante}&puestoSolicitante=${puestoSolicitante}&tipoCaso=${tipoCaso}&comentarios=${comentarios}&sucursal=${sucursal}&cuit=${Entidad}`, file, config)
-           console.log("response", response)
+        console.log("response", response)
         dispatch({
             type: CARGA_CASOS_EXITO,
             ticket: response.data,
             resultadoCaso: 'EXITO',
-           
+
         })
     } catch (error) {
         dispatch({
@@ -183,3 +187,21 @@ export const cargarForm = (contactid, asunto, fechaAlta, asuntoPrimario, solicit
         })
     }
 }
+
+export const cargarArchivos = (casoid, file, config, tipo) => (dispatch) => {
+    try {
+        debugger
+        const id = casoid.split(';')
+        const resp = axios.post(`${UrlApiDynamics}Notas?id=${id[1]}&cuit=${Entidad}&tipo=${tipo}`, file, config)
+        dispatch({
+            type: ADJUNTOS_EXITO,
+            payload: resp.data
+        })
+    }
+    catch (error) {
+        dispatch({
+            type: ERROR
+        })
+    }
+}
+

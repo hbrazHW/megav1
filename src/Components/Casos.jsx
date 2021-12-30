@@ -15,9 +15,12 @@ import axios from "axios";
 import Uploady, {
   useItemStartListener,
   useItemFinalizeListener,
+  useBatchAddListener
 } from "@rpldy/uploady";
+
 import { getMockSenderEnhancer } from "@rpldy/mock-sender";
 import whithPasteUpload from "@rpldy/upload-paste";
+import { onPasteUpload } from "@rpldy/upload-paste";
 import UploadPreview from "@rpldy/upload-preview";
 import {
   copyImageToClipboard,
@@ -26,7 +29,7 @@ import {
 } from "copy-image-clipboard";
 import { cargarForm, consultaFETCHnombresAsuntos } from "../Redux/Casos";
 import { obtenerContacto } from "../Redux/Contacto";
-
+import ElementPaste from './ElementPaste'
 const Casos = () => {
   const dispatch = useDispatch();
 
@@ -89,7 +92,7 @@ const Casos = () => {
     const [status, setStatus] = useState(null);
     useItemStartListener(() => setStatus("cargando..."));
     useItemFinalizeListener(() => setStatus("Archivo copiado!..."));
-    console.log("status:",status)
+    console.log("status:", status)
     return status;
   };
 
@@ -115,6 +118,8 @@ const Casos = () => {
       console.log("Error: ", e.message);
     });
 
+  //idintranet
+
   // Can be an URL too, but be careful because this may cause CORS errors
   copyImageToClipboard("../")
     .then(() => {
@@ -133,6 +138,10 @@ const Casos = () => {
     .catch((e) => {
       console.log("Error: ", e.message);
     });
+
+  // onPasteUpload((e) => {
+
+  // })
 
 
   const [fecha, setFecha] = React.useState("")
@@ -248,6 +257,7 @@ const Casos = () => {
   }
 
   const changeHandler = (event) => {
+    debugger
     setSelectedFiles(event.target.files)
   };
 
@@ -382,7 +392,6 @@ const Casos = () => {
     { value: "2", label: "Reclamo" },
     { value: "3", label: "Pedido" },
   ];
-
 
   return (
     <animated.div className="container" style={fade}>
@@ -585,7 +594,8 @@ const Casos = () => {
                 </div>
 
                 {/* Provide a drop zone and an alternative button inside it to upload files. */}
-                <Uploady debug enhancer={mockSenderEnhancer}>
+                <Uploady debug enhancer={mockSenderEnhancer}  > 
+                   <ElementPaste autoUpload={false} params={{ test: "paste" }} tipo="caso"/>
                   <div className="d-grid gap-5 d-md-flex justify-content-center">
                     <PasteInput
                       extraProps={{
@@ -621,13 +631,14 @@ const Casos = () => {
                   </button>
 
                   {/* Hide the crappy looking default HTML input */}
-                  <input
-                    ref={inputRef}
+                  {/* <input
                     type="file"
+                    className="fw-bolder"
+                    name="file"
+                    id="adjunto"
+                    onChange={changeHandler}
                     multiple
-                    style={{ display: "none" }}
-                    onChange={(e) => setFiles(e, "a")}
-                  />
+                  /> */}
                 </div>
                 <br />
               </div>
@@ -644,6 +655,7 @@ const Casos = () => {
             </div>
           </form>
         </div>
+
       </div>
     </animated.div>
   );
