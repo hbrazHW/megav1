@@ -24,7 +24,7 @@ const SeleccionarMCA = ({ value }) => {
                     data-bs-target="#modalMCA"
                     onClick={e => obtenerId(e.target.id)}
                 >
-                    Ver Mi Caso Activo
+                    Ver mi caso activo
                 </button>
             </ul>
         </div>

@@ -26,6 +26,7 @@ import Casos from './Components/Casos'
 import RecursosHumanos from './Components/RecursosHumanos';
 import AdjuntarArchivo from './Components/AdjuntarArchivo';
 import PastePrint from './Components/PastePrint';
+import VistaCasos from './Components/VistaCasos';
 
 function App() {
   //Consantes
@@ -57,6 +58,7 @@ function App() {
           <Switch>
             <Route component={Inicio} path="/" exact />
             <Route component={Login} path="/login" exact/>
+            <Route component={VistaCasos} path="/vista-casos" />
             <Route component={CarpetaDigital} path="/carpetadigital" exact /> 
             <Route component={Lineas} path="/lineas" exact /> 
             <Route component={Garantias} path="/garantias" exact/>

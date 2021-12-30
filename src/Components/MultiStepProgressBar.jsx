@@ -5,16 +5,29 @@ import { faClipboardList, faIdBadge, faThumbsUp, faBriefcase, faSearch } from '@
 
 const MultiStepProgressBar = (props) => {
     var stepPercentage = 0;
-
     if (props.currentStep === 1) {
-        stepPercentage = 0;
+        stepPercentage = 9;
     } else if (props.currentStep === 2) {
-        stepPercentage = 36;
+        stepPercentage = 18;
     } else if (props.currentStep === 3) {
-        stepPercentage = 67;
-    }else if (props.currentStep === 3) {
+        stepPercentage = 27;
+    } else if (props.currentStep === 4) {
+        stepPercentage = 36;
+    } else if (props.currentStep === 5) {
+        stepPercentage = 45;
+    } else if (props.currentStep === 6) {
+        stepPercentage = 54;
+    } else if (props.currentStep === 7) {
+        stepPercentage = 63;
+    } else if (props.currentStep === 8) {
+        stepPercentage = 72;
+    } else if (props.currentStep === 9) {
+        stepPercentage = 81;
+    } else if (props.currentStep === 10) {
+        stepPercentage = 90;
+    } else if (props.currentStep === 11) {
         stepPercentage = 100;
-    }else {
+    } else {
         stepPercentage = 0;
     }
 
@@ -25,9 +38,9 @@ const MultiStepProgressBar = (props) => {
                     <div
                         className={`indexedStep ${accomplished ? "accomplished" : null}`}
                     >
-                        {/* {index + 1} */}
+                        {index + 1}
 
-                        <FontAwesomeIcon icon={faBriefcase} className="fs-6 upload-file atras" color="#eee" /> 
+                        {/* <FontAwesomeIcon icon={faBriefcase} className="fs-6 upload-file atras" color="#eee" /> */}
                     </div>
                 )}
             </Step>
@@ -36,8 +49,8 @@ const MultiStepProgressBar = (props) => {
                     <div
                         className={`indexedStep ${accomplished ? "accomplished" : null}`}
                     >
-                        {/* {index + 1} */}
-                       <FontAwesomeIcon icon={faClipboardList} className="fs-6 upload-file atras" color="#eee" />
+                        {index + 1}
+                        {/* <FontAwesomeIcon icon={faClipboardList} className="fs-6 upload-file atras" color="#eee" /> */}
                     </div>
                 )}
             </Step>
@@ -46,7 +59,8 @@ const MultiStepProgressBar = (props) => {
                     <div
                         className={`indexedStep ${accomplished ? "accomplished" : null}`}
                     >
-                         <FontAwesomeIcon icon={faSearch} className="fs-6 upload-file atras" color="#eee" />
+                        {index + 1}
+                        {/* <FontAwesomeIcon icon={faSearch} className="fs-6 upload-file atras" color="#eee" /> */}
                     </div>
                 )}
             </Step>
@@ -55,10 +69,75 @@ const MultiStepProgressBar = (props) => {
                     <div
                         className={`indexedStep ${accomplished ? "accomplished" : null}`}
                     >
-                         <FontAwesomeIcon icon={faThumbsUp} className="fs-6 upload-file atras" color="#eee" />
+                        {index + 1}
+                        {/* <FontAwesomeIcon icon={faThumbsUp} className="fs-6 upload-file atras" color="#eee" /> */}
                     </div>
                 )}
             </Step>
+            <Step>
+                {({ accomplished, index }) => (
+                    <div
+                        className={`indexedStep ${accomplished ? "accomplished" : null}`}
+                    >
+                        {index + 1}
+                    </div>
+                )}
+            </Step>
+            <Step>
+                {({ accomplished, index }) => (
+                    <div
+                        className={`indexedStep ${accomplished ? "accomplished" : null}`}
+                    >
+                        {index + 1}
+                    </div>
+                )}
+            </Step>
+            <Step>
+                {({ accomplished, index }) => (
+                    <div
+                        className={`indexedStep ${accomplished ? "accomplished" : null}`}
+                    >
+                        {index + 1}
+                    </div>
+                )}
+            </Step>
+            <Step>
+                {({ accomplished, index }) => (
+                    <div
+                        className={`indexedStep ${accomplished ? "accomplished" : null}`}
+                    >
+                        {index + 1}
+                    </div>
+                )}
+            </Step>
+            <Step>
+                {({ accomplished, index }) => (
+                    <div
+                        className={`indexedStep ${accomplished ? "accomplished" : null}`}
+                    >
+                        {index + 1}
+                    </div>
+                )}
+            </Step>
+            <Step>
+                {({ accomplished, index }) => (
+                    <div
+                        className={`indexedStep ${accomplished ? "accomplished" : null}`}
+                    >
+                        {index + 1}
+                    </div>
+                )}
+            </Step>
+            <Step>
+                {({ accomplished, index }) => (
+                    <div
+                        className={`indexedStep ${accomplished ? "accomplished" : null}`}
+                    >
+                        {index + 1}
+                    </div>
+                )}
+            </Step>
+
         </ProgressBar>
     )
 }
