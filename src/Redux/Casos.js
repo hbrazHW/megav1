@@ -78,6 +78,7 @@ export const consultaFETCHmisCasosActivos = () => async (dispatch) => {
         dispatch({
             type: OBTENER_MIS_CASOS_ACTIVOS,
             payload: response.data,
+            resultadoCaso: 'PENDING'
         });
     } catch (error) {
         dispatch({

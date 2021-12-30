@@ -27,7 +27,7 @@ export default function documentosLegalesReducers(state = dataInicial, action) {
     case ERROR:
       return { ...dataInicial };
     case LOADING:
-      return { ...state, loading: true };
+      return { ...state, loading: true, resultadoCaso: action.resultadoCaso };
     case OBTENER_LEGALES_EXITO:
       return { ...state, legales: action.payload, loading: false };
     case LEGALESID_EXITO:
@@ -69,6 +69,7 @@ export const obtenerLegales = () => async (dispatch) => {
     dispatch({
       type: OBTENER_LEGALES_EXITO,
       payload: response.data,
+      resultadoCaso: 'PENDING'
     });
   } catch (error) {
     dispatch({
@@ -88,13 +89,13 @@ export const obtenerLegalesId = (id) => (dispatch) => {
   }
 }
 
-export const cargarForm = ( autor, fechaRecepcion, descripcionDoc, sede, persona, observaciones  ) => async (dispatch) => {
+export const cargarForm = ( autor, fechaRecepcion, descripcionDoc, sede, persona, observaciones,  file, config  ) => async (dispatch) => {
   dispatch({
       type: LOADING,
       resultadoCaso: 'LOADING'
   })
   try { 
-      const response = await axios.post(`${UrlApiDynamics}Documentoslegales?autor=${autor}&fechaRecepcion=${fechaRecepcion}&descripcionDoc=${descripcionDoc}&sede=${sede}&persona=${persona}&observaciones=${observaciones}&cuit=${Entidad}`)
+      const response = await axios.post(`${UrlApiDynamics}Documentoslegales?autor=${autor}&fechaRecepcion=${fechaRecepcion}&descripcionDoc=${descripcionDoc}&sede=${sede}&persona=${persona}&observaciones=${observaciones}&cuit=${Entidad}`, file, config)
          console.log("response", response)
       dispatch({
           type: CARGA_DATOS_EXITO,

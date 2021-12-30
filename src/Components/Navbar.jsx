@@ -17,8 +17,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAlignJustify,
   faAlignCenter,
+  faPlus
 } from "@fortawesome/free-solid-svg-icons";
-import logo from "../img/logomega.png";
+import logo from "../img/megablanco.png";
 
 const Navbar = (props) => {
   //Constantes
@@ -83,7 +84,6 @@ const Navbar = (props) => {
     }
   }, [activo, notificacionesSelector, cuentaSelector, contactoSelector]);
 
-  console.log("contacto", contacto);
 
   const obtenerNotificacionesCuenta = async () => {
     dispatch(obtenerNotificaciones(accountid));
@@ -144,7 +144,7 @@ const Navbar = (props) => {
             <div className="col-9">
               <div className="w-auto d-flex justify-content-center">
                 <Link className="navbar-brand m-0" to="/">
-                  <img className="logo" src={logo} alt="logo" />
+                  <img className="logo-menu" src={logo} alt="logo" />
                 </Link>
               </div>
             </div>
@@ -160,48 +160,49 @@ const Navbar = (props) => {
                       data-bs-trigger="hover"
                       aria-expanded="false"
                     >
-                      <span className="notification-indicator-primary notification-indicator"></span>
-                      <i className="bi bi-bell-fill "></i>
+                      <span className="container"></span>
+                      <FontAwesomeIcon
+                    icon={faPlus}
+                    className="fs-3 upload-file atras plus"
+                    style={fade}
+                  />
                     </button>
                     <div className="dropdown-menu shadow mt-3 dropdown-menu-end pad borde-none">
                       <div className="card card-notificacion pad borde-none">
                         <div className="card-header mt-0 p-2 bg-white pad border-none">
-                          <h6 className="fw-bolder m-0">Notificaciones</h6>
+                          <h6 className="fw-bolder m-0">Formularios</h6>
                           <div className="col-sm-2 separador-notificacion"></div>
                         </div>
                         <div className="card-body p-0 bg-white  borde-none">
                           <ul className="list-group w-100 overflow-auto notificaciones-menu shadow-sm">
-                            {notificaciones.map((item) => {
-                              return (
-                                <li
-                                  key={item.activityid}
-                                  className="border-top border-bottom"
-                                >
-                                  <div className="contened-notificacion">
-                                    <div className="row align-items-center w-100">
-                                      <div className="col-8">
-                                        <h5 className="card-title card-title-menu fw-bold texto-lista">
-                                          {item.subject}
-                                        </h5>
-                                      </div>
-                                      <div className="col-4 texto-lista fw-bolder text-end p-0">
-                                        {item.createdon
-                                          ? Moment(item.createdon).format(
-                                              "DD-MM-YYYY"
-                                            )
-                                          : "-"}
-                                      </div>
-                                      <div className="col-12">
-                                        <p className="card-text card-text-menu fw-bolder texto-notificacion-descripcion">
-                                          {" "}
-                                          {item.description}
-                                        </p>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </li>
-                              );
-                            })}
+                          <div className="row border-bottom pb-1">
+                            <div className="col-12 mt-2">
+                              <Link
+                                className=" mr-5 text-decoration-none"
+                                to="/Casos"
+                              >
+                                <button className="dropdown-item mb-2 p-3 rounded-3 perfil-link fw-bolder">
+                                  Crear Caso
+                                </button>
+                              </Link>
+                              <Link
+                                className=" mr-5 text-decoration-none"
+                                to="/legales"
+                              >
+                                <button className="dropdown-item mb-2 p-3 rounded-3 perfil-link fw-bolder">
+                                  Crear Legal
+                                </button>
+                              </Link>
+                              <Link
+                                className=" mr-5 text-decoration-none"
+                                to="/RecursosHumanos"
+                              >
+                                <button className="dropdown-item mb-2 p-3 rounded-3 perfil-link fw-bolder">
+                                  Crear Busqueda Personal
+                                </button>
+                              </Link>
+                            </div>
+                          </div>
                           </ul>
                         </div>
                         <div className="card-footer bg-white text-muted text-center border-none fw-bolder">
@@ -255,7 +256,7 @@ const Navbar = (props) => {
                               </p>
                             </div>
                           </div>
-                          <div className="row border-bottom pb-1">
+                          {/* <div className="row border-bottom pb-1">
                             <div className="col-12 mt-2">
                               <Link
                                 className=" mr-5 text-decoration-none"
@@ -266,7 +267,7 @@ const Navbar = (props) => {
                                 </button>
                               </Link>
                             </div>
-                          </div>
+                          </div> */}
                           <div className="col-12 mt-2">
                             <div className="mt-1">
                               <button
@@ -293,7 +294,7 @@ const Navbar = (props) => {
             <div className="w-100 d-flex align-items-center">
               <div className="m-auto">
                 <ul className="navbar-nav">
-                  <li className="nav-item">
+                  {/* <li className="nav-item">
                     <NavLink className="casos-nav" to="/Casos">
                       Casos
                     </NavLink>
@@ -307,7 +308,7 @@ const Navbar = (props) => {
                     <NavLink className="recursos-humanos" to="/RecursosHumanos">
                       Recursos Humanos
                     </NavLink>
-                  </li>
+                  </li> */}
                 </ul>
               </div>
             </div>
@@ -321,54 +322,50 @@ const Navbar = (props) => {
                       data-bs-trigger="hover"
                       aria-expanded="false"
                     >
-                      <span className="notification-indicator-primary notification-indicator"></span>
-                      <i className="bi bi-bell-fill "></i>
+                      <span className="container"></span>
+                      <FontAwesomeIcon
+                    icon={faPlus}
+                    className="fs-3 upload-file atras plus"
+                    style={fade}
+                  />
                     </button>
                     <div className="dropdown-menu shadow mt-3 dropdown-menu-end pad borde-none">
-                      <div className="card card-notificacion pad borde-none">
+                      <div className="card card pad borde-none">
                         <div className="card-header mt-0 p-2 bg-white pad border-none">
-                          <h6 className="fw-bolder m-0">Notificaciones</h6>
+                          <h6 className="fw-bolder m-0">Formularios</h6>
                           <div className="col-sm-2 separador-notificacion"></div>
                         </div>
                         <div className="card-body p-0 bg-white  borde-none">
-                          <ul className="list-group w-100 overflow-auto notificaciones-menu shadow-sm">
-                            {notificaciones.map((item) => {
-                              return (
-                                <li
-                                  key={item.activityid}
-                                  className="border-top border-bottom"
-                                >
-                                  <div className="contened-notificacion">
-                                    <div className="row align-items-center w-100">
-                                      <div className="col-8">
-                                        <h5 className="card-title card-title-menu fw-bold texto-lista">
-                                          {item.subject}
-                                        </h5>
-                                      </div>
-                                      <div className="col-4 texto-lista fw-bolder text-end p-0">
-                                        {item.createdon
-                                          ? Moment(item.createdon).format(
-                                              "DD-MM-YYYY"
-                                            )
-                                          : "-"}
-                                      </div>
-                                      <div className="col-12">
-                                        <p className="card-text card-text-menu fw-bolder texto-notificacion-descripcion">
-                                          {" "}
-                                          {item.description}
-                                        </p>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </li>
-                              );
-                            })}
+                          <ul className="list-group w-100  shadow-sm">
+                            <div className="row border-bottom pb-1">
+                            <div className="col-12 mt-2">
+                              <Link
+                                className=" mr-5 text-decoration-none"
+                                to="/Casos"
+                              >
+                                <button className="dropdown-item mb-2 p-3 rounded-3 perfil-link fw-bolder">
+                                  Crear Caso
+                                </button>
+                              </Link>
+                              <Link
+                                className=" mr-5 text-decoration-none"
+                                to="/legales"
+                              >
+                                <button className="dropdown-item mb-2 p-3 rounded-3 perfil-link fw-bolder">
+                                  Crear Legal
+                                </button>
+                              </Link>
+                              <Link
+                                className=" mr-5 text-decoration-none"
+                                to="/RecursosHumanos"
+                              >
+                                <button className="dropdown-item mb-2 p-3 rounded-3 perfil-link fw-bolder">
+                                  Crear Busqueda Personal
+                                </button>
+                              </Link>
+                            </div>
+                          </div>
                           </ul>
-                        </div>
-                        <div className="card-footer bg-white text-muted text-center border-none fw-bolder">
-                          <p className="color-footer-notificacion pt-1  m-0">
-                            Ver más
-                          </p>
                         </div>
                       </div>
                     </div>
@@ -416,7 +413,7 @@ const Navbar = (props) => {
                               ))}
                             </div>
                           </div>
-                          <div className="row border-bottom pb-1">
+                          {/* <div className="row border-bottom pb-1">
                             <div className="col-12 mt-2">
                               <Link
                                 className=" mr-5 text-decoration-none"
@@ -427,7 +424,7 @@ const Navbar = (props) => {
                                 </button>
                               </Link>
                             </div>
-                          </div>
+                          </div> */}
                           <div className="col-12 mt-2">
                             <div className="mt-1">
                               <button

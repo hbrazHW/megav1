@@ -45,7 +45,7 @@ export default function recursosHumanosReducers(state = dataInicial, action) {
         case ERROR:
             return { ...dataInicial };
         case LOADING:
-            return { ...state, loading: true };
+            return { ...state, loading: true, resultadoCaso: action.resultadoCaso };
         default:
             return { ...state };
     }
@@ -55,6 +55,7 @@ export default function recursosHumanosReducers(state = dataInicial, action) {
 export const consultaFETCHbusquedaPersonal = () => async (dispatch) => {
   dispatch({
     type: LOADING,
+    
   });
   var entidad = "new_busquedadepersonals";
   var fetch =
@@ -85,6 +86,7 @@ export const consultaFETCHbusquedaPersonal = () => async (dispatch) => {
     dispatch({
       type: OBTENER_BUSQUEDA_ABIERTA,
       payload: response.data,
+      resultadoCaso: 'EXITO'
     });
   } catch (error) {
     dispatch({

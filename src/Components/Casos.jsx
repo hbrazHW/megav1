@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import Select from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFile } from "@fortawesome/free-solid-svg-icons";
 import { obtenerCliente } from "../Redux/ClienteCaso";
 import { useDispatch, useSelector } from "react-redux";
 import { useSpring, animated } from "react-spring";
@@ -27,10 +26,15 @@ import {
   getBlobFromImageElement,
   copyBlobToClipboard,
 } from "copy-image-clipboard";
-import { cargarForm, consultaFETCHnombresAsuntos } from "../Redux/Casos";
+import { cargarForm, consultaFETCHmisCasosActivos, consultaFETCHnombresAsuntos } from "../Redux/Casos";
 import { obtenerContacto } from "../Redux/Contacto";
+
 import ElementPaste from './ElementPaste'
-const Casos = () => {
+import { Toast, Spinner } from 'react-bootstrap'
+import { faFile, faCloudUploadAlt, faCheckCircle, faTimesCircle, faEnvelope, faClipboardList, faCircle } from '@fortawesome/free-solid-svg-icons'
+import { withRouter, NavLink } from 'react-router-dom'
+
+const Casos = (props) => {
   const dispatch = useDispatch();
 
   //hooks
@@ -93,6 +97,7 @@ const Casos = () => {
     useItemStartListener(() => setStatus("cargando..."));
     useItemFinalizeListener(() => setStatus("Archivo copiado!..."));
     console.log("status:", status)
+
     return status;
   };
 
@@ -106,16 +111,16 @@ const Casos = () => {
         "content-type": "multipart/form-data",
       });
     } catch (error) {
-      console.error("Error archivo incompatible");
+      // console.error("Error archivo incompatible");
     }
   };
   // Pass the image src attribute here
   copyImageToClipboard("assets/image*")
     .then(() => {
-      console.log("Image Copied");
+      // console.log("Image Copied");
     })
     .catch((e) => {
-      console.log("Error: ", e.message);
+      // console.log("Error: ", e.message);
     });
 
   //idintranet
@@ -123,20 +128,20 @@ const Casos = () => {
   // Can be an URL too, but be careful because this may cause CORS errors
   copyImageToClipboard("../")
     .then(() => {
-      console.log("Image Copied");
+      // console.log("Image Copied");
     })
     .catch((e) => {
-      console.log("Error: ", e.message);
+      // console.log("Error: ", e.message);
     });
   getBlobFromImageElement(imageElement)
     .then((blob) => {
       return copyBlobToClipboard(blob);
     })
     .then(() => {
-      console.log("Blob Copied");
+      // console.log("Blob Copied");
     })
     .catch((e) => {
-      console.log("Error: ", e.message);
+      // console.log("Error: ", e.message);
     });
 
   // onPasteUpload((e) => {
@@ -155,7 +160,13 @@ const Casos = () => {
   const [tipoC, setTipoC] = React.useState("")
   const [comentarios, setComentarios] = React.useState("")
   const [selectedFiles, setSelectedFiles] = React.useState([])
+  
 
+  const [mensaje, setMensaje] = React.useState('')
+  const [loading, setLoading] = React.useState(false)
+  const [show, setShow] = React.useState(false)
+  const [error, setError] = React.useState(false)
+  const resultado = useSelector(store => store.casos.resultadoCaso)
 
   const fade = useSpring({
     from: {
@@ -176,7 +187,7 @@ const Casos = () => {
         contactSelector.filter(cntc => cntc.contactid === contactid).map(item => (
           contactomatch.push(item)
         ))
-        console.log("resultado:", contactomatch)
+        // console.log("resultado:", contactomatch)
         setSede(contactomatch[0]._parentcustomerid_value)
       } else if (llamada === false) {
         obtenerContactos();
@@ -221,22 +232,18 @@ const Casos = () => {
 
       if (contacto.length > 0) {
         var cliente = contacto.map(item => item.contactid)
-        console.log("cliente:", cliente)
         SetClienteSeleccionar(cliente[0])
       }
 
-    }
-  }, [contactSelector, sucursalSelector, contactoSelector]);
+      if (resultado !== undefined) {
+        if (resultado !== '') {
+          cargaExito()
+        }
+      }
 
-  console.log("fecha:", fecha)
-  console.log("cliente:", clienteSeleccionar)
-  console.log("sede:", sede)
-  console.log("selectedPrimario:", selected)
-  console.log("solicitante:", solicitante)
-  console.log("puesto solicitante:", puestoSolicitante)
-  console.log("asunto:", asuntoSeleccionar)
-  console.log("tipoc", tipoC)
-  console.log("comentarios:", comentarios)
+    }
+  }, [contactSelector, sucursalSelector, contactoSelector, resultado]);
+
 
   const enviarFormulario = (e) => {
     e.preventDefault()
@@ -254,6 +261,52 @@ const Casos = () => {
     };
 
     dispatch(cargarForm(clienteSeleccionar, asuntoSeleccionar, fecha, selected, solicitante, puestoSolicitante, tipoC, comentarios, sede, formData, config))
+    setLoading(true)
+    setMensaje("Cargando...")
+    setShow(true)
+    limpiarForm()
+  }
+
+  const cargaExito = () => {
+    if (resultado === "EXITO") {
+      setMensaje("El caso fue creado con éxito!")
+      setError(false)
+      setLoading(false)
+      setShow(true)
+      setTimeout(() => {
+        obtenerCasos()
+        props.history.push('/')
+      }, 500);
+      setTimeout(() => {
+        setShow(false)
+      }, 1500)
+    }
+    else if (resultado === "ERROR") {
+      setMensaje("Error al crear caso!")
+      setError(true)
+      setLoading(false)
+      setShow(true)
+      setTimeout(() => {
+        setShow(false)
+      }, 3000);
+    }
+  }
+
+  const limpiarForm = () => {
+    setFecha('')
+    SetClienteSeleccionar('')
+    setSede('')
+    setSelected('')
+    setSolicitante('')
+    setPuestoSolicitante('')
+    setAsuntoSeleccionar('')
+    setTipoC('')
+    setComentarios('')
+    setSelectedFiles('')
+  }
+
+  const obtenerCasos = () => {
+    dispatch(consultaFETCHmisCasosActivos())
   }
 
   const changeHandler = (event) => {
@@ -654,6 +707,30 @@ const Casos = () => {
               <br />
             </div>
           </form>
+          <div className="row">
+            <div className="col-4 position-fixed bottom-0 end-0 p-5 noti">
+              <Toast className="half-black" show={show} autohide color="lime">
+                <Toast.Body className="text-white">
+                  <div className="row p-2">
+                    {
+                      loading ?
+                        <Spinner animation="border" role="status" variant="primary">
+                          <span className="visually-hidden">Loading...</span>
+                        </Spinner>
+                        :
+                        <div className="col-1 mx-2">
+                          {error ? <FontAwesomeIcon icon={faTimesCircle} className="fs-3 upload-file atras" color="#dc3545" /> : <FontAwesomeIcon icon={faCheckCircle} className="fs-3 upload-file atras" color="#198754" />}
+                        </div>
+                    }
+
+                    <div className="col-10 mt-1 ml-5">
+                      {mensaje}
+                    </div>
+                  </div>
+                </Toast.Body>
+              </Toast>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -661,4 +738,4 @@ const Casos = () => {
   );
 };
 
-export default Casos;
+export default withRouter(Casos);
