@@ -8,7 +8,7 @@ const UrlApiDynamics = "https://sgroc365api.azurewebsites.net/api/";
 // localhost:
 // const RecaptchaKey = "6LeALiAcAAAAABv5WAeRHUmaf5GfqNSBYn8wTKON";
 //
-// const UrlApiDynamics = "https://sgroc365api.azurewebsites.net/api/";
+// const UrlApiDynamics = "https://localhost:44348/api/";
 
 // Ultimas 2 recaptcha
 const RecaptchaKey = "6LdWMcIdAAAAAAWuoJonpfbVOiyIDvuXUCDJvZGT";

@@ -110,6 +110,7 @@ export const CarpetaDigital = () => {
   };
 
   const changeHandler = (event) => {
+    debugger
     setSelectedFiles(event.target.files);
     setSelectedFile(event.target.files[0]);
     setIsFilePicked(true);
