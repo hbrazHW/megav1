@@ -6,7 +6,7 @@ html {
 body {
   font-family: "Open Sans", sans-serif !important;
   font-weight: bold;
-  background-color: #ffffff !important;
+  background-color:#231F20 !important;
 }
 body::-webkit-scrollbar,
 .table-body::-webkit-scrollbar,
@@ -658,4 +658,8 @@ select#telefono {
   color: #f58220;
   transition: 1s;
 }
+
+$carousel-caption-width:             70%;
+
+
 @import "~bootstrap/scss/bootstrap";
