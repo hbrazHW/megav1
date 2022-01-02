@@ -26,7 +26,7 @@ import Casos from './Components/Casos'
 import RecursosHumanos from './Components/RecursosHumanos';
 import AdjuntarArchivo from './Components/AdjuntarArchivo';
 import PastePrint from './Components/PastePrint';
-import IncioV2 from './Components/IncioV2';
+import InicioV2 from './Components/InicioV2';
 
 function App() {
   //Consantes
@@ -72,7 +72,7 @@ function App() {
             <Route component={RecursosHumanos} path="/RecursosHumanos" exact />
             <Route component={AdjuntarArchivo} path="/AdjuntarArchivo" exact />
             <Route component={PastePrint} path="/PastePrint" exact />
-            <Route component={IncioV2} path="/IncioV2" exact />
+            <Route component={InicioV2} path="/InicioV2" exact />
           </Switch>
         <Footer loggedUser={loggedUser} />
       </div>

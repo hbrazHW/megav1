@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const Carousel = () => {
   return (
-    <div>
+    <div className="container">
       <div
         id="carouselExampleIndicators"
         className="carousel slide"
@@ -61,7 +61,7 @@ const Carousel = () => {
             className="carousel-control-prev-icon"
             aria-hidden="true"
           ></span>
-          <span className="visually-hidden">Previous</span>
+          <span className="visually">Anterior</span>
         </button>
         <button
           className="carousel-control-next"
@@ -73,7 +73,7 @@ const Carousel = () => {
             className="carousel-control-next-icon"
             aria-hidden="true"
           ></span>
-          <span className="visually-hidden">Next</span>
+          <span className="visually">Seguiente</span>
         </button>
       </div>
     </div>

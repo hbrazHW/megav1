@@ -2,12 +2,12 @@ import React from 'react'
 import Carousel from './Carousel';
 
 
-const IncioV2 = () => {
+const InicioV2 = () => {
 
     return (
-        <div className="container-fluid">
+        <div >
             <Carousel />
         </div>
     )
 }
-export default IncioV2
+export default InicioV2
