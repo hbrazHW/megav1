@@ -62,7 +62,8 @@ export const ElementPasteLegales = ({props, tipo}) => {
 
     return (
         <div ref={containerRef}>
-            {getIsEnabled() ? "enabled" : "disabled"}
+         Click here & Paste a file
+            Paste is:   {getIsEnabled() ? "enabled" : "disabled"}
         </div>
     )
 }
