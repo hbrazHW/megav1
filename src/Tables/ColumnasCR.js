@@ -34,7 +34,7 @@ export const COLUMNASCR = [
         Header: 'Número de caso',
         footer: 'Número de caso',
         accessor: 'ticketnumber',
-        Cell: ({ value }) => { return value ? <p className=" m-0  texto-lista m-0">{value}</p> : '-' }
+        Cell: ({ value }) => { return value ? <span class="badge badge-personalizado-naranja">{value}</span> : '-' }
     },
     {
         accessor: 'incidentid',

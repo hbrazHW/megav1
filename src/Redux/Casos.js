@@ -63,6 +63,8 @@ export const consultaFETCHmisCasosActivos = () => async (dispatch) => {
         "<attribute name='subjectid' />" +
         "<attribute name='new_fechaalta' />" +
         "<attribute name='incidentid' />" +
+        "<attribute name='statuscode' />" +
+        "<attribute name='new_comentarios' />" +
         "<order attribute='ticketnumber' descending='false' />" +
         "<filter type='and'>" +
         "<condition attribute='ownerid' operator='eq-userteams' />" +
@@ -105,6 +107,8 @@ export const consultaFETCHcasosResueltos = () => async (dispatch) => {
         "<attribute name='new_vencimiento' />" +
         "<attribute name='incidentid' />" +
         "<attribute name='new_comentarios' />" +
+        "<attribute name='new_sede' />" +
+        "<attribute name='new_asuntoprimario' />" +
         "<order attribute='ticketnumber' descending='false' />" +
         "<filter type='and'>" +
         "<condition attribute='statecode' operator='eq' value='1' />" +

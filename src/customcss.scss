@@ -782,4 +782,32 @@ select#telefono {
   }
 
 }
+
+.badge-personalizado-naranja{
+  font-size: 12.5px !important; 
+  background-color: #fd7e14 !important;
+  font-weight: lighter !important;
+  font-weight: 700;
+}
+
+.RSPBprogression {
+  background-color: rgb(245,130,32) !important; 
+}
+
+.indexedStep {
+  color: white;
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+  background-color: rgba(211, 211, 211, 0.8);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.indexedStep.accomplished {
+  background-color: rgb(245,130,32);
+}
+
 @import "~bootstrap/scss/bootstrap";
