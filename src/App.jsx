@@ -26,6 +26,7 @@ import Casos from './Components/Casos'
 import RecursosHumanos from './Components/RecursosHumanos';
 import AdjuntarArchivo from './Components/AdjuntarArchivo';
 import PastePrint from './Components/PastePrint';
+import Cover from './Components/Cover';
 import VistaCasos from './Components/VistaCasos';
 import VistaDocumentos from './Components/VistaDocumentos';
 import VistaRh from './Components/VistaRh';
@@ -68,7 +69,7 @@ function App() {
             <Route component={Garantias} path="/garantias" exact/>
             <Route component={Operaciones} path="/operaciones"/> 
             <Route component={Notificacion} path="/notificacion" />
-           <Route component={Cuenta} path="/cuenta" exact/> 
+            <Route component={Cuenta} path="/cuenta" exact/> 
             <Route component={PrecalificacionCrediticia} path="/precalificacion-crediticia" />
             <Route component={RecuperoContrasena} path="/recupero" exact />
             <Route component={Registro} path="/registro" exact /> 
@@ -77,6 +78,7 @@ function App() {
             <Route component={RecursosHumanos} path="/RecursosHumanos" exact />
             <Route component={AdjuntarArchivo} path="/AdjuntarArchivo" exact />
             <Route component={PastePrint} path="/PastePrint" exact />
+            <Route component={Cover} path="/Cover" exact />
           </Switch>
         <Footer loggedUser={loggedUser} />
       </div>
