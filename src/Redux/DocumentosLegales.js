@@ -14,9 +14,11 @@ const dataInicial = {
 //types
 const OBTENER_LEGALES_EXITO = "OBTENER_LEGALES_EXITO";
 const LEGALESID_EXITO = "LEGALESID_EXITO"
+const CARGA_DATOS_EXITO = "CARGA_DATOS_EXITO"
+const ADJUNTOS_EXITO = 'ADJUNTOS_EXITO'
 const LOADING = "LOADING";
 const ERROR = "ERROR";
-const CARGA_DATOS_EXITO = "CARGA_DATOS_EXITO"
+
 
 
 //reducers
@@ -32,8 +34,10 @@ export default function documentosLegalesReducers(state = dataInicial, action) {
       return { ...state, legales: action.payload, loading: false };
     case LEGALESID_EXITO:
       return  { ...state, legalesId: action.legalesId, loading: false };
+      case ADJUNTOS_EXITO:
+        return { ...state, archivos: action.payload };
     default:
-      return { ...state };
+        return { ...state };
       
   }
 }
@@ -108,6 +112,23 @@ export const cargarForm = ( autor, fechaRecepcion, descripcionDoc, sede, persona
       dispatch({
           type: ERROR,
           resultadoCaso: 'ERROR'
+      })
+  }
+}
+
+export const cargarArchivos = (legalesId, file, config, tipo) => (dispatch) => {
+  try {
+      debugger
+      const id = legalesId.split(';')
+      const resp = axios.post(`${UrlApiDynamics}Notas?id=${id[1]}&cuit=${Entidad}&tipo=${tipo}`, file, config)
+      dispatch({
+          type: ADJUNTOS_EXITO,
+          payload: resp.data
+      })
+  }
+  catch (error) {
+      dispatch({
+          type: ERROR
       })
   }
 }
