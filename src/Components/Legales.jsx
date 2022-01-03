@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import Select from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSpring, animated } from "react-spring";
@@ -8,8 +8,23 @@ import { consultaFETCHcuentas, } from "../Redux/RecursosHumanos";
 import { consultaFETCHcontacts } from "../Redux/Contact";
 import { obtenerContacto } from "../Redux/Contacto";
 import { Toast, Spinner } from 'react-bootstrap'
-import { faCloudUploadAlt, faCheckCircle, faTimesCircle, faEnvelope, faClipboardList, faCircle } from '@fortawesome/free-solid-svg-icons'
+import {  faCheckCircle, faTimesCircle, faFile } from '@fortawesome/free-solid-svg-icons'
 import { withRouter, NavLink } from 'react-router-dom'
+import {
+  copyImageToClipboard,
+  getBlobFromImageElement,
+  copyBlobToClipboard,
+} from "copy-image-clipboard";
+import Uploady, {
+  useItemStartListener,
+  useItemFinalizeListener,
+} from "@rpldy/uploady";
+import { getMockSenderEnhancer } from "@rpldy/mock-sender";
+import whithPasteUpload from "@rpldy/upload-paste";
+import UploadPreview from "@rpldy/upload-preview";
+import { useDropzone } from "react-dropzone";
+import useFileUpload from "react-use-file-upload";
+import styled from "styled-components";
 
 const Legales = (props) => {
   const dispatch = useDispatch();
@@ -53,6 +68,32 @@ const Legales = (props) => {
   const [show, setShow] = React.useState(false)
   const [error, setError] = React.useState(false)
   const resultado = useSelector(store => store.legales.resultadoCaso)
+
+  ////copy-paste//
+const mockSenderEnhancer = getMockSenderEnhancer();
+const PreviewContainer = styled.div`
+margin-top: 20px;
+img {
+  max-width: 400px;
+}
+`;
+const StyledInput = styled.input`
+ width: 300px;
+ height:34px;
+ font-size: 18px;
+ margin: 20px 0;
+ padding: 80px;
+`;
+// const PasteUploadDropZone = whithPasteUpload(StyleDropZone);
+
+const PasteInput = whithPasteUpload(StyledInput);
+
+const UploadStatus = () => {
+    const [status, setStatus] = useState(null);
+    useItemStartListener(() => setStatus("cargando..."));
+    useItemFinalizeListener(() => setStatus ("Archivo copiado!..."));
+  return status;
+}
 
   const fade = useSpring({
     from: {
@@ -420,6 +461,55 @@ const Legales = (props) => {
                 </div>
               </div>
               <br />
+            </div>
+            <div class="card">
+              <div class="card-header fw-bolder d-grid gap-5 d-md-flex justify-content-center">
+                Adjuntar Archivos{" "}
+                <FontAwesomeIcon
+                  icon={faFile}
+                  className="fs-4 justify-content-center"
+                  color="rgb(245,130,32)"
+                />
+              </div>
+
+              <div className="row">
+                <div className="custom-input-file col-12 mt-4">
+                  <div class="form-group borde_discontinuo">
+                  <input
+                      type="file"
+                      className="fw-bolder input-file "
+                      name="file"
+                      id="adjunto"
+                      // onChange={changeHandler}
+                      multiple
+                    />
+                    <Uploady debug enhancer={mockSenderEnhancer}>
+                      <div className="card-header fw-bolder d-grid gap-5 d-md-flex justify-content-center">
+                        <h3></h3>
+                        <div className="card-header fw-bolder d-grid gap-5 d-md-flex justify-content">
+
+                        <PasteInput
+                          extraProps={{
+                            placeholder:
+                              " Ctrl+C y Ctrl+V",
+                          }}
+                        />
+                        </div>
+                        <div className="card-header fw-bolder d-grid gap-5 d-md-flex ">
+                        <PreviewContainer>
+                          <div className="container">
+                          <UploadStatus />
+                          <UploadPreview />
+                          </div>
+                         
+                        </PreviewContainer>
+                        </div>
+                      </div>
+                    </Uploady>
+                   
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="d-flex align-items-end justify-content-end">
               <button
