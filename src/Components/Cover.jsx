@@ -21,7 +21,7 @@ const Cover = () => {
   return (
     <animated.div classNameName="container" style={fade}>
       <div className="row">
-        <div className="portada-container">
+        <div className="portada-container" >
           <video className="video" src={megatlonVideo} autoPlay loop muted />
           <h1>MEGATLON</h1>
           <p>Red de Clubes</p>
@@ -38,14 +38,19 @@ const Cover = () => {
             <img src={megatlonPortada} alt="fotoportada" />
           </div>
         </div>
-        <div className="container col-sm-8">
+        <div className="servicios-container ">
+          <div><h2 className="text-center fw-bolder m-4" >Servicios</h2></div>
+          
+        </div>
+        <div className="container col-sm-10"  >
           <br />
           <div
             id="carouselExampleCaptions"
             className="carousel slide"
             data-bs-ride="carousel"
+            
           >
-            <div className="carousel-indicators">
+            <div className="carousel-indicators" >
               <button
                 type="button"
                 data-bs-target="#carouselExampleCaptions"
@@ -72,16 +77,16 @@ const Cover = () => {
               style={{ height: 25 + "em" }}
             >
               <div className="carousel-item h-100 active ">
-                <Link to="">
+                <Link to="/vista-casos">
                   <img src={casos} className="d-block w-100" alt="casos" />
                 </Link>
-                <div className="carousel-caption d-none d-md-block">
+                <div className="carousel-caption d-none d-md-block" >
                   <h5>Casos</h5>
                   <p>vista de casos activos y resueltos.</p>
                 </div>
               </div>
               <div className="carousel-item h-100">
-                <Link to="">
+                <Link to="/vista-documentos">
                   <img src={legales} className="d-block w-100" alt="legales" />
                 </Link>
                 <div className="carousel-caption d-none d-md-block">
@@ -90,7 +95,7 @@ const Cover = () => {
                 </div>
               </div>
               <div className="carousel-item h-100 ">
-                <Link to="">
+                <Link to="/vista-recursoshumanos">
                   <img src={personal} className="d-block w-100" alt="rrhh" />
                 </Link>
                 <div className="carousel-caption d-none d-md-block">

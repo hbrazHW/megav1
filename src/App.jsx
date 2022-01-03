@@ -59,7 +59,7 @@ function App() {
       <div>
       <Navbar loggedUser={loggedUser} />
           <Switch>
-            <Route component={Inicio} path="/" exact />
+            <Route component={Inicio} path="/inicio" exact />
             <Route component={Login} path="/login" exact/>
             <Route component={VistaCasos} path="/vista-casos" />
             <Route component={VistaDocumentos} path="/vista-documentos" exact/>
@@ -78,7 +78,7 @@ function App() {
             <Route component={RecursosHumanos} path="/RecursosHumanos" exact />
             <Route component={AdjuntarArchivo} path="/AdjuntarArchivo" exact />
             <Route component={PastePrint} path="/PastePrint" exact />
-            <Route component={Cover} path="/Cover" exact />
+            <Route component={Cover} path="/" exact />
           </Switch>
         <Footer loggedUser={loggedUser} />
       </div>

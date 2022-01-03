@@ -6,7 +6,7 @@ html {
 body {
   font-family: "Open Sans", sans-serif !important;
   font-weight: bold;
-  background-color: #231f20 !important;
+  background-color: #ffffff !important;
 }
 body::-webkit-scrollbar,
 .table-body::-webkit-scrollbar,
@@ -711,7 +711,7 @@ select#telefono {
 
 .about-container{
   display: flex;
-  background-color:aliceblue;
+  background-color:#F58220;
   color: black;
   font-family: 'Roboto', sans-serif;
   height: 70vh;
@@ -809,5 +809,6 @@ select#telefono {
 .indexedStep.accomplished {
   background-color: rgb(245,130,32);
 }
+
 
 @import "~bootstrap/scss/bootstrap";
