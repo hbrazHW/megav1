@@ -1,10 +1,11 @@
 import React from "react";
 import { useSpring, animated } from "react-spring";
-import { withRouter, NavLink } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import megatlonVideo from "../img/megatlonVideo.mp4";
 import casos from "../img/casos.jpg";
 import legales from "../img/legales.jpg";
 import personal from "../img/personal.jpg";
+import megatlonPortada from "../img/megatlonPortada.png";
 
 const Cover = () => {
   const fade = useSpring({
@@ -19,8 +20,25 @@ const Cover = () => {
 
   return (
     <animated.div classNameName="container" style={fade}>
-      <div className="container col-sm-12">
-        <div className="container">
+      <div className="row">
+        <div className="portada-container">
+          <video className="video" src={megatlonVideo} autoPlay loop muted />
+          <h1>MEGATLON</h1>
+          <p>Red de Clubes</p>
+        </div>
+        <div className="about-container">
+          <div className="description">
+            <h3>Portal Megatlon</h3>
+            <p>
+              Administra sus casos, crea documentos legales y gestiona sus
+              recursos humanos desde acá de manera practica y rápida
+            </p>
+          </div>
+          <div className="about-img">
+            <img src={megatlonPortada} alt="fotoportada" />
+          </div>
+        </div>
+        <div className="container col-sm-8">
           <br />
           <div
             id="carouselExampleCaptions"
@@ -49,32 +67,35 @@ const Cover = () => {
                 aria-label="Slide 3"
               ></button>
             </div>
-            <div className="carousel-inner">
-              <div className="carousel-item active">
-                <img src={casos} className="d-block w-100" alt="..." />
+            <div
+              className="carousel-inner container-fluid"
+              style={{ height: 25 + "em" }}
+            >
+              <div className="carousel-item h-100 active ">
+                <Link to="">
+                  <img src={casos} className="d-block w-100" alt="casos" />
+                </Link>
                 <div className="carousel-caption d-none d-md-block">
                   <h5>Casos</h5>
-                  <p>
-                    vista de casos activos y resueltos.
-                  </p>
+                  <p>vista de casos activos y resueltos.</p>
                 </div>
               </div>
-              <div className="carousel-item">
-                <img src={legales} className="d-block w-100" alt="..." />
+              <div className="carousel-item h-100">
+                <Link to="">
+                  <img src={legales} className="d-block w-100" alt="legales" />
+                </Link>
                 <div className="carousel-caption d-none d-md-block">
                   <h5>Documentos Legales</h5>
-                  <p>
-                    Vista de documentos legales Creados.
-                  </p>
+                  <p>Vista de documentos legales Creados.</p>
                 </div>
               </div>
-              <div className="carousel-item">
-                <img src={personal} className="d-block w-100" alt="..." />
+              <div className="carousel-item h-100 ">
+                <Link to="">
+                  <img src={personal} className="d-block w-100" alt="rrhh" />
+                </Link>
                 <div className="carousel-caption d-none d-md-block">
                   <h5>RRHH</h5>
-                  <p>
-                    Vista de busqueda de Personal.
-                  </p>
+                  <p>Vista de busqueda de Personal.</p>
                 </div>
               </div>
             </div>
@@ -88,7 +109,7 @@ const Cover = () => {
                 className="carousel-control-prev-icon"
                 aria-hidden="true"
               ></span>
-              <span className="visually">Anterior</span>
+              <span className="visually-hidden">Anterior</span>
             </button>
             <button
               className="carousel-control-next"
@@ -100,11 +121,11 @@ const Cover = () => {
                 className="carousel-control-next-icon"
                 aria-hidden="true"
               ></span>
-              <span className="visually">Siguiente</span>
+              <span className="visually-hidden">Siguiente</span>
             </button>
           </div>
+          <br />
         </div>
-        <br />
       </div>
     </animated.div>
   );
