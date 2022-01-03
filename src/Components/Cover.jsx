@@ -19,7 +19,7 @@ const Cover = () => {
   });
 
   return (
-    <animated.div classNameName="container" style={fade}>
+    <animated.div  style={fade}>
       <div className="row">
         <div className="portada-container" >
           <video className="video" src={megatlonVideo} autoPlay loop muted />
@@ -38,9 +38,8 @@ const Cover = () => {
             <img src={megatlonPortada} alt="fotoportada" />
           </div>
         </div>
-        <div className="servicios-container ">
-          <div><h2 className="text-center fw-bolder m-4" >Servicios</h2></div>
-          
+        <div className="servicios-container">
+          <h2 className="text-center fw-bolder m-4" >Servicios</h2>
         </div>
         <div className="container col-sm-10"  >
           <br />

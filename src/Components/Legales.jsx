@@ -25,6 +25,7 @@ import UploadPreview from "@rpldy/upload-preview";
 import { useDropzone } from "react-dropzone";
 import useFileUpload from "react-use-file-upload";
 import styled from "styled-components";
+import ElementPasteLegales from "./ElementPasteLegales";
 
 const Legales = (props) => {
   const dispatch = useDispatch();
@@ -68,7 +69,7 @@ const Legales = (props) => {
   const [show, setShow] = React.useState(false)
   const [error, setError] = React.useState(false)
   const resultado = useSelector(store => store.legales.resultadoCaso)
-
+  const [selectedFiles, setSelectedFiles] = React.useState([])
   ////copy-paste//
 const mockSenderEnhancer = getMockSenderEnhancer();
 const PreviewContainer = styled.div`
@@ -170,7 +171,21 @@ const UploadStatus = () => {
 
   const enviarFormulario = (e) => {
     e.preventDefault()
-    dispatch(cargarForm(autor, fechaRecepcion, descripcionDoc, sede, persona, observaciones))
+
+    const formData = new FormData();
+    for (let index = 0; index < selectedFiles.length; index++) {
+      let element = selectedFiles[index];
+      formData.append(`body${index}`, element);
+    }
+    // formData.append('body', selectedFiles);
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data',
+      },
+    };
+
+
+    dispatch(cargarForm(autor, fechaRecepcion, descripcionDoc, sede, persona, observaciones, formData, config))
     setLoading(true)
     setMensaje("Cargando...")
     setShow(true)
@@ -184,6 +199,7 @@ const UploadStatus = () => {
     setSede('')
     setPersona('')
     setObservaciones('')
+    setSelectedFiles('')
   }
 
   const cargaExito = () => {
@@ -484,6 +500,7 @@ const UploadStatus = () => {
                       multiple
                     />
                     <Uploady debug enhancer={mockSenderEnhancer}>
+                    <ElementPasteLegales autoUpload={false} params={{ test: "paste" }} tipo="legales"/>
                       <div className="card-header fw-bolder d-grid gap-5 d-md-flex justify-content-center">
                         <h3></h3>
                         <div className="card-header fw-bolder d-grid gap-5 d-md-flex justify-content">
