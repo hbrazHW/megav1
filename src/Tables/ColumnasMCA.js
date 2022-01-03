@@ -21,9 +21,9 @@ export const COLUMNASMCA = [
         }
     },
     {
-        Header: 'Fecha de Alta',
-        footer: 'Fecha de Alta',
-        accessor: 'new_fechaalta',
+        Header: 'Fecha de creación',
+        footer: 'Fecha de creación',
+        accessor: 'createdon',
         Cell: ({ value }) => { return value ? <p className=" m-0  texto-lista m-0">{Moment(value).format("DD-MM-YYYY")}</p> : '-' }
     },
 

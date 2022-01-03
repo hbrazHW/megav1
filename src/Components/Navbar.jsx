@@ -198,7 +198,7 @@ const Navbar = (props) => {
                                 to="/RecursosHumanos"
                               >
                                 <button className="dropdown-item mb-2 p-3 rounded-3 perfil-link fw-bolder">
-                                  Crear Busqueda Personal
+                                  Formulario RRHH
                                 </button>
                               </Link>
                             </div>
@@ -360,7 +360,7 @@ const Navbar = (props) => {
                                 to="/RecursosHumanos"
                               >
                                 <button className="dropdown-item mb-2 p-3 rounded-3 perfil-link fw-bolder">
-                                  Crear Busqueda Personal
+                                  Formulario RRHH
                                 </button>
                               </Link>
                             </div>
