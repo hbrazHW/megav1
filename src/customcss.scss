@@ -6,7 +6,7 @@ html {
 body {
   font-family: "Open Sans", sans-serif !important;
   font-weight: bold;
-  background-color: #ffffff !important;
+  background-color: #231f20 !important;
 }
 body::-webkit-scrollbar,
 .table-body::-webkit-scrollbar,
@@ -658,5 +658,50 @@ select#telefono {
 .plus:hover {
   color: #f58220;
   transition: 1s;
+}
+.portada-container {
+  height: 100vh;
+  width: 100%;
+  object-fit: contain;
+  box-shadow: 0 0 0 1000px rgba (0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Roboto', sans-serif;
+
+}
+
+.video {
+  object-fit:cover;
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+  z-index: -1;
+
+}
+
+.portada-container > h1 {
+  color: aliceblue;
+  font-size: 100px;
+}
+
+.portada-container > p{
+  margin-top: 8px;
+  color: aliceblue;
+  font-size: 32px;
+}
+
+@media screen and (max-width: 960px) {
+  .portada-container > h1 {
+    font-size: 70px;
+    text-align: center;
+  }
+   .portada-container > p {
+     text-align: center;
+     font-size: 22px;
+     width: 85%;
+
+   }
 }
 @import "~bootstrap/scss/bootstrap";

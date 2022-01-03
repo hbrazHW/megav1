@@ -242,7 +242,6 @@ console.log("resueltos", casosResueltos )
     <animated.div className="container" style={fade}>
 
       <div className="col-sm-12 mt-4">
-
         <div className="card p-2 shadow pad borde-none sgr mb-4">
           <div className="card-body p-0 ">
             <div className="row">
