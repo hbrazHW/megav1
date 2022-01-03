@@ -9,6 +9,7 @@ import { COLUMNASMCA } from '../Tables/ColumnasMCA';
 import { COLUMNASCR } from '../Tables/ColumnasCR';
 import MultiStepProgressBar from './MultiStepProgressBar'
 import Moment from 'moment'
+import { consultaFETCHcontacts } from '../Redux/Contact';
 
 const VistaCasos = () => {
 
@@ -29,17 +30,20 @@ const VistaCasos = () => {
     const [llamadaMisCasosActivos, setLlamadaMisCasosActivos] = React.useState(false)
     const [casosResueltos, setCasosResueltos] = React.useState([])
     const [llamadaCasosResueltos, setLlamadaCasosResueltos] = React.useState(false)
+    const [contacts, setContacts] = React.useState([])
+    const [llamadaContacts, setLlamadaContacts] = React.useState(false)
 
     //selectores
     const misCasosActivosSelector = useSelector(store => store.casos.misCasosActivos)
     const casosResueltosSelector = useSelector(store => store.casos.casosResueltos)
     const casoIdSelector = useSelector(store => store.casos.casoid)
+    const contactSelector = useSelector(store => store.contacts.contacts)
 
     //Columnas
     const [columnasMisCasosActivos, setColumnasMisCasosActivos] = React.useState([])
     const [columnasCasosResueltos, setColumnasCasosResueltos] = React.useState([])
 
-    //hooks para obtener nombres
+    //hooks para obtener nombres de asuntos
     const [asuntos, setAsuntos] = React.useState([])
     const [llamada, setLlamada] = React.useState(false)
     const asuntosSelector = useSelector(store => store.casos.asuntos)
@@ -113,9 +117,22 @@ const VistaCasos = () => {
             }
         }
 
-    }, [misCasosActivosSelector, casosResueltosSelector, casoIdSelector, asuntosSelector])
+        if(contacts.length === 0){
+            if(contactSelector.length > 0 && llamadaContacts === true){
+                setContacts(contactSelector)
+            }else if(llamadaContacts === false){
+                obtenerContacts()
+                setLlamadaContacts(true)
+            }
+        }
 
-    console.log("hook:", misCasosActivos)
+    }, [misCasosActivosSelector, casosResueltosSelector, casoIdSelector, asuntosSelector, contactSelector])
+
+    console.log("hook:", )
+
+    const obtenerContacts = () => {
+        dispatch(consultaFETCHcontacts())
+    }
 
     const obtenerAsuntos = () => {
         dispatch(consultaFETCHnombresAsuntos())
@@ -128,6 +145,13 @@ const VistaCasos = () => {
     const obtenerMisCasosA = () => {
         dispatch(consultaFETCHmisCasosActivos());
     };
+    const obtenerNombreContacto = (contacto) => {
+        let nombreContacto = ''
+        contacts.filter(item => item.contactid == contacto).map(item => {
+            nombreContacto = item.fullname
+        })
+        return nombreContacto
+    }
 
     const obtenerNombreAsunto = (asunto) => {
         let nombreAsunto = ''
@@ -155,8 +179,7 @@ const VistaCasos = () => {
             setNumCasoResuelto(item.ticketnumber)
             setComentarioCasoResuelto(item.new_comentarios)
             setAsuntoPrimario(item.new_asuntoprimario)
-            setCliente(item._new_cliente_value)
-            console.log(cliente)
+            setCliente(obtenerNombreContacto(item._new_cliente_value))
         })
     }
     

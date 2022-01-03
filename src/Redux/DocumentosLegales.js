@@ -53,6 +53,7 @@ export const obtenerLegales = () => async (dispatch) => {
   "<attribute name='new_name' />" +
   "<attribute name='createdon' />" +
   "<attribute name='new_sede' />" +
+  "<attribute name='new_observaciones' />" +
   "<attribute name='new_personaquerecepcion' />" +
   "<attribute name='new_fechaderecepcin' />" +
   "<attribute name='overriddencreatedon' />" +

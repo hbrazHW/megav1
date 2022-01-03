@@ -33,27 +33,27 @@ export const COLUMNASLEGALES = [
         Cell: ({ value }) => {
             switch (value) {
                 case 100000000:
-                    return 'CARTA DOCUMENTO'
+                    return <span class="badge badge-personalizado-naranja">CARTA DOCUMENTO</span>
                 case 100000001:
-                    return 'TELEGRAMA'
+                    return <span class="badge badge-personalizado-naranja">TELEGRAMA</span>
                 case 100000002:
-                    return 'CONTRATO'
+                    return <span class="badge badge-personalizado-naranja">CONTRATO</span>
                 case 100000003:
-                    return 'DENUNCIA'
+                    return <span class="badge badge-personalizado-naranja">DENUNCIA</span>
                 case 100000004:
-                    return 'MANDAMIENTO DE INTIMACIÓN'
+                    return <span class="badge badge-personalizado-naranja">MANDAMIENTO DE INTIMACIÓN</span>
                 case 100000005:
-                    return 'ACTA'
+                    return <span class="badge badge-personalizado-naranja">ACTA</span>
                 case 100000006:
-                    return 'NOTA'
+                    return <span class="badge badge-personalizado-naranja">NOTA</span>
                 case 100000007:
-                    return 'OTROS'
+                    return <span class="badge badge-personalizado-naranja">OTROS</span>
                 case 100000008:
-                    return 'CÉDULA'
+                    return <span class="badge badge-personalizado-naranja">CÉDULA</span>
                 case 100000009:
-                    return 'OFICIO'
+                    return <span class="badge badge-personalizado-naranja">OFICIO</span>
                 case 100000010:
-                    return 'DEMANDA'
+                    return <span class="badge badge-personalizado-naranja">DEMANDA</span>
                 default:
                     return '---'
             }
