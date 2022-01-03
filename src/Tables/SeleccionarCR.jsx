@@ -24,7 +24,7 @@ const SeleccionarCR = ({value}) => {
                     data-bs-target="#modalCR"
                     onClick={e => obtenerId(e.target.id)}
                 >
-                    Ver Caso Resuelto
+                    Ver caso resuelto
                 </button>
             </ul>
         </div>
