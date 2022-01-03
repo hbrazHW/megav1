@@ -30,7 +30,9 @@ const RecursosHumanos = (props) => {
   const [llamadaAutorizado, setLlamadaAutorizado] = React.useState(false)
   const autorizadoSelector = useSelector(store => store.recursosHumanos.autorizadoPor)
   const [selectAutorizado, setSelectAutorizado] = React.useState([])
+  const [selectReferente, setSelectReferente] = React.useState([])
 
+  //hooks form busqueda personal
   const [puestoSeleccionar, setPuestoSeleccionar] = React.useState('')
   const [mBusqueda, setMbusquedaSeleccionar] = React.useState('')
   const [tipBusqueda, setTipBusqueda] = React.useState('')
@@ -42,6 +44,26 @@ const RecursosHumanos = (props) => {
   const [sucursalSeleccionar, setSucursalSeleccionar] = React.useState('')
   const [autorizadoSeleccionar, setAutorizadoSeleccionar] = React.useState('')
   const [reporta, setReportaSeleccionar] = React.useState('')
+  //----------------------------
+
+  //hooks form evaluacion periodo prueba
+  const [empleado, setEmpleado] = React.useState('')
+  const [puestoForm, setePuestoForm] = React.useState('')
+  const [fechaIngreso, setFechaIngreso] = React.useState('')
+  const [sucursal, setSucursal] = React.useState('')
+  const [area, setArea] = React.useState('')
+  const [referente, setReferente] = React.useState('')
+  const [puestoEvaluador, setPuestoEvaluador] = React.useState('')
+  const [fechaCreacion, setFechaCreacion] = React.useState('')
+  const [referido, setReferido] = React.useState('')
+  const [empleadoParticipe, setEmpleadoParticipe] = React.useState('')
+  const [nombreEvaluacion, setNombreEvaluacion] = React.useState('')
+  const [comentario30, setComentario30] = React.useState('')
+  const [comentario60, setComentario60] = React.useState('')
+  const [comentario80, setComentario80] = React.useState('')
+  const [pasaPeriodo, setPasaPeriodo] = React.useState('')
+  //--------------------------------------
+
 
   const [mensaje, setMensaje] = React.useState('')
   const [loading, setLoading] = React.useState(false)
@@ -93,7 +115,7 @@ const RecursosHumanos = (props) => {
     if (resultado !== undefined) {
       if (resultado !== '') {
         cargaExito()
-        
+
       }
     }
 
@@ -206,6 +228,7 @@ const RecursosHumanos = (props) => {
       autorizado.push(a);
     });
     setSelectAutorizado(autorizado);
+    setSelectReferente(autorizado)
   };
 
   const reportaHandle = (valor) => {
@@ -241,6 +264,11 @@ const RecursosHumanos = (props) => {
     { value: '100000002', label: 'Interna/Externa' },
   ]
 
+  const opcionSiNo = [
+    { value: '0', label: 'No'},
+    { value: '1', label: 'Sí'}
+  ]
+
   return (
     <animated.div className="container" style={fade}>
       <div className="col-sm-12 mt-4">
@@ -251,11 +279,11 @@ const RecursosHumanos = (props) => {
                 Crear Busqueda de personal
               </button>
             </li>
-            {/* <li className="nav-item" role="presentation">
+            <li className="nav-item" role="presentation">
               <button className="nav-link fw-bolder text-dark" id="evaluacion-tab" data-bs-toggle="tab" data-bs-target="#evaluacion" type="button" role="tab" aria-controls="evaluacion" aria-selected="false">
                 Evaluación periodo de prueba
               </button>
-            </li> */}
+            </li>
           </ul>
 
           <div className="tab-content">
@@ -510,273 +538,279 @@ const RecursosHumanos = (props) => {
                 </Toast>
               </div>
             </div>
-            {/* <div className="tab-pane fade show p-3" id="evaluacion" role="tabpanel" aria-labelledby="evaluacion-tab">
-              <div className="col-sm-4 col-md-12">
-                <div className="mb-2 p-2">
-                  <label className="form-label fw-bolder lbl-precalificacion required">
-                    Empleado
-                  </label>
-                  <Select
-                    type="select"
-                    id="select"
-                    name="empleado"
-                    className="basic multi-select"
-                    classNamePrefix="select"
-                    placeholder="Elegir empleado"
-                    required
-                  ></Select>
-                </div>
-              </div>
-              <div className="col-sm-4 col-md-12">
-                <div className="mb-2 p-2">
-                  <label className="form-label fw-bolder lbl-precalificacion required">
-                    Puesto
-                  </label>
-                  <Select
-                    type="select"
-                    id="select"
-                    name="puesto"
-                    className="basic multi-select"
-                    classNamePrefix="select"
-                    placeholder="Elegir puesto"
-                    required
-                  ></Select>
-                </div>
-              </div>
-              <div className="col-sm-4 col-md-12">
-                <div className="mb-2 p-2">
-                  <label className="form-label fw-bolder lbl-precalificacion">
-                    Fecha de ingreso
-                  </label>
-                  <input
-                    type="date"
-                    id="date"
-                    name="fingre"
-                    className="form-control"
-                    classNamePrefix="select"
-                  />
-                </div>
-              </div>
-              <div className="col-sm-4 col-md-12">
-                <div className="mb-2 p-2">
-                  <label className="form-label fw-bolder lbl-precalificacion">
-                    Sucursal
-                  </label>
-                  <Select
-                    type="select"
-                    id="select"
-                    name="sucursal"
-                    className="basic multi-select"
-                    classNamePrefix="select"
-                    placeholder="Elegir sucursal..."
-                  ></Select>
-                </div>
-              </div>
-              <div className="col-sm-4 col-md-12">
-                <div className="mb-2 p-2">
-                  <label className="form-label fw-bolder lbl-precalificacion">
-                    Area
-                  </label>
-                  <Select
-                    type="select"
-                    id="select"
-                    name="area"
-                    className="basic multi-select"
-                    classNamePrefix="select"
-                    placeholder="Elegir area..."
-                  ></Select>
-                </div>
-              </div>
-              <div className="col-sm-4 col-md-12">
-                <div className="mb-2 p-2">
-                  <label className="form-label fw-bolder lbl-precalificacion">
-                    Referente
-                  </label>
-                  <Select
-                    type="select"
-                    id="select"
-                    name="referente"
-                    className="basic multi-select"
-                    classNamePrefix="select"
-                    placeholder="Elegir referente..."
-                    required
-                  ></Select>
-                </div>
-              </div>
-              <div className="col-sm-4 col-md-12">
-                <div className="mb-2 p-2">
-                  <label className="form-label fw-bolder lbl-precalificacion">
-                    Puesto del evaluador
-                  </label>
-                  <Select
-                    type="select"
-                    id="select"
-                    name="peva"
-                    className="basic multi-select"
-                    classNamePrefix="select"
-                    placeholder="Elegir puesto del evaluador..."
-                  ></Select>
-                </div>
-              </div>
-              <div className="col-sm-4 col-md-12">
-                <div className="mb-2 p-2">
-                  <label className="form-label fw-bolder lbl-precalificacion">
-                    Fecha de creación
-                  </label>
-                  <input
-                    type="datetime-local"
-                    id="dtlocal"
-                    name="fechahora"
-                    className="form-control"
-                  />
-                </div>
-              </div>
-              <div className="col-sm-4 col-md-12">
-                <div className="mb-2 p-2">
-                  <label className="form-label fw-bolder lbl-precalificacion required">
-                    Es referido?
-                  </label>
-                  <label className="radio">
-                    {" "}
-                    <input
-                      type="radio"
-                      name="personacargo"
-                      value="Si"
-                    />
-                    Si
-                  </label>
-                  <label label="radio">
-                    {" "}
-                    <input
-                      type="radio"
-                      name="personacargo"
-                      value="No"
-                    />
-                    No
-                  </label>
-                </div>
-              </div>
-              <div className="col-sm-4 col-md-12">
-                <div className="mb-2 p-2">
-                  <label className="form-label fw-bolder lbl-precalificacion required">
-                    El Empleado participo del curso de Induccion?
-                  </label>
-                  <label className="radio">
-                    {" "}
-                    <input
-                      type="radio"
-                      name="personacargo"
-                      value="Si"
-                    />
-                    Si
-                  </label>
-                  <label label="radio">
-                    {" "}
-                    <input
-                      type="radio"
-                      name="personacargo"
-                      value="No"
-                    />
-                    No
-                  </label>
-                </div>
-              </div>
-              <div className="col-sm-4 col-md-12">
-                <div className="mb-2 p-2">
-                  <label className="form-label fw-bolder lbl-precalificacion required">
-                    Nombre
-                  </label>
-                  <input
-                    type="text"
-                    id="text"
-                    name="jtrabajo"
-                    className="form-control"
-                    placeholder="Evaluación de periodo de prueba"
-                    required
-                  />
-                </div>
-              </div>
-              <hr />
-              <h6 className="fw-bolder">
-                Completar segun la Performance alcanzada
-              </h6>
-              <div className="row">
-                <h6 className="mt-3 ms-3 fw-bolder text-secondary">Comentarios</h6>
-              </div>
-              <div className="row">
-                <div className="col-sm-2 p-5">
-                  <h6 className="fw-bolder">30 dias:</h6>
-                </div>
-                <div className="col-sm-10">
-                  <div class="form-group">
-                    <textarea
-                      className="form-control mt-2"
-                      id="exampleFormControlTextarea1"
-                      rows="3"
-                      placeholder="comentanos un poco más los resultado del 1er. Mes (30 dias).."
-                    ></textarea>
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-sm-2 p-5">
-                  <h6 className="fw-bolder">60 dias:</h6>
-                </div>
-                <div className="col-sm-10">
-                  <div class="form-group">
-                    <textarea
-                      className="form-control mt-2"
-                      id="exampleFormControlTextarea1"
-                      rows="3"
-                      placeholder="comentanos un poco más los resultado del 2do. Mes (60 dias).."
-                    ></textarea>
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-sm-2 p-5">
-                  <h6 className="fw-bolder">80 dias:</h6>
-                </div>
-                <div className="col-sm-10">
-                  <div class="form-group">
-                    <textarea
-                      className="form-control mt-2"
-                      id="exampleFormControlTextarea1"
-                      rows="3"
-                      placeholder="comentanos un poco más los resultado del 3er. Mes (80 dias).."
-                    ></textarea>
-                  </div>
-                </div>
-              </div>
-              <br />
-              <h6 className="mt-3 ms-3 fw-bolder text-secondary">
-                Definicion de Continuidad
-              </h6>
-              <div className="row">
-                <div className="col-sm-2 p-3">
-                  <h6 className="ms-3 fw-bolder">
-                    Pasa Periodo de Prueba?
-                  </h6>
-                </div>
-                <div className="col-sm-10 p-3">
-                  <div class="form-group">
+
+
+            <div className="tab-pane fade show p-3" id="evaluacion" role="tabpanel" aria-labelledby="evaluacion-tab">
+              <form>
+                <div className="col-sm-4 col-md-12">
+                  <div className="mb-2 p-2">
+                    <label className="form-label fw-bolder lbl-precalificacion required">
+                      Empleado
+                    </label>
                     <Select
+                    options={selectReferente}
+                      type="select"
+                      id="select"
+                      name="empleado"
+                      className="basic multi-select"
+                      classNamePrefix="select"
+                      placeholder="Elegir empleado"
+                      required
+                    ></Select>
+                  </div>
+                </div>
+                <div className="col-sm-4 col-md-12">
+                  <div className="mb-2 p-2">
+                    <label className="form-label fw-bolder lbl-precalificacion required">
+                      Puesto
+                    </label>
+                    <Select
+                    options={selecPuesto}
+                      type="select"
+                      id="select"
+                      name="puesto"
+                      className="basic multi-select"
+                      classNamePrefix="select"
+                      placeholder="Elegir puesto"
+                      required
+                    ></Select>
+                  </div>
+                </div>
+                <div className="col-sm-4 col-md-12">
+                  <div className="mb-2 p-2">
+                    <label className="form-label fw-bolder lbl-precalificacion">
+                      Fecha de ingreso
+                    </label>
+                    <input
+                      type="date"
+                      id="date"
+                      name="fingre"
+                      className="form-control"
+                      classNamePrefix="select"
+                    />
+                  </div>
+                </div>
+                <div className="col-sm-4 col-md-12">
+                  <div className="mb-2 p-2">
+                    <label className="form-label fw-bolder lbl-precalificacion">
+                      Sucursal
+                    </label>
+                    <Select
+                    options={selectSucursal}
+                      type="select"
+                      id="select"
+                      name="sucursal"
+                      className="basic multi-select"
+                      classNamePrefix="select"
+                      placeholder="Elegir sucursal..."
+                    ></Select>
+                  </div>
+                </div>
+                <div className="col-sm-4 col-md-12">
+                  <div className="mb-2 p-2">
+                    <label className="form-label fw-bolder lbl-precalificacion">
+                      Area
+                    </label>
+                    <Select
+                    options={selectArea}
+                      type="select"
+                      id="select"
+                      name="area"
+                      className="basic multi-select"
+                      classNamePrefix="select"
+                      placeholder="Elegir area..."
+                    ></Select>
+                  </div>
+                </div>
+                <div className="col-sm-4 col-md-12">
+                  <div className="mb-2 p-2">
+                    <label className="form-label fw-bolder lbl-precalificacion">
+                      Referente
+                    </label>
+                    <Select
+                    options={selectReferente}
+                      type="select"
+                      id="select"
+                      name="referente"
+                      className="basic multi-select"
+                      classNamePrefix="select"
+                      placeholder="Elegir referente..."
+                      required
+                    ></Select>
+                  </div>
+                </div>
+                <div className="col-sm-4 col-md-12">
+                  <div className="mb-2 p-2">
+                    <label className="form-label fw-bolder lbl-precalificacion">
+                      Puesto del evaluador
+                    </label>
+                    <Select
+                    options={selecPuesto}
                       type="select"
                       id="select"
                       name="peva"
                       className="basic multi-select"
                       classNamePrefix="select"
-                      placeholder="Seleccionar..."
+                      placeholder="Elegir puesto del evaluador..."
                     ></Select>
                   </div>
                 </div>
-              </div>
-            </div> */}
+                <div className="col-sm-4 col-md-12">
+                  <div className="mb-2 p-2">
+                    <label className="form-label fw-bolder lbl-precalificacion">
+                      Fecha de creación
+                    </label>
+                    <input
+                      type="datetime-local"
+                      id="dtlocal"
+                      name="fechahora"
+                      className="form-control"
+                    />
+                  </div>
+                </div>
+                <div className="col-sm-4 col-md-12">
+                  <div className="mb-2 p-2">
+                    <label className="form-label fw-bolder lbl-precalificacion required">
+                      Es referido?
+                    </label>
+                    <div class="form-group">
+                      <Select
+                      options={opcionSiNo}
+                        type="select"
+                        id="select"
+                        name="peva"
+                        className="basic multi-select"
+                        classNamePrefix="select"
+                        placeholder="Seleccionar..."
+                      ></Select>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-sm-4 col-md-12">
+                  <div className="mb-2 p-2">
+                    <label className="form-label fw-bolder lbl-precalificacion required">
+                      El Empleado participo del curso de Induccion?
+                    </label>
+                    <div class="form-group">
+                      <Select
+                      options={opcionSiNo}
+                        type="select"
+                        id="select"
+                        name="peva"
+                        className="basic multi-select"
+                        classNamePrefix="select"
+                        placeholder="Seleccionar..."
+                      ></Select>
+                    </div>
 
+                  </div>
+                </div>
+                <div className="col-sm-4 col-md-12">
+                  <div className="mb-2 p-2">
+                    <label className="form-label fw-bolder lbl-precalificacion required">
+                      Nombre
+                    </label>
+                    <input
+                      type="text"
+                      id="text"
+                      name="jtrabajo"
+                      className="form-control"
+                      placeholder="Evaluación de periodo de prueba"
+                      required
+                    />
+                  </div>
+                </div>
+                <hr />
+                <h6 className="fw-bolder">
+                  Completar segun la Performance alcanzada
+                </h6>
+                <div className="row">
+                  <h6 className="mt-3 ms-3 fw-bolder text-secondary">Comentarios</h6>
+                </div>
+                <div className="row">
+                  <div className="col-sm-2 p-5">
+                    <h6 className="fw-bolder">30 dias:</h6>
+                  </div>
+                  <div className="col-sm-10">
+                    <div class="form-group">
+                      <textarea
+                        className="form-control mt-2"
+                        id="exampleFormControlTextarea1"
+                        rows="3"
+                        placeholder="Comentanos un poco más los resultados del 1er. Mes (30 dias).."
+                      ></textarea>
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-sm-2 p-5">
+                    <h6 className="fw-bolder">60 dias:</h6>
+                  </div>
+                  <div className="col-sm-10">
+                    <div class="form-group">
+                      <textarea
+                        className="form-control mt-2"
+                        id="exampleFormControlTextarea1"
+                        rows="3"
+                        placeholder="Comentanos un poco más los resultados del 2do. Mes (60 dias).."
+                      ></textarea>
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-sm-2 p-5">
+                    <h6 className="fw-bolder">80 dias:</h6>
+                  </div>
+                  <div className="col-sm-10">
+                    <div class="form-group">
+                      <textarea
+                        className="form-control mt-2"
+                        id="exampleFormControlTextarea1"
+                        rows="3"
+                        placeholder="Comentanos un poco más los resultados del 3er. Mes (80 dias).."
+                      ></textarea>
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <h6 className="mt-3 ms-3 fw-bolder text-secondary">
+                  Definicion de Continuidad
+                </h6>
+                <div className="row">
+                  <div className="col-sm-2 p-3">
+                    <h6 className="ms-3 fw-bolder">
+                      Pasa Periodo de Prueba?
+                    </h6>
+                  </div>
+                  <div className="col-sm-10 p-3">
+                    <div class="form-group">
+                      <Select
+                      options={opcionSiNo}
+                        type="select"
+                        id="select"
+                        name="peva"
+                        className="basic multi-select"
+                        classNamePrefix="select"
+                        placeholder="Seleccionar..."
+                      ></Select>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-end justify-content-end">
+                    <button
+                      type="submit"
+                      name="btnSubmitAlyc"
+                      className="btn btn-secondary"
+                    >
+                      Enviar
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </animated.div>
+    </animated.div >
   );
 };
 

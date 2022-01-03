@@ -61,7 +61,7 @@ export const consultaFETCHmisCasosActivos = () => async (dispatch) => {
         "<attribute name='ticketnumber' />" +
         "<attribute name='new_vencimiento' />" +
         "<attribute name='subjectid' />" +
-        "<attribute name='new_fechaalta' />" +
+        "<attribute name='createdon' />" +
         "<attribute name='incidentid' />" +
         "<attribute name='statuscode' />" +
         "<attribute name='new_comentarios' />" +

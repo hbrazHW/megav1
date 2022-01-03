@@ -26,7 +26,7 @@ export const COLUMNASBPA = [
         accessor: '_new_puesto_value',
         Cell: ({value}) => {
             return(
-                <Puesto id={value} />
+                <span class="badge badge-personalizado-naranja"><Puesto id={value} /></span>
             )
         }
     },
