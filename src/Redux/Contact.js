@@ -35,7 +35,7 @@ export const consultaFETCHcontacts = () => async (dispatch) => {
         "<entity name='contact'>" +
         "<attribute name='fullname' />" +
         "<attribute name='contactid' />" +
-        "<attribute name='parentcustomerid' />"+
+        "<attribute name='parentcustomerid' />" +
         "<order attribute='fullname' descending='false' />" +
         "</entity>" +
         "</fetch>";

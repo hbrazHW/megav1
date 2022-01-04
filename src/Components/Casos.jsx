@@ -253,6 +253,8 @@ const Casos = (props) => {
     }
   }, [contactSelector, sucursalSelector, contactoSelector, resultado]);
 
+  console.log("asunto:", asuntoSeleccionar)
+  
   const enviarFormulario = (e) => {
     e.preventDefault();
 
