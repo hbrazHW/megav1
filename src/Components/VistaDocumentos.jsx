@@ -80,8 +80,6 @@ const VistaDocumentos = () => {
 
     }, [legalesSelector, legalesIdSelector, contactSelector])
 
-    console.log(legales)
-
     const obtenerContacts = () => {
         dispatch(consultaFETCHcontacts())
     }
