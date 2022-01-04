@@ -7,6 +7,7 @@ import Tabla from '../Components/Tabla';
 import { obtenerLegales } from "../Redux/DocumentosLegales";
 import { COLUMNASLEGALES } from "../Tables/ColumnasLegales";
 import Moment from 'moment'
+import { consultaFETCHcontacts } from '../Redux/Contact';
 
 const VistaDocumentos = () => {
 
@@ -40,6 +41,11 @@ const VistaDocumentos = () => {
     const [fechaCreacion, setFechaCreacion] = React.useState("")
     const [observaciones, setObservaciones] = React.useState("")
 
+    //hooks para matches id
+    const [contacts, setContacts] = React.useState([])
+    const [llamadaContacts, setLlamadaContacts] = React.useState(false)
+    const contactSelector = useSelector(store => store.contacts.contacts)
+
     React.useEffect(() => {
         if (legales.length === 0) {
             if (legalesSelector.length > 0 && llamadaLegales === true) {
@@ -63,16 +69,39 @@ const VistaDocumentos = () => {
             }
         }
 
-    }, [legalesSelector, legalesIdSelector])
+        if(contacts.length === 0){
+            if(contactSelector.length > 0 && llamadaContacts === true){
+                setContacts(contactSelector)
+            }else if(llamadaContacts === false){
+                obtenerContacts()
+                setLlamadaContacts(true)
+            }
+        }
+
+    }, [legalesSelector, legalesIdSelector, contactSelector])
+
+    console.log(legales)
+
+    const obtenerContacts = () => {
+        dispatch(consultaFETCHcontacts())
+    }
 
     const obtenerlegal = () => {
         dispatch(obtenerLegales());
     };
 
+    const obtenerNombreContacto = (contacto) => {
+        let nombreContacto = ''
+        contacts.filter(item => item.contactid == contacto).map(item => {
+            nombreContacto = item.fullname
+        })
+        return nombreContacto
+    }
+
     const completarLegales = (id) => {
         legales.filter(item => item.new_documentoslegalesid == id).map(item => {
             setAutor(item._createdby_value)
-            setPersonRecepciono(item._new_personaquerecepcion_value)
+            setPersonRecepciono(obtenerNombreContacto(item._new_personaquerecepcion_value))
             setDescripcionDelDocumento(descripcionDocumento(item.new_descripcindeldocumento))
             setFechaCreacion(item.createdon)
             setObservaciones(item.new_observaciones)

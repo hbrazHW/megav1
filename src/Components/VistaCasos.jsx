@@ -33,6 +33,7 @@ const VistaCasos = () => {
     const [contacts, setContacts] = React.useState([])
     const [llamadaContacts, setLlamadaContacts] = React.useState(false)
 
+
     //selectores
     const misCasosActivosSelector = useSelector(store => store.casos.misCasosActivos)
     const casosResueltosSelector = useSelector(store => store.casos.casosResueltos)
@@ -59,6 +60,7 @@ const VistaCasos = () => {
 
     //hooks modal mis casos activos
     const [numCaso, setNumCaso] = React.useState([]);
+    const [asuntoPrim, setAsuntoPrim] = React.useState([])
     const [asuntoCaso, setAsuntoCaso] = React.useState([]);
     const [fechaAltaCaso, setFechaAltaCaso] = React.useState([]);
     const [razonParaElEstado, setRazonParaElEstado] = React.useState([])
@@ -130,6 +132,7 @@ const VistaCasos = () => {
 
     console.log("hook:", )
 
+
     const obtenerContacts = () => {
         dispatch(consultaFETCHcontacts())
     }
@@ -160,10 +163,11 @@ const VistaCasos = () => {
         })
         return nombreAsunto
     }
-
+    // console.log("state:", misCasosActivos)
     const completarCaso = (id) => {
         misCasosActivos.filter(item => item.incidentid == id).map(item => {
             setNumCaso(item.ticketnumber)
+            setAsuntoPrim(asuntoPrimarioNombre(item.new_asuntoprimario))
             setAsuntoCaso(item._subjectid_value)
             setFechaAltaCaso(item.new_fechaalta)
             setRazonParaElEstado(item.statuscode)
@@ -277,8 +281,6 @@ const VistaCasos = () => {
                 return "FITER - MESA DE AYUDA"
             case 100000000:
                 return "GESTION MEDICA"
-            default:
-                return '---'
         }
 
     }
@@ -548,6 +550,21 @@ const VistaCasos = () => {
                                                     className="form-control desabilitado"
                                                     required
                                                     disabled
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="col-sm-4 col-md-12">
+                                            <div className="mb-2 p-2">
+                                                <label className="form-label fw-bolder lbl-precalificacion required">
+                                                    Asunto Primario
+                                                </label>
+                                                <input
+                                                    type="asunto"
+                                                    id="asunto"
+                                                    value={asuntoPrim}
+                                                    name="asuntocaso"
+                                                    className="form-control desabilitado"
+                                                    required
                                                 />
                                             </div>
                                         </div>
