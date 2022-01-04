@@ -12,10 +12,12 @@ const dataInicial = {
   autorizadoPor: [],
   evaluaciones: [],
   ticket: '',
-  resultadoCaso: ''
+  resultadoCaso: '',
+  evaluacionId: '',
 };
 
 //types
+const OBTENER_EVALUACION_ID_EXITO = 'OBTENER_EVALUACION_ID_EXITO'
 const OBTENER_EVALUACIONES = 'OBTENER_EVALUACIONES'
 const CARGA_DATOS_EXITO = 'CARGA_DATOS_EXITO'
 const OBTENER_AUTORIZADO_POR = 'OBTENER_AUTORIZADO_POR'
@@ -30,6 +32,8 @@ const ERROR = "ERROR";
 //reducers
 export default function recursosHumanosReducers(state = dataInicial, action) {
   switch (action.type) {
+    case OBTENER_EVALUACION_ID_EXITO:
+      return { ...state, evaluacionId: action.evaluacionId }
     case OBTENER_EVALUACIONES:
       return { ...state, evaluaciones: action.payload, loading: false}
     case CARGA_DATOS_EXITO:
@@ -297,6 +301,8 @@ export const consultaFETCHevaluaciones = () => async (dispatch) => {
     "<attribute name='new_80dias' />" +
     "<attribute name='new_60dias' />" +
     "<attribute name='new_30dias' />" +
+    "<attribute name='new_name' />" +
+    "<attribute name='new_pasaperiododeprueba' />" +
     "<attribute name='new_fechadeingreso' />" +
     "<attribute name='new_puesto' />" +
     "<attribute name='new_sucursal' />" +
@@ -320,5 +326,14 @@ export const consultaFETCHevaluaciones = () => async (dispatch) => {
     dispatch({
       type: ERROR,
     });
+  }
+}
+
+export const obtenerEvaluacionId = (id) => (dispatch) => {
+  if (id !== undefined) {
+      dispatch({
+          type: OBTENER_EVALUACION_ID_EXITO,
+          evaluacionId: id
+      })
   }
 }

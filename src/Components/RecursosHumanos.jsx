@@ -48,7 +48,7 @@ const RecursosHumanos = (props) => {
 
   //hooks form evaluacion periodo prueba
   const [empleado, setEmpleado] = React.useState('')
-  const [puestoForm, setePuestoForm] = React.useState('')
+  const [puestoForm, setPuestoForm] = React.useState('')
   const [fechaIngreso, setFechaIngreso] = React.useState('')
   const [sucursal, setSucursal] = React.useState('')
   const [area, setArea] = React.useState('')
@@ -252,6 +252,36 @@ const RecursosHumanos = (props) => {
   const sedeHandle = (valor) => {
     setSucursalSeleccionar(valor.value)
   }
+
+  //constantes evaluacion
+  const empleadoHandle = (valor) => {
+    setEmpleado(valor.value)
+  }
+  const puestoEvHandle = (valor) => {
+    setPuestoForm(valor.value)
+  }
+  const sucursalHandle = (valor) => {
+    setSucursal(valor.value) 
+  }
+  const areaEvHandle = (valor) => {
+    setArea(valor.value)
+  }
+  const referenteHandle = (valor) => {
+    setReferente(valor.value)
+  }
+  const puestoEvaluadorHandle = (valor) => {
+    setPuestoEvaluador(valor.value)
+  }
+  const esReferidoHandle = (valor) => {
+    setReferido(valor.value)
+  }
+  const empleadoParticipeHandle = (valor) => {
+    setEmpleadoParticipe(valor.value)
+  }
+  const pasaPeriodoHandle = (valor) => {
+    setPasaPeriodo(valor.value)
+  }
+  console.log("seleccion:", comentario30)
 
   const motivoBusqueda = [
     { value: '100000000', label: 'Nuevo Puesto' },
@@ -549,6 +579,7 @@ const RecursosHumanos = (props) => {
                     </label>
                     <Select
                     options={selectReferente}
+                    onChange={e => empleadoHandle(e)}
                       type="select"
                       id="select"
                       name="empleado"
@@ -566,6 +597,7 @@ const RecursosHumanos = (props) => {
                     </label>
                     <Select
                     options={selecPuesto}
+                    onChange={e => puestoEvHandle(e)}
                       type="select"
                       id="select"
                       name="puesto"
@@ -582,6 +614,7 @@ const RecursosHumanos = (props) => {
                       Fecha de ingreso
                     </label>
                     <input
+                    onChange={e => setFechaIngreso(e.target.value)}
                       type="date"
                       id="date"
                       name="fingre"
@@ -597,6 +630,7 @@ const RecursosHumanos = (props) => {
                     </label>
                     <Select
                     options={selectSucursal}
+                    onChange={e => sucursalHandle(e)}
                       type="select"
                       id="select"
                       name="sucursal"
@@ -613,6 +647,7 @@ const RecursosHumanos = (props) => {
                     </label>
                     <Select
                     options={selectArea}
+                    onChange={e => areaEvHandle(e)}
                       type="select"
                       id="select"
                       name="area"
@@ -629,6 +664,7 @@ const RecursosHumanos = (props) => {
                     </label>
                     <Select
                     options={selectReferente}
+                    onChange={e => referenteHandle(e)}
                       type="select"
                       id="select"
                       name="referente"
@@ -646,6 +682,7 @@ const RecursosHumanos = (props) => {
                     </label>
                     <Select
                     options={selecPuesto}
+                    onChange={e => puestoEvaluadorHandle(e)}
                       type="select"
                       id="select"
                       name="peva"
@@ -661,6 +698,7 @@ const RecursosHumanos = (props) => {
                       Fecha de creación
                     </label>
                     <input
+                    onChange={e => setFechaCreacion(e.target.value)}
                       type="datetime-local"
                       id="dtlocal"
                       name="fechahora"
@@ -675,6 +713,7 @@ const RecursosHumanos = (props) => {
                     </label>
                     <div class="form-group">
                       <Select
+                      onChange={e => esReferidoHandle(e)}
                       options={opcionSiNo}
                         type="select"
                         id="select"
@@ -694,6 +733,7 @@ const RecursosHumanos = (props) => {
                     <div class="form-group">
                       <Select
                       options={opcionSiNo}
+                      onChange={e => empleadoParticipeHandle(e)}
                         type="select"
                         id="select"
                         name="peva"
@@ -711,6 +751,7 @@ const RecursosHumanos = (props) => {
                       Nombre
                     </label>
                     <input
+                    onChange={e => setNombreEvaluacion(e.target.value)}
                       type="text"
                       id="text"
                       name="jtrabajo"
@@ -734,6 +775,7 @@ const RecursosHumanos = (props) => {
                   <div className="col-sm-10">
                     <div class="form-group">
                       <textarea
+                        onChange={e => setComentario30(e.target.value)}
                         className="form-control mt-2"
                         id="exampleFormControlTextarea1"
                         rows="3"
@@ -749,6 +791,7 @@ const RecursosHumanos = (props) => {
                   <div className="col-sm-10">
                     <div class="form-group">
                       <textarea
+                      onChange={e => setComentario60(e.target.value)}
                         className="form-control mt-2"
                         id="exampleFormControlTextarea1"
                         rows="3"
@@ -764,6 +807,7 @@ const RecursosHumanos = (props) => {
                   <div className="col-sm-10">
                     <div class="form-group">
                       <textarea
+                      onChange={e => setComentario80(e.target.value)}
                         className="form-control mt-2"
                         id="exampleFormControlTextarea1"
                         rows="3"
@@ -785,6 +829,7 @@ const RecursosHumanos = (props) => {
                   <div className="col-sm-10 p-3">
                     <div class="form-group">
                       <Select
+                      onChange={e => pasaPeriodoHandle(e)}
                       options={opcionSiNo}
                         type="select"
                         id="select"

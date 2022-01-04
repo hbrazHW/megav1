@@ -3,6 +3,7 @@ import Moment from 'moment'
 import Contacts from './Contacts'
 import Puesto from './Puesto'
 import Cuenta from './Cuenta'
+import SeleccionarEv from './SeleccionarEv'
 
 export const COLUMNASEV = [
     {
@@ -51,5 +52,13 @@ export const COLUMNASEV = [
         accessor: 'createdon',
         Cell: ({ value }) => { return value ? <p className=" m-0  texto-lista m-0">{Moment(value).format("DD-MM-YYYY")}</p> : '-' }
 
+    },
+    {
+        accessor: 'new_evaluaciondeperiododepruebaid',
+        Cell: ({ value }) => {
+            return (
+                <SeleccionarEv value={value} />
+            )
+        }
     },
 ]
