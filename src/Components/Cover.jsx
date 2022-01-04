@@ -2,7 +2,7 @@ import React from "react";
 import { useSpring, animated } from "react-spring";
 import { withRouter, Link } from "react-router-dom";
 import megatlonVideo from "../img/megatlonVideo.mp4";
-import Casos from "../img/Casos.jpg";
+import Casos from "../img/casos.jpg";
 import legales from "../img/legales.jpg";
 import personal from "../img/personal.jpg";
 import megatlonPortada from "../img/megatlonPortada.png";

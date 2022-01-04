@@ -44,7 +44,7 @@ body::-webkit-scrollbar,
 body::-webkit-scrollbar-thumb,
 .table-responsive::-webkit-scrollbar-thumb,
 .modal-Garantia::-webkit-scrollbar-thumb  {
-  background: #0d6efd !important;
+  background: #000000 !important;
   border-radius: 3px;
 }
 
@@ -306,7 +306,7 @@ th.p-2.fw-bolder.text-center.h6 {
 td.p-2.pt-3.td-texto.text-center {
   font-size: 13px !important;
 }
-button.btn.btn-primary.float-right {
+button.btn.btn-dark.float-right {
   float: right !important;
   margin-right: 20px;
 }

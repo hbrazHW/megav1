@@ -133,8 +133,8 @@ const Tabla = ({ lineas, columnas, titulo, header }) => {
                             </select> */}
                         </div>
                         <div className="col-sm-8">
-                            <button className="mx-3 btn btn-sm btn-primary float-right" onClick={() => nextPage()} disabled={!canNextPage}>Siguiente</button>
-                            <button className="btn btn-sm btn-primary float-right" onClick={() => previousPage()} disabled={!canPreviousPage}>Anterior</button>
+                            <button className="mx-3 btn btn-sm btn-dark float-right" onClick={() => nextPage()} disabled={!canNextPage}>Siguiente</button>
+                            <button className="btn btn-sm btn-dark float-right" onClick={() => previousPage()} disabled={!canPreviousPage}>Anterior</button>
                         </div>
                     </div>
                 </div>
