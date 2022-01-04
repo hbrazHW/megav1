@@ -8,24 +8,29 @@ import { consultaFETCHcuentas, } from "../Redux/RecursosHumanos";
 import { consultaFETCHcontacts } from "../Redux/Contact";
 import { obtenerContacto } from "../Redux/Contacto";
 import { Toast, Spinner } from 'react-bootstrap'
-import {  faCheckCircle, faTimesCircle, faFile } from '@fortawesome/free-solid-svg-icons'
+import { faCloudUploadAlt, faFile,faCheckCircle, faTimesCircle, faEnvelope, faClipboardList, faCircle } from '@fortawesome/free-solid-svg-icons'
 import { withRouter, NavLink } from 'react-router-dom'
+import { useDropzone } from "react-dropzone";
+import useFileUpload from "react-use-file-upload";
+import styled from "styled-components";
+import axios from "axios";
+import Uploady, {
+  useItemStartListener,
+  useItemFinalizeListener,
+  useBatchAddListener
+} from "@rpldy/uploady";
+import { getMockSenderEnhancer } from "@rpldy/mock-sender";
+import whithPasteUpload from "@rpldy/upload-paste";
+import { onPasteUpload } from "@rpldy/upload-paste";
+import UploadPreview from "@rpldy/upload-preview";
 import {
   copyImageToClipboard,
   getBlobFromImageElement,
   copyBlobToClipboard,
 } from "copy-image-clipboard";
-import Uploady, {
-  useItemStartListener,
-  useItemFinalizeListener,
-} from "@rpldy/uploady";
-import { getMockSenderEnhancer } from "@rpldy/mock-sender";
-import whithPasteUpload from "@rpldy/upload-paste";
-import UploadPreview from "@rpldy/upload-preview";
-import { useDropzone } from "react-dropzone";
-import useFileUpload from "react-use-file-upload";
-import styled from "styled-components";
-import ElementPasteLegales from "./ElementPasteLegales";
+import ElementPasteLegales from './ElementPasteLegales'
+
+
 
 const Legales = (props) => {
   const dispatch = useDispatch();
@@ -63,38 +68,105 @@ const Legales = (props) => {
   const [sede, setSede] = React.useState('')
   const [persona, setPersona] = React.useState('')
   const [observaciones, setObservaciones] = React.useState('')
+  const [selectedFiles, setSelectedFiles] = React.useState([])
 
   const [mensaje, setMensaje] = React.useState('')
   const [loading, setLoading] = React.useState(false)
   const [show, setShow] = React.useState(false)
   const [error, setError] = React.useState(false)
   const resultado = useSelector(store => store.legales.resultadoCaso)
-  const [selectedFiles, setSelectedFiles] = React.useState([])
-  ////copy-paste//
-const mockSenderEnhancer = getMockSenderEnhancer();
-const PreviewContainer = styled.div`
-margin-top: 20px;
-img {
-  max-width: 400px;
-}
-`;
-const StyledInput = styled.input`
- width: 300px;
- height:34px;
- font-size: 18px;
- margin: 20px 0;
- padding: 80px;
-`;
-// const PasteUploadDropZone = whithPasteUpload(StyleDropZone);
+ 
+  //datos para el post
+  const {
+    files,
+    fileNames,
+    fileTypes,
+    totalSize,
+    totalSizeInBytes,
+    handleDragDropEvent,
+    clearAllFiles,
+    createFormData,
+    setFiles,
+    removeFile,
+  } = useFileUpload();
 
-const PasteInput = whithPasteUpload(StyledInput);
+  const mockSenderEnhancer = getMockSenderEnhancer();
+  const PreviewContainer = styled.div`
+    margin-top: 20px;
 
-const UploadStatus = () => {
+    img {
+      max-width: 400px;
+    }
+  `;
+  const StyledInput = styled.input`
+    width: 408px;
+    height: 34px;
+    font-size: 18px;
+    margin: 20px 0;
+    padding: 33px;
+  `;
+
+  const PasteInput = whithPasteUpload(StyledInput);
+
+  const UploadStatus = () => {
     const [status, setStatus] = useState(null);
     useItemStartListener(() => setStatus("cargando..."));
-    useItemFinalizeListener(() => setStatus ("Archivo copiado!..."));
-  return status;
-}
+    useItemFinalizeListener(() => setStatus("Archivo copiado!..."));
+    console.log("status:", status)
+
+    return status;
+  };
+
+  const inputRef = useRef();
+  const imageElement = document.getElementById("image");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = createFormData();
+    try {
+      axios.post("https://some-api.com", formData, {
+        "content-type": "multipart/form-data",
+      });
+    } catch (error) {
+      // console.error("Error archivo incompatible");
+    }
+  };
+  // Pass the image src attribute here
+  copyImageToClipboard("assets/image*")
+    .then(() => {
+      // console.log("Image Copied");
+    })
+    .catch((e) => {
+      // console.log("Error: ", e.message);
+    });
+
+  //idintranet
+
+  // Can be an URL too, but be careful because this may cause CORS errors
+  copyImageToClipboard("../")
+    .then(() => {
+      // console.log("Image Copied");
+    })
+    .catch((e) => {
+      // console.log("Error: ", e.message);
+    });
+  getBlobFromImageElement(imageElement)
+    .then((blob) => {
+      return copyBlobToClipboard(blob);
+    })
+    .then(() => {
+      // console.log("Blob Copied");
+    })
+    .catch((e) => {
+      // console.log("Error: ", e.message);
+    });
+
+  // onPasteUpload((e) => {
+
+  // })
+
+
+
+
 
   const fade = useSpring({
     from: {
@@ -171,7 +243,6 @@ const UploadStatus = () => {
 
   const enviarFormulario = (e) => {
     e.preventDefault()
-
     const formData = new FormData();
     for (let index = 0; index < selectedFiles.length; index++) {
       let element = selectedFiles[index];
@@ -184,7 +255,6 @@ const UploadStatus = () => {
       },
     };
 
-
     dispatch(cargarForm(autor, fechaRecepcion, descripcionDoc, sede, persona, observaciones, formData, config))
     setLoading(true)
     setMensaje("Cargando...")
@@ -192,16 +262,7 @@ const UploadStatus = () => {
     limpiarForm()
   }
 
-  const limpiarForm = () => {
-    setAutor('')
-    setFechaRecepcion('')
-    setDescripcionDoc('')
-    setSede('')
-    setPersona('')
-    setObservaciones('')
-    setSelectedFiles('')
-  }
-
+ 
   const cargaExito = () => {
     if (resultado === "EXITO") {
       setMensaje("El documento fue creado con éxito!")
@@ -227,8 +288,23 @@ const UploadStatus = () => {
     }
   }
 
+  const limpiarForm = () => {
+    setAutor('')
+    setFechaRecepcion('')
+    setDescripcionDoc('')
+    setSede('')
+    setPersona('')
+    setObservaciones('')
+    setSelectedFiles('')
+  }
+
   const obtenerlegal = () => {
     dispatch(obtenerLegales());
+  };
+
+  const changeHandler = (event) => {
+    debugger
+    setSelectedFiles(event.target.files)
   };
 
   const obtenerCuentas = () => {
@@ -308,11 +384,7 @@ const UploadStatus = () => {
     { value: '100000010', label: 'DEMANDA' },
   ]
 
-
-
   return (
-
-
     <animated.div className="container" style={fade}>
       <div className="col-sm-12 mt-4">
         <div className="card p-2 shadow pad borde-none sgr mb-4">
@@ -477,7 +549,30 @@ const UploadStatus = () => {
                 </div>
               </div>
               <br />
+              <div className="row">
+                <div className="custom-input-file drag-area mt-4">
+                  <div class="drag-area">
+                    {/* <button
+                      type="button"
+                      class="btn btn-outline-dark"
+                      // onClick={() => inputRef.current.click()}
+                    >
+                      O seleccione tus archivos para subirlos
+                    </button> */}
+                    {/* <input
+                      type="file"
+                      className="fw-bolder input-file "
+                      name="file"
+                      id="adjunto"
+                      // onChange={changeHandler}
+                      multiple
+                    /> */}
+                  </div>
+                  <div className="col-5 text-end text-dark fw-bolder"></div>
+                </div>
+              </div>
             </div>
+
             <div class="card">
               <div class="card-header fw-bolder d-grid gap-5 d-md-flex justify-content-center">
                 Adjuntar Archivos{" "}
@@ -488,55 +583,104 @@ const UploadStatus = () => {
                 />
               </div>
 
-              <div className="row">
-                <div className="custom-input-file col-12 mt-4">
-                  <div class="form-group borde_discontinuo">
-                  <input
-                      type="file"
-                      className="fw-bolder input-file "
-                      name="file"
-                      id="adjunto"
-                      // onChange={changeHandler}
-                      multiple
-                    />
-                    <Uploady debug enhancer={mockSenderEnhancer}>
-                    <ElementPasteLegales autoUpload={false} params={{ test: "paste" }} tipo="legales"/>
-                      <div className="card-header fw-bolder d-grid gap-5 d-md-flex justify-content-center">
-                        <h3></h3>
-                        <div className="card-header fw-bolder d-grid gap-5 d-md-flex justify-content">
+              <div class="card-body">
+                <h5 class="card-title">Detalles de sus archivos</h5>
+                <div>
+                  <ul>
+                    {fileNames.map((name) => (
+                      <li key={name}>
+                        <span>{name}</span>
+                        <span onClick={() => removeFile(name)}>
+                          <i className="fa fa-times" />
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                  {files.length > 0 && (
+                    <ul>
+                      <li>
+                        Tipos de archivos:
+                        {fileTypes.join(", ")}
+                      </li>
+                      <li>
+                        Tamaño total:
+                        {totalSize}
+                      </li>
+                      <li>
+                        Total Bytes:
+                        {totalSizeInBytes}
+                      </li>
 
-                        <PasteInput
-                          extraProps={{
-                            placeholder:
-                              " Ctrl+C y Ctrl+V",
-                          }}
-                        />
-                        </div>
-                        <div className="card-header fw-bolder d-grid gap-5 d-md-flex ">
-                        <PreviewContainer>
-                          <div className="container">
-                          <UploadStatus />
-                          <UploadPreview />
-                          </div>
-                         
-                        </PreviewContainer>
-                        </div>
-                      </div>
-                    </Uploady>
-                   
-                  </div>
+                      <li className="clear-all">
+                        <button onClick={() => clearAllFiles()}>
+                          Limpiar todo
+                        </button>
+                      </li>
+                    </ul>
+                  )}
                 </div>
+
+                {/* Provide a drop zone and an alternative button inside it to upload files. */}
+                <Uploady debug enhancer={mockSenderEnhancer}  > 
+                   <ElementPasteLegales autoUpload={false} params={{ test: "paste" }} tipo="legales"/>
+                  <div className="d-grid gap-5 d-md-flex justify-content-center">
+                    <PasteInput
+                      extraProps={{
+                        placeholder:
+                          "copía con (PrtSc) y pega con (Ctrl+V) acá",
+                      }}
+                    />
+                    <UploadStatus />
+                    <PreviewContainer>
+                      <UploadPreview />
+                    </PreviewContainer>
+                  </div>
+                </Uploady>
+                <div
+                  onDragEnter={handleDragDropEvent}
+                  onDragOver={handleDragDropEvent}
+                  onDrop={(e) => {
+                    handleDragDropEvent(e);
+                    setFiles(e, "a");
+                  }}
+                >
+                  <br />
+                  <p>Arrastre y suelte aca tus archivos</p>
+
+                  <br />
+
+                  <button
+                    type="button"
+                    className="btn btn-outline-dark justify-content-center"
+                    onClick={() => inputRef.current.click()}
+                  >
+                    O seleccione tus archivos para subirlos
+                  </button>
+
+                  {/* Hide the crappy looking default HTML input */}
+                  {/* <input
+                    type="file"
+                    className="fw-bolder"
+                    name="file"
+                    id="adjunto"
+                    onChange={changeHandler}
+                    multiple
+                  /> */}
+                </div>
+                <br />
               </div>
+              <div className="d-grid gap-5 d-md-flex justify-content-md-end">
+                <button
+                  type="submit"
+                  className="btn btn-outline-dark me-md-5"
+                >
+                  Enviar
+                </button>
+                <br />
+              </div>
+              <br />
             </div>
-            <div class="d-flex align-items-end justify-content-end">
-              <button
-                type="submit"
-                name="btnSubmitAlyc"
-                className="btn btn-outline-dark me-md-5"
-              >
-                Enviar
-              </button>
-            </div>
+            
 
           </form>
           <div className="row">
