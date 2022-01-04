@@ -574,6 +574,7 @@ select#telefono {
   height: 100%;
   width: 100%;
   text-align: center;
+
 }
 
 .boton-ingresar {
@@ -683,29 +684,16 @@ select#telefono {
 
 }
 
-.portada-container > h1 {
-  color: aliceblue;
-  font-size: 100px;
+.video-logo {
+  width: 28%;
+  height: 28%;
+  display: flex;
+  align-self:center;
+  justify-content: center;
+
+ 
 }
 
-.portada-container > p{
-  margin-top: 8px;
-  color: aliceblue;
-  font-size: 32px;
-}
-
-@media screen and (max-width: 960px) {
-  .portada-container > h1 {
-    font-size: 70px;
-    text-align: center;
-  }
-   .portada-container > p {
-     text-align: center;
-     font-size: 22px;
-     width: 85%;
-
-   }
-}
 
 //about
 
@@ -745,6 +733,10 @@ select#telefono {
   display: flex;
   align-self:auto;
   overflow: hidden;
+  padding: 1px 1px;
+  border: #231f20 1px solid;
+  border-top-left-radius: 30px;
+  border-bottom-right-radius: 30px;
 
  
 }
@@ -783,6 +775,10 @@ select#telefono {
   }
 
 }
+
+
+
+
 
 .badge-personalizado-naranja{
   font-size: 12.5px !important; 

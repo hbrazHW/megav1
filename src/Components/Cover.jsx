@@ -2,10 +2,11 @@ import React from "react";
 import { useSpring, animated } from "react-spring";
 import { withRouter, Link } from "react-router-dom";
 import megatlonVideo from "../img/megatlonVideo.mp4";
-import casos from "../img/casos.jpg";
+import Casos from "../img/Casos.jpg";
 import legales from "../img/legales.jpg";
 import personal from "../img/personal.jpg";
 import megatlonPortada from "../img/megatlonPortada.png";
+import LogoBlanco from "../img/LogoBlanco.png"
 
 const Cover = () => {
   const fade = useSpring({
@@ -23,8 +24,9 @@ const Cover = () => {
       <div className="row">
         <div className="portada-container" >
           <video className="video" src={megatlonVideo} autoPlay loop muted />
-          <h1>MEGATLON</h1>
-          <p>Red de Clubes</p>
+          <div className="video-logo">
+          <img src={LogoBlanco} alt="IconMegatlon" />
+          </div>
         </div>
         <div className="about-container">
           <div className="description">
@@ -73,11 +75,11 @@ const Cover = () => {
             </div>
             <div
               className="carousel-inner container-fluid"
-              style={{ height: 25 + "em" }}
+              style={{ height: 33 + "em" }}
             >
               <div className="carousel-item h-100 active ">
                 <Link to="/vista-casos">
-                  <img src={casos} className="d-block w-100" alt="casos" />
+                  <img src={Casos} className="d-block w-100" alt="casos" />
                 </Link>
                 <div className="carousel-caption d-none d-md-block" >
                   <h5>Casos</h5>
@@ -89,7 +91,7 @@ const Cover = () => {
                   <img src={legales} className="d-block w-100" alt="legales" />
                 </Link>
                 <div className="carousel-caption d-none d-md-block">
-                  <h5>Documentos Legales</h5>
+                  <h5>Legales</h5>
                   <p>Vista de documentos legales Creados.</p>
                 </div>
               </div>
