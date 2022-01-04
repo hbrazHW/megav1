@@ -6,16 +6,17 @@ import { Entidad, UrlApiDynamics } from "../Keys";
 const dataInicial = {
   loading: false,
   legales: [],
+  archivos: [],
   legalesId: '',
   ticket:'',
   resultadoCaso:''
 };
 
 //types
+const ADJUNTOS_EXITO = 'ADJUNTOS_EXITO'
 const OBTENER_LEGALES_EXITO = "OBTENER_LEGALES_EXITO";
 const LEGALESID_EXITO = "LEGALESID_EXITO"
 const CARGA_DATOS_EXITO = "CARGA_DATOS_EXITO"
-const ADJUNTOS_EXITO = 'ADJUNTOS_EXITO'
 const LOADING = "LOADING";
 const ERROR = "ERROR";
 
@@ -94,7 +95,7 @@ export const obtenerLegalesId = (id) => (dispatch) => {
   }
 }
 
-export const cargarForm = ( autor, fechaRecepcion, descripcionDoc, sede, persona, observaciones,  file, config  ) => async (dispatch) => {
+export const cargarForm = ( autor, fechaRecepcion, descripcionDoc, sede, persona, observaciones, file, config ) => async (dispatch) => {
   dispatch({
       type: LOADING,
       resultadoCaso: 'LOADING'
@@ -116,11 +117,28 @@ export const cargarForm = ( autor, fechaRecepcion, descripcionDoc, sede, persona
   }
 }
 
+// export const cargarArchivos = (legalesId, file, config, tipo) => (dispatch) => {
+//   try {
+//       debugger
+//       const id = legalesId.split(';')
+//       const resp = axios.post(`${UrlApiDynamics}Notas?id=${id[1]}&cuit=${Entidad}&tipo=${tipo}`, file, config)
+//       dispatch({
+//           type: ADJUNTOS_EXITO,
+//           payload: resp.data
+//       })
+//   }
+//   catch (error) {
+//       dispatch({
+//           type: ERROR
+//       })
+//   }
+// }
+
 export const cargarArchivos = (legalesId, file, config, tipo) => (dispatch) => {
   try {
       debugger
-      const id = legalesId.split(';')
-      const resp = axios.post(`${UrlApiDynamics}Notas?id=${id[1]}&cuit=${Entidad}&tipo=${tipo}`, file, config)
+      const id = legalesId
+      const resp = axios.post(`${UrlApiDynamics}Notas?id=${id}&cuit=${Entidad}&tipo=${tipo}`, file, config)
       dispatch({
           type: ADJUNTOS_EXITO,
           payload: resp.data
