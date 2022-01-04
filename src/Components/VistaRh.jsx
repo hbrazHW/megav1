@@ -125,7 +125,6 @@ const VistaRh = () => {
 
     }, [recursosHumanosSelector, evaluacionesSelector, evaluacionesIdSelector, contactSelector, sucursalesSelector, puestoNombreSelector])
 
-    console.log("hooks:", puestoNombre)
 
     const obtenerPuestos = () => {
         dispatch(consultaFETCHpuesto())

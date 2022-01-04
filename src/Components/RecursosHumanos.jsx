@@ -537,7 +537,7 @@ const RecursosHumanos = (props) => {
                   <button
                     type="submit"
                     name="btnSubmitAlyc"
-                    className="btn btn-secondary"
+                    className="btn btn-dark"
                   >
                     Enviar
                   </button>
@@ -844,7 +844,7 @@ const RecursosHumanos = (props) => {
                     <button
                       type="submit"
                       name="btnSubmitAlyc"
-                      className="btn btn-secondary"
+                      className="btn btn-dark"
                     >
                       Enviar
                     </button>
