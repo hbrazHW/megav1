@@ -28,8 +28,8 @@ const Cover = () => {
         </div>
         <div className="about-container">
           <div className="description">
-            <h3>Portal Megatlon</h3>
-            <p>
+            <h3 className="fw-bolder text-white">Portal Megatlon</h3>
+            <p className="text-white">
               Administra sus casos, crea documentos legales y gestiona sus
               recursos humanos desde acá de manera practica y rápida
             </p>
