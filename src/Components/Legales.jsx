@@ -28,8 +28,7 @@ import {
   getBlobFromImageElement,
   copyBlobToClipboard,
 } from "copy-image-clipboard";
-import CopyPasteDoc from "./CopyPasteDoc";
-
+import ElementPasteLegales from "./ElementPasteLegales";
 
 
 const Legales = (props) => {
@@ -622,7 +621,7 @@ const Legales = (props) => {
 
                 {/* Provide a drop zone and an alternative button inside it to upload files. */}
                 <Uploady debug enhancer={mockSenderEnhancer}  > 
-                   <CopyPasteDoc autoUpload={false} params={{ test: "paste" }} tipo="legales"/>
+                   <ElementPasteLegales autoUpload={false} params={{ test: "paste" }} tipo="documentolegal"/>
                   <div className="d-grid gap-5 d-md-flex justify-content-center">
                     <PasteInput
                       extraProps={{

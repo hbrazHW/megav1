@@ -174,8 +174,8 @@ const Navbar = (props) => {
                           <div className="col-sm-2 separador-notificacion"></div>
                         </div>
                         <div className="card-body p-0 bg-white  borde-none">
-                          <ul className="list-group w-100 overflow-auto notificaciones-menu shadow-sm">
-                          <div className="row border-bottom pb-1">
+                          <ul className="list-group w-100 overflow-auto notificaciones-menu">
+                          <div className="">
                             <div className="col-12 mt-2">
                               <Link
                                 className=" mr-5 text-decoration-none"
@@ -205,14 +205,14 @@ const Navbar = (props) => {
                           </div>
                           </ul>
                         </div>
-                        <div className="card-footer bg-white text-muted text-center border-none fw-bolder">
+                        {/* <div className="card-footer bg-white text-muted text-center border-none fw-bolder">
                           <p className="color-footer-notificacion pt-1  m-0">
                             Tienes {notificaciones.length}{" "}
                             {notificaciones.length === 1
                               ? "notificación"
                               : "notificaciones"}
                           </p>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </div>
@@ -237,7 +237,7 @@ const Navbar = (props) => {
                     >
                       <div className="card card-notificacion borde-none pad">
                         <div className="p-2">
-                          <div className="row border-bottom pb-3">
+                          <div className="border-bottom pb-1">
                             <div className="col-2">
                               <img
                                 className="border-secondary padding-foto-perfil foto-perfil-notificacion rounded-circle"
@@ -246,14 +246,17 @@ const Navbar = (props) => {
                               />
                             </div>
                             <div className="col-10">
-                              <p className="perfil-nombre m-0 fw-bolder">
-                                {cuenta != undefined ? cuenta.Name : ""}
-                              </p>
-                              <p className="perfil-email m-0">
-                                {cuenta != undefined
-                                  ? cuenta.emailaddress1
-                                  : ""}
-                              </p>
+                              {contacto.map((item) => (
+                                <h5 className="perfil-nombre m-0 fw-bolder">
+                                  {item.fullname}
+                                </h5>
+                              ))}
+
+                              {contacto.map((item) => (
+                                <p className="perfil-email m-0 ">
+                                  {item.emailaddress1}
+                                </p>
+                              ))}
                             </div>
                           </div>
                           {/* <div className="row border-bottom pb-1">
@@ -336,8 +339,8 @@ const Navbar = (props) => {
                           <div className="col-sm-2 separador-notificacion"></div>
                         </div>
                         <div className="card-body p-0 bg-white  borde-none">
-                          <ul className="list-group w-100  shadow-sm">
-                            <div className="row border-bottom pb-1">
+                          <ul className="list-group w-100  ">
+                            <div className="">
                             <div className="col-12 mt-2">
                               <Link
                                 className=" mr-5 text-decoration-none"
@@ -425,7 +428,7 @@ const Navbar = (props) => {
                               </Link>
                             </div>
                           </div> */}
-                          <div className="col-12 mt-2">
+                          <div className="col-12 mt-1">
                             <div className="mt-1">
                               <button
                                 className="dropdown-item mb-1 p-3 rounded-3 perfil-link fw-bolder"

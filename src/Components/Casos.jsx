@@ -278,10 +278,6 @@ const Casos = (props) => {
         selected,
         solicitante,
         puestoSolicitante,
-        instalacionSede,
-        serieActivo,
-        equipoDetenido,
-        prioridad,
         tipoC,
         comentarios,
         sede,
@@ -327,9 +323,6 @@ const Casos = (props) => {
     setSolicitante("");
     setPuestoSolicitante("");
     setAsuntoSeleccionar("");
-    setInstalacionSede("");
-    setSerieActivo("");
-    setPrioridad("");
     setTipoC("");
     setComentarios("");
     setSelectedFiles("");
