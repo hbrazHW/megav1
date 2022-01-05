@@ -3,10 +3,11 @@ import { useSpring, animated } from "react-spring";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClipboardList, faIdBadge, faFile, faCheckCircle, faTimesCircle, faEnvelope } from '@fortawesome/free-solid-svg-icons'
-import { consultaFETCHcasosResueltos, consultaFETCHmisCasosActivos, consultaFETCHnombresAsuntos } from "../Redux/Casos";
+import { consultaFETCHcasosResueltos, consultaFETCHmisCasosActivos, consultaFETCHnombresAsuntos, consultaFETCHcasosFm } from "../Redux/Casos";
 import Tabla from '../Components/Tabla';
 import { COLUMNASMCA } from '../Tables/ColumnasMCA';
 import { COLUMNASCR } from '../Tables/ColumnasCR';
+import {COLUMNASCFM} from '../Tables/ColumnasCFM';
 import MultiStepProgressBar from './MultiStepProgressBar'
 import Moment from 'moment'
 import { consultaFETCHcontacts } from '../Redux/Contact';
@@ -32,6 +33,8 @@ const VistaCasos = () => {
     const [llamadaCasosResueltos, setLlamadaCasosResueltos] = React.useState(false)
     const [contacts, setContacts] = React.useState([])
     const [llamadaContacts, setLlamadaContacts] = React.useState(false)
+    const [casosFm, setCasosFm] = React.useState([])
+    const [llamadaCasosFm, setLlamadaCasosFm] = React.useState(false)
 
 
     //selectores
@@ -39,10 +42,12 @@ const VistaCasos = () => {
     const casosResueltosSelector = useSelector(store => store.casos.casosResueltos)
     const casoIdSelector = useSelector(store => store.casos.casoid)
     const contactSelector = useSelector(store => store.contacts.contacts)
+    const casosFmSelector = useSelector(store => store.casos.casosFm)
 
     //Columnas
     const [columnasMisCasosActivos, setColumnasMisCasosActivos] = React.useState([])
     const [columnasCasosResueltos, setColumnasCasosResueltos] = React.useState([])
+    const [columnasCFM, setColumnasCFM] = React.useState([])
 
     //hooks para obtener nombres de asuntos
     const [asuntos, setAsuntos] = React.useState([])
@@ -66,6 +71,12 @@ const VistaCasos = () => {
     const [razonParaElEstado, setRazonParaElEstado] = React.useState([])
     const [comentarioCasoActivo, setComentarioCasoActivo] = React.useState("")
     const [step, setStep] = React.useState(1);
+
+    //Hooks modal casos de FM
+    const [instalacionSede, SetInstalacionSede] = React.useState([]);
+    const [equipoDetenido, setEquipoDetenido] = React.useState([]);
+    const [prioridad, setPrioridad] = React.useState([])
+    const [esperaRepuesto, setEsperaRepuesto] = React.useState([])
 
     React.useEffect(() => {
         if (misCasosActivos.length === 0) {
@@ -103,6 +114,38 @@ const VistaCasos = () => {
             }
         }
 
+        if (casosResueltos.length === 0) {
+            if (casosResueltosSelector.length > 0 && llamadaCasosResueltos === true) {
+                setCasosResueltos(casosResueltosSelector);
+                setColumnasCasosResueltos(COLUMNASCR);
+                setTimeout(() => {
+                    if (document.getElementById("spinner-serie") !== null) {
+                        document.getElementById("spinner-serie").hidden = true;
+                    }
+                }, 50);
+            } else if (llamadaCasosResueltos === false) {
+                obtenerCasosResueltos();
+                setColumnasCasosResueltos(COLUMNASCR);
+                setLlamadaCasosResueltos(true);
+            }
+        }
+
+        if (casosFm.length === 0) {
+            if (casosFmSelector.length > 0 && llamadaCasosFm === true) {
+                setCasosFm(casosFmSelector);
+                setColumnasCFM(COLUMNASCFM);
+                setTimeout(() => {
+                    if (document.getElementById("spinner-serie") !== null) {
+                        document.getElementById("spinner-serie").hidden = true;
+                    }
+                }, 50);
+            } else if (llamadaCasosFm === false) {
+                obtenerCasosFm();
+                setColumnasCFM(COLUMNASCFM);
+                setLlamadaCasosFm(true);
+            }
+        }
+
         if (casoIdSelector !== undefined) {
             if (casoIdSelector !== '') {
                 completarCasoResuelto(casoIdSelector)
@@ -128,7 +171,7 @@ const VistaCasos = () => {
             }
         }
 
-    }, [misCasosActivosSelector, casosResueltosSelector, casoIdSelector, asuntosSelector, contactSelector])
+    }, [misCasosActivosSelector, casosResueltosSelector, casoIdSelector, asuntosSelector, contactSelector, casosFmSelector])
 
     console.log("hook:", )
 
@@ -143,6 +186,10 @@ const VistaCasos = () => {
 
     const obtenerCasosResueltos = () => {
         dispatch(consultaFETCHcasosResueltos());
+    };
+
+    const obtenerCasosFm = () => {
+        dispatch(consultaFETCHcasosFm());
     };
 
     const obtenerMisCasosA = () => {
@@ -317,6 +364,11 @@ const VistaCasos = () => {
                             Casos Resueltos
                         </button>
                     </li>
+                    <li className="nav-item" role="presentation">
+                        <button className="nav-link fw-bolder text-dark" id="cfm-tab" data-bs-toggle="tab" data-bs-target="#cfm" type="button" role="tab" aria-controls="cfm" aria-selected="false">
+                            Casos de FM
+                        </button>
+                    </li>
                 </ul>
 
                 <div className="tab-content">
@@ -354,6 +406,26 @@ const VistaCasos = () => {
                                                 lineas={casosResueltos}
                                                 columnas={columnasCasosResueltos}
                                                 titulo={"Casos-Resueltos"}
+                                                header={false}
+                                            />
+                                        ) : null}
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="tab-pane fade show p-3" id="cfm" role="tabpanel" aria-labelledby="cfm-tab">
+                        <div className="col-sm-12 p-2 mt-3">
+                            <div className="card shadow p-3 border-0 h-auto d-flex justify-content-start pad">
+
+                                <div className="card pad borde-none">
+                                    <div className="lista-header color-header pad">
+                                        {casosFm.length > 0 ? (
+                                            <Tabla
+                                                lineas={casosFm}
+                                                columnas={columnasCFM}
+                                                titulo={"Casos-FM"}
                                                 header={false}
                                             />
                                         ) : null}
@@ -628,6 +700,112 @@ const VistaCasos = () => {
                                                 ></textarea>
                                             </div>
 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div
+                className="modal fade bd-example-modal-xl"
+                id="modalCFM"
+                tabIndex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+            >
+                <div className="modal-dialog modal-dialog-centered modal-xl">
+                    <div className="modal-content">
+                        <div className="modal-body">
+                            <div className="row">
+                                <div className="col-sm-8">
+                                    <h6 className="fw-bolder">Casos de FM</h6>
+                                    <hr className="hr-width hr-principal" />
+                                </div>
+                                <div className="col-sm-4">
+                                    <button
+                                        type="button"
+                                        className="btn-close float-end"
+                                        data-bs-dismiss="modal"
+                                        aria-label="Close"
+                                        id="myInput"
+                                    ></button>
+                                </div>
+                            </div>
+
+                            {/* <div className="w-100 d-flex justify-content-center">
+                                <div className="card p-4 border-0 h-auto pad w-100 mb-4">
+                                    <div >
+                                        <MultiStepProgressBar currentStep={step} />
+                                    </div>
+                                </div>
+                            </div> */}
+
+                            <div className="row w-auto d-flex justify-content-center">
+                                <div className="col-12">
+                                    <h6 className="fw-bolder">Detalles del caso FM</h6>
+                                    <div className="row">
+                                        <div className="col-sm-4 col-md-12">
+                                            <div className="mb-2 p-2">
+                                                <label className="form-label fw-bolder lbl-precalificacion ">
+                                                    Instalación por Sede
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    id="isntasede"
+                                                    name="instasede"
+                                                    // value={numCaso}
+                                                    className="form-control desabilitado"
+                                                    disabled
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="col-sm-4 col-md-12">
+                                            <div className="mb-2 p-2">
+                                                <label className="form-label fw-bolder lbl-precalificacion ">
+                                                    Equipo Detenido
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    id="eqdetenido"
+                                                    // value={asuntoPrim}
+                                                    name="eqdetenido"
+                                                    className="form-control desabilitado"
+                                                    disabled
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="col-sm-4 col-md-12">
+                                            <div className="mb-2 p-2">
+                                                <label className="form-label fw-bolder lbl-precalificacion required">
+                                                    Prioridad
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    id="Priority"
+                                                    // value={obtenerNombreAsunto(asuntoCaso)}
+                                                    name="prioridad"
+                                                    className="form-control desabilitado"
+                                                    disabled
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="col-sm-4 col-md-12">
+                                            <div className="mb-2 p-2">
+                                                <label className="form-label fw-bolder lbl-precalificacion">
+                                                    A la espera de Repuestos
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    id="alaesperarepuestos"
+                                                    name="alaesperarepuestos"
+                                                    className="form-control desabilitado"
+                                                    // value={razonEstadoCaso(razonParaElEstado)}
+                                                    disabled
+                                                />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
