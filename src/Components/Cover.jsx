@@ -1,8 +1,8 @@
 import React from "react";
 import { useSpring, animated } from "react-spring";
 import { withRouter, Link } from "react-router-dom";
-import megatlonVideo from "../img/megatlonVideo.mp4";
-import Casos from "../img/casos.jpg";
+import VideoMegatlon from "../img/VideoMegatlon.mp4";
+import Casos from "../img/Casos.jpg";
 import legales from "../img/legales.jpg";
 import personal from "../img/personal.jpg";
 import megatlonPortada from "../img/megatlonPortada.png";
@@ -23,7 +23,7 @@ const Cover = () => {
     <animated.div  style={fade}>
       <div className="row">
         <div className="portada-container" >
-          <video className="video" src={megatlonVideo} autoPlay loop muted />
+          <video className="video" src={VideoMegatlon} autoPlay loop muted />
           <div className="video-logo">
           <img src={LogoBlancoTransparente} alt="IconMegatlon" />
           </div>
@@ -33,7 +33,7 @@ const Cover = () => {
             <h3 className="fw-bolder text-white">Portal Megatlon</h3>
             <p className="text-white">
               Administra sus casos, crea documentos legales y gestiona sus
-              recursos humanos desde acá de manera practica y rápida
+              recursos humanos desde acá de manera practica y rápida.
             </p>
           </div>
           <div className="about-img">

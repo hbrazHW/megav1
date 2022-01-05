@@ -28,8 +28,7 @@ import {
   getBlobFromImageElement,
   copyBlobToClipboard,
 } from "copy-image-clipboard";
-import CopyPasteDoc from "./CopyPasteDoc";
-
+import ElementPasteLegales from "./ElementPasteLegales";
 
 
 const Legales = (props) => {
