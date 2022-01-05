@@ -14,9 +14,13 @@ const dataInicial = {
   ticket: '',
   resultadoCaso: '',
   evaluacionId: '',
+  busquedaId: '',
+  archivos: [],
 };
 
 //types
+const ADJUNTOS_EXITO = 'ADJUNTOS_EXITO'
+const BUSQUEDAID_EXITO = 'BUSQUEDAID_EXITO'
 const OBTENER_EVALUACION_ID_EXITO = 'OBTENER_EVALUACION_ID_EXITO'
 const OBTENER_EVALUACIONES = 'OBTENER_EVALUACIONES'
 const CARGA_DATOS_EXITO = 'CARGA_DATOS_EXITO'
@@ -32,6 +36,10 @@ const ERROR = "ERROR";
 //reducers
 export default function recursosHumanosReducers(state = dataInicial, action) {
   switch (action.type) {
+    case ADJUNTOS_EXITO:
+      return { ...state, archivos: action.payload };
+    case BUSQUEDAID_EXITO:
+      return  { ...state, busquedaId: action.busquedaId, loading: false };
     case OBTENER_EVALUACION_ID_EXITO:
       return { ...state, evaluacionId: action.evaluacionId }
     case OBTENER_EVALUACIONES:
@@ -284,6 +292,33 @@ export const cargarForm = (puesto, motivoBusqueda, motivoReemplazo, sucursal, ar
       type: ERROR,
       resultadoCaso: 'ERROR'
     })
+  }
+}
+
+export const cargarArchivos = (busquedaId, file, config, tipo) => (dispatch) => {
+  try {
+      debugger
+      const id = busquedaId
+      const resp = axios.post(`${UrlApiDynamics}Notas?id=${id}&cuit=${Entidad}&tipo=${tipo}`, file, config)
+      dispatch({
+          type: ADJUNTOS_EXITO,
+          payload: resp.data
+      })
+  }
+  catch (error) {
+      dispatch({
+          type: ERROR
+      })
+  }
+}
+
+export const obtenerBusquedaPersonalId = (id) => (dispatch) => {
+  if (id !== undefined) {
+      dispatch({
+          type: BUSQUEDAID_EXITO,
+          busquedaId: id    
+      });
+
   }
 }
 

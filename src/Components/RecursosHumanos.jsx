@@ -1,12 +1,32 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import Select from "react-select";
 import { useSpring, animated } from "react-spring";
 import { useDispatch, useSelector } from "react-redux";
 import { consultaFETCHpuesto, consultaFETCHareas, consultaFETCHsedesRH, consultaFETCHautorizadoPor, cargarForm, consultaFETCHbusquedaPersonal } from "../Redux/RecursosHumanos";
 import { Toast, Spinner } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCloudUploadAlt, faCheckCircle, faTimesCircle, faEnvelope, faClipboardList, faCircle } from '@fortawesome/free-solid-svg-icons'
+import { faCloudUploadAlt, faCheckCircle, faTimesCircle, faEnvelope, faClipboardList, faCircle, faFile } from '@fortawesome/free-solid-svg-icons'
 import { withRouter, NavLink } from 'react-router-dom'
+//---------------------------------------------------
+import { useDropzone } from "react-dropzone";
+import useFileUpload from "react-use-file-upload";
+import styled from "styled-components";
+import axios from "axios";
+import Uploady, {
+  useItemStartListener,
+  useItemFinalizeListener,
+  useBatchAddListener
+} from "@rpldy/uploady";
+import { getMockSenderEnhancer } from "@rpldy/mock-sender";
+import whithPasteUpload from "@rpldy/upload-paste";
+import { onPasteUpload } from "@rpldy/upload-paste";
+import UploadPreview from "@rpldy/upload-preview";
+import {
+  copyImageToClipboard,
+  getBlobFromImageElement,
+  copyBlobToClipboard,
+} from "copy-image-clipboard";
+import CopyPasteRh from "./CopyPasteRh";
 
 const RecursosHumanos = (props) => {
   const dispatch = useDispatch();
@@ -64,6 +84,7 @@ const RecursosHumanos = (props) => {
   const [pasaPeriodo, setPasaPeriodo] = React.useState('')
   //--------------------------------------
 
+  const [selectedFiles, setSelectedFiles] = React.useState([])
 
   const [mensaje, setMensaje] = React.useState('')
   const [loading, setLoading] = React.useState(false)
@@ -121,6 +142,93 @@ const RecursosHumanos = (props) => {
 
   }, [puestoSelector, areasSelector, sucursalesSelector, autorizadoSelector, resultado])
 
+  //datos para el post
+  const {
+    files,
+    fileNames,
+    fileTypes,
+    totalSize,
+    totalSizeInBytes,
+    handleDragDropEvent,
+    clearAllFiles,
+    createFormData,
+    setFiles,
+    removeFile,
+  } = useFileUpload();
+
+  const mockSenderEnhancer = getMockSenderEnhancer();
+  const PreviewContainer = styled.div`
+    margin-top: 20px;
+
+    img {
+      max-width: 400px;
+    }
+  `;
+  const StyledInput = styled.input`
+    width: 408px;
+    height: 34px;
+    font-size: 18px;
+    margin: 20px 0;
+    padding: 33px;
+  `;
+
+  const PasteInput = whithPasteUpload(StyledInput);
+
+  const UploadStatus = () => {
+    const [status, setStatus] = useState(null);
+    useItemStartListener(() => setStatus("cargando..."));
+    useItemFinalizeListener(() => setStatus("Archivo copiado!..."));
+    console.log("status:", status)
+
+    return status;
+  };
+
+  const inputRef = useRef();
+  const imageElement = document.getElementById("image");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = createFormData();
+    try {
+      axios.post("https://some-api.com", formData, {
+        "content-type": "multipart/form-data",
+      });
+    } catch (error) {
+      // console.error("Error archivo incompatible");
+    }
+  };
+  // Pass the image src attribute here
+  copyImageToClipboard("assets/image*")
+    .then(() => {
+      // console.log("Image Copied");
+    })
+    .catch((e) => {
+      // console.log("Error: ", e.message);
+    });
+
+  //idintranet
+
+  // Can be an URL too, but be careful because this may cause CORS errors
+  copyImageToClipboard("../")
+    .then(() => {
+      // console.log("Image Copied");
+    })
+    .catch((e) => {
+      // console.log("Error: ", e.message);
+    });
+  getBlobFromImageElement(imageElement)
+    .then((blob) => {
+      return copyBlobToClipboard(blob);
+    })
+    .then(() => {
+      // console.log("Blob Copied");
+    })
+    .catch((e) => {
+      // console.log("Error: ", e.message);
+    });
+
+  // onPasteUpload((e) => {
+
+  // })
 
   const fade = useSpring({
     from: {
@@ -134,7 +242,18 @@ const RecursosHumanos = (props) => {
 
   const enviarFormulario = (e) => {
     e.preventDefault()
-    dispatch(cargarForm(puestoSeleccionar, mBusqueda, descripcion, sucursalSeleccionar, areaSeleccionar, reporta, jornada, observaciones, tipBusqueda, autorizadoSeleccionar))
+    const formData = new FormData();
+    for (let index = 0; index < selectedFiles.length; index++) {
+      let element = selectedFiles[index];
+      formData.append(`body${index}`, element);
+    }
+    // formData.append('body', selectedFiles);
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data',
+      },
+    };
+    dispatch(cargarForm(puestoSeleccionar, mBusqueda, descripcion, sucursalSeleccionar, areaSeleccionar, reporta, jornada, observaciones, tipBusqueda, autorizadoSeleccionar, formData, config))
     setLoading(true)
     setMensaje("Cargando...")
     setShow(true)
@@ -153,7 +272,13 @@ const RecursosHumanos = (props) => {
     setSucursalSeleccionar('')
     setAutorizadoSeleccionar('')
     setReportaSeleccionar('')
+    setSelectedFiles('')
   }
+
+  const changeHandler = (event) => {
+    debugger
+    setSelectedFiles(event.target.files)
+  };
 
   const cargaExito = () => {
     if (resultado === "EXITO") {
@@ -261,7 +386,7 @@ const RecursosHumanos = (props) => {
     setPuestoForm(valor.value)
   }
   const sucursalHandle = (valor) => {
-    setSucursal(valor.value) 
+    setSucursal(valor.value)
   }
   const areaEvHandle = (valor) => {
     setArea(valor.value)
@@ -295,8 +420,8 @@ const RecursosHumanos = (props) => {
   ]
 
   const opcionSiNo = [
-    { value: '0', label: 'No'},
-    { value: '1', label: 'Sí'}
+    { value: '0', label: 'No' },
+    { value: '1', label: 'Sí' }
   ]
 
   return (
@@ -533,15 +658,115 @@ const RecursosHumanos = (props) => {
                   </div>
                 </div>
 
-                <div class="d-flex align-items-end justify-content-end">
-                  <button
-                    type="submit"
-                    name="btnSubmitAlyc"
-                    className="btn btn-dark"
-                  >
-                    Enviar
-                  </button>
+                <div class="card">
+                  <div class="card-header fw-bolder d-grid gap-5 d-md-flex justify-content-center">
+                    Adjuntar Archivos{" "}
+                    <FontAwesomeIcon
+                      icon={faFile}
+                      className="fs-4 justify-content-center"
+                      color="rgb(245,130,32)"
+                    />
+                  </div>
+
+                  <div class="card-body">
+                    <h5 class="card-title">Detalles de sus archivos</h5>
+                    <div>
+                      <ul>
+                        {fileNames.map((name) => (
+                          <li key={name}>
+                            <span>{name}</span>
+                            <span onClick={() => removeFile(name)}>
+                              <i className="fa fa-times" />
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                      {files.length > 0 && (
+                        <ul>
+                          <li>
+                            Tipos de archivos:
+                            {fileTypes.join(", ")}
+                          </li>
+                          <li>
+                            Tamaño total:
+                            {totalSize}
+                          </li>
+                          <li>
+                            Total Bytes:
+                            {totalSizeInBytes}
+                          </li>
+
+                          <li className="clear-all">
+                            <button onClick={() => clearAllFiles()}>
+                              Limpiar todo
+                            </button>
+                          </li>
+                        </ul>
+                      )}
+                    </div>
+
+                    {/* Provide a drop zone and an alternative button inside it to upload files. */}
+                    <Uploady debug enhancer={mockSenderEnhancer}  >
+                      <CopyPasteRh autoUpload={false} params={{ test: "paste" }} tipo="busquedapersonal" />
+                      <div className="d-grid gap-5 d-md-flex justify-content-center">
+                        <PasteInput
+                          extraProps={{
+                            placeholder:
+                              "copía con (Ctrl+C) y pega con (Ctrl+V) acá",
+                          }}
+                        />
+                        <UploadStatus />
+                        <PreviewContainer>
+                          <UploadPreview />
+                        </PreviewContainer>
+                      </div>
+                    </Uploady>
+                    <div
+                      onDragEnter={handleDragDropEvent}
+                      onDragOver={handleDragDropEvent}
+                      onDrop={(e) => {
+                        handleDragDropEvent(e);
+                        setFiles(e, "a");
+                      }}
+                    >
+                      <br />
+                      <p>Arrastre y suelte aquí sus archivos</p>
+
+                      <br />
+
+                      <button
+                        type="button"
+                        className="btn btn-outline-dark justify-content-center"
+                        onClick={() => inputRef.current.click()}
+                      >
+                        O seleccione tus archivos para subirlos
+                      </button>
+
+                      {/* Hide the crappy looking default HTML input */}
+                      {/* <input
+                    type="file"
+                    className="fw-bolder"
+                    name="file"
+                    id="adjunto"
+                    onChange={changeHandler}
+                    multiple
+                  /> */}
+                    </div>
+                    <br />
+                  </div>
+                  <div className="d-grid gap-5 d-md-flex justify-content-md-end">
+                    <button
+                      type="submit"
+                      className="btn btn-outline-dark me-md-5"
+                    >
+                      Enviar
+                    </button>
+                    <br />
+                  </div>
+                  <br />
                 </div>
+
+
               </form>
             </div>
             <div className="row">
@@ -578,8 +803,8 @@ const RecursosHumanos = (props) => {
                       Empleado
                     </label>
                     <Select
-                    options={selectReferente}
-                    onChange={e => empleadoHandle(e)}
+                      options={selectReferente}
+                      onChange={e => empleadoHandle(e)}
                       type="select"
                       id="select"
                       name="empleado"
@@ -596,8 +821,8 @@ const RecursosHumanos = (props) => {
                       Puesto
                     </label>
                     <Select
-                    options={selecPuesto}
-                    onChange={e => puestoEvHandle(e)}
+                      options={selecPuesto}
+                      onChange={e => puestoEvHandle(e)}
                       type="select"
                       id="select"
                       name="puesto"
@@ -614,7 +839,7 @@ const RecursosHumanos = (props) => {
                       Fecha de ingreso
                     </label>
                     <input
-                    onChange={e => setFechaIngreso(e.target.value)}
+                      onChange={e => setFechaIngreso(e.target.value)}
                       type="date"
                       id="date"
                       name="fingre"
@@ -629,8 +854,8 @@ const RecursosHumanos = (props) => {
                       Sucursal
                     </label>
                     <Select
-                    options={selectSucursal}
-                    onChange={e => sucursalHandle(e)}
+                      options={selectSucursal}
+                      onChange={e => sucursalHandle(e)}
                       type="select"
                       id="select"
                       name="sucursal"
@@ -646,8 +871,8 @@ const RecursosHumanos = (props) => {
                       Area
                     </label>
                     <Select
-                    options={selectArea}
-                    onChange={e => areaEvHandle(e)}
+                      options={selectArea}
+                      onChange={e => areaEvHandle(e)}
                       type="select"
                       id="select"
                       name="area"
@@ -663,8 +888,8 @@ const RecursosHumanos = (props) => {
                       Referente
                     </label>
                     <Select
-                    options={selectReferente}
-                    onChange={e => referenteHandle(e)}
+                      options={selectReferente}
+                      onChange={e => referenteHandle(e)}
                       type="select"
                       id="select"
                       name="referente"
@@ -681,8 +906,8 @@ const RecursosHumanos = (props) => {
                       Puesto del evaluador
                     </label>
                     <Select
-                    options={selecPuesto}
-                    onChange={e => puestoEvaluadorHandle(e)}
+                      options={selecPuesto}
+                      onChange={e => puestoEvaluadorHandle(e)}
                       type="select"
                       id="select"
                       name="peva"
@@ -698,7 +923,7 @@ const RecursosHumanos = (props) => {
                       Fecha de creación
                     </label>
                     <input
-                    onChange={e => setFechaCreacion(e.target.value)}
+                      onChange={e => setFechaCreacion(e.target.value)}
                       type="datetime-local"
                       id="dtlocal"
                       name="fechahora"
@@ -713,8 +938,8 @@ const RecursosHumanos = (props) => {
                     </label>
                     <div class="form-group">
                       <Select
-                      onChange={e => esReferidoHandle(e)}
-                      options={opcionSiNo}
+                        onChange={e => esReferidoHandle(e)}
+                        options={opcionSiNo}
                         type="select"
                         id="select"
                         name="peva"
@@ -732,8 +957,8 @@ const RecursosHumanos = (props) => {
                     </label>
                     <div class="form-group">
                       <Select
-                      options={opcionSiNo}
-                      onChange={e => empleadoParticipeHandle(e)}
+                        options={opcionSiNo}
+                        onChange={e => empleadoParticipeHandle(e)}
                         type="select"
                         id="select"
                         name="peva"
@@ -751,7 +976,7 @@ const RecursosHumanos = (props) => {
                       Nombre
                     </label>
                     <input
-                    onChange={e => setNombreEvaluacion(e.target.value)}
+                      onChange={e => setNombreEvaluacion(e.target.value)}
                       type="text"
                       id="text"
                       name="jtrabajo"
@@ -791,7 +1016,7 @@ const RecursosHumanos = (props) => {
                   <div className="col-sm-10">
                     <div class="form-group">
                       <textarea
-                      onChange={e => setComentario60(e.target.value)}
+                        onChange={e => setComentario60(e.target.value)}
                         className="form-control mt-2"
                         id="exampleFormControlTextarea1"
                         rows="3"
@@ -807,7 +1032,7 @@ const RecursosHumanos = (props) => {
                   <div className="col-sm-10">
                     <div class="form-group">
                       <textarea
-                      onChange={e => setComentario80(e.target.value)}
+                        onChange={e => setComentario80(e.target.value)}
                         className="form-control mt-2"
                         id="exampleFormControlTextarea1"
                         rows="3"
@@ -829,8 +1054,8 @@ const RecursosHumanos = (props) => {
                   <div className="col-sm-10 p-3">
                     <div class="form-group">
                       <Select
-                      onChange={e => pasaPeriodoHandle(e)}
-                      options={opcionSiNo}
+                        onChange={e => pasaPeriodoHandle(e)}
+                        options={opcionSiNo}
                         type="select"
                         id="select"
                         name="peva"

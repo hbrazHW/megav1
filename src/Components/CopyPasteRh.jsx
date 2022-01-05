@@ -1,15 +1,16 @@
 import React from 'react'
+import { useDispatch, useSelector } from "react-redux";
 import Uploady, { useUploady, useBatchAddListener } from "@rpldy/uploady";
 import { usePasteUpload } from "@rpldy/upload-paste";
-import { cargarArchivos } from '../Redux/DocumentosLegales'; 
-import { useDispatch, useSelector } from "react-redux";
+import { cargarArchivos } from '../Redux/RecursosHumanos';
 
-const CopyPasteDoc = ({props, tipo}) => {
+
+const CopyPasteRh = ({props, tipo}) => {
     const containerRef = React.useRef(null);
     const [archivos, setArchivos] = React.useState([])
     const uploady = useUploady();
     const dispatch = useDispatch();
-    const legalesidSelector = useSelector((store) => store.legales.ticket);
+    const busquedaIdSelector = useSelector((store) => store.recursosHumanos.ticket);
     const onPasteUpload = React.useCallback(({ count }) => {
         console.log("ELEMENT PASTE-TO-UPLOAD files: ", count);
     }, []);
@@ -25,7 +26,7 @@ const CopyPasteDoc = ({props, tipo}) => {
     const { toggle, getIsEnabled } = usePasteUpload(props, containerRef, onPasteUpload)
 
     React.useEffect(() => {
-        if (legalesidSelector != undefined && legalesidSelector != "") {
+        if (busquedaIdSelector != undefined && busquedaIdSelector != "") {
             if (archivos.length > 0) {
                 const config = {
                     headers: {
@@ -37,11 +38,11 @@ const CopyPasteDoc = ({props, tipo}) => {
                     let element = archivos[index];
                     formData.append(`body${index}`, element);
                 }
-                dispatch(cargarArchivos(legalesidSelector, formData, config, tipo))
+                dispatch(cargarArchivos(busquedaIdSelector, formData, config, tipo))
                 setArchivos([])
             }
         }
-    }, [legalesidSelector])
+    }, [busquedaIdSelector])
 
     return (
         <div ref={containerRef}>
@@ -51,4 +52,4 @@ const CopyPasteDoc = ({props, tipo}) => {
     )
 }
 
-export default CopyPasteDoc
+export default CopyPasteRh
