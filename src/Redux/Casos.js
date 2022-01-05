@@ -7,6 +7,7 @@ const dataInicial = {
     casosResueltos: [],
     casosFm:[],
     asuntos: [],
+    instalacionSede: [],
     archivos: [],
     casoid: '',
     ticket: '',
@@ -18,6 +19,7 @@ const dataInicial = {
 const CARGA_CASOS_EXITO = "CARGA_CASOS_EXITO"
 const OBTENER_CASO_EXITO = "OBTENER_CASO_EXITO"
 const OBTENER_NOMBRE_ASUNTOS = "OBTENER_NOMBRE_ASUNTOS"
+const OBTENER_INSTALACION_SEDE = "OBTENER_INSTALACION_SEDE"
 const OBTENER_MIS_CASOS_ACTIVOS = "OBTENER_MIS_CASOS_ACTIVOS";
 const OBTENER_CASOS_RESUELTOS = 'OBTENER_CASOS_RESUELTOS'
 const OBTENER_CASOS_FM = 'OBTNER_CASOS_FM'
@@ -40,6 +42,8 @@ export default function casosReducers(state = dataInicial, action) {
             return { ...state, casosResueltos: action.payload, loading: false };
         case OBTENER_CASOS_FM:
             return { ...state, casosFm: action.payload, loading: false };
+        case OBTENER_INSTALACION_SEDE:
+            return { ...state, instalacionSede: action.payload, loading: false };
         case ERROR:
             return { ...dataInicial };
         case LOADING:
@@ -203,6 +207,39 @@ export const consultaFETCHnombresAsuntos = () => async (dispatch) => {
         });
     }
 };
+
+//Insta Sede
+
+export const consultaFETCHinstalacionSede = () => async (dispatch) => {
+    dispatch({
+        type: LOADING,
+    });
+
+    var entidad = "incidents";
+    var fetch = "<fetch mapping='logical' distinct='false'>" +
+    "<entity name='incident'>" +
+      "<attribute name='incidentid' />" +
+      "<attribute name='caseorigincode' />" +
+      "<attribute name='new_instalacionporsede' />" +
+      "<order attribute='new_instalacionporsede' descending='false' />" +
+    "</entity>" +
+  "</fetch>";
+
+    try {
+        const response = await axios.get(
+            `${UrlApiDynamics}ConsultaFetch?Entidad=${entidad}&fetch=${fetch}&cuit=${Entidad}`
+        );
+        dispatch({
+            type: OBTENER_INSTALACION_SEDE,
+            payload: response.data,
+        });
+    } catch (error) {
+        dispatch({
+            type: ERROR,
+        });
+    }
+};
+
 
 export const obtenerCasosId = (id) => (dispatch) => {
     if (id !== undefined) {

@@ -3,7 +3,7 @@ import { useSpring, animated } from "react-spring";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClipboardList, faIdBadge, faFile, faCheckCircle, faTimesCircle, faEnvelope } from '@fortawesome/free-solid-svg-icons'
-import { consultaFETCHcasosResueltos, consultaFETCHmisCasosActivos, consultaFETCHnombresAsuntos, consultaFETCHcasosFm } from "../Redux/Casos";
+import { consultaFETCHcasosResueltos, consultaFETCHmisCasosActivos, consultaFETCHnombresAsuntos, consultaFETCHcasosFm, consultaFETCHinstalacionSede } from "../Redux/Casos";
 import Tabla from '../Components/Tabla';
 import { COLUMNASMCA } from '../Tables/ColumnasMCA';
 import { COLUMNASCR } from '../Tables/ColumnasCR';
@@ -54,6 +54,11 @@ const VistaCasos = () => {
     const [llamada, setLlamada] = React.useState(false)
     const asuntosSelector = useSelector(store => store.casos.asuntos)
 
+    //Hooks para obtener nombres de las instlaciones por sucursal
+   const [instalaSede, setInstalaSede] = React.useState([])
+   const [llamadaInstaSede, SetLlamdaInstaSede] = React.useState([])
+   const instalacionSedeSelector = useSelector(store => store.casos.instalacionSede)
+    
 
     //hooks modal caso resuelto
     const [asuntoCasoResuelto, setAsuntoCasoResuelto] = React.useState([]);
@@ -150,6 +155,7 @@ const VistaCasos = () => {
             if (casoIdSelector !== '') {
                 completarCasoResuelto(casoIdSelector)
                 completarCaso(casoIdSelector)
+                completarCasoFm(casoIdSelector)
             }
         }
 
@@ -160,6 +166,16 @@ const VistaCasos = () => {
                 obtenerAsuntos()
                 setLlamada(true)
             }
+        }
+
+        if (instalaSede.lenght === 0) {
+            if(instalacionSedeSelector.lenght > 0 && llamadaInstaSede === true){
+                setInstalaSede(instalacionSedeSelector)
+            }else if (llamadaInstaSede === false) {
+                obtenerInstalacionporSede()
+                SetLlamdaInstaSede(true)
+            }
+
         }
 
         if(contacts.length === 0){
@@ -182,6 +198,10 @@ const VistaCasos = () => {
 
     const obtenerAsuntos = () => {
         dispatch(consultaFETCHnombresAsuntos())
+    }
+
+    const obtenerInstalacionporSede = () => {
+        dispatch(consultaFETCHinstalacionSede())
     }
 
     const obtenerCasosResueltos = () => {
@@ -210,6 +230,19 @@ const VistaCasos = () => {
         })
         return nombreAsunto
     }
+   
+
+    const obtenerNombreInstaSede = (instalacion) => {
+        let nombreInstaSede = ''
+        instalaSede.filter(item => item.new_instalacionesporsede == instalacion).map(item => {
+            nombreInstaSede = item.new_instalacionporsede
+        })
+        return nombreInstaSede
+    }
+
+
+
+
     // console.log("state:", misCasosActivos)
     const completarCaso = (id) => {
         misCasosActivos.filter(item => item.incidentid == id).map(item => {
@@ -233,6 +266,55 @@ const VistaCasos = () => {
             setCliente(obtenerNombreContacto(item._new_cliente_value))
         })
     }
+
+    const completarCasoFm = (id) => {
+        casosFm.filter(item => item.incidentid == id).map(item => {
+            SetInstalacionSede(item._new_instalacionporsede_value)
+            setEquipoDetenido (detenido(item.new_equipodetenido)) 
+            setPrioridad(prioridadFm(item.prioritycode))
+            setEsperaRepuesto(repuesto(item.new_alaesperaderepuestos))
+
+        })
+    }
+
+    const repuesto = (valor) => {
+        switch (valor) {
+            case true:
+                return "Si"
+            case false:
+                return "No"
+            default:
+                return '---'
+        }
+    }
+
+    const detenido = (valor) => {
+        switch (valor) {
+            case true:
+                return "Si"
+            case false:
+                return "No"
+            default:
+                return '---'
+        }
+    }
+   
+  
+    const prioridadFm = (value) => {
+        switch (value) {
+            case 0:
+                return 'Baja'
+            case 1:
+                return 'Media'
+            case 2:
+                return 'Alta'
+            case 3:
+                return 'Urgente'         
+        }
+
+    }
+
+
     
     const descripcionRazonEstado = (value) => {
         switch (value) {
@@ -756,7 +838,7 @@ const VistaCasos = () => {
                                                     type="text"
                                                     id="isntasede"
                                                     name="instasede"
-                                                    // value={numCaso}
+                                                    value={obtenerNombreInstaSede(instalacionSede)}
                                                     className="form-control desabilitado"
                                                     disabled
                                                 />
@@ -765,12 +847,12 @@ const VistaCasos = () => {
                                         <div className="col-sm-4 col-md-12">
                                             <div className="mb-2 p-2">
                                                 <label className="form-label fw-bolder lbl-precalificacion ">
-                                                    Equipo Detenido
+                                                    Equipo Detenido ?
                                                 </label>
                                                 <input
                                                     type="text"
                                                     id="eqdetenido"
-                                                    // value={asuntoPrim}
+                                                    value={equipoDetenido}
                                                     name="eqdetenido"
                                                     className="form-control desabilitado"
                                                     disabled
@@ -785,7 +867,7 @@ const VistaCasos = () => {
                                                 <input
                                                     type="text"
                                                     id="Priority"
-                                                    // value={obtenerNombreAsunto(asuntoCaso)}
+                                                    value={prioridad}
                                                     name="prioridad"
                                                     className="form-control desabilitado"
                                                     disabled
@@ -795,14 +877,14 @@ const VistaCasos = () => {
                                         <div className="col-sm-4 col-md-12">
                                             <div className="mb-2 p-2">
                                                 <label className="form-label fw-bolder lbl-precalificacion">
-                                                    A la espera de Repuestos
+                                                    A la espera de Repuestos ?
                                                 </label>
                                                 <input
                                                     type="text"
                                                     id="alaesperarepuestos"
                                                     name="alaesperarepuestos"
                                                     className="form-control desabilitado"
-                                                    // value={razonEstadoCaso(razonParaElEstado)}
+                                                    value={esperaRepuesto}
                                                     disabled
                                                 />
                                             </div>

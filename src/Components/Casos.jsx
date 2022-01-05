@@ -405,10 +405,10 @@ const Casos = (props) => {
   ];
 
   const opcionPrioridad = [
-    { value: "2", label: "Urgente" },
-    { value: "0", label: "Alta" },
+    { value: "3", label: "Urgente" },
+    { value: "2", label: "Alta" },
     { value: "1", label: "Media" },
-    { value: "3", label: "Baja" },
+    { value: "0", label: "Baja" },
   ];
   //VALOR POR DEFECTO
   const valueInputfm = "seleccionado correctamente"; //completar con las opciones
