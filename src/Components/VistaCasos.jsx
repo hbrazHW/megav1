@@ -56,7 +56,7 @@ const VistaCasos = () => {
 
     //Hooks para obtener nombres de las instlaciones por sucursal
    const [instalaSede, setInstalaSede] = React.useState([])
-   const [llamadaInstaSede, SetLlamdaInstaSede] = React.useState([])
+   const [llamadaInstaSede, SetLlamdaInstaSede] = React.useState(false)
    const instalacionSedeSelector = useSelector(store => store.casos.instalacionSede)
     
 
@@ -168,8 +168,8 @@ const VistaCasos = () => {
             }
         }
 
-        if (instalaSede.lenght === 0) {
-            if(instalacionSedeSelector.lenght > 0 && llamadaInstaSede === true){
+        if (instalaSede.length === 0) {
+            if(instalacionSedeSelector.length > 0 && llamadaInstaSede === true){
                 setInstalaSede(instalacionSedeSelector)
             }else if (llamadaInstaSede === false) {
                 obtenerInstalacionporSede()
@@ -187,7 +187,7 @@ const VistaCasos = () => {
             }
         }
 
-    }, [misCasosActivosSelector, casosResueltosSelector, casoIdSelector, asuntosSelector, contactSelector, casosFmSelector])
+    }, [misCasosActivosSelector, casosResueltosSelector, casoIdSelector, asuntosSelector, contactSelector, casosFmSelector, instalacionSedeSelector])
 
     console.log("hook:", )
 
@@ -234,8 +234,8 @@ const VistaCasos = () => {
 
     const obtenerNombreInstaSede = (instalacion) => {
         let nombreInstaSede = ''
-        instalaSede.filter(item => item.new_instalacionesporsede == instalacion).map(item => {
-            nombreInstaSede = item.new_instalacionporsede
+        instalaSede.filter(item => item.new_instalacionesporsedeid == instalacion).map(item => {
+            nombreInstaSede = item.new_name
         })
         return nombreInstaSede
     }
