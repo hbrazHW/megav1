@@ -289,7 +289,8 @@ export const cargarForm = (puesto, motivoBusqueda, motivoReemplazo, sucursal, ar
     console.log("response", response)
     dispatch({
       type: CARGA_DATOS_EXITO,
-      resultadoCaso: response.data,
+      tiket: response.data,
+      resultadoCaso: 'EXITO',
 
     })
   } catch (error) {
@@ -310,7 +311,8 @@ export const cargarForm2 = (empleado, puesto, sucursal, evaluador, nombre, fecha
     console.log("response", response)
     dispatch({
       type: CARGA_DATOS2_EXITO,
-      resultadoCaso2: response.data,
+      ticket2: response.data,
+      resultadoCaso2: 'EXITO',
 
     })
   } catch (error) {

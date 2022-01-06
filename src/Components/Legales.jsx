@@ -8,7 +8,7 @@ import { consultaFETCHcuentas, } from "../Redux/RecursosHumanos";
 import { consultaFETCHcontacts } from "../Redux/Contact";
 import { obtenerContacto } from "../Redux/Contacto";
 import { Toast, Spinner } from 'react-bootstrap'
-import { faCloudUploadAlt, faFile,faCheckCircle, faTimesCircle, faEnvelope, faClipboardList, faCircle } from '@fortawesome/free-solid-svg-icons'
+import { faCloudUploadAlt, faFile, faCheckCircle, faTimesCircle, faEnvelope, faClipboardList, faCircle } from '@fortawesome/free-solid-svg-icons'
 import { withRouter, NavLink } from 'react-router-dom'
 import { useDropzone } from "react-dropzone";
 import useFileUpload from "react-use-file-upload";
@@ -76,7 +76,7 @@ const Legales = (props) => {
   const [show, setShow] = React.useState(false)
   const [error, setError] = React.useState(false)
   const resultado = useSelector(store => store.legales.resultadoCaso)
- 
+
   //datos para el post
   const {
     files,
@@ -248,6 +248,43 @@ const Legales = (props) => {
 
   const enviarFormulario = (e) => {
     e.preventDefault()
+    // if (fechaRecepcion === '') {
+    //   setMensaje("La fecha es requerida!")
+    //   setError(true)
+    //   setShow(true)
+    //   setTimeout(() => {
+    //     setShow(false)
+    //   }, 3000);
+    //   return
+    // }
+    // if (descripcionDoc === '') {
+    //   setMensaje("Descripcion Requerida!")
+    //   setError(true)
+    //   setShow(true)
+    //   setTimeout(() => {
+    //     setShow(false)
+    //   }, 3000);
+    //   return
+    // } 
+    // if (persona === '') {
+    //   setMensaje("Persona es Requerido!")
+    //   setError(true)
+    //   setShow(true)
+    //   setTimeout(() => {
+    //     setShow(false)
+    //   }, 3000);
+    //   return
+    // }
+    // if (sede === '') {
+    //   setMensaje("Sede es Requerido!")
+    //   setError(true)
+    //   setShow(true)
+    //   setTimeout(() => {
+    //     setShow(false)
+    //   }, 3000);
+    //   return
+    // }
+
     const formData = new FormData();
     for (let index = 0; index < selectedFiles.length; index++) {
       let element = selectedFiles[index];
@@ -267,7 +304,7 @@ const Legales = (props) => {
     limpiarForm()
   }
 
- 
+
   const cargaExito = () => {
     if (resultado === "EXITO") {
       setMensaje("El documento fue creado con éxito!")
@@ -438,7 +475,7 @@ const Legales = (props) => {
                 <div className="col-sm-4 col-md-12">
                   <div className="mb-2 p-2">
                     <label className="form-label fw-bolder lbl-precalificacion required">
-                      Descripción del Documeto
+                      Descripción del Documento
                     </label>
                     <Select
                       type="select"
@@ -519,6 +556,7 @@ const Legales = (props) => {
                       onChange={e => setObservaciones(e.target.value)}
                       value={observaciones}
                       placeholder="comentanos un poco más..."
+                      required
                     ></textarea>
                     <br />
                   </div>
@@ -550,6 +588,7 @@ const Legales = (props) => {
             </div>
 
             <div class="card text-center">
+
             <div class="card-header col-sm-12">
                 <h5 className="fw-bolder">Adjuntar Archivo</h5>
               </div>
@@ -591,8 +630,8 @@ const Legales = (props) => {
                 </div>
 
                 {/* Provide a drop zone and an alternative button inside it to upload files. */}
-                <Uploady debug enhancer={mockSenderEnhancer}  > 
-                   <CopyPasteDoc autoUpload={false} params={{ test: "paste" }} tipo="documentolegal"/>
+                <Uploady debug enhancer={mockSenderEnhancer}  >
+                  <CopyPasteDoc autoUpload={false} params={{ test: "paste" }} tipo="documentolegal" />
                   <div className="col-sm-12">
                     <UploadStatus />
                     <PreviewContainer>
@@ -617,7 +656,7 @@ const Legales = (props) => {
               </div>
               <br />
             </div>
-            
+
 
           </form>
           <div className="row">
