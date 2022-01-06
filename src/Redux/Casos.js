@@ -215,15 +215,15 @@ export const consultaFETCHinstalacionSede = () => async (dispatch) => {
         type: LOADING,
     });
 
-    var entidad = "incidents";
+    var entidad = "new_instalacionesporsedes";
     var fetch = "<fetch mapping='logical' distinct='false'>" +
-    "<entity name='incident'>" +
-      "<attribute name='incidentid' />" +
-      "<attribute name='caseorigincode' />" +
-      "<attribute name='new_instalacionporsede' />" +
-      "<order attribute='new_instalacionporsede' descending='false' />" +
+    "<entity name='new_instalacionesporsede'>" +
+      "<attribute name='new_instalacionesporsedeid' />" +
+      "<attribute name='new_name' />" +
+      "<attribute name='createdon' />" +
+      "<order attribute='new_name' descending='false' />" +
     "</entity>" +
-  "</fetch>";
+  "</fetch>" ;
 
     try {
         const response = await axios.get(

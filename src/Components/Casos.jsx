@@ -62,10 +62,12 @@ const Casos = (props) => {
     (store) => store.recursosHumanos.cuentas
   );
   const [selectSucu, setSelectSucu] = React.useState([]);
+
   const [asuntos, setAsuntos] = React.useState([]);
   const [llamadaAsuntos, setLlamadaAsuntos] = React.useState(false);
   const asuntosSelector = useSelector((store) => store.casos.asuntos);
   const [selectAsunto, setSelectAsunto] = React.useState([]);
+  
   const [contacto, setContacto] = React.useState([]);
   const [llamadaContactos, setLlamadaContactos] = React.useState(false);
   const contactoSelector = useSelector((store) => store.contactos.contacto);
