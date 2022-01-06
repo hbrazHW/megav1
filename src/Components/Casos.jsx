@@ -639,6 +639,7 @@ const Casos = (props) => {
                       type="text"
                       id="text"
                       name="usuario"
+                      placeholder="cargando..."
                       className="form-control"
                     />
                   </div>
@@ -651,6 +652,7 @@ const Casos = (props) => {
                       value={obtenerNombreSede(sede)}
                       name="sucursal"
                       className="form-control"
+                      placeholder="cargando..."
                       required
                     />
                   </div>
@@ -754,7 +756,7 @@ const Casos = (props) => {
 
             <div class="card text-center">
               <div class="card-header col-sm-12">
-                <h5 className="fw-bolder">Adjuntar Archivos</h5>
+                <h5 className="fw-bolder">Adjuntar Archivo</h5>
               </div>
 
               <div class="card-body">
