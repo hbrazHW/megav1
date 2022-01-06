@@ -16,9 +16,13 @@ const dataInicial = {
   evaluacionId: '',
   busquedaId: '',
   archivos: [],
+  resultadoCaso2: '',
+  ticket2: '',
+  archivos2: []
 };
 
 //types
+const CARGA_DATOS2_EXITO = 'CARGA_DATOS2_EXITO'
 const ADJUNTOS_EXITO = 'ADJUNTOS_EXITO'
 const BUSQUEDAID_EXITO = 'BUSQUEDAID_EXITO'
 const OBTENER_EVALUACION_ID_EXITO = 'OBTENER_EVALUACION_ID_EXITO'
@@ -36,6 +40,8 @@ const ERROR = "ERROR";
 //reducers
 export default function recursosHumanosReducers(state = dataInicial, action) {
   switch (action.type) {
+    case CARGA_DATOS2_EXITO:
+      return { ...state, resultadoCaso2: action.resultadoCaso, ticket2: action.ticket}
     case ADJUNTOS_EXITO:
       return { ...state, archivos: action.payload };
     case BUSQUEDAID_EXITO:
@@ -273,13 +279,13 @@ export const consultaFETCHautorizadoPor = () => async (dispatch) => {
   }
 }
 
-export const cargarForm = (puesto, motivoBusqueda, motivoReemplazo, sucursal, area, reporta, jornada, observaciones, tipoDeBusqueda, autorizadoPor) => async (dispatch) => {
+export const cargarForm = (puesto, motivoBusqueda, motivoReemplazo, sucursal, area, reporta, jornada, observaciones, tipoDeBusqueda, autorizadoPor, file, config) => async (dispatch) => {
   dispatch({
     type: LOADING,
     resultadoCaso: 'LOADING'
   })
   try {
-    const response = await axios.post(`${UrlApiDynamics}Busquedadepersonal?puesto=${puesto}&motivoBusqueda=${motivoBusqueda}&motivoReemplazo=${motivoReemplazo}&sucursal=${sucursal}&area=${area}&reporta=${reporta}&jornada=${jornada}&observaciones=${observaciones}&tipoDeBusqueda=${tipoDeBusqueda}&autorizadoPor=${autorizadoPor}&cuit=${Entidad}`)
+    const response = await axios.post(`${UrlApiDynamics}Busquedadepersonal?puesto=${puesto}&motivoBusqueda=${motivoBusqueda}&motivoReemplazo=${motivoReemplazo}&sucursal=${sucursal}&area=${area}&reporta=${reporta}&jornada=${jornada}&observaciones=${observaciones}&tipoDeBusqueda=${tipoDeBusqueda}&autorizadoPor=${autorizadoPor}&cuit=${Entidad}`, file, config)
     console.log("response", response)
     dispatch({
       type: CARGA_DATOS_EXITO,
@@ -291,6 +297,28 @@ export const cargarForm = (puesto, motivoBusqueda, motivoReemplazo, sucursal, ar
     dispatch({
       type: ERROR,
       resultadoCaso: 'ERROR'
+    })
+  }
+}
+
+export const cargarForm2 = (empleado, puesto, sucursal, evaluador, nombre, fechaIngreso, area, referido, referente, comentarios30, comentarios60, comentarios90, puestoevaluador, periodoprueba, participocurso, file, config) => async (dispatch) => {
+  dispatch({
+    type: LOADING,
+    resultadoCaso2: 'LOADING'
+  })
+  try {
+    const response = await axios.post(`${UrlApiDynamics}Evaluacionperiodoprueba?empleado=${empleado}&puesto=${puesto}&sucursal=${sucursal}&evaluador=${evaluador}&nombre=${nombre}&fechaIngreso=${fechaIngreso}&area=${area}&referido=${referido}&referente=${referente}&comentarios30=${comentarios30}&comentarios60=${comentarios60}&comentarios90=${comentarios90}&puestoevaluador=${puestoevaluador}&periodoprueba=${periodoprueba}&participocurso=${participocurso}&cuit=${Entidad}`, file, config)
+    console.log("response", response)
+    dispatch({
+      type: CARGA_DATOS2_EXITO,
+      ticket2: response.data,
+      resultadoCaso2: 'EXITO',
+
+    })
+  } catch (error) {
+    dispatch({
+      type: ERROR,
+      resultadoCaso2: 'ERROR'
     })
   }
 }

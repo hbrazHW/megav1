@@ -806,5 +806,11 @@ select#telefono {
   background-color: rgb(245,130,32);
 }
 
+.borde_discontinuo{
+  // border-style:dashed;
+  // border-color: #0485a2;
+  border: 4px dashed rgb(245,130,32);
+  padding: 20px;
+}
 
 @import "~bootstrap/scss/bootstrap";

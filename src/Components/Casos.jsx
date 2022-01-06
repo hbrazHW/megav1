@@ -16,7 +16,8 @@ import Uploady, {
   useItemFinalizeListener,
   useBatchAddListener,
 } from "@rpldy/uploady";
-
+import withPasteUpload from "@rpldy/upload-paste"
+import UploadDropZone from "@rpldy/upload-drop-zone";
 import { getMockSenderEnhancer } from "@rpldy/mock-sender";
 import whithPasteUpload from "@rpldy/upload-paste";
 import { onPasteUpload } from "@rpldy/upload-paste";
@@ -87,28 +88,32 @@ const Casos = (props) => {
 
   const mockSenderEnhancer = getMockSenderEnhancer();
   const PreviewContainer = styled.div`
-    margin-top: 20px;
-
+    display: inline-block;
+    position: relative;
+    width: 100%;
     img {
       max-width: 400px;
+      width: 100%;
+      height: auto;
     }
   `;
-  const StyledInput = styled.input`
-    width: 408px;
-    height: 34px;
-    font-size: 18px;
-    margin: 20px 0;
-    padding: 33px;
-  `;
+  const StyledDropZone = styled(UploadDropZone)`
+  border: 4px dashed rgb(245,130,32);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+`;
 
-  const PasteInput = whithPasteUpload(StyledInput);
+  const PasteUploadDropZone = withPasteUpload(StyledDropZone);
 
   const UploadStatus = () => {
     const [status, setStatus] = useState(null);
     useItemStartListener(() => setStatus("cargando..."));
-    useItemFinalizeListener(() => setStatus("Archivo copiado!..."));
-    console.log("status:", status);
-
+    useItemFinalizeListener(() => setStatus(texto));
+    console.log("status:", status)
+    var texto = <p className="fw-bolder text-success">Archivo guardado exitosamente!</p>
     return status;
   };
 
@@ -253,8 +258,7 @@ const Casos = (props) => {
     }
   }, [contactSelector, sucursalSelector, contactoSelector, resultado]);
 
-  console.log("asunto:", asuntoSeleccionar)
-  
+
   const enviarFormulario = (e) => {
     e.preventDefault();
 
@@ -710,18 +714,13 @@ const Casos = (props) => {
               </div>
             </div>
 
-            <div class="card">
-              <div class="card-header fw-bolder d-grid gap-5 d-md-flex justify-content-center">
-                Adjuntar Archivos{" "}
-                <FontAwesomeIcon
-                  icon={faFile}
-                  className="fs-4 justify-content-center"
-                  color="rgb(245,130,32)"
-                />
+            <div class="card text-center">
+              <div class="card-header col-sm-12">
+                <h5 className="fw-bolder">Adjuntar Archivos</h5>
               </div>
 
               <div class="card-body">
-                <h5 class="card-title">Detalles de sus archivos</h5>
+
                 <div>
                   <ul>
                     {fileNames.map((name) => (
@@ -764,50 +763,17 @@ const Casos = (props) => {
                     params={{ test: "paste" }}
                     tipo="caso"
                   />
-                  <div className="d-grid gap-5 d-md-flex justify-content-center">
-                    <PasteInput
-                      extraProps={{
-                        placeholder:
-                          "copía con (PrtSc) y pega con (Ctrl+V) acá",
-                      }}
-                    />
+                  <div className="col-sm-12">
                     <UploadStatus />
                     <PreviewContainer>
                       <UploadPreview />
                     </PreviewContainer>
                   </div>
+                  <PasteUploadDropZone params={{ test: "paste" }}>
+                    <p className="fw-bolder text-secondary">Arrastra un archivo aquí</p>
+                  </PasteUploadDropZone>
                 </Uploady>
-                <div
-                  onDragEnter={handleDragDropEvent}
-                  onDragOver={handleDragDropEvent}
-                  onDrop={(e) => {
-                    handleDragDropEvent(e);
-                    setFiles(e, "a");
-                  }}
-                >
-                  <br />
-                  <p>Arrastre y suelte aca tus archivos</p>
 
-                  <br />
-
-                  <button
-                    type="button"
-                    className="btn btn-outline-dark justify-content-center"
-                    onClick={() => inputRef.current.click()}
-                  >
-                    O seleccione tus archivos para subirlos
-                  </button>
-
-                  {/* Hide the crappy looking default HTML input */}
-                  {/* <input
-                    type="file"
-                    className="fw-bolder"
-                    name="file"
-                    id="adjunto"
-                    onChange={changeHandler}
-                    multiple
-                  /> */}
-                </div>
                 <br />
               </div>
               <div className="d-grid gap-5 d-md-flex justify-content-md-end">

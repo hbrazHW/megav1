@@ -2,13 +2,14 @@ import React, { useRef, useState } from "react";
 import Select from "react-select";
 import { useSpring, animated } from "react-spring";
 import { useDispatch, useSelector } from "react-redux";
-import { consultaFETCHpuesto, consultaFETCHareas, consultaFETCHsedesRH, consultaFETCHautorizadoPor, cargarForm, consultaFETCHbusquedaPersonal } from "../Redux/RecursosHumanos";
+import { consultaFETCHpuesto, consultaFETCHareas, consultaFETCHsedesRH, consultaFETCHautorizadoPor, cargarForm, consultaFETCHbusquedaPersonal, cargarForm2, consultaFETCHevaluaciones } from "../Redux/RecursosHumanos";
 import { Toast, Spinner } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCloudUploadAlt, faCheckCircle, faTimesCircle, faEnvelope, faClipboardList, faCircle, faFile } from '@fortawesome/free-solid-svg-icons'
 import { withRouter, NavLink } from 'react-router-dom'
 //---------------------------------------------------
 import { useDropzone } from "react-dropzone";
+import UploadDropZone from "@rpldy/upload-drop-zone";
 import useFileUpload from "react-use-file-upload";
 import styled from "styled-components";
 import axios from "axios";
@@ -18,7 +19,7 @@ import Uploady, {
   useBatchAddListener
 } from "@rpldy/uploady";
 import { getMockSenderEnhancer } from "@rpldy/mock-sender";
-import whithPasteUpload from "@rpldy/upload-paste";
+import withPasteUpload from "@rpldy/upload-paste"
 import { onPasteUpload } from "@rpldy/upload-paste";
 import UploadPreview from "@rpldy/upload-preview";
 import {
@@ -72,6 +73,7 @@ const RecursosHumanos = (props) => {
   const [fechaIngreso, setFechaIngreso] = React.useState('')
   const [sucursal, setSucursal] = React.useState('')
   const [area, setArea] = React.useState('')
+  const [evaluador, setEvaluador] = React.useState('')
   const [referente, setReferente] = React.useState('')
   const [puestoEvaluador, setPuestoEvaluador] = React.useState('')
   const [fechaCreacion, setFechaCreacion] = React.useState('')
@@ -91,6 +93,7 @@ const RecursosHumanos = (props) => {
   const [show, setShow] = React.useState(false)
   const [error, setError] = React.useState(false)
   const resultado = useSelector(store => store.recursosHumanos.resultadoCaso)
+  const resultado2 = useSelector(store => store.recursosHumanos.resultadoCaso2)
 
   React.useEffect(() => {
     if (puesto.length === 0) {
@@ -136,12 +139,18 @@ const RecursosHumanos = (props) => {
     if (resultado !== undefined) {
       if (resultado !== '') {
         cargaExito()
-
       }
     }
 
-  }, [puestoSelector, areasSelector, sucursalesSelector, autorizadoSelector, resultado])
+    if (resultado2 !== undefined) {
+      if (resultado2 !== '') {
+        cargaExito2()
+      }
+    }
 
+  }, [puestoSelector, areasSelector, sucursalesSelector, autorizadoSelector, resultado, resultado2])
+
+  console.log("evaluador:", evaluador)
   //datos para el post
   const {
     files,
@@ -158,28 +167,32 @@ const RecursosHumanos = (props) => {
 
   const mockSenderEnhancer = getMockSenderEnhancer();
   const PreviewContainer = styled.div`
-    margin-top: 20px;
-
+    display: inline-block;
+    position: relative;
+    width: 100%;
     img {
       max-width: 400px;
+      width: 100%;
+      height: auto;
     }
   `;
-  const StyledInput = styled.input`
-    width: 408px;
-    height: 34px;
-    font-size: 18px;
-    margin: 20px 0;
-    padding: 33px;
-  `;
+  const StyledDropZone = styled(UploadDropZone)`
+  border: 4px dashed rgb(245,130,32);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+`;
 
-  const PasteInput = whithPasteUpload(StyledInput);
+  const PasteUploadDropZone = withPasteUpload(StyledDropZone);
 
   const UploadStatus = () => {
     const [status, setStatus] = useState(null);
     useItemStartListener(() => setStatus("cargando..."));
-    useItemFinalizeListener(() => setStatus("Archivo copiado!..."));
+    useItemFinalizeListener(() => setStatus(texto));
     console.log("status:", status)
-
+    var texto = <p className="fw-bolder text-success">Archivo guardado exitosamente!</p>
     return status;
   };
 
@@ -226,10 +239,6 @@ const RecursosHumanos = (props) => {
       // console.log("Error: ", e.message);
     });
 
-  // onPasteUpload((e) => {
-
-  // })
-
   const fade = useSpring({
     from: {
       opacity: 0,
@@ -242,6 +251,7 @@ const RecursosHumanos = (props) => {
 
   const enviarFormulario = (e) => {
     e.preventDefault()
+    debugger
     const formData = new FormData();
     for (let index = 0; index < selectedFiles.length; index++) {
       let element = selectedFiles[index];
@@ -303,6 +313,57 @@ const RecursosHumanos = (props) => {
         setShow(false)
       }, 3000);
     }
+  }
+
+  //funciones del formulario de evaluaciones
+
+  const enviarFormulario2 = (e) => {
+    e.preventDefault()
+    // debugger
+    const formData = new FormData();
+    for (let index = 0; index < selectedFiles.length; index++) {
+      let element = selectedFiles[index];
+      formData.append(`body${index}`, element);
+    }
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data',
+      },
+    };
+    dispatch(cargarForm2(empleado, puestoForm, sucursal, evaluador, nombreEvaluacion, fechaIngreso, area, referido, referente, comentario30, comentario60, comentario80, puestoEvaluador, pasaPeriodo, empleadoParticipe, formData, config))
+    setLoading(true)
+    setMensaje("Cargando...")
+    setShow(true)
+    limpiarForm()
+  }
+
+  const cargaExito2 = () => {
+    if (resultado2 === "EXITO") {
+      setMensaje("La evaluación fue creada con éxito!")
+      setError(false)
+      setLoading(false)
+      setShow(true)
+      setTimeout(() => {
+        obtenerEvaluaciones()
+        props.history.push('/')
+      }, 500);
+      setTimeout(() => {
+        setShow(false)
+      }, 1500)
+    }
+    else if (resultado2 === "ERROR") {
+      setMensaje("Error al crear evaluación!")
+      setError(true)
+      setLoading(false)
+      setShow(true)
+      setTimeout(() => {
+        setShow(false)
+      }, 3000);
+    }
+  }
+
+  const obtenerEvaluaciones = () => {
+    dispatch(consultaFETCHevaluaciones())
   }
 
   const obtenerBusquedaPersonal = () => {
@@ -377,7 +438,9 @@ const RecursosHumanos = (props) => {
   const sedeHandle = (valor) => {
     setSucursalSeleccionar(valor.value)
   }
-
+  const evaluadorHandle = (valor) => {
+    setEvaluador(valor.value)
+  }
   //constantes evaluacion
   const empleadoHandle = (valor) => {
     setEmpleado(valor.value)
@@ -406,7 +469,7 @@ const RecursosHumanos = (props) => {
   const pasaPeriodoHandle = (valor) => {
     setPasaPeriodo(valor.value)
   }
-  console.log("seleccion:", comentario30)
+
 
   const motivoBusqueda = [
     { value: '100000000', label: 'Nuevo Puesto' },
@@ -658,18 +721,12 @@ const RecursosHumanos = (props) => {
                   </div>
                 </div>
 
-                <div class="card">
-                  <div class="card-header fw-bolder d-grid gap-5 d-md-flex justify-content-center">
-                    Adjuntar Archivos{" "}
-                    <FontAwesomeIcon
-                      icon={faFile}
-                      className="fs-4 justify-content-center"
-                      color="rgb(245,130,32)"
-                    />
+                <div class="card text-center">
+                  <div class="card-header col-sm-12">
+                    <h5 className="fw-bolder">Adjuntar Archivos</h5>
                   </div>
 
                   <div class="card-body">
-                    <h5 class="card-title">Detalles de sus archivos</h5>
                     <div>
                       <ul>
                         {fileNames.map((name) => (
@@ -708,50 +765,18 @@ const RecursosHumanos = (props) => {
                     {/* Provide a drop zone and an alternative button inside it to upload files. */}
                     <Uploady debug enhancer={mockSenderEnhancer}  >
                       <CopyPasteRh autoUpload={false} params={{ test: "paste" }} tipo="busquedapersonal" />
-                      <div className="d-grid gap-5 d-md-flex justify-content-center">
-                        <PasteInput
-                          extraProps={{
-                            placeholder:
-                              "copía con (Ctrl+C) y pega con (Ctrl+V) acá",
-                          }}
-                        />
+                      <div className="col-sm-12">
+
                         <UploadStatus />
                         <PreviewContainer>
                           <UploadPreview />
                         </PreviewContainer>
+
                       </div>
+                      <PasteUploadDropZone params={{ test: "paste" }}>
+                        <p className="fw-bolder text-secondary">Arrastra un archivo aquí</p>
+                      </PasteUploadDropZone>
                     </Uploady>
-                    <div
-                      onDragEnter={handleDragDropEvent}
-                      onDragOver={handleDragDropEvent}
-                      onDrop={(e) => {
-                        handleDragDropEvent(e);
-                        setFiles(e, "a");
-                      }}
-                    >
-                      <br />
-                      <p>Arrastre y suelte aquí sus archivos</p>
-
-                      <br />
-
-                      <button
-                        type="button"
-                        className="btn btn-outline-dark justify-content-center"
-                        onClick={() => inputRef.current.click()}
-                      >
-                        O seleccione tus archivos para subirlos
-                      </button>
-
-                      {/* Hide the crappy looking default HTML input */}
-                      {/* <input
-                    type="file"
-                    className="fw-bolder"
-                    name="file"
-                    id="adjunto"
-                    onChange={changeHandler}
-                    multiple
-                  /> */}
-                    </div>
                     <br />
                   </div>
                   <div className="d-grid gap-5 d-md-flex justify-content-md-end">
@@ -796,7 +821,7 @@ const RecursosHumanos = (props) => {
 
 
             <div className="tab-pane fade show p-3" id="evaluacion" role="tabpanel" aria-labelledby="evaluacion-tab">
-              <form>
+              <form onSubmit={enviarFormulario2}>
                 <div className="col-sm-4 col-md-12">
                   <div className="mb-2 p-2">
                     <label className="form-label fw-bolder lbl-precalificacion required">
@@ -885,6 +910,24 @@ const RecursosHumanos = (props) => {
                 <div className="col-sm-4 col-md-12">
                   <div className="mb-2 p-2">
                     <label className="form-label fw-bolder lbl-precalificacion">
+                      Evaluador
+                    </label>
+                    <Select
+                      options={selectReferente}
+                      onChange={e => evaluadorHandle(e)}
+                      type="select"
+                      id="select"
+                      name="referente"
+                      className="basic multi-select"
+                      classNamePrefix="select"
+                      placeholder="Elegir evaluador..."
+                      required
+                    ></Select>
+                  </div>
+                </div>
+                <div className="col-sm-4 col-md-12">
+                  <div className="mb-2 p-2">
+                    <label className="form-label fw-bolder lbl-precalificacion">
                       Referente
                     </label>
                     <Select
@@ -917,7 +960,7 @@ const RecursosHumanos = (props) => {
                     ></Select>
                   </div>
                 </div>
-                <div className="col-sm-4 col-md-12">
+                {/* <div className="col-sm-4 col-md-12">
                   <div className="mb-2 p-2">
                     <label className="form-label fw-bolder lbl-precalificacion">
                       Fecha de creación
@@ -930,7 +973,7 @@ const RecursosHumanos = (props) => {
                       className="form-control"
                     />
                   </div>
-                </div>
+                </div> */}
                 <div className="col-sm-4 col-md-12">
                   <div className="mb-2 p-2">
                     <label className="form-label fw-bolder lbl-precalificacion required">
