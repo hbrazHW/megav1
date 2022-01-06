@@ -33,18 +33,21 @@ const AdjuntarArchivo = () => {
 
   const mockSenderEnhancer = getMockSenderEnhancer();
   const PreviewContainer = styled.div`
-    margin-top: 20px;
-
-    img {
-      max-width: 400px;
-    }
+  display: inline-block;
+    position: relative;
+    width: 100%;
+  img {
+    max-width: 400px;
+    width: 100%;
+  height: auto;
+  }
   `;
   const StyledInput = styled.input`
-    width: 408px;
-    height: 34px;
-    font-size: 18px;
-    margin: 20px 0;
-    padding: 33px;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
   `;
 
   const PasteInput = whithPasteUpload(StyledInput);
@@ -136,7 +139,7 @@ const AdjuntarArchivo = () => {
                 }}
               />
               <UploadStatus />
-              <PreviewContainer>
+              <PreviewContainer className="container">
                 <UploadPreview />
               </PreviewContainer>
             </div>

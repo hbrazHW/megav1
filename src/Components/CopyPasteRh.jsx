@@ -46,8 +46,8 @@ const CopyPasteRh = ({props, tipo}) => {
 
     return (
         <div ref={containerRef}>
-            Click aquí y pega tu imagen o captura de pantalla ||
-            Paste is: {getIsEnabled() ? "enabled" : "disabled"}
+            <p className='text-secondary'>Click aquí y pega tu captura de pantalla</p>
+            <p>( Ctrl+C | Ctrl+V )</p>
         </div>
     )
 }
