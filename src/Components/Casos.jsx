@@ -180,11 +180,11 @@ const Casos = (props) => {
   const [comentarios, setComentarios] = React.useState("");
   const [selectedFiles, setSelectedFiles] = React.useState([]);
 
-  const [mensaje, setMensaje] = React.useState("");
+  const [mensaje, setMensaje] = React.useState('');
   const [loading, setLoading] = React.useState(false);
   const [show, setShow] = React.useState(false);
   const [error, setError] = React.useState(false);
-  const resultado = useSelector((store) => store.casos.resultadoCaso);
+  const resultadoC = useSelector(store => store.casos.resultadoCaso);
 
   const fade = useSpring({
     from: {
@@ -211,7 +211,7 @@ const Casos = (props) => {
         obtenerContactos();
         setLlamada(true);
       }
-
+    }
       if (sucursal.length === 0) {
         if (sucursalSelector.length > 0 && llamadaSucu === true) {
           setSucursal(sucursalSelector);
@@ -249,14 +249,14 @@ const Casos = (props) => {
         var cliente = contacto.map((item) => item.contactid);
         SetClienteSeleccionar(cliente[0]);
       }
-
-      if (resultado !== undefined) {
-        if (resultado !== "") {
-          cargaExito();
-        }
+    
+    if (resultadoC !== undefined) {
+      if (resultadoC !== "") {
+        debugger
+        cargaExito();
       }
     }
-  }, [contactSelector, sucursalSelector, contactoSelector, resultado]);
+  }, [contactSelector, sucursalSelector, contactoSelector, resultadoC]);
 
 
   const enviarFormulario = (e) => {
@@ -296,7 +296,8 @@ const Casos = (props) => {
   };
 
   const cargaExito = () => {
-    if (resultado === "EXITO") {
+    debugger
+    if (resultadoC === "EXITO") {
       setMensaje("El caso fue creado con éxito!");
       setError(false);
       setLoading(false);
@@ -308,7 +309,7 @@ const Casos = (props) => {
       setTimeout(() => {
         setShow(false);
       }, 1500);
-    } else if (resultado === "ERROR") {
+    } else if (resultadoC === "ERROR") {
       setMensaje("Error al crear caso!");
       setError(true);
       setLoading(false);

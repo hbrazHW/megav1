@@ -437,36 +437,6 @@ const Legales = (props) => {
                 </div>
                 <div className="col-sm-4 col-md-12">
                   <div className="mb-2 p-2">
-                    <label className="form-label fw-bolder lbl-precalificacion">
-                      Fecha de modificación
-                    </label>
-                    <input
-                      type="datetime-local"
-                      id="date"
-                      name="altar"
-                      className="form-control desabilitado"
-                      required
-                      disabled
-                    />
-                  </div>
-                </div>
-                <div className="col-sm-4 col-md-12">
-                  <div className="mb-2 p-2">
-                    <label className="form-label fw-bolder lbl-precalificacion">
-                      Fecha de Creación
-                    </label>
-                    <input
-                      type="datetime-local"
-                      id="date"
-                      name="altar"
-                      className="form-control"
-                      required
-                      disabled
-                    />
-                  </div>
-                </div>
-                <div className="col-sm-4 col-md-12">
-                  <div className="mb-2 p-2">
                     <label className="form-label fw-bolder lbl-precalificacion required">
                       Descripción del Documeto
                     </label>
