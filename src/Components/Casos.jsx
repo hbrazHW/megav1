@@ -179,6 +179,7 @@ const Casos = (props) => {
   //selected es referencia a asunto primario
   const [selected, setSelected] = React.useState("");
   const [solicitante, setSolicitante] = React.useState("");
+  const [persona, setPersona] = React.useState('')
   const [puestoSolicitante, setPuestoSolicitante] = React.useState("");
   const [instalacionSede, setInstalacionSede] = React.useState("");
   const [serieActivo, setSerieActivo] = React.useState("");
@@ -384,6 +385,11 @@ const Casos = (props) => {
     dispatch(consultaFETCHcontacts());
   };
 
+
+  const personaHandle = (valor) => {
+    setPersona(valor.value)
+  }
+
   //------handle del select de asuntosPrimarios
 
   const selectOnChange = (valor) => {
@@ -405,13 +411,17 @@ const Casos = (props) => {
           <label className="form-label fw-bolder lbl-precalificacion">
             Solicitante
           </label>
-          <input
+          <Select
             onChange={(e) => setSolicitante(e.target.value)}
-            className="form-control"
+            type="select"
+            onChange={(e) => personaHandle(e)}
+            options={selectCliente}
             id="solicitante"
             name="solicitante"
-            placeholder=""
-          />
+            className="basic multi-select"
+            ClassNamePrefix="select"
+            placeholder="Elegir solicitante..."
+          ></Select>
         </div>
         <div className="mb-2 p-2">
           <label className="form-label fw-bolder lbl-precalificacion">
@@ -638,6 +648,7 @@ const Casos = (props) => {
                       type="text"
                       id="text"
                       name="usuario"
+                      placeholder="cargando..."
                       className="form-control"
                     />
                   </div>
@@ -650,6 +661,7 @@ const Casos = (props) => {
                       value={obtenerNombreSede(sede)}
                       name="sucursal"
                       className="form-control"
+                      placeholder="cargando..."
                       required
                     />
                   </div>
@@ -753,7 +765,7 @@ const Casos = (props) => {
 
             <div class="card text-center">
               <div class="card-header col-sm-12">
-                <h5 className="fw-bolder">Adjuntar Archivos</h5>
+                <h5 className="fw-bolder">Adjuntar Archivo</h5>
               </div>
 
               <div class="card-body">

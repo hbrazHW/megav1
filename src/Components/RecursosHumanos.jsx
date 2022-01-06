@@ -723,7 +723,7 @@ const RecursosHumanos = (props) => {
 
                 <div class="card text-center">
                   <div class="card-header col-sm-12">
-                    <h5 className="fw-bolder">Adjuntar Archivos</h5>
+                    <h5 className="fw-bolder">Adjuntar Archivo</h5>
                   </div>
 
                   <div class="card-body">

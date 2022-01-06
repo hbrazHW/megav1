@@ -451,7 +451,7 @@ const Legales = (props) => {
                       name="autor"
                       className="form-control requerido"
                       required
-                      placeholder=" --- "
+                      placeholder="cargando.."
                       disabled
                     />
                   </div>
@@ -485,6 +485,7 @@ const Legales = (props) => {
                       name="descripcionDoc"
                       className="basic multi-select requerido"
                       classNamePrefix="select"
+                      placeholder="Elegí  tipo de documento..."
                       required
                     ></Select>
                   </div>
@@ -587,8 +588,9 @@ const Legales = (props) => {
             </div>
 
             <div class="card text-center">
+
               <div class="card-header col-sm-12">
-                <h5 className="fw-bolder">Adjuntar Archivos</h5>
+                <h5 className="fw-bolder">Adjuntar Archivo</h5>
               </div>
 
               <div class="card-body">
