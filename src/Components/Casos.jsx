@@ -32,6 +32,7 @@ import {
   consultaFETCHmisCasosActivos,
   consultaFETCHnombresAsuntos,
   consultaFETCHcasosFm,
+  consultaFETCHinstalacionSede,
 } from "../Redux/Casos";
 import { obtenerContacto } from "../Redux/Contacto";
 
@@ -68,6 +69,12 @@ const Casos = (props) => {
   const [llamadaAsuntos, setLlamadaAsuntos] = React.useState(false);
   const asuntosSelector = useSelector((store) => store.casos.asuntos);
   const [selectAsunto, setSelectAsunto] = React.useState([]);
+
+  const [instalaSede, setInstalaSede] = React.useState([])
+  const [llamadaInstaSede, SetLlamdaInstaSede] = React.useState(false)
+  const instalacionSedeSelector = useSelector(store => store.casos.instalacionSede)
+  const [selectInstaSede, setSelectInstaSede] = React.useState([]);
+
   
   const [contacto, setContacto] = React.useState([]);
   const [llamadaContactos, setLlamadaContactos] = React.useState(false);
@@ -234,6 +241,19 @@ const Casos = (props) => {
         }
       }
 
+      if (instalaSede.length === 0) {
+        if(instalacionSedeSelector.length > 0 && llamadaInstaSede === true){
+            setInstalaSede(instalacionSedeSelector)
+            completarOpcionInstalacionporSede(instalacionSedeSelector);
+        }else if (llamadaInstaSede === false) {
+            obtenerInstalacionporSede()
+            SetLlamdaInstaSede(true)
+        }
+
+    }
+
+
+
       if (
         Object.keys(contactoSelector).length > 0 &&
         llamadaContactos === true
@@ -258,7 +278,7 @@ const Casos = (props) => {
         }
       }
     }
-  }, [contactSelector, sucursalSelector, contactoSelector, resultado]);
+  }, [contactSelector, sucursalSelector, contactoSelector, resultado, instalacionSedeSelector]);
 
 
   const enviarFormulario = (e) => {
@@ -355,6 +375,10 @@ const Casos = (props) => {
     dispatch(consultaFETCHcuentas());
   };
 
+  const obtenerInstalacionporSede = () => {
+    dispatch(consultaFETCHinstalacionSede())
+ };
+
   const obtenerContactos = () => {
     dispatch(consultaFETCHcontacts());
   };
@@ -433,8 +457,8 @@ const Casos = (props) => {
             Instalación por Sede
           </label>
           <Select
-            onChange={(e) => selectOnChange(e)}
-            //options={tipoAsuntoPrimario}
+            // onChange={(e) => selectOnChange(e)}
+            options={selectInstaSede}
             className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
             id="instaSede"
             name="instaSede"
@@ -525,6 +549,16 @@ const Casos = (props) => {
       asunt.push(a);
     });
     setSelectAsunto(asunt);
+  };
+
+
+  const completarOpcionInstalacionporSede = (instaPorSede) => {
+    const instased = [];
+    instaPorSede.forEach((item) => {
+      var s = { value: item.new_instalacionesporsedeid, label: item.new_name };
+      instased.push(s);
+    });
+    setSelectInstaSede(instased);
   };
 
   const asuntoHandle = (valor) => {
