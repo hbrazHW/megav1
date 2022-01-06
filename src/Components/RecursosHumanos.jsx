@@ -150,7 +150,7 @@ const RecursosHumanos = (props) => {
 
   }, [puestoSelector, areasSelector, sucursalesSelector, autorizadoSelector, resultado, resultado2])
 
-  console.log("evaluador:", evaluador)
+  
   //datos para el post
   const {
     files,
@@ -483,8 +483,8 @@ const RecursosHumanos = (props) => {
   ]
 
   const opcionSiNo = [
-    { value: '0', label: 'No' },
-    { value: '1', label: 'Sí' }
+    { value: false, label: 'No' },
+    { value: true, label: 'Sí' }
   ]
 
   return (
