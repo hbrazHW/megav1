@@ -589,7 +589,7 @@ const Legales = (props) => {
 
             <div class="card text-center">
 
-              <div class="card-header col-sm-12">
+            <div class="card-header col-sm-12">
                 <h5 className="fw-bolder">Adjuntar Archivo</h5>
               </div>
 
