@@ -105,7 +105,8 @@ export const cargarForm = ( autor, fechaRecepcion, descripcionDoc, sede, persona
          console.log("response", response)
       dispatch({
           type: CARGA_DATOS_EXITO,
-          resultadoCaso: response.data,
+          ticket: response.data,
+          resultadoCaso: 'EXITO',
          
       })
   } catch (error) {

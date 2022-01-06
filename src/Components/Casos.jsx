@@ -326,7 +326,6 @@ const Casos = (props) => {
       setLoading(false);
       setShow(true);
       setTimeout(() => {
-        obtenerCasos();
         props.history.push("/");
       }, 500);
       setTimeout(() => {
