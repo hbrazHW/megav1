@@ -518,6 +518,7 @@ const Casos = (props) => {
             id="select"
             name="priority"
             className="basic multi-select"
+            defaultValue={{ label: "Urgente", value: 3 }}
             classNamePrefix="select"
             placeholder="Seleccionar Prioridad..."
             required
