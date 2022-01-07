@@ -150,7 +150,7 @@ const RecursosHumanos = (props) => {
 
   }, [puestoSelector, areasSelector, sucursalesSelector, autorizadoSelector, resultado, resultado2])
 
-  
+
   //datos para el post
   const {
     files,
@@ -251,7 +251,106 @@ const RecursosHumanos = (props) => {
 
   const enviarFormulario = (e) => {
     e.preventDefault()
-    debugger
+
+    if (puestoSeleccionar === '') {
+      setMensaje("El puesto es requerido!")
+      setError(true)
+      setShow(true)
+      setTimeout(() => {
+        setShow(false)
+      }, 3000);
+      return
+    } else {
+    }
+
+    if (mBusqueda === '') {
+      setMensaje("El motivo de búsqueda es requerido!")
+      setError(true)
+      setShow(true)
+      setTimeout(() => {
+        setShow(false)
+      }, 3000);
+      return
+    } else {
+    }
+
+    if (tipBusqueda === '') {
+      setMensaje("El tipo de búsqueda es requerido!")
+      setError(true)
+      setShow(true)
+      setTimeout(() => {
+        setShow(false)
+      }, 3000);
+      return
+    } else {
+    }
+
+    if (descripcion === '') {
+      setMensaje("El motivo del reemplazo es requerido!")
+      setError(true)
+      setShow(true)
+      setTimeout(() => {
+        setShow(false)
+      }, 3000);
+      return
+    } else {
+    }
+
+    if (sucursalSeleccionar === '') {
+      setMensaje("La sucursal es requerida!")
+      setError(true)
+      setShow(true)
+      setTimeout(() => {
+        setShow(false)
+      }, 3000);
+      return
+    } else {
+    }
+
+    if (areaSeleccionar === '') {
+      setMensaje("El area es requerida!")
+      setError(true)
+      setShow(true)
+      setTimeout(() => {
+        setShow(false)
+      }, 3000);
+      return
+    } else {
+    }
+
+    if (reporta === '') {
+      setMensaje("El campo 'Reporta a' es requerido!")
+      setError(true)
+      setShow(true)
+      setTimeout(() => {
+        setShow(false)
+      }, 3000);
+      return
+    } else {
+    }
+
+    if (jornada === '') {
+      setMensaje("La jornada es requerida!")
+      setError(true)
+      setShow(true)
+      setTimeout(() => {
+        setShow(false)
+      }, 3000);
+      return
+    } else {
+    }
+
+    if (observaciones === '') {
+      setMensaje("Observaciones es requerido!")
+      setError(true)
+      setShow(true)
+      setTimeout(() => {
+        setShow(false)
+      }, 3000);
+      return
+    } else {
+    }
+    
     const formData = new FormData();
     for (let index = 0; index < selectedFiles.length; index++) {
       let element = selectedFiles[index];
@@ -320,6 +419,29 @@ const RecursosHumanos = (props) => {
   const enviarFormulario2 = (e) => {
     e.preventDefault()
     // debugger
+
+    if (empleado === '') {
+      setMensaje("El empleado es requerido!")
+      setError(true)
+      setShow(true)
+      setTimeout(() => {
+        setShow(false)
+      }, 3000);
+      return
+    } else {
+    }
+    if (puestoForm === '') {
+      setMensaje("El puesto es requerido!")
+      setError(true)
+      setShow(true)
+      setTimeout(() => {
+        setShow(false)
+      }, 3000);
+      return
+    } else {
+    }
+
+
     const formData = new FormData();
     for (let index = 0; index < selectedFiles.length; index++) {
       let element = selectedFiles[index];

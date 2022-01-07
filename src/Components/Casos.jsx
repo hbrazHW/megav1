@@ -286,6 +286,28 @@ const Casos = (props) => {
   const enviarFormulario = (e) => {
     e.preventDefault();
 
+    if (selected === '') {
+      setMensaje("Asunto primario es requerido!")
+      setError(true)
+      setShow(true)
+      setTimeout(() => {
+        setShow(false)
+      }, 3000);
+      return
+    } else {
+    }
+
+    if (asuntoSeleccionar === '') {
+      setMensaje("Asunto es requerido!")
+      setError(true)
+      setShow(true)
+      setTimeout(() => {
+        setShow(false)
+      }, 3000);
+      return
+    } else {
+    }
+
     const formData = new FormData();
     for (let index = 0; index < selectedFiles.length; index++) {
       let element = selectedFiles[index];
