@@ -652,7 +652,7 @@ const Casos = (props) => {
             <div className="row w-auto d-flex justify-content-center">
               <h6 className="fw-bolder">Información general</h6>
               <div className="row">
-                <div className="col-sm-4 col-md-12">
+                {/* <div className="col-sm-4 col-md-12">
                   <div className="mb-2 p-2">
                     <label className="form-label fw-bolder lbl-precalificacion required">
                       Fecha Alta
@@ -666,7 +666,7 @@ const Casos = (props) => {
                       required
                     />
                   </div>
-                </div>
+                </div> */}
 
                 <div className="col-sm-4 col-md-12">
                   <div className="mb-2 p-2">

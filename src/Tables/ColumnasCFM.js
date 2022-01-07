@@ -22,9 +22,9 @@ export const COLUMNASCFM = [
         Cell: ({ value }) => {
             switch (value) {
                 case true:
-                    return <span class="badge bg-danger">Si</span>   
+                    return <p className="fw-bolder badge bg-danger">Si</p>   
                 case false:
-                    return <span class="badge bg-success">No</span>
+                    return <p className="fw-bolder">No</p>
                 default:
                     return '---'
             }
@@ -38,13 +38,13 @@ export const COLUMNASCFM = [
         Cell: ({ value }) => {
             switch (value) {
                 case 0:
-                    return <span class="badge bg-success text-center">Baja</span>    
+                    return <span className="text-center fw-bolder">Baja</span>    
                 case 1:
-                    return <span class="badge bg-primary text-center">Media</span>
+                    return <span className="text-center fw-bolder">Media</span>
                 case 2:
-                    return <span class="badge bg-warning text-dark text-center">Alta</span>
+                    return <span className="text-center fw-bolder">Alta</span>
                 case 3:
-                    return <span class="badge bg-danger text-center">Urgente</span>        
+                    return <span className=" text-center fw-bolder badge bg-danger ">Urgente</span>        
                 default:
                     return '---'
             }
@@ -58,24 +58,22 @@ export const COLUMNASCFM = [
         Cell: ({ value }) => {
             switch (value) {
                 case true:
-                    return <span class="badge bg-danger">Si</span>   
+                    return <span className="fw-bolder badge bg-danger">Si</span>   
                 case false:
-                    return <span class="badge bg-success ">No</span>
+                    return <span className="fw-bolder align-self-center">No</span>
                 default:
                     return '---'
             }
         }
     },
-   
        
+    // {
+    //     accessor: 'incidentid',
+    //     Cell: ({ value }) => {
+    //         return (
+    //             <SeleccionarCFM value={value} />
+    //         )
+    //     }
+    // },
 
-    {
-        accessor: 'incidentid',
-        Cell: ({ value }) => {
-            return (
-                <SeleccionarCFM value={value} />
-            )
-        }
-    },
-    
 ]

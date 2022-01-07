@@ -77,7 +77,7 @@ const Tabla = ({ lineas, columnas, titulo, header }) => {
                             {headerGroups.map((headerGroup) => (
                                 <tr {...headerGroup.getHeaderGroupProps()} className="h-100 align-items-start border-bottom border-dark">
                                     {headerGroup.headers.map((column) => (
-                                        <th {...column.getHeaderProps(column.getSortByToggleProps())} className="border-0 m-0 p-2 fw-bolder text-start h-100" style={{ color: '#000' }, { cursor: 'pointer' }}>
+                                        <th {...column.getHeaderProps(column.getSortByToggleProps())} className="border-0 m-0 p-2 fw-bolder text-center h-100" style={{ color: '#000' }, { cursor: 'pointer' }}>
                                             {column.render('Header')}
                                             {
                                                 column.isSorted ?
@@ -101,7 +101,7 @@ const Tabla = ({ lineas, columnas, titulo, header }) => {
                                 return (
                                     <tr {...row.getRowProps()} className=" w-100 ">
                                         {row.cells.map((cell) => {
-                                            return <td {...cell.getCellProps()} className="text-start">
+                                            return <td {...cell.getCellProps()} className="text-center">
                                                 <p className=" p-1 fw-normal texto-lista texto-tabla m-0">
                                                     {cell.render('Cell')}
                                                 </p>
