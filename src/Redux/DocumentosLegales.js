@@ -21,7 +21,6 @@ const LOADING = "LOADING";
 const ERROR = "ERROR";
 
 
-
 //reducers
 export default function documentosLegalesReducers(state = dataInicial, action) {
   switch (action.type) {
@@ -42,7 +41,6 @@ export default function documentosLegalesReducers(state = dataInicial, action) {
       
   }
 }
-
 
 
 // actions
@@ -133,20 +131,3 @@ export const cargarArchivos = (legalesId, file, config, tipo) => (dispatch) => {
       })
   }
 }
-
-// export const cargarArchivos = (legalesId, file, config, tipo) => (dispatch) => {
-//   try {
-//       debugger
-//       const id = legalesId
-//       const resp = axios.post(`${UrlApiDynamics}Notas?id=${id}&cuit=${Entidad}&tipo=${tipo}`, file, config)
-//       dispatch({
-//           type: ADJUNTOS_EXITO,
-//           payload: resp.data
-//       })
-//   }
-//   catch (error) {
-//       dispatch({
-//           type: ERROR
-//       })
-//   }
-// }

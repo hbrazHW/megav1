@@ -248,42 +248,39 @@ const Legales = (props) => {
 
   const enviarFormulario = (e) => {
     e.preventDefault()
-    // if (fechaRecepcion === '') {
-    //   setMensaje("La fecha es requerida!")
-    //   setError(true)
-    //   setShow(true)
-    //   setTimeout(() => {
-    //     setShow(false)
-    //   }, 3000);
-    //   return
-    // }
-    // if (descripcionDoc === '') {
-    //   setMensaje("Descripcion Requerida!")
-    //   setError(true)
-    //   setShow(true)
-    //   setTimeout(() => {
-    //     setShow(false)
-    //   }, 3000);
-    //   return
-    // } 
-    // if (persona === '') {
-    //   setMensaje("Persona es Requerido!")
-    //   setError(true)
-    //   setShow(true)
-    //   setTimeout(() => {
-    //     setShow(false)
-    //   }, 3000);
-    //   return
-    // }
-    // if (sede === '') {
-    //   setMensaje("Sede es Requerido!")
-    //   setError(true)
-    //   setShow(true)
-    //   setTimeout(() => {
-    //     setShow(false)
-    //   }, 3000);
-    //   return
-    // }
+
+    if (descripcionDoc === '') {
+      setMensaje("La descripcion del documento es requerida!")
+      setError(true)
+      setShow(true)
+      setTimeout(() => {
+        setShow(false)
+      }, 3000);
+      return
+    } else {
+    }
+
+    if (persona === '') {
+      setMensaje("El campo 'Persona que recepciono' es requerido!")
+      setError(true)
+      setShow(true)
+      setTimeout(() => {
+        setShow(false)
+      }, 3000);
+      return
+    } else {
+    }
+
+    if (sede === '') {
+      setMensaje("La sede es requerida!")
+      setError(true)
+      setShow(true)
+      setTimeout(() => {
+        setShow(false)
+      }, 3000);
+      return
+    } else {
+    }
 
     const formData = new FormData();
     for (let index = 0; index < selectedFiles.length; index++) {
