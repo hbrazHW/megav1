@@ -6,7 +6,7 @@ import legales from "../img/legales.jpg";
 import personal from "../img/personal.jpg";
 import megatlonPortada from "../img/megatlonPortada.png";
 import LogoBlancoTransparente from "../img/LogoBlancoTransparente.png"
-import Casos from '../img/casos.jpg'
+import casos from '../img/casos.jpg'
 
 
 const Cover = () => {
@@ -93,7 +93,7 @@ const Cover = () => {
               <div className="carousel-inner">
                 <div className="carousel-item active">
                   <Link to="/vista-casos">
-                    <img src={Casos} className="d-block w-100 " alt="casos" />
+                    <img src={casos} className="d-block w-100 " alt="casos" />
                   </Link>
                   <div className="carousel-caption d-none d-md-block" >
                     <h4 className="fw-bolder">Casos</h4>
