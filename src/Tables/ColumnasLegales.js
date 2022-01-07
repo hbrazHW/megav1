@@ -9,7 +9,7 @@ export const COLUMNASLEGALES = [
     {
         Header: 'Autor',
         footer: 'Autor',
-        accessor: '_createdby_value',
+        accessor: 'new_name',
         Cell: ({ value }) => { return value ? <p className=" m-0  texto-lista m-0">{value}</p> : '-' }
     },
 

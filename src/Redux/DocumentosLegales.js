@@ -62,7 +62,7 @@ export const obtenerLegales = () => async (dispatch) => {
   "<attribute name='overriddencreatedon' />" +
   "<attribute name='new_descripcindeldocumento' />" +
   "<attribute name='statecode' />" +
-  "<attribute name='createdby' />" +
+  "<attribute name='new_cliente' />" +
   "<order attribute='new_name' descending='false' />" +
   "</entity>" +
   "</fetch>";

@@ -80,6 +80,8 @@ const VistaDocumentos = () => {
 
     }, [legalesSelector, legalesIdSelector, contactSelector])
 
+    console.log(legales)
+
     const obtenerContacts = () => {
         dispatch(consultaFETCHcontacts())
     }
@@ -98,7 +100,7 @@ const VistaDocumentos = () => {
 
     const completarLegales = (id) => {
         legales.filter(item => item.new_documentoslegalesid == id).map(item => {
-            setAutor(item._createdby_value)
+            setAutor(item.new_name)
             setPersonRecepciono(obtenerNombreContacto(item._new_personaquerecepcion_value))
             setDescripcionDelDocumento(descripcionDocumento(item.new_descripcindeldocumento))
             setFechaCreacion(item.createdon)
