@@ -117,7 +117,7 @@ export const cargarForm = ( autor, fechaRecepcion, descripcionDoc, sede, persona
 
 export const cargarArchivos = (legalesId, file, config, tipo) => (dispatch) => {
   try {
-      debugger
+      // debugger
       const id = legalesId
       const resp = axios.post(`${UrlApiDynamics}Notas?id=${id}&cuit=${Entidad}&tipo=${tipo}`, file, config)
       dispatch({

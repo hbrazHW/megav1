@@ -328,6 +328,10 @@ const Casos = (props) => {
         selected,
         solicitante,
         puestoSolicitante,
+        instalacionSede,
+        serieActivo,
+        equipoDetenido,
+        prioridad,
         tipoC,
         comentarios,
         sede,
@@ -372,6 +376,10 @@ const Casos = (props) => {
     setSelected("");
     setSolicitante("");
     setPuestoSolicitante("");
+    setInstalacionSede("");
+    setSerieActivo("");
+    setEquipoDetenido("");
+    setPrioridad("");
     setAsuntoSeleccionar("");
     setTipoC("");
     setComentarios("");
@@ -490,7 +498,7 @@ const Casos = (props) => {
             Instalación por Sede
           </label>
           <Select
-            // onChange={(e) => selectOnChange(e)}
+          //  onChange={(e) => setInstalaSede(e.target.value)}
             options={selectInstaSede}
             className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
             id="instaSede"
