@@ -74,6 +74,7 @@ export const consultaFETCHmisCasosActivos = () => async (dispatch) => {
         "<attribute name='incidentid' />" +
         "<attribute name='statuscode' />" +
         "<attribute name='new_comentarios' />" +
+        "<attribute name='new_fechaalta' />" +
         "<order attribute='ticketnumber' descending='false' />" +
         "<filter type='and'>" +
         "<condition attribute='ownerid' operator='eq-userteams' />" +

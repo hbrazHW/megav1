@@ -31,7 +31,7 @@ const InstalacionSede = ({id}) => {
 
   return (
     <div>
-      <p className="m-0 texto-lista m-0">{instalaSede}</p>
+      <p className="fw-bolder">{instalaSede}</p>
     </div>
   )
 }

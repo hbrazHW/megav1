@@ -27,6 +27,13 @@ export const COLUMNASMCA = [
         Cell: ({ value }) => { return value ? <p className=" m-0  texto-lista m-0">{Moment(value).format("DD-MM-YYYY")}</p> : '-' }
     },
 
+    // {
+    //     Header: 'Fecha de Alta',
+    //     footer: 'Fecha de Alta',
+    //     accessor: 'new_fechaalta',
+    //     Cell: ({ value }) => { return value ? <p className=" m-0  texto-lista m-0">{Moment(value).format("DD-MM-YYYY")}</p> : '-' }
+    // },
+
     {
         Header: 'Estado del Caso',
         footer: 'Estado del Caso',
