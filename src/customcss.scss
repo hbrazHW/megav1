@@ -690,7 +690,7 @@ select#telefono {
   display: flex;
   align-self:center;
   justify-content: center;
-
+  opacity: 85%;
  
 }
 
@@ -811,6 +811,10 @@ select#telefono {
   // border-color: #0485a2;
   border: 4px dashed rgb(245,130,32);
   padding: 20px;
+}
+
+.bg-naranja{
+  background-color: #F58220
 }
 
 @import "~bootstrap/scss/bootstrap";
