@@ -4,6 +4,13 @@ import SeleccionarCFM from './SeleccionarCFM'
 import InstalacionSede from './InstalacionSede'
 
 export const COLUMNASCFM = [
+
+    {
+        Header: 'Numero de Caso',
+        footer: 'Numero de Caso',
+        accessor: 'ticketnumber',
+        Cell: ({ value }) => { return value ? <span class="badge badge-personalizado-naranja">{value}</span> : '-' }
+    },
     {
         Header: 'Instalación por Sede',
         footer: 'Instalación por Sede',
@@ -22,7 +29,7 @@ export const COLUMNASCFM = [
         Cell: ({ value }) => {
             switch (value) {
                 case true:
-                    return <p className="fw-bolder badge bg-danger">Si</p>   
+                    return <p className="fw-bolder">Si</p>   
                 case false:
                     return <p className="fw-bolder">No</p>
                 default:
@@ -31,6 +38,13 @@ export const COLUMNASCFM = [
         }
     
     },
+    {
+        Header: 'Fecha de creación',
+        footer: 'Fecha de creación',
+        accessor: 'createdon',
+        Cell: ({ value }) => { return value ? <p className=" m-0 fw-bolder texto-lista m-0">{Moment(value).format("DD-MM-YYYY")}</p> : '-' }
+    },
+
     {
         Header: 'Prioridad',
         footer: 'Prioridad',

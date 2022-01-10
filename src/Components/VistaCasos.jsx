@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClipboardList, faIdBadge, faFile, faCheckCircle, faTimesCircle, faEnvelope } from '@fortawesome/free-solid-svg-icons'
 import { consultaFETCHcasosResueltos, consultaFETCHmisCasosActivos, consultaFETCHnombresAsuntos, consultaFETCHcasosFm, consultaFETCHinstalacionSede } from "../Redux/Casos";
+import { consultaFETCHcorreoEletronico } from '../Redux/CorreoEletronico';
 import Tabla from '../Components/Tabla';
 import { COLUMNASMCA } from '../Tables/ColumnasMCA';
 import { COLUMNASCR } from '../Tables/ColumnasCR';
@@ -35,6 +36,9 @@ const VistaCasos = () => {
     const [llamadaContacts, setLlamadaContacts] = React.useState(false)
     const [casosFm, setCasosFm] = React.useState([])
     const [llamadaCasosFm, setLlamadaCasosFm] = React.useState(false)
+    const [correoEletronico, setCorreoEletronico] = React.useState([])
+    const [llamadaCorreoEletronico, setLlamadaCorreoEletronico] = React.useState(false)
+
 
 
     //selectores
@@ -43,6 +47,7 @@ const VistaCasos = () => {
     const casoIdSelector = useSelector(store => store.casos.casoid)
     const contactSelector = useSelector(store => store.contacts.contacts)
     const casosFmSelector = useSelector(store => store.casos.casosFm)
+    const correoEletronicoSelector = useSelector(store => store.correoEletronico.correoEletronico)
 
     //Columnas
     const [columnasMisCasosActivos, setColumnasMisCasosActivos] = React.useState([])
@@ -66,7 +71,8 @@ const VistaCasos = () => {
     const [numCasoResuelto, setNumCasoResuelto] = React.useState([]);
     const [comentarioCasoResuelto, setComentarioCasoResuelto] = React.useState([]);
     const [asuntoPrimario, setAsuntoPrimario] = React.useState("")
-    const [cliente, setCliente] = React.useState("")
+    const [cliente, setCliente] = React.useState([])
+    const [email,setEmail] = React.useState([])
 
     //hooks modal mis casos activos
     const [numCaso, setNumCaso] = React.useState([]);
@@ -151,6 +157,15 @@ const VistaCasos = () => {
             }
         }
 
+        if(correoEletronico.lenght === 0) {
+            if(correoEletronicoSelector.lenght > 0 && llamadaCorreoEletronico === true) {
+                setCorreoEletronico(correoEletronicoSelector); 
+            }else if (llamadaCorreoEletronico === false){
+                ObtenerCorreoEletronico();
+                setLlamadaCorreoEletronico(true);
+            }    
+        }
+
         if (casoIdSelector !== undefined) {
             if (casoIdSelector !== '') {
                 completarCasoResuelto(casoIdSelector)
@@ -178,6 +193,8 @@ const VistaCasos = () => {
 
         }
 
+
+
         if(contacts.length === 0){
             if(contactSelector.length > 0 && llamadaContacts === true){
                 setContacts(contactSelector)
@@ -187,7 +204,7 @@ const VistaCasos = () => {
             }
         }
 
-    }, [misCasosActivosSelector, casosResueltosSelector, casoIdSelector, asuntosSelector, contactSelector, casosFmSelector, instalacionSedeSelector])
+    }, [misCasosActivosSelector, casosResueltosSelector, casoIdSelector, asuntosSelector, contactSelector, casosFmSelector, instalacionSedeSelector, correoEletronicoSelector])
 
     console.log("hook:", )
 
@@ -210,6 +227,10 @@ const VistaCasos = () => {
 
     const obtenerCasosFm = () => {
         dispatch(consultaFETCHcasosFm());
+    };
+
+    const ObtenerCorreoEletronico = () => {
+        dispatch(correoEletronicoSelector());
     };
 
     const obtenerMisCasosA = () => {
@@ -639,11 +660,30 @@ const VistaCasos = () => {
                                                     rows="2"
                                                     disabled
                                                 ></textarea>
+                                                 <ul className="list-group">
+                     {/* {legalesSelector.map((item) => { 
+                        return ( */}
+                          <li className="list-group-item d-flex align-items-center">
+                            <p className="fw-bolder">
+                              <FontAwesomeIcon
+                                icon={faEnvelope}
+                                className="fs-6 upload-file atras mx-1"
+                                color="#000"
+                              />
+                              {/* {item.null}  */}
+                            </p>
+                          </li>
+                        {/* );
+                      })}  */}
+                    </ul>
                                             </div>
                                         </div>
                                     </div>
 
                                 </div>
+                                
+                   
+                 
                             </div>
 
                         </div>

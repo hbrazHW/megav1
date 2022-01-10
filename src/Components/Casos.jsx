@@ -328,10 +328,10 @@ const Casos = (props) => {
         comentarios,
         sede,
         instalacionSede,
-        equipoDetenido,
+        equipoDetenido, 
         prioridad,
         formData,
-        config
+        config,
       )
     );
     setLoading(true);
@@ -464,8 +464,8 @@ const Casos = (props) => {
   //----------------------------
 
   const opcionSiNo = [
-    { value: "0", label: "No" },
-    { value: "1", label: "Sí" },
+    { value: false, label: "No" },
+    { value: true, label: "Sí" },
   ];
 
   const opcionPrioridad = [
@@ -617,7 +617,7 @@ const Casos = (props) => {
  };
  
 
- console.log( "prioridad",prioridad)
+//  console.log( "prioridad",prioridad)
 
  
 
