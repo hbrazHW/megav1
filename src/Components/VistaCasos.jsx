@@ -75,7 +75,7 @@ const VistaCasos = () => {
     const [fechaAltaCaso, setFechaAltaCaso] = React.useState([]);
     const [razonParaElEstado, setRazonParaElEstado] = React.useState([])
     const [comentarioCasoActivo, setComentarioCasoActivo] = React.useState("")
-    const [step, setStep] = React.useState(1);
+    const [step, setStep] = React.useState(0);
 
     //Hooks modal casos de FM
     const [instalacionSede, SetInstalacionSede] = React.useState([]);
@@ -243,7 +243,7 @@ const VistaCasos = () => {
 
 
 
-    // console.log("state:", misCasosActivos)
+    
     const completarCaso = (id) => {
         misCasosActivos.filter(item => item.incidentid == id).map(item => {
             setNumCaso(item.ticketnumber)
@@ -359,29 +359,27 @@ const VistaCasos = () => {
     const razonEstadoStep = (value) => {
         switch (value) {
             case 100000004:
-                setStep(1);
+                return setStep(1);
             case 100000001:
-                setStep(2)
+                return setStep(2)
             case 100000002:
-                setStep(3)
+                return setStep(3)
             case 100000003:
-                setStep(4)
+                return setStep(4)
             case 1:
-                setStep(5)
+                return setStep(5)
             case 4:
-                setStep(6)
+                return setStep(6)
             case 2:
-                setStep(7)
+                return setStep(7)
             case 3:
-                setStep(8)
+                return setStep(8)
             case 100000005:
-                setStep(9)
+                return setStep(9)
             case 100000006:
-                setStep(10)
+                return setStep(10)
             case 100000007:
-                setStep(11)
-            default:
-                return '---'
+                return setStep(11)
         }
 
     }
