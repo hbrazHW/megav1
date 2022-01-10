@@ -21,6 +21,7 @@ import recursosHumanosReducers from '../Redux/RecursosHumanos'
 import contactsReducers from '../Redux/Contact'
 import autorLegalesReducers from '../Redux/AutorLegales'
 import contactosReducers from '../Redux/Contacto'
+import correoEletronicoReducers from '../Redux/CorreoEletronico'
 
 
 
@@ -46,6 +47,7 @@ const rootReducer = combineReducers({
    contacts: contactsReducers,
    autor: autorLegalesReducers,
    contactos: contactosReducers,
+   correoEletronico: correoEletronicoReducers,
 
 })
 
