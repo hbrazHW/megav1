@@ -142,10 +142,10 @@ const Casos = (props) => {
   // Pass the image src attribute here
   copyImageToClipboard("assets/image*")
     .then(() => {
-      // console.log("Image Copied");
+    
     })
     .catch((e) => {
-      // console.log("Error: ", e.message);
+     
     });
 
   //idintranet
@@ -153,25 +153,23 @@ const Casos = (props) => {
   // Can be an URL too, but be careful because this may cause CORS errors
   copyImageToClipboard("../")
     .then(() => {
-      // console.log("Image Copied");
+      
     })
     .catch((e) => {
-      // console.log("Error: ", e.message);
+      
     });
   getBlobFromImageElement(imageElement)
     .then((blob) => {
       return copyBlobToClipboard(blob);
     })
     .then(() => {
-      // console.log("Blob Copied");
+      
     })
     .catch((e) => {
-      // console.log("Error: ", e.message);
+     
     });
 
-  // onPasteUpload((e) => {
 
-  // })
 
   const [fecha, setFecha] = React.useState("");
   const [clienteSeleccionar, SetClienteSeleccionar] = React.useState("");
@@ -275,7 +273,6 @@ const Casos = (props) => {
     
     if (resultadoC !== undefined) {
       if (resultadoC !== "") {
-        debugger
         cargaExito();
       }
     }
@@ -324,17 +321,15 @@ const Casos = (props) => {
       cargarForm(
         clienteSeleccionar,
         asuntoSeleccionar,
-        fecha,
         selected,
         solicitante,
         puestoSolicitante,
-        instalacionSede,
-        serieActivo,
-        equipoDetenido,
-        prioridad,
         tipoC,
         comentarios,
         sede,
+        instalacionSede,
+        equipoDetenido,
+        prioridad,
         formData,
         config
       )
@@ -346,7 +341,7 @@ const Casos = (props) => {
   };
 
   const cargaExito = () => {
-    debugger
+   // debugger
     if (resultadoC === "EXITO") {
       setMensaje("El caso fue creado con éxito!");
       setError(false);
@@ -370,14 +365,12 @@ const Casos = (props) => {
   };
 
   const limpiarForm = () => {
-    setFecha("");
     SetClienteSeleccionar("");
     setSede("");
     setSelected("");
     setSolicitante("");
     setPuestoSolicitante("");
     setInstalacionSede("");
-    setSerieActivo("");
     setEquipoDetenido("");
     setPrioridad("");
     setAsuntoSeleccionar("");
@@ -391,7 +384,7 @@ const Casos = (props) => {
   };
 
   const changeHandler = (event) => {
-    debugger;
+    //debugger;
     setSelectedFiles(event.target.files);
   };
 
@@ -498,7 +491,7 @@ const Casos = (props) => {
             Instalación por Sede
           </label>
           <Select
-          //  onChange={(e) => setInstalaSede(e.target.value)}
+            onChange={(e) => instaSedeHandle(e)}
             options={selectInstaSede}
             className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
             id="instaSede"
@@ -509,7 +502,7 @@ const Casos = (props) => {
             required
           ></Select>
         </div>
-        <div className="mb-2 p-2">
+        {/* <div className="mb-2 p-2">
           <label className="form-label fw-bolder lbl-precalificacion">
             N° De serie del activo
           </label>
@@ -520,7 +513,7 @@ const Casos = (props) => {
             className="form-control"
             placeholder="Número de serie..."
           />
-        </div>
+        </div> */}
         <div className="mb-2 p-2">
           <label className="form-label fw-bolder lbl-precalificacion">
             Equipo Detenido ?
@@ -547,7 +540,7 @@ const Casos = (props) => {
             id="select"
             name="priority"
             className="basic multi-select"
-            defaultValue={{ label: "Urgente", value: 3 }}
+            // defaultValue={{ label: "Urgente", value: 3 }}
             classNamePrefix="select"
             placeholder="Seleccionar Prioridad..."
             required
@@ -618,6 +611,16 @@ const Casos = (props) => {
   const prioridadHandle = (valor) => {
     setPrioridad(valor.value);
   };
+
+ const instaSedeHandle = (valor) => {
+  setInstalacionSede(valor.value);
+ };
+ 
+
+ console.log( "prioridad",prioridad)
+
+ 
+
 
   const tipoAsuntoPrimario = [
     { value: "1", label: "SISTEMAS" },
