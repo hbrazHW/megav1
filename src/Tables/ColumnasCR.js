@@ -36,7 +36,7 @@ export const COLUMNASCR = [
         accessor: 'ticketnumber',
         Cell: ({ value }) => { return value ? <span class="badge badge-personalizado-naranja">{value}</span> : '-' }
     },
-    {
+    {   Header: 'Resolución',
         accessor: 'incidentid',
         Cell: ({ value }) => {
             return (

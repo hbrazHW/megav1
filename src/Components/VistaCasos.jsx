@@ -230,7 +230,7 @@ const VistaCasos = () => {
     };
 
     const ObtenerCorreoEletronico = () => {
-        dispatch(correoEletronicoSelector());
+        dispatch(consultaFETCHcorreoEletronico());
     };
 
     const obtenerMisCasosA = () => {
@@ -647,7 +647,7 @@ const VistaCasos = () => {
                                 </div>
                                 <div className="col-sm-4">
 
-                                    <h6 className="fw-bolder">Resolucion:</h6>
+                                    <h6 className="fw-bolder">Comentarios:</h6>
                                     <div className="row">
                                         <div className="col-12">
                                             <div class="form-group">
