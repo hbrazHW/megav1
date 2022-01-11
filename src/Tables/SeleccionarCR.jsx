@@ -40,7 +40,7 @@ const SeleccionarCR = ({value}) => {
        <div className="dropdown m-0">
             <button className="btn p-0 h-auto" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                 {/* {<FontAwesomeIcon id={value} icon={faEye} className="fs-5 text-dark upload-file atras" /> } */}
-                <a href="" className="link-info text-decoration-none justify-content-right">
+                <a href="" className="link-primary fw-bolder   text-decoration-none justify-content-right">
                     {resolucionCaso}    
                 </a> 
             </button>
