@@ -28,7 +28,7 @@ const Cuenta = ({ id }) => {
     }
 
     return (
-        <p className="m-0 texto-lista m-0">{sucursal}</p>
+        <p className="m-0 texto-lista m-0 fw-bolder">{sucursal}</p>
     )
 }
 

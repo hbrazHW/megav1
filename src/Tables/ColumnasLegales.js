@@ -10,7 +10,7 @@ export const COLUMNASLEGALES = [
         Header: 'Autor',
         footer: 'Autor',
         accessor: 'new_name',
-        Cell: ({ value }) => { return value ? <p className=" m-0  texto-lista m-0">{value}</p> : '-' }
+        Cell: ({ value }) => { return value ? <p className=" m-0  texto-lista m-0 fw-bolder">{value}</p> : '-' }
     },
 
 
@@ -64,7 +64,7 @@ export const COLUMNASLEGALES = [
         Header: 'Fecha de creación',
         footer: 'Fecha de creación',
         accessor: 'createdon',
-        Cell: ({ value }) => { return value ? <p className=" m-0 texto-lista m-0">{Moment(value).format("DD-MM-YYYY")}</p> : '-' }
+        Cell: ({ value }) => { return value ? <p className=" m-0 texto-lista m-0 fw-bolder">{Moment(value).format("DD-MM-YYYY")}</p> : '-' }
     },
 
     {
