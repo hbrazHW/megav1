@@ -158,6 +158,8 @@ export const consultaFETCHcasosFm = () => async (dispatch) => {
       "<attribute name='prioritycode' />" +
       "<attribute name='productserialnumber' />" +
       "<attribute name='new_instalacionporsede' />" +
+      "<attribute name='new_derivacion' />" +
+      "<attribute name='new_areaaescalar' />" +
       "<attribute name='new_equipodetenido' />" +
       "<attribute name='new_alaesperaderepuestos' />" +
       "<order attribute='new_equipodetenido' descending='true' />" +
