@@ -3,7 +3,7 @@ import { useSpring, animated } from "react-spring";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClipboardList, faIdBadge, faFile, faCheckCircle, faTimesCircle, faEnvelope } from '@fortawesome/free-solid-svg-icons'
-import { consultaFETCHcasosResueltos, consultaFETCHmisCasosActivos, consultaFETCHnombresAsuntos, consultaFETCHcasosFm, consultaFETCHinstalacionSede } from "../Redux/Casos";
+import { consultaFETCHcasosResueltos, consultaFETCHmisCasosActivos, consultaFETCHnombresAsuntos, consultaFETCHcasosFm, consultaFETCHinstalacionSede, consultaFETCHareaAderivar } from "../Redux/Casos";
 import { consultaFETCHcorreoEletronico } from '../Redux/CorreoEletronico';
 import Tabla from '../Components/Tabla';
 import { COLUMNASMCA } from '../Tables/ColumnasMCA';
@@ -61,8 +61,13 @@ const VistaCasos = () => {
 
     //Hooks para obtener nombres de las instlaciones por sucursal
    const [instalaSede, setInstalaSede] = React.useState([])
-   const [llamadaInstaSede, SetLlamdaInstaSede] = React.useState(false)
+   const [llamadaInstaSede, setLlamdaInstaSede] = React.useState(false)
    const instalacionSedeSelector = useSelector(store => store.casos.instalacionSede)
+
+   //Hooks para obtener mnombres de area a derivar
+   const [areaAderivar, setAreaAderivar] = React.useState([])
+   const [llamadaAreaAderivar, setLlamadaAreaAderivar] =React.useState(false)
+   const areaAderivarSelector = useSelector(store => store.casos.areaAderivar)
     
 
     //hooks modal caso resuelto
@@ -86,8 +91,10 @@ const VistaCasos = () => {
     //Hooks modal casos de FM
     const [instalacionSede, SetInstalacionSede] = React.useState([]);
     const [equipoDetenido, setEquipoDetenido] = React.useState([]);
-    const [prioridad, setPrioridad] = React.useState([])
-    const [esperaRepuesto, setEsperaRepuesto] = React.useState([])
+    const [prioridad, setPrioridad] = React.useState([]);
+    const [esperaRepuesto, setEsperaRepuesto] = React.useState([]);
+    const [areaDeriva, setAreaDeriva] = React.useState([]);
+
 
     React.useEffect(() => {
         if (misCasosActivos.length === 0) {
@@ -188,11 +195,21 @@ const VistaCasos = () => {
                 setInstalaSede(instalacionSedeSelector)
             }else if (llamadaInstaSede === false) {
                 obtenerInstalacionporSede()
-                SetLlamdaInstaSede(true)
+                setLlamdaInstaSede(true)
             }
 
         }
 
+        if (areaAderivar.length === 0) {
+            if(areaAderivarSelector.length > 0 && llamadaAreaAderivar === true){
+                setAreaAderivar(areaAderivarSelector)
+            }else if (llamadaAreaAderivar === false) {
+                obtenerAreaAderivar()
+                setLlamadaAreaAderivar(true)
+            }
+
+        }
+     
 
 
         if(contacts.length === 0){
@@ -204,7 +221,7 @@ const VistaCasos = () => {
             }
         }
 
-    }, [misCasosActivosSelector, casosResueltosSelector, casoIdSelector, asuntosSelector, contactSelector, casosFmSelector, instalacionSedeSelector, correoEletronicoSelector])
+    }, [misCasosActivosSelector, casosResueltosSelector, casoIdSelector, asuntosSelector, contactSelector, casosFmSelector, instalacionSedeSelector, correoEletronicoSelector, areaAderivarSelector])
 
     console.log("hook:", )
 
@@ -219,6 +236,10 @@ const VistaCasos = () => {
 
     const obtenerInstalacionporSede = () => {
         dispatch(consultaFETCHinstalacionSede())
+    }
+
+    const obtenerAreaAderivar = () => {
+        dispatch(consultaFETCHareaAderivar())
     }
 
     const obtenerCasosResueltos = () => {
@@ -261,6 +282,13 @@ const VistaCasos = () => {
         return nombreInstaSede
     }
 
+    const obtenerNombreAreaAderivar = (area) => {
+        let nombreArea = ''
+        areaAderivar.filter(item => item.new_areaid == area).map(item => {
+            nombreArea = item.new_name
+        })
+        return nombreArea
+    }
 
 
 
@@ -294,7 +322,8 @@ const VistaCasos = () => {
             setEquipoDetenido (detenido(item.new_equipodetenido)) 
             setPrioridad(prioridadFm(item.prioritycode))
             setEsperaRepuesto(repuesto(item.new_alaesperaderepuestos))
-
+            setAreaAderivar(item._new_areaaescalar_value)
+            
         })
     }
 
@@ -658,22 +687,17 @@ const VistaCasos = () => {
                                                     rows="2"
                                                     disabled
                                                 ></textarea>
-                                                 <ul className="list-group">
-                     {/* {legalesSelector.map((item) => { 
-                        return ( */}
+                                                 {/* <ul className="list-group">
+                     
                           <li className="list-group-item d-flex align-items-center">
                             <p className="fw-bolder">
                               <FontAwesomeIcon
                                 icon={faEnvelope}
                                 className="fs-6 upload-file atras mx-1"
-                                color="#000"
-                              />
-                              {/* {item.null}  */}
+                                color="#000"/>
                             </p>
                           </li>
-                        {/* );
-                      })}  */}
-                    </ul>
+                    </ul> */}
                                             </div>
                                         </div>
                                     </div>
