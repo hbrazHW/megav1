@@ -12,9 +12,9 @@ export const COLUMNASBPA = [
         Cell: ({ value }) => {
             switch (value) {
                 case 100000000:
-                    return 'Nuevo Puesto '    
+                    return <p className=" m-0  texto-lista m-0 fw-bolder">Nuevo Puesto</p>    
                 case 100000001:
-                    return 'Reemplazo '    
+                    return <p className=" m-0  texto-lista m-0 fw-bolder">Reemplazo</p>        
                 default:
                     return '---'
             }
@@ -64,7 +64,7 @@ export const COLUMNASBPA = [
         Header: 'Jornada Laboral',
         footer: 'Jornada Laboral',
         accessor: 'new_jornadalaboral',
-        Cell: ({ value }) => { return value ? <p className=" m-0  texto-lista m-0">{value}</p> : '-' }
+        Cell: ({ value }) => { return value ? <p className=" m-0  texto-lista m-0 fw-bolder">{value}</p> : '-' }
     },
     {
         Header: 'Estado',
