@@ -2,6 +2,7 @@ import React from 'react'
 import Moment from 'moment'
 import SeleccionarCFM from './SeleccionarCFM'
 import InstalacionSede from './InstalacionSede'
+import AreaAescalar from './AreaAescalar'
 
 export const COLUMNASCFM = [
 
@@ -80,14 +81,25 @@ export const COLUMNASCFM = [
             }
         }
     },
+
+    {
+        Header: 'Area a escalar',
+        accessor: '_new_areaaescalar_value',
+        // Cell: ({ value }) => { return value ? <p className=" m-0  texto-lista m-0">{value}</p> : '-' }
+        Cell: ({value}) => {
+            return(
+                <AreaAescalar id={value} />
+            )
+        }
+    },
        
-    // {
-    //     accessor: 'incidentid',
-    //     Cell: ({ value }) => {
-    //         return (
-    //             <SeleccionarCFM value={value} />
-    //         )
-    //     }
-    // },
+    {
+        accessor: 'incidentid',
+        Cell: ({ value }) => {
+            return (
+                <SeleccionarCFM value={value} />
+            )
+        }
+    },
 
 ]

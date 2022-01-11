@@ -33,6 +33,7 @@ import {
   consultaFETCHnombresAsuntos,
   consultaFETCHcasosFm,
   consultaFETCHinstalacionSede,
+  consultaFETCHareaAderivar,
 } from "../Redux/Casos";
 import { obtenerContacto } from "../Redux/Contacto";
 
@@ -75,6 +76,12 @@ const Casos = (props) => {
   const instalacionSedeSelector = useSelector(store => store.casos.instalacionSede)
   const [selectInstaSede, setSelectInstaSede] = React.useState([]);
 
+  const [areaAescalar, setAreaAescalar] = React.useState([])
+  const [llamadaArea, setLlamadaArea] = React.useState(false)
+  const areaAderivarSelector = useSelector(
+    store => store.casos.areaAderivar
+  )
+  const[selectAreaEscalar, setSelectAreaEscalar] = React.useState([]);
   
   const [contacto, setContacto] = React.useState([]);
   const [llamadaContactos, setLlamadaContactos] = React.useState(false);
@@ -180,6 +187,8 @@ const Casos = (props) => {
   const [persona, setPersona] = React.useState('')
   const [puestoSolicitante, setPuestoSolicitante] = React.useState("");
   const [instalacionSede, setInstalacionSede] = React.useState("");
+  const [areaEscalar,setAreaEscalar] = React.useState("");
+  const [deriva, setDeriva] = React.useState("");
   const [serieActivo, setSerieActivo] = React.useState("");
   const [equipoDetenido, setEquipoDetenido] = React.useState("");
   const [prioridad, setPrioridad] = React.useState("");
@@ -251,6 +260,16 @@ const Casos = (props) => {
 
     }
 
+    if (areaAescalar.length === 0) {
+      if (areaAderivarSelector.length > 0 && llamadaArea === true) {
+       setAreaAescalar(areaAderivarSelector)
+         completarOpcionAreaAescalar(areaAderivarSelector);
+      } else if (llamadaArea === false) {
+        obtenerNombreArea()
+        setLlamadaArea(true)
+      }
+    }
+
 
 
       if (
@@ -276,7 +295,7 @@ const Casos = (props) => {
         cargaExito();
       }
     }
-  }, [contactSelector, sucursalSelector, contactoSelector, resultadoC, instalacionSedeSelector]);
+  }, [contactSelector, sucursalSelector, contactoSelector, resultadoC, instalacionSedeSelector, areaAderivarSelector]);
 
 
 
@@ -403,6 +422,10 @@ const Casos = (props) => {
   const obtenerInstalacionporSede = () => {
     dispatch(consultaFETCHinstalacionSede())
  };
+
+ const obtenerNombreArea = () => {
+  dispatch(consultaFETCHareaAderivar())
+};
 
   const obtenerContactos = () => {
     dispatch(consultaFETCHcontacts());
@@ -596,6 +619,17 @@ const Casos = (props) => {
     setSelectInstaSede(instased);
   };
 
+  const completarOpcionAreaAescalar = (areaEscalar) => {
+    const areaEscal = [];
+    areaEscalar.forEach((item) => {
+      var ae = { value: item.new_areaid, label: item.new_name };
+      areaEscal.push(ae);
+    });
+    setSelectAreaEscalar(areaEscal);
+  };
+
+
+
   const asuntoHandle = (valor) => {
     setAsuntoSeleccionar(valor.value);
   };
@@ -615,8 +649,12 @@ const Casos = (props) => {
  const instaSedeHandle = (valor) => {
   setInstalacionSede(valor.value);
  };
- 
-
+  const areaEscalarHandle = (valor) => {
+    setAreaEscalar(valor.value)
+  }
+ const derivaHandle = (valor) => {
+   setDeriva(valor.value);
+ };
 //  console.log( "prioridad",prioridad)
 
  
@@ -640,6 +678,12 @@ const Casos = (props) => {
     { value: "1", label: "Consulta" },
     { value: "2", label: "Reclamo" },
     { value: "3", label: "Pedido" },
+  ];
+
+
+  const derivaSiNo = [
+    { value: false, label: "No" },
+    { value: true, label: "Sí" },
   ];
 
   return (
@@ -751,6 +795,37 @@ const Casos = (props) => {
                       placeholder="Elegir tipo de caso..."
                     ></Select>
                   </div>
+                  <div className="mb-2 p-2">
+                    <label className="form-label fw-bolder lbl-precalificacion">
+                      Derivar ?
+                    </label>
+                    <Select
+                      onChange={(e) => derivaHandle(e)}
+                      options={derivaSiNo}
+                      className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
+                      id="derivar"
+                      name="derivar"
+                      className="basic multi-select"
+                      ClassNamePrefix="select"
+                      placeholder="..."
+                    ></Select>
+                  </div>
+                  <div className="mb-2 p-2">
+          <label className="form-label fw-bolder lbl-precalificacion required">
+            Area a Escalar
+          </label>
+          <Select
+            onChange={(e) => areaEscalarHandle(e)}
+            options={selectAreaEscalar}
+            className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
+            id="instaSede"
+            name="instaSede"
+            className="basic multi-select"
+            ClassNamePrefix="select"
+            placeholder="Elegir instalación..."
+            required
+          ></Select>
+        </div>
                 </div>
               </div>
               <div className="row">

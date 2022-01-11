@@ -5,7 +5,7 @@ import { consultaFETCHinstalacionSede } from "../Redux/Casos"
 const InstalacionSede = ({id}) => {
   const dispatch = useDispatch()
   const [instalaSede, setInstalaSede] = React.useState([])
-  const [llamadaInstaSede, SetLlamdaInstaSede] = React.useState(false)
+  const [llamadaInstaSede, setLlamadaInstaSede] = React.useState(false)
   const instalacionSedeSelector = useSelector(
     store => store.casos.instalacionSede
   )
@@ -20,7 +20,7 @@ const InstalacionSede = ({id}) => {
           });
       } else if (llamadaInstaSede === false) {
         obtenerNombreInstaSede()
-        SetLlamdaInstaSede(true)
+        setLlamadaInstaSede(true)
       }
     }
   }, [instalacionSedeSelector])

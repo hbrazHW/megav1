@@ -8,6 +8,7 @@ const dataInicial = {
     casosFm:[],
     asuntos: [],
     instalacionSede: [],
+    areaAderivar: [],
     archivos: [],
     casoid: '',
     ticket: '',
@@ -20,7 +21,8 @@ const CARGA_CASOS_EXITO = "CARGA_CASOS_EXITO"
 const OBTENER_CASO_EXITO = "OBTENER_CASO_EXITO"
 const OBTENER_NOMBRE_ASUNTOS = "OBTENER_NOMBRE_ASUNTOS"
 const OBTENER_INSTALACION_SEDE = "OBTENER_INSTALACION_SEDE"
-const OBTENER_MIS_CASOS_ACTIVOS = "OBTENER_MIS_CASOS_ACTIVOS";
+const OBTENER_AREA_A_DERIVAR = "OBTENER_AREA_A_DERIVAR"
+const OBTENER_MIS_CASOS_ACTIVOS = "OBTENER_MIS_CASOS_ACTIVOS"
 const OBTENER_CASOS_RESUELTOS = 'OBTENER_CASOS_RESUELTOS'
 const OBTENER_CASOS_FM = 'OBTNER_CASOS_FM'
 const ADJUNTOS_EXITO = 'ADJUNTOS_EXITO'
@@ -44,6 +46,8 @@ export default function casosReducers(state = dataInicial, action) {
             return { ...state, casosFm: action.payload, loading: false };
         case OBTENER_INSTALACION_SEDE:
             return { ...state, instalacionSede: action.payload, loading: false };
+        case OBTENER_AREA_A_DERIVAR:
+            return { ...state, areaAderivar: action.payload, loading: false };
         case ERROR:
             return { ...dataInicial };
         case LOADING:
@@ -245,6 +249,40 @@ export const consultaFETCHinstalacionSede = () => async (dispatch) => {
     }
 };
 
+//Area a Derivar
+
+export const consultaFETCHareaAderivar = () => async (dispatch) => {
+    dispatch({
+        type: LOADING,
+    });
+
+    var entidad = "new_areas";
+    var fetch = "<fetch mapping='logical' distinct='false'>" +
+    "<entity name='new_area'>" +
+      "<attribute name='new_areaid' />" +
+      "<attribute name='new_name' />" +
+      "<attribute name='createdon' />" +
+      "<order attribute='new_name' descending='false' />" +
+    "</entity>" +
+  "</fetch>";
+
+    try {
+        const response = await axios.get(
+            `${UrlApiDynamics}ConsultaFetch?Entidad=${entidad}&fetch=${fetch}&cuit=${Entidad}`
+        );
+        dispatch({
+            type: OBTENER_AREA_A_DERIVAR,
+            payload: response.data,
+        });
+    } catch (error) {
+        dispatch({
+            type: ERROR,
+        });
+    }
+};
+
+
+///// Obtener Id
 
 export const obtenerCasosId = (id) => (dispatch) => {
     if (id !== undefined) {
