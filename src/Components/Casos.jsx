@@ -349,6 +349,8 @@ const Casos = (props) => {
         instalacionSede,
         equipoDetenido, 
         prioridad,
+        deriva,
+        areaEscalar,
         formData,
         config,
       )
@@ -682,8 +684,8 @@ const Casos = (props) => {
 
 
   const derivaSiNo = [
-    { value: false, label: "No" },
-    { value: true, label: "Sí" },
+    { value: "100000000", label: "No" },
+    { value: "100000001", label: "Sí" },
   ];
 
   return (
