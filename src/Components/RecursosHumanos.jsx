@@ -275,6 +275,7 @@ const RecursosHumanos = (props) => {
     }
 
     if (tipBusqueda === '') {
+      console.log(tipBusqueda)
       setMensaje("El tipo de búsqueda es requerido!")
       setError(true)
       setShow(true)
