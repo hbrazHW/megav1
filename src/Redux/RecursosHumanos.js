@@ -370,6 +370,8 @@ export const consultaFETCHevaluaciones = () => async (dispatch) => {
     "<attribute name='new_puesto' />" +
     "<attribute name='new_sucursal' />" +
     "<attribute name='new_evaluaciondeperiododepruebaid' />" +
+    "<attribute name='new_esreferido' />"+
+    "<attribute name='new_elempleadoparticipodelcursodeinduccion' />"+
     "<order attribute='createdon' descending='false' />" +
     "<order attribute='new_empleado' descending='false' />" +
     "<filter type='and'>" +
