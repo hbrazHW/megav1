@@ -300,7 +300,7 @@ const Casos = (props) => {
     }
 
     if (asuntoSeleccionar === "") {
-      cosole.log(asuntoSeleccionar)
+      console.log(asuntoSeleccionar)
       setMensaje("Asunto es requerido!");
       setError(true);
       setShow(true);
