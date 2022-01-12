@@ -16,7 +16,7 @@ import Uploady, {
   useItemFinalizeListener,
   useBatchAddListener,
 } from "@rpldy/uploady";
-import withPasteUpload from "@rpldy/upload-paste"
+import withPasteUpload from "@rpldy/upload-paste";
 import UploadDropZone from "@rpldy/upload-drop-zone";
 import { getMockSenderEnhancer } from "@rpldy/mock-sender";
 import whithPasteUpload from "@rpldy/upload-paste";
@@ -71,23 +71,47 @@ const Casos = (props) => {
   const asuntosSelector = useSelector((store) => store.casos.asuntos);
   const [selectAsunto, setSelectAsunto] = React.useState([]);
 
-  const [instalaSede, setInstalaSede] = React.useState([])
-  const [llamadaInstaSede, SetLlamdaInstaSede] = React.useState(false)
-  const instalacionSedeSelector = useSelector(store => store.casos.instalacionSede)
+  const [instalaSede, setInstalaSede] = React.useState([]);
+  const [llamadaInstaSede, SetLlamdaInstaSede] = React.useState(false);
+  const instalacionSedeSelector = useSelector(
+    (store) => store.casos.instalacionSede
+  );
   const [selectInstaSede, setSelectInstaSede] = React.useState([]);
 
-  const [areaAescalar, setAreaAescalar] = React.useState([])
-  const [llamadaArea, setLlamadaArea] = React.useState(false)
-  const areaAderivarSelector = useSelector(
-    store => store.casos.areaAderivar
-  )
-  const[selectAreaEscalar, setSelectAreaEscalar] = React.useState([]);
-  
+  const [areaAescalar, setAreaAescalar] = React.useState([]);
+  const [llamadaArea, setLlamadaArea] = React.useState(false);
+  const areaAderivarSelector = useSelector((store) => store.casos.areaAderivar);
+  const [selectAreaEscalar, setSelectAreaEscalar] = React.useState([]);
+
   const [contacto, setContacto] = React.useState([]);
   const [llamadaContactos, setLlamadaContactos] = React.useState(false);
   const contactoSelector = useSelector((store) => store.contactos.contacto);
   const contactid = useSelector((store) => store.usuarios.contactid);
   //----------------------
+  const [fecha, setFecha] = React.useState("");
+  const [clienteSeleccionar, SetClienteSeleccionar] = React.useState("");
+  const [sede, setSede] = React.useState("");
+  //selected es referencia a asunto primario
+  const [selected, setSelected] = React.useState("");
+  const [solicitante, setSolicitante] = React.useState("");
+  const [persona, setPersona] = React.useState("");
+  const [puestoSolicitante, setPuestoSolicitante] = React.useState("");
+  const [instalacionSede, setInstalacionSede] = React.useState("");
+  const [areaEscalar, setAreaEscalar] = React.useState("");
+  const [deriva, setDeriva] = React.useState("");
+  const [serieActivo, setSerieActivo] = React.useState("");
+  const [equipoDetenido, setEquipoDetenido] = React.useState("");
+  const [prioridad, setPrioridad] = React.useState("");
+  const [asuntoSeleccionar, setAsuntoSeleccionar] = React.useState("");
+  const [tipoC, setTipoC] = React.useState("");
+  const [comentarios, setComentarios] = React.useState("");
+  const [selectedFiles, setSelectedFiles] = React.useState([]);
+
+  const [mensaje, setMensaje] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
+  const [show, setShow] = React.useState(false);
+  const [error, setError] = React.useState(false);
+  const resultadoC = useSelector((store) => store.casos.resultadoCaso);
   //datos para el post
   const {
     files,
@@ -114,13 +138,13 @@ const Casos = (props) => {
     }
   `;
   const StyledDropZone = styled(UploadDropZone)`
-  border: 4px dashed rgb(245,130,32);
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 10px;
-`;
+    border: 4px dashed rgb(245, 130, 32);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+  `;
 
   const PasteUploadDropZone = withPasteUpload(StyledDropZone);
 
@@ -128,8 +152,10 @@ const Casos = (props) => {
     const [status, setStatus] = useState(null);
     useItemStartListener(() => setStatus("cargando..."));
     useItemFinalizeListener(() => setStatus(texto));
-    console.log("status:", status)
-    var texto = <p className="fw-bolder text-success">Archivo guardado exitosamente!</p>
+    console.log("status:", status);
+    var texto = (
+      <p className="fw-bolder text-success">Archivo guardado exitosamente!</p>
+    );
     return status;
   };
 
@@ -148,70 +174,31 @@ const Casos = (props) => {
   };
   // Pass the image src attribute here
   copyImageToClipboard("assets/image*")
-    .then(() => {
-    
-    })
-    .catch((e) => {
-     
-    });
+    .then(() => {})
+    .catch((e) => {});
 
   //idintranet
 
   // Can be an URL too, but be careful because this may cause CORS errors
   copyImageToClipboard("../")
-    .then(() => {
-      
-    })
-    .catch((e) => {
-      
-    });
+    .then(() => {})
+    .catch((e) => {});
   getBlobFromImageElement(imageElement)
     .then((blob) => {
       return copyBlobToClipboard(blob);
     })
-    .then(() => {
-      
-    })
-    .catch((e) => {
-     
+    .then(() => {})
+    .catch((e) => {});
+
+    const fade = useSpring({
+      from: {
+        opacity: 0,
+      },
+      to: {
+        opacity: 1,
+        delay: 1500,
+      },
     });
-
-
-
-  const [fecha, setFecha] = React.useState("");
-  const [clienteSeleccionar, SetClienteSeleccionar] = React.useState("");
-  const [sede, setSede] = React.useState("");
-  //selected es referencia a asunto primario
-  const [selected, setSelected] = React.useState("");
-  const [solicitante, setSolicitante] = React.useState("");
-  const [persona, setPersona] = React.useState('')
-  const [puestoSolicitante, setPuestoSolicitante] = React.useState("");
-  const [instalacionSede, setInstalacionSede] = React.useState("");
-  const [areaEscalar,setAreaEscalar] = React.useState("");
-  const [deriva, setDeriva] = React.useState("");
-  const [serieActivo, setSerieActivo] = React.useState("");
-  const [equipoDetenido, setEquipoDetenido] = React.useState("");
-  const [prioridad, setPrioridad] = React.useState("");
-  const [asuntoSeleccionar, setAsuntoSeleccionar] = React.useState("");
-  const [tipoC, setTipoC] = React.useState("");
-  const [comentarios, setComentarios] = React.useState("");
-  const [selectedFiles, setSelectedFiles] = React.useState([]);
-
-  const [mensaje, setMensaje] = React.useState('');
-  const [loading, setLoading] = React.useState(false);
-  const [show, setShow] = React.useState(false);
-  const [error, setError] = React.useState(false);
-  const resultadoC = useSelector(store => store.casos.resultadoCaso);
-
-  const fade = useSpring({
-    from: {
-      opacity: 0,
-    },
-    to: {
-      opacity: 1,
-      delay: 1500,
-    },
-  });
 
   React.useEffect(() => {
     if (contacts.length === 0) {
@@ -229,98 +216,97 @@ const Casos = (props) => {
         setLlamada(true);
       }
     }
-      if (sucursal.length === 0) {
-        if (sucursalSelector.length > 0 && llamadaSucu === true) {
-          setSucursal(sucursalSelector);
-          completarOpcionSede(sucursalSelector);
-        } else if (llamadaSucu === false) {
-          obtenerCuentas();
-          setLlamadaSucu(true);
-        }
+    if (sucursal.length === 0) {
+      if (sucursalSelector.length > 0 && llamadaSucu === true) {
+        setSucursal(sucursalSelector);
+        completarOpcionSede(sucursalSelector);
+      } else if (llamadaSucu === false) {
+        obtenerCuentas();
+        setLlamadaSucu(true);
       }
+    }
 
-      if (asuntos.length === 0) {
-        if (asuntosSelector.length > 0 && llamadaAsuntos === true) {
-          setAsuntos(asuntosSelector);
-          completarOpcionAsunto(asuntosSelector);
-        } else if (llamadaAsuntos === false) {
-          obtenerAsuntos();
-          setLlamadaAsuntos(true);
-        }
+    if (asuntos.length === 0) {
+      if (asuntosSelector.length > 0 && llamadaAsuntos === true) {
+        setAsuntos(asuntosSelector);
+        completarOpcionAsunto(asuntosSelector);
+      } else if (llamadaAsuntos === false) {
+        obtenerAsuntos();
+        setLlamadaAsuntos(true);
       }
+    }
 
-      if (instalaSede.length === 0) {
-        if(instalacionSedeSelector.length > 0 && llamadaInstaSede === true){
-            setInstalaSede(instalacionSedeSelector)
-            completarOpcionInstalacionporSede(instalacionSedeSelector);
-        }else if (llamadaInstaSede === false) {
-            obtenerInstalacionporSede()
-            SetLlamdaInstaSede(true)
-        }
-
+    if (instalaSede.length === 0) {
+      if (instalacionSedeSelector.length > 0 && llamadaInstaSede === true) {
+        setInstalaSede(instalacionSedeSelector);
+        completarOpcionInstalacionporSede(instalacionSedeSelector);
+      } else if (llamadaInstaSede === false) {
+        obtenerInstalacionporSede();
+        SetLlamdaInstaSede(true);
+      }
     }
 
     if (areaAescalar.length === 0) {
       if (areaAderivarSelector.length > 0 && llamadaArea === true) {
-       setAreaAescalar(areaAderivarSelector)
-         completarOpcionAreaAescalar(areaAderivarSelector);
+        setAreaAescalar(areaAderivarSelector);
+        completarOpcionAreaAescalar(areaAderivarSelector);
       } else if (llamadaArea === false) {
-        obtenerNombreArea()
-        setLlamadaArea(true)
+        obtenerNombreArea();
+        setLlamadaArea(true);
       }
     }
 
+    if (Object.keys(contactoSelector).length > 0 && llamadaContactos === true) {
+      setContacto(contactoSelector);
+    } else if (
+      Object.keys(contactoSelector).length === 0 &&
+      llamadaContactos === false
+    ) {
+      obtenerMiContacto();
+      setLlamadaContactos(true);
+    }
 
+    if (contacto.length > 0) {
+      var cliente = contacto.map((item) => item.contactid);
+      SetClienteSeleccionar(cliente[0]);
+    }
 
-      if (
-        Object.keys(contactoSelector).length > 0 &&
-        llamadaContactos === true
-      ) {
-        setContacto(contactoSelector);
-      } else if (
-        Object.keys(contactoSelector).length === 0 &&
-        llamadaContactos === false
-      ) {
-        obtenerMiContacto();
-        setLlamadaContactos(true);
-      }
-
-      if (contacto.length > 0) {
-        var cliente = contacto.map((item) => item.contactid);
-        SetClienteSeleccionar(cliente[0]);
-      }
-    
     if (resultadoC !== undefined) {
       if (resultadoC !== "") {
         cargaExito();
       }
     }
-  }, [contactSelector, sucursalSelector, contactoSelector, resultadoC, instalacionSedeSelector, areaAderivarSelector]);
-
-
+  }, [
+    contactSelector,
+    sucursalSelector,
+    contactoSelector,
+    instalacionSedeSelector,
+    areaAderivarSelector,
+    resultadoC,
+  ]);
 
   const enviarFormulario = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    if (selected === '') {
-      setMensaje("Asunto primario es requerido!")
-      setError(true)
-      setShow(true)
+    if (selected === "") {
+      setMensaje("Asunto primario es requerido!");
+      setError(true);
+      setShow(true);
       setTimeout(() => {
-        setShow(false)
+        setShow(false);
       }, 3000);
-      return
+      return;
     } else {
     }
 
-    if (asuntoSeleccionar === '') {
-      setMensaje("Asunto es requerido!")
-      setError(true)
-      setShow(true)
+    if (asuntoSeleccionar === "") {
+      setMensaje("Asunto es requerido!");
+      setError(true);
+      setShow(true);
       setTimeout(() => {
-        setShow(false)
+        setShow(false);
       }, 3000);
-      return
+      return;
     } else {
     }
 
@@ -347,33 +333,35 @@ const Casos = (props) => {
         comentarios,
         sede,
         instalacionSede,
-        equipoDetenido, 
+        equipoDetenido,
         prioridad,
         deriva,
         areaEscalar,
         formData,
-        config,
+        config
       )
     );
     setLoading(true);
-    setMensaje("Cargando...");
-    setShow(true);
-    limpiarForm();
-  };
+    setMensaje("Cargando...")
+    setShow(true)
+    limpiarForm()
+  }
 
   const cargaExito = () => {
-   // debugger
-    if (resultadoC === "EXITO") {
-      setMensaje("El caso fue creado con éxito!");
-      setError(false);
-      setLoading(false);
+    
+    if (resultadoC === "EXITO") { 
+      debugger;
+      setMensaje("El caso fue creado con éxito!")
+      setError(false)
+      setLoading(false)
       setShow(true);
       setTimeout(() => {
+        obtenerCasos()
         props.history.push("/");
       }, 500);
       setTimeout(() => {
-        setShow(false);
-      }, 1500);
+        setShow(false)
+      }, 1500)
     } else if (resultadoC === "ERROR") {
       setMensaje("Error al crear caso!");
       setError(true);
@@ -386,18 +374,20 @@ const Casos = (props) => {
   };
 
   const limpiarForm = () => {
-    SetClienteSeleccionar("");
-    setSede("");
-    setSelected("");
-    setSolicitante("");
-    setPuestoSolicitante("");
-    setInstalacionSede("");
-    setEquipoDetenido("");
-    setPrioridad("");
-    setAsuntoSeleccionar("");
-    setTipoC("");
-    setComentarios("");
-    setSelectedFiles("");
+    SetClienteSeleccionar("")
+    setSede("")
+    setSelected("")
+    setSolicitante("")
+    setPuestoSolicitante("")
+    setInstalacionSede("")
+    setEquipoDetenido("")
+    setPrioridad("")
+    setDeriva("")
+    setAreaEscalar("")
+    setAsuntoSeleccionar("")
+    setTipoC("")
+    setComentarios("")
+    setSelectedFiles("")
   };
 
   const obtenerCasos = () => {
@@ -422,21 +412,20 @@ const Casos = (props) => {
   };
 
   const obtenerInstalacionporSede = () => {
-    dispatch(consultaFETCHinstalacionSede())
- };
+    dispatch(consultaFETCHinstalacionSede());
+  };
 
- const obtenerNombreArea = () => {
-  dispatch(consultaFETCHareaAderivar())
-};
+  const obtenerNombreArea = () => {
+    dispatch(consultaFETCHareaAderivar());
+  };
 
   const obtenerContactos = () => {
     dispatch(consultaFETCHcontacts());
   };
 
-
   const personaHandle = (valor) => {
-    setPersona(valor.value)
-  }
+    setPersona(valor.value);
+  };
 
   //------handle del select de asuntosPrimarios
 
@@ -611,7 +600,6 @@ const Casos = (props) => {
     setSelectAsunto(asunt);
   };
 
-
   const completarOpcionInstalacionporSede = (instaPorSede) => {
     const instased = [];
     instaPorSede.forEach((item) => {
@@ -630,8 +618,6 @@ const Casos = (props) => {
     setSelectAreaEscalar(areaEscal);
   };
 
-
-
   const asuntoHandle = (valor) => {
     setAsuntoSeleccionar(valor.value);
   };
@@ -648,19 +634,16 @@ const Casos = (props) => {
     setPrioridad(valor.value);
   };
 
- const instaSedeHandle = (valor) => {
-  setInstalacionSede(valor.value);
- };
+  const instaSedeHandle = (valor) => {
+    setInstalacionSede(valor.value);
+  };
   const areaEscalarHandle = (valor) => {
-    setAreaEscalar(valor.value)
-  }
- const derivaHandle = (valor) => {
-   setDeriva(valor.value);
- };
-//  console.log( "prioridad",prioridad)
-
- 
-
+    setAreaEscalar(valor.value);
+  };
+  const derivaHandle = (valor) => {
+    setDeriva(valor.value);
+  };
+  //  console.log( "prioridad",prioridad)
 
   const tipoAsuntoPrimario = [
     { value: "1", label: "SISTEMAS" },
@@ -681,7 +664,6 @@ const Casos = (props) => {
     { value: "2", label: "Reclamo" },
     { value: "3", label: "Pedido" },
   ];
-
 
   const derivaSiNo = [
     { value: "100000000", label: "No" },
@@ -813,21 +795,21 @@ const Casos = (props) => {
                     ></Select>
                   </div>
                   <div className="mb-2 p-2">
-          <label className="form-label fw-bolder lbl-precalificacion required">
-            Area a Escalar
-          </label>
-          <Select
-            onChange={(e) => areaEscalarHandle(e)}
-            options={selectAreaEscalar}
-            className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
-            id="instaSede"
-            name="instaSede"
-            className="basic multi-select"
-            ClassNamePrefix="select"
-            placeholder="Elegir instalación..."
-            required
-          ></Select>
-        </div>
+                    <label className="form-label fw-bolder lbl-precalificacion required">
+                      Area a Escalar
+                    </label>
+                    <Select
+                      onChange={(e) => areaEscalarHandle(e)}
+                      options={selectAreaEscalar}
+                      className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
+                      id="instaSede"
+                      name="instaSede"
+                      className="basic multi-select"
+                      ClassNamePrefix="select"
+                      placeholder="Elegir instalación..."
+                      required
+                    ></Select>
+                  </div>
                 </div>
               </div>
               <div className="row">
@@ -880,7 +862,6 @@ const Casos = (props) => {
               </div>
 
               <div class="card-body">
-
                 <div>
                   <ul>
                     {fileNames.map((name) => (
@@ -930,7 +911,9 @@ const Casos = (props) => {
                     </PreviewContainer>
                   </div>
                   <PasteUploadDropZone params={{ test: "paste" }}>
-                    <p className="fw-bolder text-secondary">Arrastra un archivo aquí</p>
+                    <p className="fw-bolder text-secondary">
+                      Arrastra un archivo aquí
+                    </p>
                   </PasteUploadDropZone>
                 </Uploady>
 
