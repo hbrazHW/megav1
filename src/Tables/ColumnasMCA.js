@@ -24,7 +24,7 @@ export const COLUMNASMCA = [
         Header: 'Fecha de creación',
         footer: 'Fecha de creación',
         accessor: 'createdon',
-        Cell: ({ value }) => { return value ? <p className=" m-0  texto-lista m-0">{Moment(value).format("DD-MM-YYYY")}</p> : '-' }
+        Cell: ({ value }) => { return value ? <p className=" m-0  texto-lista m-0 fw-bolder">{Moment(value).format("DD-MM-YYYY")}</p> : '-' }
     },
 
     // {
@@ -41,27 +41,27 @@ export const COLUMNASMCA = [
         Cell: ({ value }) => {
             switch (value) {
                 case 1:
-                    return <p className=" m-0  texto-lista m-0">En curso</p>    
+                    return <p className=" m-0  texto-lista m-0 fw-bolder">En curso</p>    
                 case 2:
-                    return <p className=" m-0  texto-lista m-0">Retenido</p> 
+                    return <p className=" m-0  texto-lista m-0 fw-bolder">Retenido</p> 
                 case 3:
-                    return <p className=" m-0  texto-lista m-0">Esperando detalles</p> 
+                    return <p className=" m-0  texto-lista m-0 fw-bolder">Esperando detalles</p> 
                 case 4:
-                    return <p className=" m-0  texto-lista m-0">Investigación</p> 
+                    return <p className=" m-0  texto-lista m-0 fw-bolder">Investigación</p> 
                 case 100000001:
-                    return <p className=" m-0  texto-lista m-0">Pendiente</p> 
+                    return <p className=" m-0  texto-lista m-0 fw-bolder">Pendiente</p> 
                 case 100000002:
-                    return <p className=" m-0  texto-lista m-0">Pendiente Autorizacion</p> 
+                    return <p className=" m-0  texto-lista m-0 fw-bolder">Pendiente Autorizacion</p> 
                 case 100000003:
-                    return <p className=" m-0  texto-lista m-0">Autorizado</p> 
+                    return <p className=" m-0  texto-lista m-0 fw-bolder">Autorizado</p> 
                 case 100000004:
-                    return <p className=" m-0  texto-lista m-0">Pendiente de Revisión</p> 
+                    return <p className=" m-0  texto-lista m-0 fw-bolder">Pendiente de Revisión</p> 
                 case 100000005:
-                    return <p className=" m-0  texto-lista m-0">Pendiente del Proveedor</p>         
+                    return <p className=" m-0  texto-lista m-0 fw-bolder">Pendiente del Proveedor</p>         
                 case 100000006:
-                    return <p className=" m-0  texto-lista m-0">En proceso de entrega</p> 
+                    return <p className=" m-0  texto-lista m-0 fw-bolder">En proceso de entrega</p> 
                 case 100000007:
-                    return <p className=" m-0  texto-lista m-0">Enviado para OK</p> 
+                    return <p className=" m-0  texto-lista m-0 fw-bolder">Enviado para OK</p> 
                 default:
                     return '---'
             }

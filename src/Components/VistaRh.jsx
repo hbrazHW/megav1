@@ -48,6 +48,8 @@ const VistaRh = () => {
     const [comentarios60, setComentarios60] = React.useState("")
     const [comentarios80, setComentarios80] = React.useState("")
     const [periodo, setPeriodo] = React.useState("")
+    const [cursoInduccion, setCursoInduccion] = React.useState("")
+    const [esReferido, setEsReferido] = React.useState("")
 
 
     //hooks para matches de id
@@ -180,11 +182,13 @@ const VistaRh = () => {
             setComentarios30(item.new_30dias)
             setComentarios60(item.new_60dias)
             setComentarios80(item.new_80dias)
-            setPeriodo(periodoPrueba(item.new_pasaperiododeprueba))
+            setPeriodo(siOno(item.new_pasaperiododeprueba))
+            setCursoInduccion(siOno(item.new_elempleadoparticipodelcursodeinduccion))
+            setEsReferido(siOno(item.new_esreferido))
         })
     }
 
-    const periodoPrueba = (valor) => {
+    const siOno = (valor) => {
         switch (valor) {
             case true:
                 return "Si"
@@ -425,6 +429,38 @@ const VistaRh = () => {
                                                     ></textarea>
                                                 </div>
 
+                                            </div>
+                                            <div className="col-sm-4 col-md-12">
+                                                <div className="mb-2 p-2">
+                                                    <label className="form-label fw-bolder lbl-precalificacion">
+                                                        Es referido?
+                                                    </label>
+                                                    <input
+                                                        value={esReferido}
+                                                        type="text"
+                                                        id="estadoCaso"
+                                                        name="estadoCaso"
+                                                        className="form-control desabilitado"
+                                                        // value={razonEstadoCaso(razonParaElEstado)}
+                                                        disabled
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="col-sm-4 col-md-12">
+                                                <div className="mb-2 p-2">
+                                                    <label className="form-label fw-bolder lbl-precalificacion">
+                                                        El empleado participo del curso de inducción?
+                                                    </label>
+                                                    <input
+                                                        value={cursoInduccion}
+                                                        type="text"
+                                                        id="estadoCaso"
+                                                        name="estadoCaso"
+                                                        className="form-control desabilitado"
+                                                        // value={razonEstadoCaso(razonParaElEstado)}
+                                                        disabled
+                                                    />
+                                                </div>
                                             </div>
                                             <div className="col-sm-4 col-md-12">
                                                 <div className="mb-2 p-2">

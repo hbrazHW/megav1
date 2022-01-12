@@ -27,7 +27,7 @@ const Asuntos = ({ id }) => {
 
     return (
         <div>
-            <p className="m-0 texto-lista m-0">{asuntos}</p>
+            <p className="m-0 texto-lista m-0 fw-bolder">{asuntos}</p>
         </div>
     )
 }

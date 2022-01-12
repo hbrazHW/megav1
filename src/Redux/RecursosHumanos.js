@@ -41,7 +41,7 @@ const ERROR = "ERROR";
 export default function recursosHumanosReducers(state = dataInicial, action) {
   switch (action.type) {
     case CARGA_DATOS2_EXITO:
-      return { ...state, resultadoCaso2: action.resultadoCaso, ticket2: action.ticket}
+      return { ...state, resultadoCaso2: action.resultadoCaso2, ticket2: action.ticket2}
     case ADJUNTOS_EXITO:
       return { ...state, archivos: action.payload };
     case BUSQUEDAID_EXITO:
@@ -370,6 +370,8 @@ export const consultaFETCHevaluaciones = () => async (dispatch) => {
     "<attribute name='new_puesto' />" +
     "<attribute name='new_sucursal' />" +
     "<attribute name='new_evaluaciondeperiododepruebaid' />" +
+    "<attribute name='new_esreferido' />"+
+    "<attribute name='new_elempleadoparticipodelcursodeinduccion' />"+
     "<order attribute='createdon' descending='false' />" +
     "<order attribute='new_empleado' descending='false' />" +
     "<filter type='and'>" +
