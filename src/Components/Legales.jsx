@@ -4,12 +4,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSpring, animated } from "react-spring";
 import { obtenerLegales, cargarForm } from "../Redux/DocumentosLegales";
 import { useDispatch, useSelector } from "react-redux";
-import { consultaFETCHcuentas, } from "../Redux/RecursosHumanos";
+import { consultaFETCHcuentas } from "../Redux/RecursosHumanos";
 import { consultaFETCHcontacts } from "../Redux/Contact";
 import { obtenerContacto } from "../Redux/Contacto";
-import { Toast, Spinner } from 'react-bootstrap'
-import { faCloudUploadAlt, faFile, faCheckCircle, faTimesCircle, faEnvelope, faClipboardList, faCircle } from '@fortawesome/free-solid-svg-icons'
-import { withRouter, NavLink } from 'react-router-dom'
+import { Toast, Spinner } from "react-bootstrap";
+import {
+  faCloudUploadAlt,
+  faFile,
+  faCheckCircle,
+  faTimesCircle,
+  faEnvelope,
+  faClipboardList,
+  faCircle,
+} from "@fortawesome/free-solid-svg-icons";
+import { withRouter, NavLink } from "react-router-dom";
 import { useDropzone } from "react-dropzone";
 import useFileUpload from "react-use-file-upload";
 import styled from "styled-components";
@@ -17,13 +25,13 @@ import axios from "axios";
 import Uploady, {
   useItemStartListener,
   useItemFinalizeListener,
-  useBatchAddListener
+  useBatchAddListener,
 } from "@rpldy/uploady";
 import { getMockSenderEnhancer } from "@rpldy/mock-sender";
 import whithPasteUpload from "@rpldy/upload-paste";
 import { onPasteUpload } from "@rpldy/upload-paste";
 import UploadPreview from "@rpldy/upload-preview";
-import withPasteUpload from "@rpldy/upload-paste"
+import withPasteUpload from "@rpldy/upload-paste";
 import UploadDropZone from "@rpldy/upload-drop-zone";
 import {
   copyImageToClipboard,
@@ -32,28 +40,29 @@ import {
 } from "copy-image-clipboard";
 import CopyPasteDoc from "./CopyPasteDoc";
 
-
 const Legales = (props) => {
   const dispatch = useDispatch();
 
   //const legales
   const legalesSelector = useSelector((store) => store.legales.legales);
-  const legalesIdSelector = useSelector(store => store.legales.legalesId)
+  const legalesIdSelector = useSelector((store) => store.legales.legalesId);
   const [legales, setLegales] = React.useState([]);
   const [llamadaLegales, setlLlmadaLegales] = React.useState(false);
 
-  const [sucursal, setSucursal] = React.useState([])
-  const [llamadaSucu, setLlamadaSucu] = React.useState(false)
-  const sucursalSelector = useSelector(store => store.recursosHumanos.cuentas)
+  const [sucursal, setSucursal] = React.useState([]);
+  const [llamadaSucu, setLlamadaSucu] = React.useState(false);
+  const sucursalSelector = useSelector(
+    (store) => store.recursosHumanos.cuentas
+  );
   const [selectSucu, setSelectSucu] = React.useState([]);
   const [sucursalSeleccionar, SetSucursalSeleccionar] = React.useState("");
 
-  const [contacts, setContacts] = React.useState([])
-  const [llamada, setLlamada] = React.useState(false)
+  const [contacts, setContacts] = React.useState([]);
+  const [llamada, setLlamada] = React.useState(false);
   const [selectCliente, setSelectCliente] = React.useState([]);
-  const contactSelector = useSelector(store => store.contacts.contacts)
+  const contactSelector = useSelector((store) => store.contacts.contacts);
   const [clienteSeleccionar, SetClienteSeleccionar] = React.useState("");
-  const [Docdescripcion, setDocDescripcion] = React.useState('')
+  const [Docdescripcion, setDocDescripcion] = React.useState("");
 
   const [contacto, setContacto] = React.useState([]);
   const [llamadaContactos, setLlamadaContactos] = React.useState(false);
@@ -61,21 +70,20 @@ const Legales = (props) => {
   const contactid = useSelector((store) => store.usuarios.contactid);
   const [fecha, setFecha] = React.useState("");
 
-
   // autor, fechaRecepcion, descripcionDoc, sede, persona, observaciones
-  const [autor, setAutor] = React.useState('')
-  const [fechaRecepcion, setFechaRecepcion] = React.useState('')
-  const [descripcionDoc, setDescripcionDoc] = React.useState('')
-  const [sede, setSede] = React.useState('')
-  const [persona, setPersona] = React.useState('')
-  const [observaciones, setObservaciones] = React.useState('')
-  const [selectedFiles, setSelectedFiles] = React.useState([])
+  const [autor, setAutor] = React.useState("");
+  const [fechaRecepcion, setFechaRecepcion] = React.useState("");
+  const [descripcionDoc, setDescripcionDoc] = React.useState("");
+  const [sede, setSede] = React.useState("");
+  const [persona, setPersona] = React.useState("");
+  const [observaciones, setObservaciones] = React.useState("");
+  const [selectedFiles, setSelectedFiles] = React.useState([]);
 
-  const [mensaje, setMensaje] = React.useState('')
-  const [loading, setLoading] = React.useState(false)
-  const [show, setShow] = React.useState(false)
-  const [error, setError] = React.useState(false)
-  const resultado = useSelector(store => store.legales.resultadoCaso)
+  const [mensaje, setMensaje] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
+  const [show, setShow] = React.useState(false);
+  const [error, setError] = React.useState(false);
+  const resultado = useSelector((store) => store.legales.resultadoCaso);
 
   //datos para el post
   const {
@@ -103,13 +111,13 @@ const Legales = (props) => {
     }
   `;
   const StyledDropZone = styled(UploadDropZone)`
-  border: 4px dashed rgb(245,130,32);
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 10px;
-`;
+    border: 4px dashed rgb(245, 130, 32);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+  `;
 
   const PasteUploadDropZone = withPasteUpload(StyledDropZone);
 
@@ -117,8 +125,10 @@ const Legales = (props) => {
     const [status, setStatus] = useState(null);
     useItemStartListener(() => setStatus("cargando..."));
     useItemFinalizeListener(() => setStatus(texto));
-    console.log("status:", status)
-    var texto = <p className="fw-bolder text-success">Archivo guardado exitosamente!</p>
+    console.log("status:", status);
+    var texto = (
+      <p className="fw-bolder text-success">Archivo guardado exitosamente!</p>
+    );
     return status;
   };
 
@@ -169,10 +179,6 @@ const Legales = (props) => {
 
   // })
 
-
-
-
-
   const fade = useSpring({
     from: {
       opacity: 0,
@@ -183,20 +189,19 @@ const Legales = (props) => {
     },
   });
 
-
   React.useEffect(() => {
     if (legales.length === 0) {
       if (legalesSelector.length > 0 && llamadaLegales === true) {
         setLegales(legalesSelector);
       } else if (llamadaLegales === false) {
-        obtenerlegal()
+        obtenerlegal();
         setlLlmadaLegales(true);
       }
     }
 
     if (legalesIdSelector !== undefined) {
-      if (legalesIdSelector !== '') {
-        completarLegales(legalesIdSelector)
+      if (legalesIdSelector !== "") {
+        completarLegales(legalesIdSelector);
       }
     }
 
@@ -210,10 +215,7 @@ const Legales = (props) => {
       }
     }
 
-    if (
-      Object.keys(contactoSelector).length > 0 &&
-      llamadaContactos === true
-    ) {
+    if (Object.keys(contactoSelector).length > 0 && llamadaContactos === true) {
       setContacto(contactoSelector);
     } else if (
       Object.keys(contactoSelector).length === 0 &&
@@ -234,51 +236,57 @@ const Legales = (props) => {
     }
 
     if (contacto.length > 0) {
-      var autor = contacto.map(item => item.contactid)
-      setAutor(autor[0])
+      var autor = contacto.map((item) => item.contactid);
+      setAutor(autor[0]);
     }
 
     if (resultado !== undefined) {
-      if (resultado !== '') {
-        cargaExito()
+      if (resultado !== "") {
+        cargaExito();
       }
     }
-
-  }, [legalesIdSelector, legalesSelector, sucursalSelector, contactSelector, contactoSelector, resultado]);
+  }, [
+    legalesIdSelector,
+    legalesSelector,
+    sucursalSelector,
+    contactSelector,
+    contactoSelector,
+    resultado,
+  ]);
 
   const enviarFormulario = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    if (descripcionDoc === '') {
-      setMensaje("La descripcion del documento es requerida!")
-      setError(true)
-      setShow(true)
+    if (descripcionDoc === "") {
+      setMensaje("La descripcion del documento es requerida!");
+      setError(true);
+      setShow(true);
       setTimeout(() => {
-        setShow(false)
+        setShow(false);
       }, 3000);
-      return
+      return;
     } else {
     }
 
-    if (persona === '') {
-      setMensaje("El campo 'Persona que recepciono' es requerido!")
-      setError(true)
-      setShow(true)
+    if (persona === "") {
+      setMensaje("El campo 'Persona que recepciono' es requerido!");
+      setError(true);
+      setShow(true);
       setTimeout(() => {
-        setShow(false)
+        setShow(false);
       }, 3000);
-      return
+      return;
     } else {
     }
 
-    if (sede === '') {
-      setMensaje("La sede es requerida!")
-      setError(true)
-      setShow(true)
+    if (sede === "") {
+      setMensaje("La sede es requerida!");
+      setError(true);
+      setShow(true);
       setTimeout(() => {
-        setShow(false)
+        setShow(false);
       }, 3000);
-      return
+      return;
     } else {
     }
 
@@ -290,74 +298,83 @@ const Legales = (props) => {
     // formData.append('body', selectedFiles);
     const config = {
       headers: {
-        'content-type': 'multipart/form-data',
+        "content-type": "multipart/form-data",
       },
     };
 
-    dispatch(cargarForm(autor, fechaRecepcion, descripcionDoc, sede, persona, observaciones, formData, config))
-    setLoading(true)
-    setMensaje("Cargando...")
-    setShow(true)
-    limpiarForm()
-  }
-
+    dispatch(
+      cargarForm(
+        autor,
+        fechaRecepcion,
+        descripcionDoc,
+        sede,
+        persona,
+        observaciones,
+        formData,
+        config
+      )
+    );
+    setLoading(true);
+    setMensaje("Cargando...");
+    setShow(true);
+    limpiarForm();
+  };
 
   const cargaExito = () => {
     if (resultado === "EXITO") {
-      setMensaje("El documento fue creado con éxito!")
-      setError(false)
-      setLoading(false)
-      setShow(true)
+      debugger;
+      setMensaje("El documento fue creado con éxito!");
+      setError(false);
+      setLoading(false);
+      setShow(true);
       setTimeout(() => {
-        obtenerlegal()
-        props.history.push('/')
+        obtenerlegal();
+        props.history.push("/");
       }, 500);
       setTimeout(() => {
-        setShow(false)
-      }, 1500)
-    }
-    else if (resultado === "ERROR") {
-      setMensaje("Error al crear documento!")
-      setError(true)
-      setLoading(false)
-      setShow(true)
+        setShow(false);
+      }, 1500);
+    } else if (resultado === "ERROR") {
+      setMensaje("Error al crear documento!");
+      setError(true);
+      setLoading(false);
+      setShow(true);
       setTimeout(() => {
-        setShow(false)
+        setShow(false);
       }, 3000);
     }
-  }
+  };
 
   const limpiarForm = () => {
-    setAutor('')
-    setFechaRecepcion('')
-    setDescripcionDoc('')
-    setSede('')
-    setPersona('')
-    setObservaciones('')
-    setSelectedFiles('')
-  }
+    setAutor("");
+    setFechaRecepcion("");
+    setDescripcionDoc("");
+    setSede("");
+    setPersona("");
+    setObservaciones("");
+    setSelectedFiles("");
+  };
 
   const obtenerlegal = () => {
     dispatch(obtenerLegales());
   };
 
   const changeHandler = (event) => {
-    debugger
-    setSelectedFiles(event.target.files)
+    debugger;
+    setSelectedFiles(event.target.files);
   };
 
   const obtenerCuentas = () => {
-    dispatch(consultaFETCHcuentas())
-  }
+    dispatch(consultaFETCHcuentas());
+  };
 
   const obtenerContactos = () => {
-    dispatch(consultaFETCHcontacts())
-  }
-
+    dispatch(consultaFETCHcontacts());
+  };
 
   const obtenerMiContacto = async () => {
     dispatch(obtenerContacto(contactid));
-  }
+  };
 
   const completarOpcionCliente = (cliente) => {
     const client = [];
@@ -368,24 +385,22 @@ const Legales = (props) => {
     setSelectCliente(client);
   };
 
-
   const completarLegales = (id) => {
-    legales.filter(item => item.new_documentoslegalesid == id).map(item => {
-      setAutor(item._new_personaquerecepcion_value)
-
-    })
-  }
+    legales
+      .filter((item) => item.new_documentoslegalesid == id)
+      .map((item) => {
+        setAutor(item._new_personaquerecepcion_value);
+      });
+  };
 
   const completarOpcionSede = (sede) => {
     const sucursal = [];
     sede.forEach((item) => {
       var a = { value: item.accountid, label: item.name };
-      sucursal.push(a)
-
+      sucursal.push(a);
     });
     setSelectSucu(sucursal);
   };
-
 
   const clienteHandle = (valor) => {
     SetClienteSeleccionar(valor.value);
@@ -396,32 +411,29 @@ const Legales = (props) => {
   };
 
   const setDescripcionDocHandle = (valor) => {
-    setDescripcionDoc(valor.value)
-  }
-
+    setDescripcionDoc(valor.value);
+  };
 
   const sedeHandle = (valor) => {
-    setSede(valor.value)
-  }
-
+    setSede(valor.value);
+  };
 
   const personaHandle = (valor) => {
-    setPersona(valor.value)
-  }
-
+    setPersona(valor.value);
+  };
 
   const docDescripcion = [
-    { value: '100000000', label: 'CARTA DOCUMENTO' },
-    { value: '100000001', label: 'TELEGRAMA' },
-    { value: '100000002', label: 'CONTRATO' },
-    { value: '100000003', label: 'DENUNCIA' },
-    { value: '100000004', label: 'ACTA' },
-    { value: '100000005', label: 'NOTA' },
-    { value: '100000006', label: 'OTROS' },
-    { value: '100000007', label: 'CÉDULA' },
-    { value: '100000009', label: 'OFICIO' },
-    { value: '100000010', label: 'DEMANDA' },
-  ]
+    { value: "100000000", label: "CARTA DOCUMENTO" },
+    { value: "100000001", label: "TELEGRAMA" },
+    { value: "100000002", label: "CONTRATO" },
+    { value: "100000003", label: "DENUNCIA" },
+    { value: "100000004", label: "ACTA" },
+    { value: "100000005", label: "NOTA" },
+    { value: "100000006", label: "OTROS" },
+    { value: "100000007", label: "CÉDULA" },
+    { value: "100000009", label: "OFICIO" },
+    { value: "100000010", label: "DEMANDA" },
+  ];
 
   return (
     <animated.div className="container" style={fade}>
@@ -444,7 +456,7 @@ const Legales = (props) => {
                     <input
                       type="text"
                       id="autor"
-                      value={contacto.map(item => item.fullname)}
+                      value={contacto.map((item) => item.fullname)}
                       name="autor"
                       className="form-control requerido"
                       required
@@ -477,7 +489,7 @@ const Legales = (props) => {
                     <Select
                       type="select"
                       id="descripcionDoc"
-                      onChange={e => setDescripcionDocHandle(e)}
+                      onChange={(e) => setDescripcionDocHandle(e)}
                       options={docDescripcion}
                       name="descripcionDoc"
                       className="basic multi-select requerido"
@@ -550,7 +562,7 @@ const Legales = (props) => {
                       id="observaciones"
                       name="observaciones"
                       rows="3"
-                      onChange={e => setObservaciones(e.target.value)}
+                      onChange={(e) => setObservaciones(e.target.value)}
                       value={observaciones}
                       placeholder="comentanos un poco más..."
                       required
@@ -585,8 +597,7 @@ const Legales = (props) => {
             </div>
 
             <div class="card text-center">
-
-            <div class="card-header col-sm-12">
+              <div class="card-header col-sm-12">
                 <h5 className="fw-bolder">Adjuntar Archivo</h5>
               </div>
 
@@ -627,8 +638,12 @@ const Legales = (props) => {
                 </div>
 
                 {/* Provide a drop zone and an alternative button inside it to upload files. */}
-                <Uploady debug enhancer={mockSenderEnhancer}  >
-                  <CopyPasteDoc autoUpload={false} params={{ test: "paste" }} tipo="documentolegal" />
+                <Uploady debug enhancer={mockSenderEnhancer}>
+                  <CopyPasteDoc
+                    autoUpload={false}
+                    params={{ test: "paste" }}
+                    tipo="documentolegal"
+                  />
                   <div className="col-sm-12">
                     <UploadStatus />
                     <PreviewContainer>
@@ -636,45 +651,55 @@ const Legales = (props) => {
                     </PreviewContainer>
                   </div>
                   <PasteUploadDropZone params={{ test: "paste" }}>
-                    <p className="fw-bolder text-secondary">Arrastra un archivo aquí</p>
+                    <p className="fw-bolder text-secondary">
+                      Arrastra un archivo aquí
+                    </p>
                   </PasteUploadDropZone>
                 </Uploady>
 
                 <br />
               </div>
               <div className="d-grid gap-5 d-md-flex justify-content-md-end">
-                <button
-                  type="submit"
-                  className="btn btn-outline-dark me-md-5"
-                >
+                <button type="submit" className="btn btn-outline-dark me-md-5">
                   Enviar
                 </button>
                 <br />
               </div>
               <br />
             </div>
-
-
           </form>
           <div className="row">
             <div className="col-4 position-fixed bottom-0 end-0 p-5 noti">
               <Toast className="half-black" show={show} autohide color="lime">
                 <Toast.Body className="text-white">
                   <div className="row p-2">
-                    {
-                      loading ?
-                        <Spinner animation="border" role="status" variant="primary">
-                          <span className="visually-hidden">Loading...</span>
-                        </Spinner>
-                        :
-                        <div className="col-1 mx-2">
-                          {error ? <FontAwesomeIcon icon={faTimesCircle} className="fs-3 upload-file atras" color="#dc3545" /> : <FontAwesomeIcon icon={faCheckCircle} className="fs-3 upload-file atras" color="#198754" />}
-                        </div>
-                    }
+                    {loading ? (
+                      <Spinner
+                        animation="border"
+                        role="status"
+                        variant="primary"
+                      >
+                        <span className="visually-hidden">Loading...</span>
+                      </Spinner>
+                    ) : (
+                      <div className="col-1 mx-2">
+                        {error ? (
+                          <FontAwesomeIcon
+                            icon={faTimesCircle}
+                            className="fs-3 upload-file atras"
+                            color="#dc3545"
+                          />
+                        ) : (
+                          <FontAwesomeIcon
+                            icon={faCheckCircle}
+                            className="fs-3 upload-file atras"
+                            color="#198754"
+                          />
+                        )}
+                      </div>
+                    )}
 
-                    <div className="col-10 mt-1 ml-5">
-                      {mensaje}
-                    </div>
+                    <div className="col-10 mt-1 ml-5">{mensaje}</div>
                   </div>
                 </Toast.Body>
               </Toast>
@@ -683,7 +708,6 @@ const Legales = (props) => {
         </div>
       </div>
     </animated.div>
-
   );
 };
 
