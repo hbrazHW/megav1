@@ -41,7 +41,7 @@ const ERROR = "ERROR";
 export default function recursosHumanosReducers(state = dataInicial, action) {
   switch (action.type) {
     case CARGA_DATOS2_EXITO:
-      return { ...state, resultadoCaso2: action.resultadoCaso, ticket2: action.ticket}
+      return { ...state, resultadoCaso2: action.resultadoCaso2, ticket2: action.ticket2}
     case ADJUNTOS_EXITO:
       return { ...state, archivos: action.payload };
     case BUSQUEDAID_EXITO:
