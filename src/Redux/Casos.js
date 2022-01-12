@@ -293,13 +293,13 @@ export const obtenerCasosId = (id) => (dispatch) => {
     }
 }
 
-export const cargarForm = (contactid, asunto, asuntoPrimario, solicitante, puestoSolicitante, tipoCaso, comentarios, sucursal,instalacionPorSede,equipoDetenido,prioridad, file, config) => async (dispatch) => {
+export const cargarForm = (contactid, asunto, asuntoPrimario, solicitante, puestoSolicitante, tipoCaso, comentarios, sucursal,instalacionPorSede,equipoDetenido,prioridad,derivar,areaEscalar, file, config) => async (dispatch) => {
     dispatch({
         type: LOADING,
         resultadoCaso: 'LOADING'
     })
     try {
-        const response = await axios.post(`${UrlApiDynamics}Casos?contactid=${contactid}&asunto=${asunto}&asuntoPrimario=${asuntoPrimario}&solicitante=${solicitante}&puestoSolicitante=${puestoSolicitante}&tipoCaso=${tipoCaso}&comentarios=${comentarios}&sucursal=${sucursal}&instalacionPorSede=${instalacionPorSede}&equipoDetenido=${equipoDetenido}&prioridad=${prioridad}&cuit=${Entidad}`, file, config)
+        const response = await axios.post(`${UrlApiDynamics}Casos?contactid=${contactid}&asunto=${asunto}&asuntoPrimario=${asuntoPrimario}&solicitante=${solicitante}&puestoSolicitante=${puestoSolicitante}&tipoCaso=${tipoCaso}&comentarios=${comentarios}&sucursal=${sucursal}&instalacionPorSede=${instalacionPorSede}&equipoDetenido=${equipoDetenido}&prioridad=${prioridad}&derivar=${derivar}&areaEscalar=${areaEscalar}&cuit=${Entidad}`, file, config)
         console.log("response", response)
         dispatch({
             type: CARGA_CASOS_EXITO,

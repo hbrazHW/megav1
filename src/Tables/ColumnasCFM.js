@@ -93,13 +93,13 @@ export const COLUMNASCFM = [
         }
     },
        
-    {
-        accessor: 'incidentid',
-        Cell: ({ value }) => {
-            return (
-                <SeleccionarCFM value={value} />
-            )
-        }
-    },
+    // {
+    //     accessor: 'incidentid',
+    //     Cell: ({ value }) => {
+    //         return (
+    //             <SeleccionarCFM value={value} />
+    //         )
+    //     }
+    // },
 
 ]

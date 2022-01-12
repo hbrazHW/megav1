@@ -200,15 +200,15 @@ const VistaCasos = () => {
 
         }
 
-        if (areaAderivar.length === 0) {
-            if(areaAderivarSelector.length > 0 && llamadaAreaAderivar === true){
-                setAreaAderivar(areaAderivarSelector)
-            }else if (llamadaAreaAderivar === false) {
-                obtenerAreaAderivar()
-                setLlamadaAreaAderivar(true)
-            }
+        // if (areaAderivar.length === 0) {
+        //     if(areaAderivarSelector.length > 0 && llamadaAreaAderivar === true){
+        //         setAreaAderivar(areaAderivarSelector)
+        //     }else if (llamadaAreaAderivar === false) {
+        //         obtenerAreaAderivar()
+        //         setLlamadaAreaAderivar(true)
+        //     }
 
-        }
+        // }
      
 
 
