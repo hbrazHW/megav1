@@ -365,7 +365,7 @@ const RecursosHumanos = (props) => {
         "content-type": "multipart/form-data",
       },
     };
-    
+    debugger
     dispatch(cargarForm(puestoSeleccionar, mBusqueda, descripcion, sucursalSeleccionar, areaSeleccionar, reporta, jornada, observaciones, tipBusqueda, autorizadoSeleccionar, formData, config))
     setLoading(true)
     setMensaje("Cargando...")
