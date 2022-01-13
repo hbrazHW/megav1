@@ -8,7 +8,7 @@ import { consultaFETCHcorreoEletronico } from '../Redux/CorreoEletronico';
 import Tabla from '../Components/Tabla';
 import { COLUMNASMCA } from '../Tables/ColumnasMCA';
 import { COLUMNASCR } from '../Tables/ColumnasCR';
-import {COLUMNASCFM} from '../Tables/ColumnasCFM';
+import { COLUMNASCFM } from '../Tables/ColumnasCFM';
 import MultiStepProgressBar from './MultiStepProgressBar'
 import Moment from 'moment'
 import { consultaFETCHcontacts } from '../Redux/Contact';
@@ -60,15 +60,15 @@ const VistaCasos = () => {
     const asuntosSelector = useSelector(store => store.casos.asuntos)
 
     //Hooks para obtener nombres de las instlaciones por sucursal
-   const [instalaSede, setInstalaSede] = React.useState([])
-   const [llamadaInstaSede, setLlamdaInstaSede] = React.useState(false)
-   const instalacionSedeSelector = useSelector(store => store.casos.instalacionSede)
+    const [instalaSede, setInstalaSede] = React.useState([])
+    const [llamadaInstaSede, setLlamdaInstaSede] = React.useState(false)
+    const instalacionSedeSelector = useSelector(store => store.casos.instalacionSede)
 
-   //Hooks para obtener mnombres de area a derivar
-   const [areaAderivar, setAreaAderivar] = React.useState([])
-   const [llamadaAreaAderivar, setLlamadaAreaAderivar] =React.useState(false)
-   const areaAderivarSelector = useSelector(store => store.casos.areaAderivar)
-    
+    //Hooks para obtener mnombres de area a derivar
+    const [areaAderivar, setAreaAderivar] = React.useState([])
+    const [llamadaAreaAderivar, setLlamadaAreaAderivar] = React.useState(false)
+    const areaAderivarSelector = useSelector(store => store.casos.areaAderivar)
+
 
     //hooks modal caso resuelto
     const [asuntoCasoResuelto, setAsuntoCasoResuelto] = React.useState([]);
@@ -77,7 +77,7 @@ const VistaCasos = () => {
     const [comentarioCasoResuelto, setComentarioCasoResuelto] = React.useState([]);
     const [asuntoPrimario, setAsuntoPrimario] = React.useState("")
     const [cliente, setCliente] = React.useState([])
-    const [email,setEmail] = React.useState([])
+    const [email, setEmail] = React.useState([])
 
     //hooks modal mis casos activos
     const [numCaso, setNumCaso] = React.useState([]);
@@ -164,13 +164,13 @@ const VistaCasos = () => {
             }
         }
 
-        if(correoEletronico.lenght === 0) {
-            if(correoEletronicoSelector.lenght > 0 && llamadaCorreoEletronico === true) {
-                setCorreoEletronico(correoEletronicoSelector); 
-            }else if (llamadaCorreoEletronico === false){
+        if (correoEletronico.lenght === 0) {
+            if (correoEletronicoSelector.lenght > 0 && llamadaCorreoEletronico === true) {
+                setCorreoEletronico(correoEletronicoSelector);
+            } else if (llamadaCorreoEletronico === false) {
                 ObtenerCorreoEletronico();
                 setLlamadaCorreoEletronico(true);
-            }    
+            }
         }
 
         if (casoIdSelector !== undefined) {
@@ -191,9 +191,9 @@ const VistaCasos = () => {
         }
 
         if (instalaSede.length === 0) {
-            if(instalacionSedeSelector.length > 0 && llamadaInstaSede === true){
+            if (instalacionSedeSelector.length > 0 && llamadaInstaSede === true) {
                 setInstalaSede(instalacionSedeSelector)
-            }else if (llamadaInstaSede === false) {
+            } else if (llamadaInstaSede === false) {
                 obtenerInstalacionporSede()
                 setLlamdaInstaSede(true)
             }
@@ -209,13 +209,13 @@ const VistaCasos = () => {
         //     }
 
         // }
-     
 
 
-        if(contacts.length === 0){
-            if(contactSelector.length > 0 && llamadaContacts === true){
+
+        if (contacts.length === 0) {
+            if (contactSelector.length > 0 && llamadaContacts === true) {
                 setContacts(contactSelector)
-            }else if(llamadaContacts === false){
+            } else if (llamadaContacts === false) {
                 obtenerContacts()
                 setLlamadaContacts(true)
             }
@@ -223,7 +223,7 @@ const VistaCasos = () => {
 
     }, [misCasosActivosSelector, casosResueltosSelector, casoIdSelector, asuntosSelector, contactSelector, casosFmSelector, instalacionSedeSelector, correoEletronicoSelector, areaAderivarSelector])
 
-    console.log("hook:", )
+    console.log("hook:",)
 
 
     const obtenerContacts = () => {
@@ -272,7 +272,7 @@ const VistaCasos = () => {
         })
         return nombreAsunto
     }
-   
+
 
     const obtenerNombreInstaSede = (instalacion) => {
         let nombreInstaSede = ''
@@ -292,7 +292,7 @@ const VistaCasos = () => {
 
 
 
-    
+
     const completarCaso = (id) => {
         misCasosActivos.filter(item => item.incidentid == id).map(item => {
             setNumCaso(item.ticketnumber)
@@ -319,11 +319,11 @@ const VistaCasos = () => {
     const completarCasoFm = (id) => {
         casosFm.filter(item => item.incidentid == id).map(item => {
             SetInstalacionSede(item._new_instalacionporsede_value)
-            setEquipoDetenido (detenido(item.new_equipodetenido)) 
+            setEquipoDetenido(detenido(item.new_equipodetenido))
             setPrioridad(prioridadFm(item.prioritycode))
             setEsperaRepuesto(repuesto(item.new_alaesperaderepuestos))
             setAreaAderivar(item._new_areaaescalar_value)
-            
+
         })
     }
 
@@ -348,8 +348,8 @@ const VistaCasos = () => {
                 return '---'
         }
     }
-   
-  
+
+
     const prioridadFm = (value) => {
         switch (value) {
             case 0:
@@ -359,13 +359,13 @@ const VistaCasos = () => {
             case 2:
                 return 'Alta'
             case 3:
-                return 'Urgente'         
+                return 'Urgente'
         }
 
     }
 
 
-    
+
     const descripcionRazonEstado = (value) => {
         switch (value) {
             case 5:
@@ -596,89 +596,94 @@ const VistaCasos = () => {
                                 </div>
                             </div>
 
-
-                            <div className="row w-auto d-flex justify-content-center">
-                                <div className="col-sm-8">
-                                    <h6 className="fw-bolder">Detalles del caso resuelto</h6>
-                                    <div className="row">
-                                        <div className="col-sm-4 col-md-12">
+                            <div className="col-sm-12">
+                                <h6 className="fw-bolder">Detalles del caso resuelto</h6>
+                                <div className="row">
+                                    <div className="col-sm-4">
                                         <div className="mb-2 p-2">
-                                                <label className="form-label fw-bolder lbl-precalificacion">
-                                                    Cliente
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    id="razonEstado"
-                                                    name="razonEstado"
-                                                    value={cliente}
-                                                    className="form-control desabilitado"
-                                                    disabled
-                                                />
-                                            </div>
-                                            <div className="mb-2 p-2">
-                                                <label className="form-label fw-bolder lbl-precalificacion">
-                                                    Asunto Primario
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    id="razonEstado"
-                                                    name="razonEstado"
-                                                    value={asuntoPrimarioNombre(asuntoPrimario)}
-                                                    className="form-control desabilitado"
-                                                    disabled
-                                                />
-                                            </div>
-                                            <div className="mb-2 p-2">
-                                                <label className="form-label fw-bolder lbl-precalificacion required">
-                                                    Asunto
-                                                </label>
-                                                <input
-                                                    type="asunto"
-                                                    id="asunto"
-                                                    value={obtenerNombreAsunto(asuntoCasoResuelto)}
-                                                    name="asuntocaso"
-                                                    className="form-control requerido"
-                                                    required
-                                                />
-                                            </div>
+                                            <label className="form-label fw-bolder lbl-precalificacion">
+                                                Número de caso
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="estadoCaso"
+                                                name="estadoCaso"
+                                                value={numCasoResuelto}
+                                                className="form-control desabilitado"
+                                                disabled
+                                            />
                                         </div>
-                                        <div className="col-sm-4 col-md-12">
-                                            <div className="mb-2 p-2">
-                                                <label className="form-label fw-bolder lbl-precalificacion">
-                                                    Razón para el estado
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    id="razonEstado"
-                                                    name="razonEstado"
-                                                    value={razonEstado}
-                                                    className="form-control desabilitado"
-                                                    disabled
-                                                />
-                                            </div>
+                                    </div>
+                                    <div className="col-sm-4">
+                                        <div className="mb-2 p-2">
+                                            <label className="form-label fw-bolder lbl-precalificacion">
+                                                Cliente
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="razonEstado"
+                                                name="razonEstado"
+                                                value={cliente}
+                                                className="form-control desabilitado"
+                                                disabled
+                                            />
                                         </div>
-                                        <div className="col-sm-4 col-md-12">
-                                            <div className="mb-2 p-2">
-                                                <label className="form-label fw-bolder lbl-precalificacion">
-                                                    Número de caso
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    id="estadoCaso"
-                                                    name="estadoCaso"
-                                                    value={numCasoResuelto}
-                                                    className="form-control desabilitado"
-                                                    disabled
-                                                />
-                                            </div>
+                                    </div>
+                                    <div className="col-sm-4">
+                                        <div className="mb-2 p-2">
+                                            <label className="form-label fw-bolder lbl-precalificacion">
+                                                Razón para el estado
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="razonEstado"
+                                                name="razonEstado"
+                                                value={razonEstado}
+                                                className="form-control desabilitado"
+                                                disabled
+                                            />
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div className="row">
+                                    <div className="col-sm-6">
+                                        <div className="mb-2 p-2">
+                                            <label className="form-label fw-bolder lbl-precalificacion">
+                                                Asunto Primario
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="razonEstado"
+                                                name="razonEstado"
+                                                value={asuntoPrimarioNombre(asuntoPrimario)}
+                                                className="form-control desabilitado"
+                                                disabled
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="col-sm-6">
+                                        <div className="mb-2 p-2">
+                                            <label className="form-label fw-bolder lbl-precalificacion required">
+                                                Asunto
+                                            </label>
+                                            <input
+                                                type="asunto"
+                                                id="asunto"
+                                                value={obtenerNombreAsunto(asuntoCasoResuelto)}
+                                                name="asuntocaso"
+                                                className="form-control requerido"
+                                                required
+                                            />
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-sm-4">
-
-                                    <h6 className="fw-bolder">Comentarios:</h6>
-                                    <div className="row">
-                                        <div className="col-12">
+                                <div className="row">
+                                    <div className="col-sm-12">
+                                        <div className="mb-2 p-2">
+                                            <h6 className="fw-bolder">Comentarios:</h6>
                                             <div class="form-group">
                                                 <textarea
                                                     className="form-control mt-2"
@@ -687,27 +692,11 @@ const VistaCasos = () => {
                                                     rows="2"
                                                     disabled
                                                 ></textarea>
-                                                 {/* <ul className="list-group">
-                     
-                          <li className="list-group-item d-flex align-items-center">
-                            <p className="fw-bolder">
-                              <FontAwesomeIcon
-                                icon={faEnvelope}
-                                className="fs-6 upload-file atras mx-1"
-                                color="#000"/>
-                            </p>
-                          </li>
-                    </ul> */}
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
-                                
-                   
-                 
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -753,97 +742,111 @@ const VistaCasos = () => {
                                 <div className="col-12">
                                     <h6 className="fw-bolder">Detalles del caso activo</h6>
                                     <div className="row">
-                                        <div className="col-sm-4 col-md-12">
-                                            <div className="mb-2 p-2">
-                                                <label className="form-label fw-bolder lbl-precalificacion required">
-                                                    Numero de Caso
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    id="numberticket"
-                                                    name="numberticket"
-                                                    value={numCaso}
-                                                    className="form-control desabilitado"
-                                                    required
-                                                    disabled
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="col-sm-4 col-md-12">
-                                            <div className="mb-2 p-2">
-                                                <label className="form-label fw-bolder lbl-precalificacion required">
-                                                    Asunto Primario
-                                                </label>
-                                                <input
-                                                    type="asunto"
-                                                    id="asunto"
-                                                    value={asuntoPrim}
-                                                    name="asuntocaso"
-                                                    className="form-control desabilitado"
-                                                    required
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="col-sm-4 col-md-12">
-                                            <div className="mb-2 p-2">
-                                                <label className="form-label fw-bolder lbl-precalificacion required">
-                                                    Asunto
-                                                </label>
-                                                <input
-                                                    type="asunto"
-                                                    id="asunto"
-                                                    value={obtenerNombreAsunto(asuntoCaso)}
-                                                    name="asuntocaso"
-                                                    className="form-control desabilitado"
-                                                    required
-                                                />
-                                            </div>
-                                        </div>
+                                        <div className="col-sm-12">
+                                            <div className="row">
+                                                <div className="col-sm-4">
+                                                    <div className="mb-2 p-2">
+                                                        <label className="form-label fw-bolder lbl-precalificacion required">
+                                                            Numero de Caso
+                                                        </label>
+                                                        <input
+                                                            type="text"
+                                                            id="numberticket"
+                                                            name="numberticket"
+                                                            value={numCaso}
+                                                            className="form-control desabilitado "
+                                                            required
+                                                            disabled
+                                                        />
+                                                    </div>
+                                                </div>
 
-                                        <div className="col-sm-4 col-md-12">
-                                            <div className="mb-2 p-2">
-                                                <label className="form-label fw-bolder lbl-precalificacion">
-                                                    Fecha de Alta
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    id="fechaAlta"
-                                                    name="fechaAlta"
-                                                    value={Moment(fechaAltaCaso).format("DD-MM-YYYY")}
-                                                    className="form-control desabilitado"
-                                                    disabled
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="col-sm-4 col-md-12">
-                                            <div className="mb-2 p-2">
-                                                <label className="form-label fw-bolder lbl-precalificacion">
-                                                    Estado del Caso
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    id="estadoCaso"
-                                                    name="estadoCaso"
-                                                    className="form-control desabilitado"
-                                                    value={razonEstadoCaso(razonParaElEstado)}
-                                                    disabled
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="col-sm-4 col-md-12">
-                                            <div className="mb-2 p-2">
-                                                <label className="form-label fw-bolder lbl-precalificacion">
-                                                    Comentarios
-                                                </label>
-                                                <textarea
-                                                    className="form-control mt-2"
-                                                    id="exampleFormControlTextarea1"
-                                                    value={comentarioCasoActivo}
-                                                    rows="2"
-                                                    disabled
-                                                ></textarea>
-                                            </div>
+                                                <div className="col-sm-4">
+                                                    <div className="mb-2 p-2">
+                                                        <label className="form-label fw-bolder lbl-precalificacion">
+                                                            Fecha de Alta
+                                                        </label>
+                                                        <input
+                                                            type="text"
+                                                            id="fechaAlta"
+                                                            name="fechaAlta"
+                                                            value={Moment(fechaAltaCaso).format("DD-MM-YYYY")}
+                                                            className="form-control desabilitado"
+                                                            disabled
+                                                        />
+                                                    </div>
+                                                </div>
 
+                                                <div className="col-sm-4">
+                                                    <div className="mb-2 p-2">
+                                                        <label className="form-label fw-bolder lbl-precalificacion">
+                                                            Estado del Caso
+                                                        </label>
+                                                        <input
+                                                            type="text"
+                                                            id="estadoCaso"
+                                                            name="estadoCaso"
+                                                            className="form-control desabilitado"
+                                                            value={razonEstadoCaso(razonParaElEstado)}
+                                                            disabled
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-sm-12">
+                                            <div className="row">
+                                                <div className="col-sm-6">
+                                                    <div className="mb-2 p-2">
+                                                        <label className="form-label fw-bolder lbl-precalificacion required">
+                                                            Asunto Primario
+                                                        </label>
+                                                        <input
+                                                            type="asunto"
+                                                            id="asunto"
+                                                            value={asuntoPrim}
+                                                            name="asuntocaso"
+                                                            className="form-control desabilitado"
+                                                            required
+                                                        />
+                                                    </div>
+                                                </div>
+
+                                                <div className="col-sm-6">
+                                                    <div className="mb-2 p-2">
+                                                        <label className="form-label fw-bolder lbl-precalificacion required">
+                                                            Asunto
+                                                        </label>
+                                                        <input
+                                                            type="asunto"
+                                                            id="asunto"
+                                                            value={obtenerNombreAsunto(asuntoCaso)}
+                                                            name="asuntocaso"
+                                                            className="form-control desabilitado"
+                                                            required
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-sm-12">
+                                            <div className="row">
+                                                <div className="col-sm-12">
+                                                    <div className="mb-2 p-2">
+                                                        <label className="form-label fw-bolder lbl-precalificacion">
+                                                            Comentarios
+                                                        </label>
+                                                        <textarea
+                                                            className="form-control mt-2"
+                                                            id="exampleFormControlTextarea1"
+                                                            value={comentarioCasoActivo}
+                                                            rows="2"
+                                                            disabled
+                                                        ></textarea>
+                                                    </div>
+
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

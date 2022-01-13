@@ -362,9 +362,10 @@ const RecursosHumanos = (props) => {
     // formData.append('body', selectedFiles);
     const config = {
       headers: {
-        'content-type': 'multipart/form-data',
+        "content-type": "multipart/form-data",
       },
     };
+    debugger
     dispatch(cargarForm(puestoSeleccionar, mBusqueda, descripcion, sucursalSeleccionar, areaSeleccionar, reporta, jornada, observaciones, tipBusqueda, autorizadoSeleccionar, formData, config))
     setLoading(true)
     setMensaje("Cargando...")

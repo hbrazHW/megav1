@@ -116,10 +116,10 @@ const VistaRh = () => {
             }
         }
 
-        if(puestoNombre.length === 0){
-            if(puestoNombreSelector.length > 0 && llamadaPuestoNombre === true){
+        if (puestoNombre.length === 0) {
+            if (puestoNombreSelector.length > 0 && llamadaPuestoNombre === true) {
                 setPuestoNombre(puestoNombreSelector)
-            }else if(llamadaPuestoNombre === false){
+            } else if (llamadaPuestoNombre === false) {
                 obtenerPuestos()
                 setLlamadaPuestoNombre(true)
             }
@@ -295,195 +295,191 @@ const VistaRh = () => {
                                         ></button>
                                     </div>
                                 </div>
-
-                                <div className="row w-auto d-flex justify-content-center">
-                                    <div className="col-12">
-                                        <h6 className="fw-bolder">Detalles de la evaluación</h6>
-                                        <div className="row">
-                                            <div className="col-sm-4 col-md-12">
-                                                <div className="mb-2 p-2">
-                                                    <label className="form-label fw-bolder lbl-precalificacion">
-                                                        Empleado
-                                                    </label>
-                                                    <input
-                                                        value={empleado}
-                                                        type="text"
-                                                        id="numberticket"
-                                                        name="numberticket"
-                                                        // value={numCaso}
-                                                        className="form-control desabilitado"
-                                                        required
-                                                        disabled
-                                                    />
-                                                </div>
+                                <div className="col-sm-12">
+                                    <div className="row">
+                                        <div className="col-sm-6">
+                                            <div className="mb-2 p-2">
+                                                <label className="form-label fw-bolder lbl-precalificacion">
+                                                    Empleado
+                                                </label>
+                                                <input
+                                                    value={empleado}
+                                                    type="text"
+                                                    id="numberticket"
+                                                    name="numberticket"
+                                                    // value={numCaso}
+                                                    className="form-control desabilitado"
+                                                    required
+                                                    disabled
+                                                />
                                             </div>
-                                            <div className="col-sm-4 col-md-12">
-                                                <div className="mb-2 p-2">
-                                                    <label className="form-label fw-bolder lbl-precalificacion">
-                                                        Puesto
-                                                    </label>
-                                                    <input
-                                                        value={puesto}
-                                                        type="asunto"
-                                                        id="asunto"
-                                                        // value={obtenerNombreAsunto(asuntoCaso)}
-                                                        name="asuntocaso"
-                                                        className="form-control desabilitado"
-                                                        required
-                                                    />
-                                                </div>
+                                        </div>
+                                        <div className="col-sm-6">
+                                            <div className="mb-2 p-2">
+                                                <label className="form-label fw-bolder lbl-precalificacion">
+                                                    Puesto
+                                                </label>
+                                                <input
+                                                    value={puesto}
+                                                    type="asunto"
+                                                    id="asunto"
+                                                    // value={obtenerNombreAsunto(asuntoCaso)}
+                                                    name="asuntocaso"
+                                                    className="form-control desabilitado"
+                                                    required
+                                                />
                                             </div>
-
-                                            <div className="col-sm-4 col-md-12">
-                                                <div className="mb-2 p-2">
-                                                    <label className="form-label fw-bolder lbl-precalificacion">
-                                                        Sucursal
-                                                    </label>
-                                                    <input
-                                                        value={sucursal}
-                                                        type="text"
-                                                        id="fechaAlta"
-                                                        name="fechaAlta"
-                                                        // value={Moment(fechaAltaCaso).format("DD-MM-YYYY")}
-                                                        className="form-control desabilitado"
-                                                        disabled
-                                                    />
-                                                </div>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-sm-6">
+                                            <div className="mb-2 p-2">
+                                                <label className="form-label fw-bolder lbl-precalificacion">
+                                                    Nombre de la evaluación
+                                                </label>
+                                                <input
+                                                    value={nombre}
+                                                    className="form-control"
+                                                    disabled
+                                                />
                                             </div>
-                                            <div className="col-sm-4 col-md-12">
-                                                <div className="mb-2 p-2">
-                                                    <label className="form-label fw-bolder lbl-precalificacion">
-                                                        Evaluador
-                                                    </label>
-                                                    <input
-                                                        value={evaluador}
-                                                        type="text"
-                                                        id="estadoCaso"
-                                                        name="estadoCaso"
-                                                        className="form-control desabilitado"
-                                                        // value={razonEstadoCaso(razonParaElEstado)}
-                                                        disabled
-                                                    />
-                                                </div>
+                                        </div>
+                                        <div className="col-sm-6">
+                                            <div className="mb-2 p-2">
+                                                <label className="form-label fw-bolder lbl-precalificacion">
+                                                    Evaluador
+                                                </label>
+                                                <input
+                                                    value={evaluador}
+                                                    type="text"
+                                                    id="estadoCaso"
+                                                    name="estadoCaso"
+                                                    className="form-control desabilitado"
+                                                    // value={razonEstadoCaso(razonParaElEstado)}
+                                                    disabled
+                                                />
                                             </div>
-                                            <div className="col-sm-4 col-md-12">
-                                                <div className="mb-2 p-2">
-                                                    <label className="form-label fw-bolder lbl-precalificacion">
-                                                        Nombre
-                                                    </label>
-                                                    <textarea
-                                                        value={nombre}
-                                                        className="form-control mt-2"
-                                                        id="exampleFormControlTextarea1"
-                                                        // value={comentarioCasoActivo}
-                                                        rows="2"
-                                                        disabled
-                                                    ></textarea>
-                                                </div>
-
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-sm-12">
+                                            <div className="mb-2 p-2">
+                                                <label className="form-label fw-bolder lbl-precalificacion">
+                                                    Sucursal
+                                                </label>
+                                                <input
+                                                    value={sucursal}
+                                                    type="text"
+                                                    id="fechaAlta"
+                                                    name="fechaAlta"
+                                                    // value={Moment(fechaAltaCaso).format("DD-MM-YYYY")}
+                                                    className="form-control desabilitado"
+                                                    disabled
+                                                />
                                             </div>
-                                            <div className="col-sm-4 col-md-12">
-                                                <div className="mb-2 p-2">
-                                                    <label className="form-label fw-bolder lbl-precalificacion">
-                                                        Comentarios 30 dias
-                                                    </label>
-                                                    <textarea
-                                                        value={comentarios30}
-                                                        className="form-control mt-2"
-                                                        id="exampleFormControlTextarea1"
-                                                        // value={comentarioCasoActivo}
-                                                        rows="2"
-                                                        disabled
-                                                    ></textarea>
-                                                </div>
-
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-sm-4">
+                                            <div className="mb-2 p-2">
+                                                <label className="form-label fw-bolder lbl-precalificacion">
+                                                    Es referido?
+                                                </label>
+                                                <input
+                                                    value={esReferido}
+                                                    type="text"
+                                                    id="estadoCaso"
+                                                    name="estadoCaso"
+                                                    className="form-control desabilitado"
+                                                    // value={razonEstadoCaso(razonParaElEstado)}
+                                                    disabled
+                                                />
                                             </div>
-                                            <div className="col-sm-4 col-md-12">
-                                                <div className="mb-2 p-2">
-                                                    <label className="form-label fw-bolder lbl-precalificacion">
-                                                        Comentarios 60 dias
-                                                    </label>
-                                                    <textarea
-                                                        value={comentarios60}
-                                                        className="form-control mt-2"
-                                                        id="exampleFormControlTextarea1"
-                                                        // value={comentarioCasoActivo}
-                                                        rows="2"
-                                                        disabled
-                                                    ></textarea>
-                                                </div>
-
+                                        </div>
+                                        <div className="col-sm-4">
+                                            <div className="mb-2 p-2">
+                                                <label className="form-label fw-bolder lbl-precalificacion">
+                                                    El empleado participo del curso de inducción?
+                                                </label>
+                                                <input
+                                                    value={cursoInduccion}
+                                                    type="text"
+                                                    id="estadoCaso"
+                                                    name="estadoCaso"
+                                                    className="form-control desabilitado"
+                                                    // value={razonEstadoCaso(razonParaElEstado)}
+                                                    disabled
+                                                />
                                             </div>
-                                            <div className="col-sm-4 col-md-12">
-                                                <div className="mb-2 p-2">
-                                                    <label className="form-label fw-bolder lbl-precalificacion">
-                                                        Comentarios 90 dias
-                                                    </label>
-                                                    <textarea
-                                                        value={comentarios80}
-                                                        className="form-control mt-2"
-                                                        id="exampleFormControlTextarea1"
-                                                        // value={comentarioCasoActivo}
-                                                        rows="2"
-                                                        disabled
-                                                    ></textarea>
-                                                </div>
-
+                                        </div>
+                                        <div className="col-sm-4">
+                                            <div className="mb-2 p-2">
+                                                <label className="form-label fw-bolder lbl-precalificacion">
+                                                    Pasa Periodo de Prueba?
+                                                </label>
+                                                <input
+                                                    value={periodo}
+                                                    type="text"
+                                                    id="estadoCaso"
+                                                    name="estadoCaso"
+                                                    className="form-control desabilitado"
+                                                    // value={razonEstadoCaso(razonParaElEstado)}
+                                                    disabled
+                                                />
                                             </div>
-                                            <div className="col-sm-4 col-md-12">
-                                                <div className="mb-2 p-2">
-                                                    <label className="form-label fw-bolder lbl-precalificacion">
-                                                        Es referido?
-                                                    </label>
-                                                    <input
-                                                        value={esReferido}
-                                                        type="text"
-                                                        id="estadoCaso"
-                                                        name="estadoCaso"
-                                                        className="form-control desabilitado"
-                                                        // value={razonEstadoCaso(razonParaElEstado)}
-                                                        disabled
-                                                    />
-                                                </div>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-sm-4">
+                                            <div className="mb-2 p-2">
+                                                <label className="form-label fw-bolder lbl-precalificacion">
+                                                    Comentarios 30 dias
+                                                </label>
+                                                <textarea
+                                                    value={comentarios30}
+                                                    className="form-control mt-2"
+                                                    id="exampleFormControlTextarea1"
+                                                    // value={comentarioCasoActivo}
+                                                    rows="2"
+                                                    disabled
+                                                ></textarea>
                                             </div>
-                                            <div className="col-sm-4 col-md-12">
-                                                <div className="mb-2 p-2">
-                                                    <label className="form-label fw-bolder lbl-precalificacion">
-                                                        El empleado participo del curso de inducción?
-                                                    </label>
-                                                    <input
-                                                        value={cursoInduccion}
-                                                        type="text"
-                                                        id="estadoCaso"
-                                                        name="estadoCaso"
-                                                        className="form-control desabilitado"
-                                                        // value={razonEstadoCaso(razonParaElEstado)}
-                                                        disabled
-                                                    />
-                                                </div>
+                                        </div>
+                                        <div className="col-sm-4">
+                                            <div className="mb-2 p-2">
+                                                <label className="form-label fw-bolder lbl-precalificacion">
+                                                    Comentarios 60 dias
+                                                </label>
+                                                <textarea
+                                                    value={comentarios60}
+                                                    className="form-control mt-2"
+                                                    id="exampleFormControlTextarea1"
+                                                    // value={comentarioCasoActivo}
+                                                    rows="2"
+                                                    disabled
+                                                ></textarea>
                                             </div>
-                                            <div className="col-sm-4 col-md-12">
-                                                <div className="mb-2 p-2">
-                                                    <label className="form-label fw-bolder lbl-precalificacion">
-                                                        Pasa Periodo de Prueba?
-                                                    </label>
-                                                    <input
-                                                        value={periodo}
-                                                        type="text"
-                                                        id="estadoCaso"
-                                                        name="estadoCaso"
-                                                        className="form-control desabilitado"
-                                                        // value={razonEstadoCaso(razonParaElEstado)}
-                                                        disabled
-                                                    />
-                                                </div>
+                                        </div>
+                                        <div className="col-sm-4">
+                                            <div className="mb-2 p-2">
+                                                <label className="form-label fw-bolder lbl-precalificacion">
+                                                    Comentarios 90 dias
+                                                </label>
+                                                <textarea
+                                                    value={comentarios80}
+                                                    className="form-control mt-2"
+                                                    id="exampleFormControlTextarea1"
+                                                    // value={comentarioCasoActivo}
+                                                    rows="2"
+                                                    disabled
+                                                ></textarea>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             </div>
