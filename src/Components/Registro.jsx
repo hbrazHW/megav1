@@ -104,7 +104,7 @@ const Registro = () => {
                 </div>
                 <div className="p-2 col-sm-8 col-md-5 col-lg-4 col-xl-3" id="login">
                     <div className="mb-2 img-thumbail p-4">
-                        <img className="rounded mx-auto d-block contenedor-logo logo-login" src={logo} alt="" />
+                        {/* <img className="rounded mx-auto d-block contenedor-logo logo-login" src={logo} alt="" /> */}
                     </div>
                     <div className="card shadow border-0 h-auto d-flex justify-content-start borde-none pad">
                         <div className="card-header bg-white h-100 d-flex align-items-center pad borde-none">
