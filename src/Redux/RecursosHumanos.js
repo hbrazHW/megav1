@@ -2,7 +2,6 @@ import axios from "axios";
 import { Entidad, UrlApiDynamics } from "../Keys";
 
 const dataInicial = {
-
   loading: false,
   busquedaPersonal: [],
   puesto: [],
@@ -11,11 +10,11 @@ const dataInicial = {
   sucursales: [],
   autorizadoPor: [],
   evaluaciones: [],
+  busquedaId: '',
   ticket: '',
   resultadoCaso: '',
-  evaluacionId: '',
-  busquedaId: '',
   archivos: [],
+  evaluacionId: '',
   resultadoCaso2: '',
   ticket2: '',
   archivos2: []
@@ -328,6 +327,7 @@ export const cargarArchivos = (busquedaId, file, config, tipo) => (dispatch) => 
       debugger
       const id = busquedaId
       const resp = axios.post(`${UrlApiDynamics}Notas?id=${id}&cuit=${Entidad}&tipo=${tipo}`, file, config)
+      console.log("hay respuesta de archivo: ", resp)
       dispatch({
           type: ADJUNTOS_EXITO,
           payload: resp.data
