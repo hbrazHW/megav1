@@ -67,6 +67,11 @@ const Login = (props) => {
 
         dispatch(loginUsuario(mail, pass))
         setLog(true)
+
+        document.getElementById("login").style.display = "none"
+        document.getElementById("spinner-login").style.display = "block"
+        // dispatch(loginUsuario(mail, pass))
+        setLog(true)
     }
     
   
