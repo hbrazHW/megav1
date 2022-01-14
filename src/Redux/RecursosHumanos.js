@@ -2,7 +2,6 @@ import axios from "axios";
 import { Entidad, UrlApiDynamics } from "../Keys";
 
 const dataInicial = {
-
   loading: false,
   busquedaPersonal: [],
   puesto: [],
@@ -11,11 +10,11 @@ const dataInicial = {
   sucursales: [],
   autorizadoPor: [],
   evaluaciones: [],
+  busquedaId: '',
   ticket: '',
   resultadoCaso: '',
-  evaluacionId: '',
-  busquedaId: '',
   archivos: [],
+  evaluacionId: '',
   resultadoCaso2: '',
   ticket2: '',
   archivos2: []
@@ -41,7 +40,7 @@ const ERROR = "ERROR";
 export default function recursosHumanosReducers(state = dataInicial, action) {
   switch (action.type) {
     case CARGA_DATOS2_EXITO:
-      return { ...state, resultadoCaso2: action.resultadoCaso, ticket2: action.ticket}
+      return { ...state, resultadoCaso2: action.resultadoCaso2, ticket2: action.ticket2}
     case ADJUNTOS_EXITO:
       return { ...state, archivos: action.payload };
     case BUSQUEDAID_EXITO:
@@ -289,7 +288,7 @@ export const cargarForm = (puesto, motivoBusqueda, motivoReemplazo, sucursal, ar
     console.log("response", response)
     dispatch({
       type: CARGA_DATOS_EXITO,
-      tiket: response.data,
+      ticket: response.data,
       resultadoCaso: 'EXITO',
 
     })
@@ -302,6 +301,7 @@ export const cargarForm = (puesto, motivoBusqueda, motivoReemplazo, sucursal, ar
 }
 
 export const cargarForm2 = (empleado, puesto, sucursal, evaluador, nombre, fechaIngreso, area, referido, referente, comentarios30, comentarios60, comentarios90, puestoevaluador, periodoprueba, participocurso, file, config) => async (dispatch) => {
+  debugger
   dispatch({
     type: LOADING,
     resultadoCaso2: 'LOADING'
@@ -370,6 +370,8 @@ export const consultaFETCHevaluaciones = () => async (dispatch) => {
     "<attribute name='new_puesto' />" +
     "<attribute name='new_sucursal' />" +
     "<attribute name='new_evaluaciondeperiododepruebaid' />" +
+    "<attribute name='new_esreferido' />"+
+    "<attribute name='new_elempleadoparticipodelcursodeinduccion' />"+
     "<order attribute='createdon' descending='false' />" +
     "<order attribute='new_empleado' descending='false' />" +
     "<filter type='and'>" +

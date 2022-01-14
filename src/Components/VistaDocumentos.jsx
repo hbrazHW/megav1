@@ -69,10 +69,10 @@ const VistaDocumentos = () => {
             }
         }
 
-        if(contacts.length === 0){
-            if(contactSelector.length > 0 && llamadaContacts === true){
+        if (contacts.length === 0) {
+            if (contactSelector.length > 0 && llamadaContacts === true) {
                 setContacts(contactSelector)
-            }else if(llamadaContacts === false){
+            } else if (llamadaContacts === false) {
                 obtenerContacts()
                 setLlamadaContacts(true)
             }
@@ -191,11 +191,11 @@ const VistaDocumentos = () => {
                         <div className="modal-content">
                             <div className="modal-body">
                                 <div className="row">
-                                    <div className="col-12">
-                                        <h6 className="fw-bolder">Documentos Legales</h6>
+                                    <div className="col-sm-8">
+                                        <h6 className="fw-bolder">Documentos legales</h6>
                                         <hr className="hr-width hr-principal" />
                                     </div>
-                                    <div className="col-12">
+                                    <div className="col-sm-4">
                                         <button
                                             type="button"
                                             className="btn-close float-end"
@@ -205,94 +205,92 @@ const VistaDocumentos = () => {
                                         ></button>
                                     </div>
                                 </div>
-
-                                <div className="row w-auto d-flex justify-content-center">
-                                    <div className="col-12">
-                                        <h6 className="fw-bolder">Detalles del documento Legal</h6>
-                                        <div className="row">
-                                            <div className="col-sm-4 col-md-12">
-                                                <div className="mb-2 p-2">
-                                                    <label className="form-label fw-bolder lbl-precalificacion required">
-                                                        Autor
-                                                    </label>
-                                                    <input
-                                                        type="text"
-                                                        id="autor"
-                                                        value={autor}
-                                                        name="autor"
-                                                        className="form-control requerido"
-                                                        required
-                                                        disabled
-                                                    />
-                                                </div>
+                                <div className="col-sm-12">
+                                    <h6 className="fw-bolder">Detalles del documento Legal</h6>
+                                    <div className="row">
+                                        <div className="col-sm-6">
+                                            <div className="mb-2 p-2">
+                                                <label className="form-label fw-bolder lbl-precalificacion required">
+                                                    Autor
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    id="autor"
+                                                    value={autor}
+                                                    name="autor"
+                                                    className="form-control requerido"
+                                                    required
+                                                    disabled
+                                                />
                                             </div>
-                                            <div className="col-sm-4 col-md-12">
-                                                <div className="mb-2 p-2">
-                                                    <label className="form-label fw-bolder lbl-precalificacion required">
-                                                        Persona que Recepcionó
-                                                    </label>
-                                                    <input
-                                                        type="text"
-                                                        id="person"
-                                                        value={personRecepciono}
-                                                        name="person"
-                                                        className="form-control desabilitado"
-                                                        required
-                                                        disabled
-                                                    />
-                                                </div>
+                                        </div>
+                                        <div className="col-sm-6">
+                                            <div className="mb-2 p-2">
+                                                <label className="form-label fw-bolder lbl-precalificacion required">
+                                                    Persona que Recepcionó
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    id="person"
+                                                    value={personRecepciono}
+                                                    name="person"
+                                                    className="form-control desabilitado"
+                                                    required
+                                                    disabled
+                                                />
                                             </div>
-
-                                            <div className="col-sm-4 col-md-12">
-                                                <div className="mb-2 p-2">
-                                                    <label className="form-label fw-bolder lbl-precalificacion">
-                                                        Descripción del Documento
-                                                    </label>
-                                                    <input
-                                                        type="text"
-                                                        id="descrip"
-                                                        name="descrip"
-                                                        value={descripcionDelDocumento}
-                                                        className="form-control desabilitado"
-                                                        disabled
-                                                    />
-                                                </div>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-sm-6">
+                                            <div className="mb-2 p-2">
+                                                <label className="form-label fw-bolder lbl-precalificacion">
+                                                    Descripción del Documento
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    id="descrip"
+                                                    name="descrip"
+                                                    value={descripcionDelDocumento}
+                                                    className="form-control desabilitado"
+                                                    disabled
+                                                />
                                             </div>
-                                            <div className="col-sm-4 col-md-12">
-                                                <div className="mb-2 p-2">
-                                                    <label className="form-label fw-bolder lbl-precalificacion">
-                                                        Fecha de creación
-                                                    </label>
-                                                    <input
-                                                        type="text"
-                                                        value={Moment(fechaCreacion).format("DD-MM-YYYY")}
-                                                        id="estado"
-                                                        name="estado"
-                                                        className="form-control desabilitado"
-                                                        disabled
-                                                    />
-                                                </div>
+                                        </div>
+                                        <div className="col-sm-6">
+                                            <div className="mb-2 p-2">
+                                                <label className="form-label fw-bolder lbl-precalificacion">
+                                                    Fecha de creación
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    value={Moment(fechaCreacion).format("DD-MM-YYYY")}
+                                                    id="estado"
+                                                    name="estado"
+                                                    className="form-control desabilitado"
+                                                    disabled
+                                                />
                                             </div>
-                                            <div className="col-sm-12">
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-sm-12">
+                                            <div className="mb-2 p-2">
                                                 <h6 className="fw-bolder">Observaciones:</h6>
-                                                <div className="row">
-                                                    <div className="col-sm-12">
-                                                        <div class="form-group">
-                                                            <textarea
-                                                                className="form-control mt-2"
-                                                                id="exampleFormControlTextarea1"
-                                                                value={observaciones}
-                                                                rows="2"
-                                                                disabled
-                                                            ></textarea>
-                                                        </div>
-                                                    </div>
+                                                <div class="form-group">
+                                                    <textarea
+                                                        className="form-control mt-2"
+                                                        id="exampleFormControlTextarea1"
+                                                        value={observaciones}
+                                                        rows="2"
+                                                        disabled
+                                                    ></textarea>
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                
                             </div>
                         </div>
                     </div>

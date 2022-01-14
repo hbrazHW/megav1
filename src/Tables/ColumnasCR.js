@@ -5,6 +5,12 @@ import SeleccionarCR from './SeleccionarCR'
 
 export const COLUMNASCR = [
     {
+        Header: 'Número de caso',
+        footer: 'Número de caso',
+        accessor: 'ticketnumber',
+        Cell: ({ value }) => { return value ? <span class="badge badge-personalizado-naranja">{value}</span> : '-' }
+    },
+    {
         Header: 'Asunto',
         footer: 'Asunto',
         accessor: '_subjectid_value',
@@ -29,12 +35,6 @@ export const COLUMNASCR = [
             }
         }
 
-    },
-    {
-        Header: 'Número de caso',
-        footer: 'Número de caso',
-        accessor: 'ticketnumber',
-        Cell: ({ value }) => { return value ? <span class="badge badge-personalizado-naranja">{value}</span> : '-' }
     },
     {   Header: 'Resolución',
         accessor: 'incidentid',

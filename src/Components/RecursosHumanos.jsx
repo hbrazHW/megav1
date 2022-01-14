@@ -93,7 +93,7 @@ const RecursosHumanos = (props) => {
   const [show, setShow] = React.useState(false)
   const [error, setError] = React.useState(false)
   const resultado = useSelector(store => store.recursosHumanos.resultadoCaso)
-  const resultado2 = useSelector(store => store.recursosHumanos.resultadoCaso2)
+  const resultadoDos = useSelector(store => store.recursosHumanos.resultadoCaso2)
 
   React.useEffect(() => {
     if (puesto.length === 0) {
@@ -136,21 +136,23 @@ const RecursosHumanos = (props) => {
       }
     }
 
+    if (resultadoDos !== undefined) {
+      if (resultadoDos !== '') {
+        cargaExitoDos()
+      }
+    }
+
     if (resultado !== undefined) {
       if (resultado !== '') {
         cargaExito()
       }
-    }
+    } 
 
-    if (resultado2 !== undefined) {
-      if (resultado2 !== '') {
-        cargaExito2()
-      }
-    }
+    
 
-  }, [puestoSelector, areasSelector, sucursalesSelector, autorizadoSelector, resultado, resultado2])
+  }, [puestoSelector, areasSelector, sucursalesSelector, autorizadoSelector, resultado, resultadoDos])
 
-
+  console.log("este es el resultado:",resultadoDos)
   //datos para el post
   const {
     files,
@@ -360,9 +362,10 @@ const RecursosHumanos = (props) => {
     // formData.append('body', selectedFiles);
     const config = {
       headers: {
-        'content-type': 'multipart/form-data',
+        "content-type": "multipart/form-data",
       },
     };
+    debugger
     dispatch(cargarForm(puestoSeleccionar, mBusqueda, descripcion, sucursalSeleccionar, areaSeleccionar, reporta, jornada, observaciones, tipBusqueda, autorizadoSeleccionar, formData, config))
     setLoading(true)
     setMensaje("Cargando...")
@@ -392,6 +395,7 @@ const RecursosHumanos = (props) => {
 
   const cargaExito = () => {
     if (resultado === "EXITO") {
+      debugger
       setMensaje("La búsqueda fue creada con éxito!")
       setError(false)
       setLoading(false)
@@ -460,8 +464,8 @@ const RecursosHumanos = (props) => {
     limpiarForm()
   }
 
-  const cargaExito2 = () => {
-    if (resultado2 === "EXITO") {
+  const cargaExitoDos = () => {
+    if (resultadoDos === "EXITO") {
       setMensaje("La evaluación fue creada con éxito!")
       setError(false)
       setLoading(false)
@@ -474,7 +478,7 @@ const RecursosHumanos = (props) => {
         setShow(false)
       }, 1500)
     }
-    else if (resultado2 === "ERROR") {
+    else if (resultadoDos === "ERROR") {
       setMensaje("Error al crear evaluación!")
       setError(true)
       setLoading(false)

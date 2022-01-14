@@ -51,7 +51,7 @@ export default function casosReducers(state = dataInicial, action) {
         case ERROR:
             return { ...dataInicial };
         case LOADING:
-            return { ...state, loading: true };
+            return { ...state, loading: true, resultadoCaso: action.resultadoCaso };
         case ADJUNTOS_EXITO:
             return { ...state, archivos: action.payload };
         default:

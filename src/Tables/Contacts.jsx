@@ -28,7 +28,7 @@ const Contacts = ({ id }) => {
     }
 
     return (
-        <p className="m-0 texto-lista m-0">{contacts}</p>
+        <p className="m-0 texto-lista m-0 fw-bolder">{contacts}</p>
     )
 }
 

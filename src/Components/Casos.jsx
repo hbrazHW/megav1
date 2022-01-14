@@ -111,7 +111,7 @@ const Casos = (props) => {
   const [loading, setLoading] = React.useState(false);
   const [show, setShow] = React.useState(false);
   const [error, setError] = React.useState(false);
-  const resultadoC = useSelector((store) => store.casos.resultadoCaso);
+  const resultadoC = useSelector(store => store.casos.resultadoCaso);
   //datos para el post
   const {
     files,
@@ -285,6 +285,8 @@ const Casos = (props) => {
     resultadoC,
   ]);
 
+  console.log("este es el resultado:", resultadoC)
+
   const enviarFormulario = (e) => {
     e.preventDefault()
 
@@ -357,7 +359,6 @@ const Casos = (props) => {
       setLoading(false)
       setShow(true);
       setTimeout(() => {
-        obtenerCasos()
         props.history.push("/");
       }, 500);
       setTimeout(() => {
@@ -973,3 +974,4 @@ const Casos = (props) => {
 };
 
 export default withRouter(Casos);
+
