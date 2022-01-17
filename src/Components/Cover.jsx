@@ -48,7 +48,7 @@ const Cover = () => {
             <div className="col-sm-6 mt-4 pt-3">
               <h1 className="fw-bolder text-center text-white">Portal Megatlon</h1>
               <p className="text-center text-white">
-                Administra sus casos, crea documentos legales y gestiona sus
+                Administre sus casos, cree documentos legales y gestione sus
                 recursos humanos desde aquí de manera practica y rápida.
               </p>
             </div>
