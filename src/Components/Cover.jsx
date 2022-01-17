@@ -20,6 +20,7 @@ const Cover = () => {
     },
   });
 
+
   return (
     <animated.div style={fade}>
         <div className="container">
