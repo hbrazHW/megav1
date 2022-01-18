@@ -59,26 +59,26 @@ function App() {
       <div>
       <Navbar loggedUser={loggedUser} />
           <Switch>
-            <Route component={Inicio} path="/inicio" exact />
-            <Route component={Login} path="/login" exact/>
-            <Route component={VistaCasos} path="/vista-casos" />
-            <Route component={VistaDocumentos} path="/vista-documentos" exact/>
-            <Route component={VistaRh} path="/vista-recursoshumanos" exact />
-            <Route component={CarpetaDigital} path="/carpetadigital" exact /> 
-            <Route component={Lineas} path="/lineas" exact /> 
-            <Route component={Garantias} path="/garantias" exact/>
-            <Route component={Operaciones} path="/operaciones"/> 
-            <Route component={Notificacion} path="/notificacion" />
-            <Route component={Cuenta} path="/cuenta" exact/> 
-            <Route component={PrecalificacionCrediticia} path="/precalificacion-crediticia" />
-            <Route component={RecuperoContrasena} path="/recupero" exact />
-            <Route component={Registro} path="/registro" exact /> 
-            <Route component={Legales} path="/Legales" exact />
-            <Route component={Casos} path="/Casos" exact />
-            <Route component={RecursosHumanos} path="/RecursosHumanos" exact />
-            <Route component={AdjuntarArchivo} path="/AdjuntarArchivo" exact />
-            <Route component={PastePrint} path="/PastePrint" exact />
+            {/* <Route component={Inicio} path="/inicio"  /> */}
             <Route component={Cover} path="/" exact />
+            <Route component={Login} path="/login" />
+            <Route component={VistaCasos} path="/vista-casos" />
+            <Route component={VistaDocumentos} path="/vista-documentos" />
+            <Route component={VistaRh} path="/vista-recursoshumanos"  />
+            {/* <Route component={CarpetaDigital} path="/carpetadigital" exact /> 
+            <Route component={Lineas} path="/lineas" exact /> 
+            <Route component={Garantias} path="/garantias" exact/> */}
+            {/* <Route component={Operaciones} path="/operaciones"/> 
+            <Route component={Notificacion} path="/notificacion" /> */}
+            <Route component={Cuenta} path="/cuenta" /> 
+            {/* <Route component={PrecalificacionCrediticia} path="/precalificacion-crediticia" /> */}
+            <Route component={RecuperoContrasena} path="/recupero" />
+            <Route component={Registro} path="/registro" /> 
+            <Route component={Legales} path="/Legales" />
+            <Route component={Casos} path="/Casos"  />
+            <Route component={RecursosHumanos} path="/RecursosHumanos" />
+            {/* <Route component={AdjuntarArchivo} path="/AdjuntarArchivo" exact /> */}
+            <Route component={PastePrint} path="/PastePrint"/>
           </Switch>
         <Footer loggedUser={loggedUser} />
       </div>

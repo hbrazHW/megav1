@@ -73,7 +73,10 @@ const Login = (props) => {
         // dispatch(loginUsuario(mail, pass))
         setLog(true)
     }
-    
+     
+   
+
+
   
     return (
         <animated.div className="portada" style={fade} > 
@@ -92,11 +95,11 @@ const Login = (props) => {
                                     <h6 className="m-0  fw-bold">Iniciar Sesión</h6>
                                 </div>
                             </div>
-                            <div className="col-sm-7">
+                            {/* <div className="col-sm-7">
                                 <div className="float-right text-end">
                                     <Link className=" link-recupero  p-1" to="/precalificacion-crediticia">Todavia no sos socio? ingresa aca</Link>
                                 </div>
-                            </div>
+                            </div> */}
 
                         </div>
                         <div className="card-body p-3">
@@ -147,6 +150,11 @@ const Login = (props) => {
                                         <button className="btn btn-primary btn-lg btn-block w-100"
                                             type="submit"
                                         >Ingresar</button>
+                                    </div>
+                                </div>
+                                <div className="row mt-4">
+                                    <div className="col-sm-12">
+                                    <NavLink className="link-registro" to="/registro">O registrarse?</NavLink>
                                     </div>
                                 </div>
                             </form>
