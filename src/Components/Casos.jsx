@@ -174,31 +174,31 @@ const Casos = (props) => {
   };
   // Pass the image src attribute here
   copyImageToClipboard("assets/image*")
-    .then(() => {})
-    .catch((e) => {});
+    .then(() => { })
+    .catch((e) => { });
 
   //idintranet
 
   // Can be an URL too, but be careful because this may cause CORS errors
   copyImageToClipboard("../")
-    .then(() => {})
-    .catch((e) => {});
+    .then(() => { })
+    .catch((e) => { });
   getBlobFromImageElement(imageElement)
     .then((blob) => {
       return copyBlobToClipboard(blob);
     })
-    .then(() => {})
-    .catch((e) => {});
+    .then(() => { })
+    .catch((e) => { });
 
-    const fade = useSpring({
-      from: {
-        opacity: 0,
-      },
-      to: {
-        opacity: 1,
-        delay: 1500,
-      },
-    });
+  const fade = useSpring({
+    from: {
+      opacity: 0,
+    },
+    to: {
+      opacity: 1,
+      delay: 1500,
+    },
+  });
 
   React.useEffect(() => {
     if (contacts.length === 0) {
@@ -330,7 +330,7 @@ const Casos = (props) => {
         clienteSeleccionar,
         asuntoSeleccionar,
         selected,
-        solicitante,
+        persona,
         puestoSolicitante,
         tipoC,
         comentarios,
@@ -351,8 +351,8 @@ const Casos = (props) => {
   }
 
   const cargaExito = () => {
-    
-    if (resultadoC === "EXITO") { 
+
+    if (resultadoC === "EXITO") {
       debugger;
       setMensaje("El caso fue creado con éxito!")
       setError(false)
@@ -445,34 +445,55 @@ const Casos = (props) => {
   //MOSTRAR INPUTS
   if (opcionesAsunto) {
     input = (
-      <div>
-        <div className="mb-2 p-2">
-          <label className="form-label fw-bolder lbl-precalificacion">
-            Solicitante
-          </label>
-          <Select
-            onChange={(e) => setSolicitante(e.target.value)}
-            type="select"
-            onChange={(e) => personaHandle(e)}
-            options={selectCliente}
-            id="solicitante"
-            name="solicitante"
-            className="basic multi-select"
-            ClassNamePrefix="select"
-            placeholder="Elegir solicitante..."
-          ></Select>
+      <div className="row">
+        <div className="col-sm-4">
+          <div className="mb-2 p-2">
+            <label className="form-label fw-bolder lbl-precalificacion required">
+              Instalación por Sede
+            </label>
+            <Select
+              onChange={(e) => instaSedeHandle(e)}
+              options={selectInstaSede}
+              className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
+              id="instaSede"
+              name="instaSede"
+              className="basic multi-select border rounded border-danger"
+              ClassNamePrefix="select"
+              placeholder="Elegir instalación..."
+              required
+            ></Select>
+          </div>
         </div>
-        <div className="mb-2 p-2">
-          <label className="form-label fw-bolder lbl-precalificacion">
-            Puesto del solicitante
-          </label>
-          <input
-            onChange={(e) => setPuestoSolicitante(e.target.value)}
-            id="psol"
-            name="psol"
-            className="form-control"
-            placeholder=""
-          />
+        <div className="col-sm-4">
+          <div className="mb-2 p-2">
+            <label className="form-label fw-bolder lbl-precalificacion">
+              Solicitante
+            </label>
+            <Select
+              type="select"
+              onChange={(e) => personaHandle(e)}
+              options={selectCliente}
+              id="solicitante"
+              name="solicitante"
+              className="basic multi-select border rounded border-danger"
+              ClassNamePrefix="select"
+              placeholder="Elegir solicitante..."
+            ></Select>
+          </div>
+        </div>
+        <div className="col-sm-4">
+          <div className="mb-2 p-2">
+            <label className="form-label fw-bolder lbl-precalificacion">
+              Puesto del solicitante
+            </label>
+            <input
+              onChange={(e) => setPuestoSolicitante(e.target.value)}
+              id="psol"
+              name="psol"
+              className="form-control border border-danger"
+              placeholder=""
+            />
+          </div>
         </div>
       </div>
     );
@@ -501,24 +522,27 @@ const Casos = (props) => {
   //MOSTRAR INPUTS FM
   if (opcionesAsuntofm) {
     inputfm = (
-      <div>
-        <div className="mb-2 p-2">
-          <label className="form-label fw-bolder lbl-precalificacion required">
-            Instalación por Sede
-          </label>
-          <Select
-            onChange={(e) => instaSedeHandle(e)}
-            options={selectInstaSede}
-            className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
-            id="instaSede"
-            name="instaSede"
-            className="basic multi-select"
-            ClassNamePrefix="select"
-            placeholder="Elegir instalación..."
-            required
-          ></Select>
-        </div>
-        {/* <div className="mb-2 p-2">
+      <div className="col-sm-12">
+        <div className="row">
+          <div className="col-sm-4">
+            <div className="mb-2 p-2">
+              <label className="form-label fw-bolder lbl-precalificacion required">
+                Instalación por Sede
+              </label>
+              <Select
+                onChange={(e) => instaSedeHandle(e)}
+                options={selectInstaSede}
+                className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
+                id="instaSede"
+                name="instaSede"
+                className="basic multi-select border rounded border-danger"
+                ClassNamePrefix="select"
+                placeholder="Elegir instalación..."
+                required
+              ></Select>
+            </div>
+          </div>
+          {/* <div className="mb-2 p-2">
           <label className="form-label fw-bolder lbl-precalificacion">
             N° De serie del activo
           </label>
@@ -530,37 +554,42 @@ const Casos = (props) => {
             placeholder="Número de serie..."
           />
         </div> */}
-        <div className="mb-2 p-2">
-          <label className="form-label fw-bolder lbl-precalificacion">
-            Equipo Detenido ?
-          </label>
-          <Select
-            onChange={(e) => equipoDetenidoHandle(e)}
-            options={opcionSiNo}
-            type="select"
-            id="select"
-            name="equipoDet"
-            className="basic multi-select"
-            classNamePrefix="select"
-            placeholder="Seleccionar..."
-          ></Select>
-        </div>
-        <div className="mb-2 p-2">
-          <label className="form-label fw-bolder lbl-precalificacion required">
-            Prioridad
-          </label>
-          <Select
-            onChange={(e) => prioridadHandle(e)}
-            options={opcionPrioridad}
-            type="select"
-            id="select"
-            name="priority"
-            className="basic multi-select"
-            // defaultValue={{ label: "Urgente", value: 3 }}
-            classNamePrefix="select"
-            placeholder="Seleccionar Prioridad..."
-            required
-          ></Select>
+          <div className="col-sm-4">
+            <div className="mb-2 p-2">
+              <label className="form-label fw-bolder lbl-precalificacion">
+                Equipo Detenido ?
+              </label>
+              <Select
+                onChange={(e) => equipoDetenidoHandle(e)}
+                options={opcionSiNo}
+                type="select"
+                id="select"
+                name="equipoDet"
+                className="basic multi-select border rounded border-danger"
+                classNamePrefix="select"
+                placeholder="Seleccionar..."
+              ></Select>
+            </div>
+          </div>
+          <div className="col-sm-4">
+            <div className="mb-2 p-2">
+              <label className="form-label fw-bolder lbl-precalificacion required">
+                Prioridad
+              </label>
+              <Select
+                onChange={(e) => prioridadHandle(e)}
+                options={opcionPrioridad}
+                type="select"
+                id="select"
+                name="priority"
+                className="basic multi-select border rounded border-danger"
+                // defaultValue={{ label: "Urgente", value: 3 }}
+                classNamePrefix="select"
+                placeholder="Seleccionar Prioridad..."
+                required
+              ></Select>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -672,6 +701,8 @@ const Casos = (props) => {
     { value: "100000001", label: "Sí" },
   ];
 
+  console.log("solicitante:", persona)
+
   return (
     <animated.div className="container" style={fade}>
       <div className="col-sm-12 mt-4">
@@ -683,9 +714,9 @@ const Casos = (props) => {
           </div>
           <form onSubmit={enviarFormulario}>
             <div className="row w-auto d-flex justify-content-center">
-              <h6 className="fw-bolder">Información general</h6>
-              <div className="row">
-                {/* <div className="col-sm-4 col-md-12">
+              <h6 className="fw-bolder text-secondary">Información general</h6>
+
+              {/* <div className="col-sm-4 col-md-12">
                   <div className="mb-2 p-2">
                     <label className="form-label fw-bolder lbl-precalificacion required">
                       Fecha Alta
@@ -700,139 +731,162 @@ const Casos = (props) => {
                     />
                   </div>
                 </div> */}
-
-                <div className="col-sm-4 col-md-12">
-                  <div className="mb-2 p-2">
-                    <label className="form-label fw-bolder lbl-precalificacion required">
-                      Cliente
-                    </label>
-                    <input
-                      id="disabledInput"
-                      value={contacto.map((item) => item.fullname)}
-                      type="text"
-                      id="text"
-                      name="usuario"
-                      placeholder="cargando..."
-                      className="form-control"
-                    />
-                  </div>
-                  <div className="mb-2 p-2">
-                    <label className="form-label fw-bolder lbl-precalificacion required">
-                      Sucursal
-                    </label>
-                    <input
-                      id="Sucursal"
-                      value={obtenerNombreSede(sede)}
-                      name="sucursal"
-                      className="form-control"
-                      placeholder="cargando..."
-                      required
-                    />
-                  </div>
-                  <div className="mb-2 p-2">
-                    <label className="form-label fw-bolder lbl-precalificacion required">
-                      Asunto Primario
-                    </label>
-                    <Select
-                      onChange={(e) => selectOnChange(e)}
-                      options={tipoAsuntoPrimario}
-                      className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
-                      id="asuntoprima"
-                      name="asunto-prima"
-                      className="basic multi-select"
-                      ClassNamePrefix="select"
-                      placeholder="Elegir asunto primario..."
-                      required
-                    ></Select>
-
-                    {input}
-
-                    {inputfm}
+              <div className="col-sm-12">
+                <div className="row">
+                  <div className="col-sm-6">
+                    <div className="mb-2 p-2">
+                      <label className="form-label fw-bolder lbl-precalificacion required">
+                        Cliente
+                      </label>
+                      <input
+                        id="disabledInput"
+                        value={contacto.map((item) => item.fullname)}
+                        type="text"
+                        id="text"
+                        name="usuario"
+                        placeholder="cargando..."
+                        className="form-control"
+                      />
+                    </div>
                   </div>
 
-                  <div className="mb-2 p-2">
-                    <label className="form-label fw-bolder lbl-precalificacion required">
-                      Asunto
-                    </label>
-                    <Select
-                      className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
-                      id="asunto"
-                      onChange={(e) => asuntoHandle(e)}
-                      options={selectAsunto}
-                      name="asunto"
-                      className="basic multi-select"
-                      ClassNamePrefix="select"
-                      placeholder="Elegir asunto..."
-                      required
-                    ></Select>
+                  <div className="col-sm-6">
+                    <div className="mb-2 p-2">
+                      <label className="form-label fw-bolder lbl-precalificacion required">
+                        Sucursal
+                      </label>
+                      <input
+                        id="Sucursal"
+                        value={obtenerNombreSede(sede)}
+                        name="sucursal"
+                        className="form-control"
+                        placeholder="cargando..."
+                        required
+                      />
+                    </div>
                   </div>
-                  <div className="mb-2 p-2">
+                </div>
+
+                <div className="row">
+                  <div className="col-sm-6">
+                    <div className="mb-2 p-2">
+                      <label className="form-label fw-bolder lbl-precalificacion required">
+                        Asunto Primario
+                      </label>
+                      <Select
+                        onChange={(e) => selectOnChange(e)}
+                        options={tipoAsuntoPrimario}
+                        className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
+                        id="asuntoprima"
+                        name="asunto-prima"
+                        className="basic multi-select"
+                        ClassNamePrefix="select"
+                        placeholder="Elegir asunto primario..."
+                        required
+                      ></Select>
+
+
+                    </div>
+                  </div>
+
+                  <div className="col-sm-6">
+                    <div className="mb-2 p-2">
+                      <label className="form-label fw-bolder lbl-precalificacion required">
+                        Asunto
+                      </label>
+                      <Select
+                        className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
+                        id="asunto"
+                        onChange={(e) => asuntoHandle(e)}
+                        options={selectAsunto}
+                        name="asunto"
+                        className="basic multi-select"
+                        ClassNamePrefix="select"
+                        placeholder="Elegir asunto..."
+                        required
+                      ></Select>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="row">
+                  {input}
+                  {inputfm}
+                </div>
+                <div className="row">
+                  <div className="col-sm-4">
+                    <div className="mb-2 p-2">
+                      <label className="form-label fw-bolder lbl-precalificacion">
+                        Tipo de caso
+                      </label>
+                      <Select
+                        onChange={(e) => tipoCasoHandle(e)}
+                        options={tipoCaso}
+                        className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
+                        id="tcaso"
+                        name="tcaso"
+                        className="basic multi-select"
+                        ClassNamePrefix="select"
+                        placeholder="Elegir tipo de caso..."
+                      ></Select>
+                    </div>
+                  </div>
+                  <div className="col-sm-4">
+                    <div className="mb-2 p-2">
+                      <label className="form-label fw-bolder lbl-precalificacion">
+                        Derivar ?
+                      </label>
+                      <Select
+                        onChange={(e) => derivaHandle(e)}
+                        options={derivaSiNo}
+                        className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
+                        id="derivar"
+                        name="derivar"
+                        className="basic multi-select"
+                        ClassNamePrefix="select"
+                        placeholder="..."
+                      ></Select>
+                    </div>
+                  </div>
+                  <div className="col-sm-4">
+                    <div className="mb-2 p-2">
+                      <label className="form-label fw-bolder lbl-precalificacion required">
+                        Area a Escalar
+                      </label>
+                      <Select
+                        onChange={(e) => areaEscalarHandle(e)}
+                        options={selectAreaEscalar}
+                        className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
+                        id="instaSede"
+                        name="instaSede"
+                        className="basic multi-select"
+                        ClassNamePrefix="select"
+                        placeholder="Elegir instalación..."
+                        required
+                      ></Select>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col-sm-12">
                     <label className="form-label fw-bolder lbl-precalificacion">
-                      Tipo de caso
+                      Comentarios
                     </label>
-                    <Select
-                      onChange={(e) => tipoCasoHandle(e)}
-                      options={tipoCaso}
-                      className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
-                      id="tcaso"
-                      name="tcaso"
-                      className="basic multi-select"
-                      ClassNamePrefix="select"
-                      placeholder="Elegir tipo de caso..."
-                    ></Select>
-                  </div>
-                  <div className="mb-2 p-2">
-                    <label className="form-label fw-bolder lbl-precalificacion">
-                      Derivar ?
-                    </label>
-                    <Select
-                      onChange={(e) => derivaHandle(e)}
-                      options={derivaSiNo}
-                      className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
-                      id="derivar"
-                      name="derivar"
-                      className="basic multi-select"
-                      ClassNamePrefix="select"
-                      placeholder="..."
-                    ></Select>
-                  </div>
-                  <div className="mb-2 p-2">
-                    <label className="form-label fw-bolder lbl-precalificacion required">
-                      Area a Escalar
-                    </label>
-                    <Select
-                      onChange={(e) => areaEscalarHandle(e)}
-                      options={selectAreaEscalar}
-                      className="form-select titulo-notificacion form-select-lg mb-3 fww-bolder h6"
-                      id="instaSede"
-                      name="instaSede"
-                      className="basic multi-select"
-                      ClassNamePrefix="select"
-                      placeholder="Elegir instalación..."
-                      required
-                    ></Select>
+                    <div class="form-group">
+                      <textarea
+                        onChange={(e) => setComentarios(e.target.value)}
+                        className="form-control mt-2"
+                        id="exampleFormControlTextarea1"
+                        rows="3"
+                        placeholder="comentanos un poco más..."
+                      ></textarea>
+                      <br />
+                    </div>
                   </div>
                 </div>
               </div>
-              <div className="row">
-                <h6 className="form-label fw-bolder lbl-precalificacion ">
-                  Comentarios
-                </h6>
-              </div>
-              <div className="row">
-                <div className="col-12 w-100">
-                  <div class="form-group">
-                    <textarea
-                      onChange={(e) => setComentarios(e.target.value)}
-                      className="form-control mt-2"
-                      id="exampleFormControlTextarea1"
-                      rows="3"
-                      placeholder="comentanos un poco más..."
-                    ></textarea>
-                    <br />
-                  </div>
-                </div>
-              </div>
+
               <br />
               <div className="row">
                 <div className="custom-input-file drag-area mt-4">

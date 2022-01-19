@@ -3,7 +3,7 @@ import { useSpring, animated } from "react-spring";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClipboardList, faIdBadge, faFile, faCheckCircle, faTimesCircle, faEnvelope } from '@fortawesome/free-solid-svg-icons'
-import { consultaFETCHcasosResueltos, consultaFETCHmisCasosActivos, consultaFETCHnombresAsuntos, consultaFETCHcasosFm, consultaFETCHinstalacionSede, consultaFETCHareaAderivar } from "../Redux/Casos";
+import { consultaFETCHcasosResueltos, consultaFETCHmisCasosActivos, consultaFETCHnombresAsuntos, consultaFETCHcasosFm, consultaFETCHinstalacionSede, consultaFETCHareaAderivar, consultaFETCHcasosPayroll } from "../Redux/Casos";
 import { consultaFETCHcorreoEletronico } from '../Redux/CorreoEletronico';
 import Tabla from '../Components/Tabla';
 import { COLUMNASMCA } from '../Tables/ColumnasMCA';
@@ -12,6 +12,7 @@ import { COLUMNASCFM } from '../Tables/ColumnasCFM';
 import MultiStepProgressBar from './MultiStepProgressBar'
 import Moment from 'moment'
 import { consultaFETCHcontacts } from '../Redux/Contact';
+import { COLUMNASCPR } from '../Tables/ColumnasCPR';
 
 const VistaCasos = () => {
 
@@ -38,7 +39,8 @@ const VistaCasos = () => {
     const [llamadaCasosFm, setLlamadaCasosFm] = React.useState(false)
     const [correoEletronico, setCorreoEletronico] = React.useState([])
     const [llamadaCorreoEletronico, setLlamadaCorreoEletronico] = React.useState(false)
-
+    const [casosPayroll, setCasosPayroll] = React.useState([])
+    const [llamadaCasosPr, setLlamadaCasosPr] = React.useState(false)
 
 
     //selectores
@@ -48,11 +50,13 @@ const VistaCasos = () => {
     const contactSelector = useSelector(store => store.contacts.contacts)
     const casosFmSelector = useSelector(store => store.casos.casosFm)
     const correoEletronicoSelector = useSelector(store => store.correoEletronico.correoEletronico)
+    const casosPayrollSelector = useSelector(store => store.casos.casosPayroll)
 
     //Columnas
     const [columnasMisCasosActivos, setColumnasMisCasosActivos] = React.useState([])
     const [columnasCasosResueltos, setColumnasCasosResueltos] = React.useState([])
     const [columnasCFM, setColumnasCFM] = React.useState([])
+    const [columnasCPR, setColumnasCPR] = React.useState([])
 
     //hooks para obtener nombres de asuntos
     const [asuntos, setAsuntos] = React.useState([])
@@ -221,10 +225,24 @@ const VistaCasos = () => {
             }
         }
 
-    }, [misCasosActivosSelector, casosResueltosSelector, casoIdSelector, asuntosSelector, contactSelector, casosFmSelector, instalacionSedeSelector, correoEletronicoSelector, areaAderivarSelector])
+        if (casosPayroll.length === 0) {
+            if (casosPayrollSelector.length > 0 && llamadaCasosPr === true) {
+                setCasosPayroll(casosPayrollSelector)
+                setColumnasCPR(COLUMNASCPR)
+            } else if (llamadaCasosPr === false) {
+                obtenerCasosPr()
+                setColumnasCPR(COLUMNASCPR)
+                setLlamadaCasosPr(true)
+            }
+        }
 
-    console.log("hook:",)
+    }, [misCasosActivosSelector, casosResueltosSelector, casoIdSelector, asuntosSelector, contactSelector, casosFmSelector, instalacionSedeSelector, correoEletronicoSelector, areaAderivarSelector, casosPayrollSelector])
 
+    console.log("hook:", casosPayroll)
+
+    const obtenerCasosPr = () => {
+        dispatch(consultaFETCHcasosPayroll())
+    }
 
     const obtenerContacts = () => {
         dispatch(consultaFETCHcontacts())
@@ -496,7 +514,12 @@ const VistaCasos = () => {
                     </li>
                     <li className="nav-item" role="presentation">
                         <button className="nav-link fw-bolder text-dark" id="cfm-tab" data-bs-toggle="tab" data-bs-target="#cfm" type="button" role="tab" aria-controls="cfm" aria-selected="false">
-                            Casos de FM
+                            Casos Pendientes de FM
+                        </button>
+                    </li>
+                    <li className="nav-item" role="presentation">
+                        <button className="nav-link fw-bolder text-dark" id="cpr-tab" data-bs-toggle="tab" data-bs-target="#cpr" type="button" role="tab" aria-controls="cpr" aria-selected="false">
+                            Casos Pendientes de Payroll
                         </button>
                     </li>
                 </ul>
@@ -560,6 +583,25 @@ const VistaCasos = () => {
                                             />
                                         ) : null}
 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="tab-pane fade show p-3" id="cpr" role="tabpanel" aria-labelledby="cpr-tab">
+                        <div className="col-sm-12 p-2 mt-3">
+                            <div className="card shadow p-3 border-0 h-auto d-flex justify-content-start pad">
+                                <div className="card pad borde-none">
+                                    <div className="lista-header color-header pad">
+                                        {casosPayroll.length > 0 ? (
+                                            <Tabla
+                                                lineas={casosPayroll}
+                                                columnas={columnasCPR}
+                                                titulo={"Casos-Payroll"}
+                                                header={false}
+                                            />
+                                        ) : null}
                                     </div>
                                 </div>
                             </div>
