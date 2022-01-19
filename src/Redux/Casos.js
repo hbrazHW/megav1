@@ -5,7 +5,8 @@ const dataInicial = {
     loading: false,
     misCasosActivos: [],
     casosResueltos: [],
-    casosFm:[],
+    casosFm: [],
+    casosPayroll: [],
     asuntos: [],
     instalacionSede: [],
     areaAderivar: [],
@@ -17,6 +18,7 @@ const dataInicial = {
 
 
 //types
+const OBTENER_CASOS_PAYROLL = "OBTENER_CASOS_PAYROLL"
 const CARGA_CASOS_EXITO = "CARGA_CASOS_EXITO"
 const OBTENER_CASO_EXITO = "OBTENER_CASO_EXITO"
 const OBTENER_NOMBRE_ASUNTOS = "OBTENER_NOMBRE_ASUNTOS"
@@ -32,6 +34,8 @@ const ERROR = "ERROR";
 //reducer
 export default function casosReducers(state = dataInicial, action) {
     switch (action.type) {
+        case OBTENER_CASOS_PAYROLL:
+            return { ...state, casosPayroll: action.payload, loading: false };
         case CARGA_CASOS_EXITO:
             return { ...state, resultadoCaso: action.resultadoCaso, ticket: action.ticket }
         case OBTENER_CASO_EXITO:
@@ -155,20 +159,32 @@ export const consultaFETCHcasosFm = () => async (dispatch) => {
 
     var entidad = "incidents";
     var fetch = "<fetch mapping='logical' distinct='false'>" +
-    "<entity name='incident'>" +
-      "<attribute name='incidentid' />" +
-      "<attribute name='createdon' />" +
-      "<attribute name='ticketnumber' />" +
-      "<attribute name='prioritycode' />" +
-      "<attribute name='productserialnumber' />" +
-      "<attribute name='new_instalacionporsede' />" +
-      "<attribute name='new_derivacion' />" +
-      "<attribute name='new_areaaescalar' />" +
-      "<attribute name='new_equipodetenido' />" +
-      "<attribute name='new_alaesperaderepuestos' />" +
-      "<order attribute='new_equipodetenido' descending='true' />" +
-    "</entity>" +
-  "</fetch>";
+        "<entity name='incident'>" +
+        "<attribute name='ticketnumber' />" +
+        "<attribute name='new_vencimiento' />" +
+        "<attribute name='new_comentarios' />" +
+        "<attribute name='new_cliente' />" +
+        "<attribute name='subjectid' />" +
+        "<attribute name='customerid' />" +
+        "<attribute name='new_casovencido' />" +
+        "<attribute name='statuscode' />" +
+        "<attribute name='ownerid' />" +
+        "<attribute name='new_fechaalta' />" +
+        "<attribute name='new_areaaescalar' />" +
+        "<attribute name='incidentid' />" +
+        "<attribute name='prioritycode' />" +
+        "<attribute name='new_instalacionporsede' />" +
+        "<attribute name='createdon' />" +
+        "<attribute name='new_equipodetenido' />" +
+        "<attribute name='new_alaesperaderepuestos' />" +
+        "<order attribute='new_vencimiento' descending='true' />" +
+        "<order attribute='ticketnumber' descending='false' />" +
+        "<filter type='and'>" +
+        "<condition attribute='statecode' operator='eq' value='0' />" +
+        "<condition attribute='new_asuntoprimario' operator='eq' value='4' />" +
+        "</filter>" +
+        "</entity>" +
+        "</fetch>";
 
     try {
         const response = await axios.get(
@@ -177,7 +193,7 @@ export const consultaFETCHcasosFm = () => async (dispatch) => {
         dispatch({
             type: OBTENER_CASOS_FM,
             payload: response.data,
-            
+
         });
     } catch (error) {
         dispatch({
@@ -226,13 +242,13 @@ export const consultaFETCHinstalacionSede = () => async (dispatch) => {
 
     var entidad = "new_instalacionesporsedes";
     var fetch = "<fetch mapping='logical' distinct='false'>" +
-    "<entity name='new_instalacionesporsede'>" +
-      "<attribute name='new_instalacionesporsedeid' />" +
-      "<attribute name='new_name' />" +
-      "<attribute name='createdon' />" +
-      "<order attribute='new_name' descending='false' />" +
-    "</entity>" +
-  "</fetch>" ;
+        "<entity name='new_instalacionesporsede'>" +
+        "<attribute name='new_instalacionesporsedeid' />" +
+        "<attribute name='new_name' />" +
+        "<attribute name='createdon' />" +
+        "<order attribute='new_name' descending='false' />" +
+        "</entity>" +
+        "</fetch>";
 
     try {
         const response = await axios.get(
@@ -258,13 +274,13 @@ export const consultaFETCHareaAderivar = () => async (dispatch) => {
 
     var entidad = "new_areas";
     var fetch = "<fetch mapping='logical' distinct='false'>" +
-    "<entity name='new_area'>" +
-      "<attribute name='new_areaid' />" +
-      "<attribute name='new_name' />" +
-      "<attribute name='createdon' />" +
-      "<order attribute='new_name' descending='false' />" +
-    "</entity>" +
-  "</fetch>";
+        "<entity name='new_area'>" +
+        "<attribute name='new_areaid' />" +
+        "<attribute name='new_name' />" +
+        "<attribute name='createdon' />" +
+        "<order attribute='new_name' descending='false' />" +
+        "</entity>" +
+        "</fetch>";
 
     try {
         const response = await axios.get(
@@ -281,6 +297,54 @@ export const consultaFETCHareaAderivar = () => async (dispatch) => {
     }
 };
 
+export const consultaFETCHcasosPayroll = () => async (dispatch) => {
+    dispatch({
+        type: LOADING,
+    });
+
+    var entidad = "incidents";
+    var fetch = "<fetch mapping='logical' distinct='false'>" +
+        "<entity name='incident'>" +
+        "<attribute name='ticketnumber' />" +
+        "<attribute name='new_vencimiento' />" +
+        "<attribute name='new_comentarios' />" +
+        "<attribute name='new_cliente' />" +
+        "<attribute name='subjectid' />" +
+        "<attribute name='customerid' />" +
+        "<attribute name='statuscode' />" +
+        "<attribute name='new_fechaalta' />" +
+        "<attribute name='new_propietario' />" +
+        "<attribute name='new_solicitante' />" +
+        "<attribute name='new_region' />" +
+        "<attribute name='new_puestodelsolicitante' />" +
+        "<attribute name='incidentid' />" +
+        "<attribute name='statecode' />" +
+        "<attribute name='new_asuntoprimario' />" +
+        "<attribute name='new_areaaescalar' />" +
+        "<attribute name='createdon' />" +
+        "<order attribute='new_vencimiento' descending='false' />" +
+        "<order attribute='ticketnumber' descending='false' />" +
+        "<filter type='and'>" +
+        "<condition attribute='statecode' operator='eq' value='0' />" +
+        "<condition attribute='new_asuntoprimario' operator='eq' value='5' />" +
+        "</filter>" +
+        "</entity>" +
+        "</fetch>";
+
+    try {
+        const response = await axios.get(
+            `${UrlApiDynamics}ConsultaFetch?Entidad=${entidad}&fetch=${fetch}&cuit=${Entidad}`
+        );
+        dispatch({
+            type: OBTENER_CASOS_PAYROLL,
+            payload: response.data,
+        });
+    } catch (error) {
+        dispatch({
+            type: ERROR,
+        });
+    }
+}
 
 ///// Obtener Id
 
@@ -293,7 +357,7 @@ export const obtenerCasosId = (id) => (dispatch) => {
     }
 }
 
-export const cargarForm = (contactid, asunto, asuntoPrimario, solicitante, puestoSolicitante, tipoCaso, comentarios, sucursal,instalacionPorSede,equipoDetenido,prioridad,derivar,areaEscalar, file, config) => async (dispatch) => {
+export const cargarForm = (contactid, asunto, asuntoPrimario, solicitante, puestoSolicitante, tipoCaso, comentarios, sucursal, instalacionPorSede, equipoDetenido, prioridad, derivar, areaEscalar, file, config) => async (dispatch) => {
     dispatch({
         type: LOADING,
         resultadoCaso: 'LOADING'
