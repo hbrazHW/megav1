@@ -9,7 +9,7 @@ import LogoBlancoTransparente from "../img/LogoBlancoTransparente.png"
 import casos from '../img/casos.jpg'
 
 
-const Cover = () => {
+const Cover = (props) => {
   const fade = useSpring({
     from: {
       opacity: 0,
@@ -20,6 +20,7 @@ const Cover = () => {
     },
   });
 
+  // props.history.push('/login')
 
   return (
     <animated.div style={fade}>
@@ -153,4 +154,4 @@ const Cover = () => {
   );
 };
 
-export default withRouter(Cover);
+export default withRouter(Cover)

@@ -24,7 +24,7 @@ const Login = (props) => {
 
     React.useEffect(() => {
         if (activo) {
-            props.history.push('/')
+            props.history.push('/Cover')
         } else if (errorSelector && log) {
             document.getElementById("login").style.display = "block"
             document.getElementById("spinner-login").style.display = "none"
@@ -148,13 +148,14 @@ const Login = (props) => {
                                 <div className="row mt-4">
                                     <div className="col-sm-12">
                                         <button className="btn btn-primary btn-lg btn-block w-100"
-                                            type="submit"
+                                             type="button"
+                                             onClick={ProcesarLogin}
                                         >Ingresar</button>
                                     </div>
                                 </div>
                                 <div className="row mt-4">
                                     <div className="col-sm-12">
-                                    <NavLink className="link-registro" to="/registro">O registrarse?</NavLink>
+                                    <Link className="link-registro" to="/registro">O registrarse?</Link>
                                     </div>
                                 </div>
                             </form>

@@ -99,7 +99,7 @@ const Navbar = (props) => {
 
   const CerrarSesion = () => {
     dispatch(cerrarSesion());
-    props.history.push("/login");
+    props.history.push("/");
   };
 
   const botonMenu = () => {
