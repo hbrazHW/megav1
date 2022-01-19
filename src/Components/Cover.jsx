@@ -9,7 +9,7 @@ import LogoBlancoTransparente from "../img/LogoBlancoTransparente.png"
 import casos from '../img/casos.jpg'
 
 
-const Cover = () => {
+const Cover = (props) => {
   const fade = useSpring({
     from: {
       opacity: 0,
@@ -20,6 +20,7 @@ const Cover = () => {
     },
   });
 
+  // props.history.push('/login')
 
   return (
     <animated.div style={fade}>
@@ -49,7 +50,7 @@ const Cover = () => {
             <div className="col-sm-6 mt-4 pt-3">
               <h1 className="fw-bolder text-center text-white">Portal Megatlon</h1>
               <p className="text-center text-white">
-                Administre sus casos, cree documentos legales y gestione sus
+                Administra sus casos, crea documentos legales y gestiona sus
                 recursos humanos desde aquí de manera practica y rápida.
               </p>
             </div>
@@ -153,4 +154,4 @@ const Cover = () => {
   );
 };
 
-export default withRouter(Cover);
+export default withRouter(Cover)

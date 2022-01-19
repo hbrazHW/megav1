@@ -59,26 +59,26 @@ function App() {
       <div>
       <Navbar loggedUser={loggedUser} />
           <Switch>
-            <Route component={Inicio} path="/inicio" exact />
-            <Route component={Login} path="/login" exact/>
-            <Route component={VistaCasos} path="/vista-casos" />
-            <Route component={VistaDocumentos} path="/vista-documentos" exact/>
-            <Route component={VistaRh} path="/vista-recursoshumanos" exact />
-            <Route component={CarpetaDigital} path="/carpetadigital" exact /> 
+            {/* <Route component={Inicio} path="/inicio"  /> */}
+            <Route component={Cover} path="/Cover" exact />
+            <Route component={Login} path="/" exact/>
+            <Route component={VistaCasos} path="/vista-casos" exact />
+            <Route component={VistaDocumentos} path="/vista-documentos" exact />
+            <Route component={VistaRh} path="/vista-recursoshumanos" exact  />
+            {/* <Route component={CarpetaDigital} path="/carpetadigital" exact /> 
             <Route component={Lineas} path="/lineas" exact /> 
-            <Route component={Garantias} path="/garantias" exact/>
-            <Route component={Operaciones} path="/operaciones"/> 
-            <Route component={Notificacion} path="/notificacion" />
-            <Route component={Cuenta} path="/cuenta" exact/> 
-            <Route component={PrecalificacionCrediticia} path="/precalificacion-crediticia" />
+            <Route component={Garantias} path="/garantias" exact/> */}
+            {/* <Route component={Operaciones} path="/operaciones"/> 
+            <Route component={Notificacion} path="/notificacion" /> */}
+            <Route component={Cuenta} path="/cuenta" exact /> 
+            {/* <Route component={PrecalificacionCrediticia} path="/precalificacion-crediticia" /> */}
             <Route component={RecuperoContrasena} path="/recupero" exact />
             <Route component={Registro} path="/registro" exact /> 
             <Route component={Legales} path="/Legales" exact />
-            <Route component={Casos} path="/Casos" exact />
-            <Route component={RecursosHumanos} path="/RecursosHumanos" exact />
-            <Route component={AdjuntarArchivo} path="/AdjuntarArchivo" exact />
+            <Route component={Casos} path="/Casos" exact/>
+            <Route component={RecursosHumanos} path="/RecursosHumanos" exact/>
+            {/* <Route component={AdjuntarArchivo} path="/AdjuntarArchivo" exact /> */}
             <Route component={PastePrint} path="/PastePrint" exact />
-            <Route component={Cover} path="/" exact />
           </Switch>
         <Footer loggedUser={loggedUser} />
       </div>

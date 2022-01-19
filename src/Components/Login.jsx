@@ -24,7 +24,7 @@ const Login = (props) => {
 
     React.useEffect(() => {
         if (activo) {
-            props.history.push('/')
+            props.history.push('/Cover')
         } else if (errorSelector && log) {
             document.getElementById("login").style.display = "block"
             document.getElementById("spinner-login").style.display = "none"
@@ -73,7 +73,10 @@ const Login = (props) => {
         // dispatch(loginUsuario(mail, pass))
         setLog(true)
     }
-    
+     
+   
+
+
   
     return (
         <animated.div className="portada" style={fade} > 
@@ -92,11 +95,11 @@ const Login = (props) => {
                                     <h6 className="m-0  fw-bold">Iniciar Sesión</h6>
                                 </div>
                             </div>
-                            <div className="col-sm-7">
+                            {/* <div className="col-sm-7">
                                 <div className="float-right text-end">
                                     <Link className=" link-recupero  p-1" to="/precalificacion-crediticia">Todavia no sos socio? ingresa aca</Link>
                                 </div>
-                            </div>
+                            </div> */}
 
                         </div>
                         <div className="card-body p-3">
@@ -145,8 +148,14 @@ const Login = (props) => {
                                 <div className="row mt-4">
                                     <div className="col-sm-12">
                                         <button className="btn btn-primary btn-lg btn-block w-100"
-                                            type="submit"
+                                             type="button"
+                                             onClick={ProcesarLogin}
                                         >Ingresar</button>
+                                    </div>
+                                </div>
+                                <div className="row mt-4">
+                                    <div className="col-sm-12">
+                                    <Link className="link-registro" to="/registro">O registrarse?</Link>
                                     </div>
                                 </div>
                             </form>
