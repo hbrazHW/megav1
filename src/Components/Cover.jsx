@@ -7,9 +7,13 @@ import personal from "../img/personal.jpg";
 import megatlonPortada from "../img/megatlonPortada.png";
 import LogoBlancoTransparente from "../img/LogoBlancoTransparente.png"
 import casos from '../img/casos.jpg'
+import { useDispatch, useSelector } from "react-redux";
+import { tieneRolAdmin } from "../Redux/Contact";
 
 
 const Cover = (props) => {
+  const dispatch = useDispatch();
+
   const fade = useSpring({
     from: {
       opacity: 0,
@@ -21,6 +25,27 @@ const Cover = (props) => {
   });
 
   // props.history.push('/login')
+
+  const [contactsAdmin, setContactsAdmin] = React.useState([])
+  const [llamadaContactsA, setLlamadaContactsA] = React.useState(false)
+  const contactoRolAdmin = useSelector(store => store.contacts.rolAdmin)
+
+  React.useEffect(() => {
+    if(contactsAdmin.length === 0){
+      if(contactoRolAdmin.length > 0 && llamadaContactsA === true){
+        setContactsAdmin(contactoRolAdmin)
+      }else if(llamadaContactsA === false){
+        obtenerContactosRolAdmin()
+        setLlamadaContactsA(true)
+      }
+    }
+  }, [contactoRolAdmin])
+
+  const obtenerContactosRolAdmin = () => {
+    dispatch(tieneRolAdmin())
+  }
+
+  console.log("contactos con rol admin:", contactsAdmin)
 
   return (
     <animated.div style={fade}>
