@@ -9,7 +9,7 @@ import LogoBlancoTransparente from "../img/LogoBlancoTransparente.png"
 import casos from '../img/casos.jpg'
 import { useDispatch, useSelector } from "react-redux";
 import { tieneRolAdmin } from "../Redux/Contact";
-
+import { obtenerContacto } from "../Redux/Contacto";
 
 const Cover = (props) => {
   const dispatch = useDispatch();
@@ -29,6 +29,11 @@ const Cover = (props) => {
   const [contactsAdmin, setContactsAdmin] = React.useState([])
   const [llamadaContactsA, setLlamadaContactsA] = React.useState(false)
   const contactoRolAdmin = useSelector(store => store.contacts.rolAdmin)
+  const contactid = useSelector((store) => store.usuarios.contactid);
+  const [contacto, setContacto] = React.useState([]);
+  const [llamadaContactos, setLlamadaContactos] = React.useState(false);
+  const contactoSelector = useSelector((store) => store.contactos.contacto);
+  const[rolAdmin, setRolAdmin] = React.useState('')
 
   React.useEffect(() => {
     if(contactsAdmin.length === 0){
@@ -39,13 +44,38 @@ const Cover = (props) => {
         setLlamadaContactsA(true)
       }
     }
-  }, [contactoRolAdmin])
+  
+    if (
+      Object.keys(contactoSelector).length > 0 &&
+      llamadaContactos === true
+    ) {
+      setContacto(contactoSelector);
+    } else if (
+      Object.keys(contactoSelector).length === 0 &&
+      llamadaContactos === false
+    ) {
+      obtenerMiContacto();
+      setLlamadaContactos(true);
+    }
+    if (contactoRolAdmin) {
+      setRolAdmin(contactoRolAdmin)
+  }
+  console.log("rol admin:", contactoRolAdmin)
+
+  }, [contactoRolAdmin, contactoSelector, rolAdmin])
 
   const obtenerContactosRolAdmin = () => {
-    dispatch(tieneRolAdmin())
+    dispatch(tieneRolAdmin(contactoRolAdmin))
   }
 
-  console.log("contactos con rol admin:", contactsAdmin)
+  const obtenerMiContacto = async () => {
+    dispatch(obtenerContacto(contactid));
+
+  };
+  console.log("contactos id:", contactid)
+
+  
+
 
   return (
     <animated.div style={fade}>
@@ -137,14 +167,15 @@ const Cover = (props) => {
                   </div>
                 </div>
                 <div className="carousel-item  ">
-                  <Link to="/vista-recursoshumanos">
-                    <img src={personal} className="d-block w-100 " alt="rrhh" />
-                  </Link>
+                {rolAdmin.contactid == contactid ?<Link to="/vista-recursoshumanos">
+                    <img src={personal} className="d-block w-100 " alt="rrhh"  />
+                  </Link>: null}
                   <div className="carousel-caption d-none d-md-block">
                     <h4 className="fw-bolder">RRHH</h4>
                     <p className="text-white">Vista de busqueda de Personal.</p>
                   </div>
                 </div>
+          
               </div>
               <button
                 className="carousel-control-prev"

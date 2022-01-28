@@ -1,9 +1,9 @@
 const useGetUserPermisssions = () => {
-  // lógica para pegar as permissões das pessoas
-  return ['canEdit', 'canSave']
+  // lógica para darle permisos a los usuarios 
+  return ['canSeeTiltle','canEdit', 'canSave']
 }
 
-const PermisssionGate = ({ children, permissions, user }) => {
+const VistaPrivada = ({ children, permissions, user }) => {
   const userPermissions = user.permissions
 
   if (
@@ -18,4 +18,4 @@ const PermisssionGate = ({ children, permissions, user }) => {
   return null
 }
 
-export default PermisssionGate
+export default VistaPrivada
