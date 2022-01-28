@@ -68,8 +68,16 @@ body::-webkit-scrollbar-thumb,
   font-size: 14px;
   font-weight: bold;
   text-decoration: none;
-  color: #ffffff;
+ 
 }
+
+.link-registro{
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: none;
+ 
+}
+
 .logo-login {
   width: 320px;
 }
@@ -685,12 +693,12 @@ select#telefono {
 }
 
 .video-logo {
-  width: 28%;
-  height: 28%;
+  width: 66%;
+  height: 12%;
   display: flex;
   align-self:center;
   justify-content: center;
-  opacity: 85%;
+ 
  
 }
 
