@@ -17,9 +17,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAlignJustify,
   faAlignCenter,
-  faPlus
+  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import logo from "../img/megablanco.png";
+import { tieneRolAdmin } from "../Redux/Contact";
+import RecursosHumanos from "./RecursosHumanos";
 
 const Navbar = (props) => {
   //Constantes
@@ -41,6 +43,11 @@ const Navbar = (props) => {
   const cuentaSelector = useSelector((store) => store.cuenta.cuenta);
   const contactoSelector = useSelector((store) => store.contactos.contacto);
   const contactid = useSelector((store) => store.usuarios.contactid);
+
+  const [contactsAdmin, setContactsAdmin] = React.useState([]);
+  const [llamadaContactsA, setLlamadaContactsA] = React.useState(false);
+  const contactoRolAdmin = useSelector((store) => store.contacts.rolAdmin);
+  const [rolAdmin, setRolAdmin] = React.useState("");
 
   const fade = useSpring({
     from: {
@@ -81,9 +88,40 @@ const Navbar = (props) => {
       } else {
         const resCuenta = await obtenerMiCuenta();
       }
-    }
-  }, [activo, notificacionesSelector, cuentaSelector, contactoSelector]);
+      if (contactsAdmin.length === 0) {
+        if (contactoRolAdmin.length > 0 && llamadaContactsA === true) {
+          setContactsAdmin(contactoRolAdmin);
+        } else if (llamadaContactsA === false) {
+          obtenerContactosRolAdmin();
+          setLlamadaContactsA(true);
+        }
+      }
+      // if (contacto.length === 0) {
+      //   setRolAdmin(contacto);{
+      // }setRolAdmin(rolAdmin.contactid == contactid);
+        
 
+      // }
+      console.log("rol admin:", contactoRolAdmin);
+    }
+  }, [
+    activo,
+    notificacionesSelector,
+    cuentaSelector,
+    contactoSelector,
+    contactoRolAdmin,
+    rolAdmin,
+  ]);
+
+  const obtenerContactosRolAdmin = async () => {
+    dispatch(tieneRolAdmin(contactid));
+  };
+
+  // console.log("contactos con rol admin:", contactsAdmin)
+
+  if (rolAdmin.contactid == contactid) {
+    return <RecursosHumanos />;
+  }
 
   const obtenerNotificacionesCuenta = async () => {
     dispatch(obtenerNotificaciones(accountid));
@@ -162,10 +200,10 @@ const Navbar = (props) => {
                     >
                       <span className="container"></span>
                       <FontAwesomeIcon
-                    icon={faPlus}
-                    className="fs-3 upload-file atras plus"
-                    style={fade}
-                  />
+                        icon={faPlus}
+                        className="fs-3 upload-file atras plus"
+                        style={fade}
+                      />
                     </button>
                     <div className="dropdown-menu shadow mt-3 dropdown-menu-end pad borde-none">
                       <div className="card card-notificacion pad borde-none">
@@ -175,34 +213,36 @@ const Navbar = (props) => {
                         </div>
                         <div className="card-body p-0 bg-white  borde-none">
                           <ul className="list-group w-100 overflow-auto notificaciones-menu">
-                          <div className="">
-                            <div className="col-12 mt-2">
-                              <Link
-                                className=" mr-5 text-decoration-none"
-                                to="/Casos"
-                              >
-                                <button className="dropdown-item mb-2 p-3 rounded-3 perfil-link fw-bolder">
-                                  Crear Caso
-                                </button>
-                              </Link>
-                              <Link
-                                className=" mr-5 text-decoration-none"
-                                to="/legales"
-                              >
-                                <button className="dropdown-item mb-2 p-3 rounded-3 perfil-link fw-bolder">
-                                  Crear Legal
-                                </button>
-                              </Link>
-                              <Link
-                                className=" mr-5 text-decoration-none"
-                                to="/RecursosHumanos"
-                              >
-                                <button className="dropdown-item mb-2 p-3 rounded-3 perfil-link fw-bolder">
-                                  Formulario RRHH
-                                </button>
-                              </Link>
+                            <div className="">
+                              <div className="col-12 mt-2">
+                                <Link
+                                  className=" mr-5 text-decoration-none"
+                                  to="/Casos"
+                                >
+                                  <button className="dropdown-item mb-2 p-3 rounded-3 perfil-link fw-bolder">
+                                    Crear Caso
+                                  </button>
+                                </Link>
+                                <Link
+                                  className=" mr-5 text-decoration-none"
+                                  to="/legales"
+                                >
+                                  <button className="dropdown-item mb-2 p-3 rounded-3 perfil-link fw-bolder">
+                                    Crear Legal
+                                  </button>
+                                </Link>
+                                {rolAdmin.contactid == contactid ? (
+                                  <Link
+                                    className=" mr-5 text-decoration-none"
+                                    to="/RecursosHumanos"
+                                  >
+                                    <button className="dropdown-item mb-2 p-3 rounded-3 perfil-link fw-bolder">
+                                      Formulario RRHH
+                                    </button>
+                                  </Link>
+                                ) : null}
+                              </div>
                             </div>
-                          </div>
                           </ul>
                         </div>
                         {/* <div className="card-footer bg-white text-muted text-center border-none fw-bolder">
@@ -327,10 +367,10 @@ const Navbar = (props) => {
                     >
                       <span className="container"></span>
                       <FontAwesomeIcon
-                    icon={faPlus}
-                    className="fs-3 upload-file atras plus"
-                    style={fade}
-                  />
+                        icon={faPlus}
+                        className="fs-3 upload-file atras plus"
+                        style={fade}
+                      />
                     </button>
                     <div className="dropdown-menu shadow mt-3 dropdown-menu-end pad borde-none">
                       <div className="card card pad borde-none">
@@ -341,33 +381,36 @@ const Navbar = (props) => {
                         <div className="card-body p-0 bg-white  borde-none">
                           <ul className="list-group w-100  ">
                             <div className="">
-                            <div className="col-12 mt-2">
-                              <Link
-                                className=" mr-5 text-decoration-none"
-                                to="/Casos"
-                              >
-                                <button className="dropdown-item mb-2 p-3 rounded-3 perfil-link fw-bolder">
-                                  Crear Caso
-                                </button>
-                              </Link>
-                              <Link
-                                className=" mr-5 text-decoration-none"
-                                to="/legales"
-                              >
-                                <button className="dropdown-item mb-2 p-3 rounded-3 perfil-link fw-bolder">
-                                  Crear Legal
-                                </button>
-                              </Link>
-                              <Link
-                                className=" mr-5 text-decoration-none"
-                                to="/RecursosHumanos"
-                              >
-                                <button className="dropdown-item mb-2 p-3 rounded-3 perfil-link fw-bolder">
-                                  Formulario RRHH
-                                </button>
-                              </Link>
+                              <div className="col-12 mt-2">
+                                <Link
+                                  className=" mr-5 text-decoration-none"
+                                  to="/Casos"
+                                >
+                                  <button className="dropdown-item mb-2 p-3 rounded-3 perfil-link fw-bolder">
+                                    Crear Caso
+                                  </button>
+                                </Link>
+                                <Link
+                                  className=" mr-5 text-decoration-none"
+                                  to="/legales"
+                                >
+                                  <button className="dropdown-item mb-2 p-3 rounded-3 perfil-link fw-bolder">
+                                    Crear Legal
+                                  </button>
+                                </Link>
+
+                                {rolAdmin.contactid == contactid ? (
+                                  <Link
+                                    className=" mr-5 text-decoration-none"
+                                    to="/RecursosHumanos"
+                                  >
+                                    <button className="dropdown-item mb-2 p-3 rounded-3 perfil-link fw-bolder">
+                                      Formulario RRHH
+                                    </button>
+                                  </Link>
+                                ) : null}
+                              </div>
                             </div>
-                          </div>
                           </ul>
                         </div>
                       </div>
