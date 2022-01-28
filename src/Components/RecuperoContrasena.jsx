@@ -1,5 +1,5 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import { Toast } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -71,7 +71,7 @@ const RecuperoContrasena = (props) => {
 
   const Redirigir = async () =>
     setTimeout(() => {
-      props.history.push("/login");
+      props.history.push("/");
     }, 2500);
 
   return (
@@ -120,12 +120,19 @@ const RecuperoContrasena = (props) => {
                 <div className="row mt-4">
                   <div className="col-12">
                     <button
-                      className="btn btn-primary btn-lg btn-block w-100 bg-secundario"
+                      className="btn btn-dark btn-lg btn-block w-100"
                       type="button"
                       onClick={ProcesarRecupero}
                     >
                       Recuperar
                     </button>
+                  </div>
+                </div>
+                <div className="row mt-4">
+                  <div className="col-sm-12">
+                    <Link className="link-registro" to="/">
+                      Volver al Login
+                    </Link>
                   </div>
                 </div>
               </form>

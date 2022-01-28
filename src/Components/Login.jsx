@@ -24,7 +24,7 @@ const Login = (props) => {
 
     React.useEffect(() => {
         if (activo) {
-            props.history.push('/Cover')
+            props.history.push('/Home')
         } else if (errorSelector && log) {
             document.getElementById("login").style.display = "block"
             document.getElementById("spinner-login").style.display = "none"
@@ -132,22 +132,22 @@ const Login = (props) => {
                                                 value="check"
                                                 id="flexCheckDefault"
                                                 checked
-                                                readOnly
+                                                //readOnly
                                             />
                                             <label className="form-check-label fs-6 fw-bold" hrmlfor="flexCheckDefault">
                                                 Recordarme
                                             </label>
                                         </div>
                                     </div>
-                                    <div className="col-sm-6">
-                                        <div className="float-right text-end">
-                                            <NavLink className="link-recupero" to="/recupero">olvidaste tu contraseña?</NavLink>
+                                    <div className="row mt-4">
+                                        <div className="col-sm-12">
+                                            <Link className="link-recupero" to="/recupero">olvidaste tu contraseña?</Link>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="row mt-4">
                                     <div className="col-sm-12">
-                                        <button className="btn btn-primary btn-lg btn-block w-100"
+                                        <button className="btn btn-dark btn-lg btn-block w-100"
                                              type="button"
                                              onClick={ProcesarLogin}
                                         >Ingresar</button>
@@ -155,7 +155,7 @@ const Login = (props) => {
                                 </div>
                                 <div className="row mt-4">
                                     <div className="col-sm-12">
-                                    <Link className="link-registro" to="/registro">O registrarse?</Link>
+                                    <Link className="link-registro" to="/registro">Registrarse?</Link>
                                     </div>
                                 </div>
                             </form>

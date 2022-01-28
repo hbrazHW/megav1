@@ -153,10 +153,15 @@ const Registro = () => {
                                 </div>
                                 <div className="row mt-4">
                                     <div className="col-sm-12">
-                                        <button className="btn btn-primary btn-lg btn-block w-100"
+                                        <button className="btn btn-dark btn-lg btn-block w-100"
                                             type="button"
                                             onClick={ProcesarLogin}
                                         >Registrar</button>
+                                    </div>
+                                </div>
+                                <div className="row mt-4">
+                                    <div className="col-sm-12">
+                                    <Link className="link-registro" to="/">O ingresar</Link>
                                     </div>
                                 </div>
                             </form>

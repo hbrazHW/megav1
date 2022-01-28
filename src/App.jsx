@@ -26,7 +26,7 @@ import Casos from './Components/Casos'
 import RecursosHumanos from './Components/RecursosHumanos';
 import AdjuntarArchivo from './Components/AdjuntarArchivo';
 import PastePrint from './Components/PastePrint';
-import Cover from './Components/Cover';
+import Home from './Components/Home';
 import VistaCasos from './Components/VistaCasos';
 import VistaDocumentos from './Components/VistaDocumentos';
 import VistaRh from './Components/VistaRh';
@@ -60,7 +60,7 @@ function App() {
       <Navbar loggedUser={loggedUser} />
           <Switch>
             {/* <Route component={Inicio} path="/inicio"  /> */}
-            <Route component={Cover} path="/Cover" exact />
+            <Route component={Home} path="/Home" exact />
             <Route component={Login} path="/" exact/>
             <Route component={VistaCasos} path="/vista-casos" exact />
             <Route component={VistaDocumentos} path="/vista-documentos" exact />
