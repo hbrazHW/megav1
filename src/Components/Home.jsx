@@ -11,8 +11,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { tieneRolAdmin } from "../Redux/Contact";
 import { obtenerContacto } from "../Redux/Contacto";
 import logo from "../img/megablanco.png";
+import reactSelect from "react-select";
 
-const Home = (props) => {
+const Home = (value) => {
   const dispatch = useDispatch();
 
   const fade = useSpring({
@@ -34,48 +35,59 @@ const Home = (props) => {
   const [contacto, setContacto] = React.useState([]);
   const [llamadaContactos, setLlamadaContactos] = React.useState(false);
   const contactoSelector = useSelector((store) => store.contactos.contacto);
-  const[rolAdmin, setRolAdmin] = React.useState('')
-
+  const[rolAdmin, setRolAdmin] = React.useState(false)
   React.useEffect(() => {
-    if(contactsAdmin.length === 0){
-      if(contactoRolAdmin.length > 0 && llamadaContactsA === true){
-        setContactsAdmin(contactoRolAdmin)
-      }else if(llamadaContactsA === false){
-        obtenerContactosRolAdmin()
-        setLlamadaContactsA(true)
-      }
-    }
+  //   if(contactsAdmin.length === 0){
+  //     if(contactoRolAdmin.length > 0 && llamadaContactsA === true){
+  //       setContactsAdmin(contactoRolAdmin)
+  //     }else if(llamadaContactsA === false){
+  //       obtenerContactosRolAdmin()
+  //       setLlamadaContactsA(true)
+  //     }
+  //   }
   
-    if (
-      Object.keys(contactoSelector).length > 0 &&
-      llamadaContactos === true
-    ) {
-      setContacto(contactoSelector);
-    } else if (
-      Object.keys(contactoSelector).length === 0 &&
-      llamadaContactos === false
-    ) {
-      obtenerMiContacto();
-      setLlamadaContactos(true);
-    }
-    if (contactoRolAdmin) {
-      setRolAdmin(contactoRolAdmin)
-  }
-  console.log("rol admin:", contactoRolAdmin)
+  //   if (
+  //     Object.keys(contactoSelector).length > 0 &&
+  //     llamadaContactos === true
+  //   ) {
+  //     setContacto(contactoSelector);
+  //   } else if (
+  //     Object.keys(contactoSelector).length === 0 &&
+  //     llamadaContactos === false
+  //   ) {
+  //     obtenerMiContacto();
+  //     setLlamadaContactos(true);
+  //   }
+  //   if (contactoRolAdmin) {
+  //     setRolAdmin(contactoRolAdmin)
+  // }
 
+  if(contactoRolAdmin.length > 0){
+    if(contactid !==null){
+      contactoRolAdmin.filter(item => item.contactid == contactid).map(item => {
+        setRolAdmin(true)
+      })
+    }
+  }
+
+  
+  
+  // console.log("rol admin:", contactoRolAdmin)
+   
   }, [contactoRolAdmin, contactoSelector, rolAdmin])
 
-  const obtenerContactosRolAdmin = () => {
-    dispatch(tieneRolAdmin(contactoRolAdmin))
-  }
+  // const obtenerContactosRolAdmin = () => {
+  //   dispatch(tieneRolAdmin(contactoRolAdmin))
+  // }
 
-  const obtenerMiContacto = async () => {
-    dispatch(obtenerContacto(contactid));
+  // const obtenerMiContacto = async () => {
+  //   dispatch(obtenerContacto(contactid));
 
-  };
-  console.log("contactos id:", contactid)
+  // };
+  // console.log("contactos id:", contactid)
 
-  
+ 
+
 
 
   return (
@@ -171,10 +183,12 @@ const Home = (props) => {
                   </div>
                 </div>
                 <div className="carousel-item  ">
-                {/* {rolAdmin.contactid == contactid ?: null} */}
+                {rolAdmin == true ? (
                 <Link to="/vista-recursoshumanos">
                     <img src={personal} className="d-block w-100 " alt="rrhh"  />
                   </Link>
+                ):null }
+               
                   <div className="carousel-caption d-none d-md-block">
                     <h4 className="fw-bolder">RRHH</h4>
                     <p className="text-white">Vista de busqueda de Personal.</p>

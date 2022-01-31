@@ -102,8 +102,16 @@ const Navbar = (props) => {
         
 
       // }
-      console.log("rol admin:", contactoRolAdmin);
+      // console.log("rol admin:", contactoRolAdmin);
     }
+    if(contactoRolAdmin.length > 0){
+      if(contactid !==null){
+        contactoRolAdmin.filter(item => item.contactid == contactid).map(item => {
+          setRolAdmin(true)
+        })
+      }
+    }
+
   }, [
     activo,
     notificacionesSelector,
@@ -231,7 +239,7 @@ const Navbar = (props) => {
                                     Crear Legal
                                   </button>
                                 </Link>
-                               
+                               {rolAdmin == true ? (
                                   <Link
                                     className=" mr-5 text-decoration-none"
                                     to="/RecursosHumanos"
@@ -240,6 +248,7 @@ const Navbar = (props) => {
                                       Formulario RRHH
                                     </button>
                                   </Link>
+                               ):null }
                                 
                               </div>
                             </div>
@@ -399,7 +408,7 @@ const Navbar = (props) => {
                                   </button>
                                 </Link>
 
-                                
+                                {rolAdmin == true ? (
                                   <Link
                                     className=" mr-5 text-decoration-none"
                                     to="/RecursosHumanos"
@@ -408,6 +417,7 @@ const Navbar = (props) => {
                                       Formulario RRHH
                                     </button>
                                   </Link>
+                                ):null }
                                
                               </div>
                             </div>
