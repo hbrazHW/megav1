@@ -1,7 +1,7 @@
 import React from "react";
 import { useSpring, animated } from "react-spring";
 import { withRouter, Link } from "react-router-dom";
-import VideoMegatlon from "../img/VideoMegatlon.mp4";
+import videoPortada from "../img/videoPortada.mp4"
 import legales from "../img/legales.jpg";
 import personal from "../img/personal.jpg";
 import megatlonPortada from "../img/megatlonPortada.png";
@@ -94,10 +94,10 @@ const Home = (value) => {
     <animated.div style={fade}>
         <div className="container">
           <div className="portada-container" >
-            <video className="video" src={VideoMegatlon} autoPlay loop muted />
-            {/* <div className="col-sm-12 m-0 m-3 m-3 m-0">
+            <video className="video" src={videoPortada} autoPlay loop muted />
+            <div className="col-sm-12 m-0 m-3 m-3 m-0">
               <h1 className="fw-light text-center text-white">Casos | Legales | Recursos Humanos</h1>
-             </div> */}
+             </div>
           </div>
         </div>
       <div className="bg-dark pt-1">
