@@ -95,12 +95,9 @@ const Home = (value) => {
         <div className="container">
           <div className="portada-container" >
             <video className="video" src={VideoMegatlon} autoPlay loop muted />
-            {/* <div className="video-logo">
-              <img className="img-fluid " src={logo}/>
-            </div> */}
-            <div className="col-sm-12 m-0 m-3 m-3 m-0">
-          <h1 className="fw-light text-center text-white">Casos | Legales | Recursos Humanos</h1>
-        </div>
+            {/* <div className="col-sm-12 m-0 m-3 m-3 m-0">
+              <h1 className="fw-light text-center text-white">Casos | Legales | Recursos Humanos</h1>
+             </div> */}
           </div>
         </div>
       <div className="bg-dark pt-1">
