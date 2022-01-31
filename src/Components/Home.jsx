@@ -1,15 +1,19 @@
 import React from "react";
 import { useSpring, animated } from "react-spring";
 import { withRouter, Link } from "react-router-dom";
-import VideoMegatlon from "../img/VideoMegatlon.mp4";
+import videoPortada from "../img/videoPortada.mp4"
 import legales from "../img/legales.jpg";
 import personal from "../img/personal.jpg";
 import megatlonPortada from "../img/megatlonPortada.png";
 import LogoBlancoTransparente from "../img/LogoBlancoTransparente.png"
 import casos from '../img/casos.jpg'
+import { useDispatch, useSelector } from "react-redux";
+import { tieneRolAdmin } from "../Redux/Contact";
+import { obtenerContacto } from "../Redux/Contacto";
+import logo from "../img/megablanco.png";
+import reactSelect from "react-select";
 
-
-const Cover = () => {
+const Home = () => {
   const fade = useSpring({
     from: {
       opacity: 0,
@@ -22,17 +26,79 @@ const Cover = () => {
 
   // props.history.push('/login')
 
+  const [contactsAdmin, setContactsAdmin] = React.useState([])
+  const [llamadaContactsA, setLlamadaContactsA] = React.useState(false)
+  const contactoRolAdmin = useSelector(store => store.contacts.rolAdmin)
+  const contactid = useSelector((store) => store.usuarios.contactid);
+  const [contacto, setContacto] = React.useState([]);
+  const [llamadaContactos, setLlamadaContactos] = React.useState(false);
+  const contactoSelector = useSelector((store) => store.contactos.contacto);
+  const[rolAdmin, setRolAdmin] = React.useState(false)
+  React.useEffect(() => {
+  //   if(contactsAdmin.length === 0){
+  //     if(contactoRolAdmin.length > 0 && llamadaContactsA === true){
+  //       setContactsAdmin(contactoRolAdmin)
+  //     }else if(llamadaContactsA === false){
+  //       obtenerContactosRolAdmin()
+  //       setLlamadaContactsA(true)
+  //     }
+  //   }
+  
+  //   if (
+  //     Object.keys(contactoSelector).length > 0 &&
+  //     llamadaContactos === true
+  //   ) {
+  //     setContacto(contactoSelector);
+  //   } else if (
+  //     Object.keys(contactoSelector).length === 0 &&
+  //     llamadaContactos === false
+  //   ) {
+  //     obtenerMiContacto();
+  //     setLlamadaContactos(true);
+  //   }
+  //   if (contactoRolAdmin) {
+  //     setRolAdmin(contactoRolAdmin)
+  // }
+
+  if(contactoRolAdmin.length > 0){
+    if(contactid !==null){
+      contactoRolAdmin.filter(item => item.contactid == contactid).map(item => {
+        setRolAdmin(true)
+      })
+    }
+  }
+
+  
+  
+  // console.log("rol admin:", contactoRolAdmin)
+   
+  }, [contactoRolAdmin, contactoSelector, rolAdmin])
+
+  // const obtenerContactosRolAdmin = () => {
+  //   dispatch(tieneRolAdmin(contactoRolAdmin))
+  // }
+
+  // const obtenerMiContacto = async () => {
+  //   dispatch(obtenerContacto(contactid));
+
+  // };
+  // console.log("contactos id:", contactid)
+
+ 
+
+
+
   return (
     <animated.div style={fade}>
-        <div className="container">
+      <div className="container">
           <div className="portada-container" >
-            <video className="video" src={VideoMegatlon} autoPlay loop muted />
+            <video className="video" src={videoPortada} autoPlay loop muted />
             <div className="video-logo">
               <img src={LogoBlancoTransparente} alt="IconMegatlon" />
             </div>
           </div>
         </div>
-      <div className="bg-naranja pt-1">
+      <div className="bg-dark pt-1">
         {/* <div className="about-container">
           <div className="description">
             <h3 className="fw-bolder text-white">Portal Megatlon</h3>
@@ -45,7 +111,7 @@ const Cover = () => {
             <img src={megatlonPortada} alt="fotoportada" />
           </div>
         </div> */}
-        <div className="bg-naranja">
+        {/* <div className="bg-naranja">
           <div className="row m-0 m-3 m-3 m-0">
             <div className="col-sm-6 mt-4 pt-3">
               <h1 className="fw-bolder text-center text-white">Portal Megatlon</h1>
@@ -54,11 +120,11 @@ const Cover = () => {
                 recursos humanos desde aquí de manera practica y rápida.
               </p>
             </div>
-            <div className="col-sm-6 pt-4 mb-4">
+            {/* <div className="col-sm-6 pt-4 mb-4">
               <img src={megatlonPortada} className="img-fluid rounded" alt="fotoportada" />
-            </div>
+            </div> 
           </div>
-        </div>
+        </div> */}
         <div className="servicios-container bg-dark">
           <h2 className="text-center fw-bolder m-2 pt-3 text-white" >Servicios</h2>
 
@@ -112,14 +178,18 @@ const Cover = () => {
                   </div>
                 </div>
                 <div className="carousel-item  ">
-                  <Link to="/vista-recursoshumanos">
-                    <img src={personal} className="d-block w-100 " alt="rrhh" />
+                {rolAdmin == true ? (
+                <Link to="/vista-recursoshumanos">
+                    <img src={personal} className="d-block w-100 " alt="rrhh"  />
                   </Link>
+                ):null }
+               
                   <div className="carousel-caption d-none d-md-block">
                     <h4 className="fw-bolder">RRHH</h4>
                     <p className="text-white">Vista de busqueda de Personal.</p>
                   </div>
                 </div>
+          
               </div>
               <button
                 className="carousel-control-prev"
@@ -154,4 +224,4 @@ const Cover = () => {
   );
 };
 
-export default withRouter(Cover)
+export default withRouter(Home)
