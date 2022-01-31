@@ -231,7 +231,7 @@ const Navbar = (props) => {
                                     Crear Legal
                                   </button>
                                 </Link>
-                                {rolAdmin.contactid == contactid ? (
+                               
                                   <Link
                                     className=" mr-5 text-decoration-none"
                                     to="/RecursosHumanos"
@@ -240,7 +240,7 @@ const Navbar = (props) => {
                                       Formulario RRHH
                                     </button>
                                   </Link>
-                                ) : null}
+                                
                               </div>
                             </div>
                           </ul>
