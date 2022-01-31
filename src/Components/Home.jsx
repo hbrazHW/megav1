@@ -92,12 +92,12 @@ const Home = (value) => {
 
   return (
     <animated.div style={fade}>
-        <div className="container">
+      <div className="container">
           <div className="portada-container" >
             <video className="video" src={videoPortada} autoPlay loop muted />
-            <div className="col-sm-12 m-0 m-3 m-3 m-0">
-              <h1 className="fw-light text-center text-white">Casos | Legales | Recursos Humanos</h1>
-             </div>
+            <div className="video-logo">
+              <img src={LogoBlancoTransparente} alt="IconMegatlon" />
+            </div>
           </div>
         </div>
       <div className="bg-dark pt-1">
