@@ -114,7 +114,7 @@ const Navbar = (props) => {
   ]);
 
   const obtenerContactosRolAdmin = async () => {
-    dispatch(tieneRolAdmin(contactid));
+    dispatch(tieneRolAdmin());
   };
 
   // console.log("contactos con rol admin:", contactsAdmin)

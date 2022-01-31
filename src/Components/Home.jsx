@@ -171,9 +171,10 @@ const Home = (props) => {
                   </div>
                 </div>
                 <div className="carousel-item  ">
-                {rolAdmin.contactid == contactid ?<Link to="/vista-recursoshumanos">
+                {/* {rolAdmin.contactid == contactid ?: null} */}
+                <Link to="/vista-recursoshumanos">
                     <img src={personal} className="d-block w-100 " alt="rrhh"  />
-                  </Link>: null}
+                  </Link>
                   <div className="carousel-caption d-none d-md-block">
                     <h4 className="fw-bolder">RRHH</h4>
                     <p className="text-white">Vista de busqueda de Personal.</p>
