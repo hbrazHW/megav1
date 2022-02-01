@@ -684,12 +684,12 @@ select#telefono {
 }
 
 .video {
-  object-fit:cover;
+  // object-fit:cover;
   width: 100%;
   height: 100vh;
   position: absolute;
-  z-index: -1;
-  opacity: 85%;
+  // z-index: -1;
+  // opacity: 85%;
 }
 
 .video-logo {

@@ -21,7 +21,7 @@
     "axios": "^0.21.1",
     "bootstrap": "^5.0.1",
     "copy-image-clipboard": "^2.0.1",
-    "firebase": "^8.6.2",
+    "firebase": "^8.10.1",
     "moment": "^2.29.1",
     "node-sass": "^6.0.0",
     "react": "^17.0.2",

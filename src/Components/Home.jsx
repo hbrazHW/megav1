@@ -89,7 +89,7 @@ const Home = () => {
     <animated.div style={fade}>
       <div className="container">
           <div className="portada-container" >
-            <video className="video" src={videoPortada} autoPlay loop muted />
+            <video className="video container" src={videoPortada} autoPlay loop muted />
             <div className="video-logo">
              <h1 className="fw-lighter text-white text-center">Casos|Legales|Recursos Humanos</h1>
             </div>
