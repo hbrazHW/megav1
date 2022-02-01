@@ -4,13 +4,10 @@ import { withRouter, Link } from "react-router-dom";
 import videoPortada from "../img/videoPortada.mp4"
 import legales from "../img/legales.jpg";
 import personal from "../img/personal.jpg";
-import megatlonPortada from "../img/megatlonPortada.png";
-import LogoBlancoTransparente from "../img/LogoBlancoTransparente.png"
 import casos from '../img/casos.jpg'
 import { useDispatch, useSelector } from "react-redux";
 import { tieneRolAdmin } from "../Redux/Contact";
 import { obtenerContacto } from "../Redux/Contacto";
-import logo from "../img/megablanco.png";
 import reactSelect from "react-select";
 
 const Home = () => {
@@ -94,7 +91,7 @@ const Home = () => {
           <div className="portada-container" >
             <video className="video" src={videoPortada} autoPlay loop muted />
             <div className="video-logo">
-              <img src={LogoBlancoTransparente} alt="IconMegatlon" />
+             <h1 className="fw-lighter text-white text-center">Casos|Legales|Recursos Humanos</h1>
             </div>
           </div>
         </div>
