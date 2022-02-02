@@ -23,7 +23,7 @@ import autorLegalesReducers from '../Redux/AutorLegales'
 import contactosReducers from '../Redux/Contacto'
 import correoEletronicoReducers from '../Redux/CorreoEletronico'
 import resolucionCasoReducers from '../Redux/ResolucionCaso'
-
+import actividadesReducers from '../Redux/Actividad'
 
 
 const rootReducer = combineReducers({
@@ -50,6 +50,7 @@ const rootReducer = combineReducers({
    contactos: contactosReducers,
    correoEletronico: correoEletronicoReducers,
    resolucionCaso: resolucionCasoReducers,
+   actividades: actividadesReducers,
 
 })
 

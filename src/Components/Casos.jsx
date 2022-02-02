@@ -80,8 +80,8 @@ const Casos = (props) => {
 
   const [areaAescalar, setAreaAescalar] = React.useState([]);
   const [llamadaArea, setLlamadaArea] = React.useState(false);
-  const areaAderivarSelector = useSelector((store) => store.casos.areaAderivar);
-  const [selectAreaEscalar, setSelectAreaEscalar] = React.useState([]);
+  // const areaAderivarSelector = useSelector((store) => store.casos.areaAderivar);
+  // const [selectAreaEscalar, setSelectAreaEscalar] = React.useState([]);
 
   const [contacto, setContacto] = React.useState([]);
   const [llamadaContactos, setLlamadaContactos] = React.useState(false);
@@ -97,8 +97,8 @@ const Casos = (props) => {
   const [persona, setPersona] = React.useState("");
   const [puestoSolicitante, setPuestoSolicitante] = React.useState("");
   const [instalacionSede, setInstalacionSede] = React.useState("");
-  const [areaEscalar, setAreaEscalar] = React.useState("");
-  const [deriva, setDeriva] = React.useState("");
+  // const [areaEscalar, setAreaEscalar] = React.useState("");
+  // const [deriva, setDeriva] = React.useState("");
   const [serieActivo, setSerieActivo] = React.useState("");
   const [equipoDetenido, setEquipoDetenido] = React.useState("");
   const [prioridad, setPrioridad] = React.useState("");
@@ -111,7 +111,7 @@ const Casos = (props) => {
   const [loading, setLoading] = React.useState(false);
   const [show, setShow] = React.useState(false);
   const [error, setError] = React.useState(false);
-  const resultadoC = useSelector(store => store.casos.resultadoCaso);
+  const resultadoC = useSelector((store) => store.casos.resultadoCaso);
   //datos para el post
   const {
     files,
@@ -174,21 +174,21 @@ const Casos = (props) => {
   };
   // Pass the image src attribute here
   copyImageToClipboard("assets/image*")
-    .then(() => { })
-    .catch((e) => { });
+    .then(() => {})
+    .catch((e) => {});
 
   //idintranet
 
   // Can be an URL too, but be careful because this may cause CORS errors
   copyImageToClipboard("../")
-    .then(() => { })
-    .catch((e) => { });
+    .then(() => {})
+    .catch((e) => {});
   getBlobFromImageElement(imageElement)
     .then((blob) => {
       return copyBlobToClipboard(blob);
     })
-    .then(() => { })
-    .catch((e) => { });
+    .then(() => {})
+    .catch((e) => {});
 
   const fade = useSpring({
     from: {
@@ -246,15 +246,15 @@ const Casos = (props) => {
       }
     }
 
-    if (areaAescalar.length === 0) {
-      if (areaAderivarSelector.length > 0 && llamadaArea === true) {
-        setAreaAescalar(areaAderivarSelector);
-        completarOpcionAreaAescalar(areaAderivarSelector);
-      } else if (llamadaArea === false) {
-        obtenerNombreArea();
-        setLlamadaArea(true);
-      }
-    }
+    // if (areaAescalar.length === 0) {
+    //   if (areaAderivarSelector.length > 0 && llamadaArea === true) {
+    //     setAreaAescalar(areaAderivarSelector);
+    //     completarOpcionAreaAescalar(areaAderivarSelector);
+    //   } else if (llamadaArea === false) {
+    //     obtenerNombreArea();
+    //     setLlamadaArea(true);
+    //   }
+    // }
 
     if (Object.keys(contactoSelector).length > 0 && llamadaContactos === true) {
       setContacto(contactoSelector);
@@ -281,14 +281,13 @@ const Casos = (props) => {
     sucursalSelector,
     contactoSelector,
     instalacionSedeSelector,
-    areaAderivarSelector,
     resultadoC,
   ]);
 
-  console.log("este es el resultado:", resultadoC)
+  console.log("este es el resultado:", resultadoC);
 
   const enviarFormulario = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (selected === "") {
       setMensaje("Asunto primario es requerido!");
@@ -302,7 +301,7 @@ const Casos = (props) => {
     }
 
     if (asuntoSeleccionar === "") {
-      console.log(asuntoSeleccionar)
+      console.log(asuntoSeleccionar);
       setMensaje("Asunto es requerido!");
       setError(true);
       setShow(true);
@@ -338,32 +337,29 @@ const Casos = (props) => {
         instalacionSede,
         equipoDetenido,
         prioridad,
-        deriva,
-        areaEscalar,
         formData,
         config
       )
     );
     setLoading(true);
-    setMensaje("Cargando...")
-    setShow(true)
-    limpiarForm()
-  }
+    setMensaje("Cargando...");
+    setShow(true);
+    limpiarForm();
+  };
 
   const cargaExito = () => {
-
     if (resultadoC === "EXITO") {
       debugger;
-      setMensaje("El caso fue creado con éxito!")
-      setError(false)
-      setLoading(false)
+      setMensaje("El caso fue creado con éxito!");
+      setError(false);
+      setLoading(false);
       setShow(true);
       setTimeout(() => {
         props.history.push("/");
       }, 500);
       setTimeout(() => {
-        setShow(false)
-      }, 1500)
+        setShow(false);
+      }, 1500);
     } else if (resultadoC === "ERROR") {
       setMensaje("Error al crear caso!");
       setError(true);
@@ -376,20 +372,18 @@ const Casos = (props) => {
   };
 
   const limpiarForm = () => {
-    SetClienteSeleccionar("")
-    setSede("")
-    setSelected("")
-    setSolicitante("")
-    setPuestoSolicitante("")
-    setInstalacionSede("")
-    setEquipoDetenido("")
-    setPrioridad("")
-    setDeriva("")
-    setAreaEscalar("")
-    setAsuntoSeleccionar("")
-    setTipoC("")
-    setComentarios("")
-    setSelectedFiles("")
+    SetClienteSeleccionar("");
+    setSede("");
+    setSelected("");
+    setSolicitante("");
+    setPuestoSolicitante("");
+    setInstalacionSede("");
+    setEquipoDetenido("");
+    setPrioridad("");
+    setAsuntoSeleccionar("");
+    setTipoC("");
+    setComentarios("");
+    setSelectedFiles("");
   };
 
   const obtenerCasos = () => {
@@ -446,7 +440,7 @@ const Casos = (props) => {
   if (opcionesAsunto) {
     input = (
       <div className="row">
-        <div className="col-sm-4">
+        {/* <div className="col-sm-4">
           <div className="mb-2 p-2">
             <label className="form-label fw-bolder lbl-precalificacion required">
               Instalación por Sede
@@ -463,8 +457,8 @@ const Casos = (props) => {
               required
             ></Select>
           </div>
-        </div>
-        <div className="col-sm-4">
+        </div> */}
+        <div className="col-sm-6">
           <div className="mb-2 p-2">
             <label className="form-label fw-bolder lbl-precalificacion">
               Solicitante
@@ -481,7 +475,7 @@ const Casos = (props) => {
             ></Select>
           </div>
         </div>
-        <div className="col-sm-4">
+        <div className="col-sm-6">
           <div className="mb-2 p-2">
             <label className="form-label fw-bolder lbl-precalificacion">
               Puesto del solicitante
@@ -640,14 +634,14 @@ const Casos = (props) => {
     setSelectInstaSede(instased);
   };
 
-  const completarOpcionAreaAescalar = (areaEscalar) => {
-    const areaEscal = [];
-    areaEscalar.forEach((item) => {
-      var ae = { value: item.new_areaid, label: item.new_name };
-      areaEscal.push(ae);
-    });
-    setSelectAreaEscalar(areaEscal);
-  };
+  // const completarOpcionAreaAescalar = (areaEscalar) => {
+  //   const areaEscal = [];
+  //   areaEscalar.forEach((item) => {
+  //     var ae = { value: item.new_areaid, label: item.new_name };
+  //     areaEscal.push(ae);
+  //   });
+  //   setSelectAreaEscalar(areaEscal);
+  // };
 
   const asuntoHandle = (valor) => {
     setAsuntoSeleccionar(valor.value);
@@ -668,12 +662,12 @@ const Casos = (props) => {
   const instaSedeHandle = (valor) => {
     setInstalacionSede(valor.value);
   };
-  const areaEscalarHandle = (valor) => {
-    setAreaEscalar(valor.value);
-  };
-  const derivaHandle = (valor) => {
-    setDeriva(valor.value);
-  };
+  // const areaEscalarHandle = (valor) => {
+  //   setAreaEscalar(valor.value);
+  // };
+  // const derivaHandle = (valor) => {
+  //   setDeriva(valor.value);
+  // };
   //  console.log( "prioridad",prioridad)
 
   const tipoAsuntoPrimario = [
@@ -696,12 +690,12 @@ const Casos = (props) => {
     { value: "3", label: "Pedido" },
   ];
 
-  const derivaSiNo = [
-    { value: "100000000", label: "No" },
-    { value: "100000001", label: "Sí" },
-  ];
+  // const derivaSiNo = [
+  //   { value: "100000000", label: "No" },
+  //   { value: "100000001", label: "Sí" },
+  // ];
 
-  console.log("solicitante:", persona)
+  // console.log("solicitante:", persona)
 
   return (
     <animated.div className="container" style={fade}>
@@ -768,7 +762,7 @@ const Casos = (props) => {
                 </div>
 
                 <div className="row">
-                  <div className="col-sm-6">
+                  <div className="col-sm-4">
                     <div className="mb-2 p-2">
                       <label className="form-label fw-bolder lbl-precalificacion required">
                         Asunto Primario
@@ -784,12 +778,10 @@ const Casos = (props) => {
                         placeholder="Elegir asunto primario..."
                         required
                       ></Select>
-
-
                     </div>
                   </div>
 
-                  <div className="col-sm-6">
+                  <div className="col-sm-4">
                     <div className="mb-2 p-2">
                       <label className="form-label fw-bolder lbl-precalificacion required">
                         Asunto
@@ -807,13 +799,6 @@ const Casos = (props) => {
                       ></Select>
                     </div>
                   </div>
-                </div>
-
-                <div className="row">
-                  {input}
-                  {inputfm}
-                </div>
-                <div className="row">
                   <div className="col-sm-4">
                     <div className="mb-2 p-2">
                       <label className="form-label fw-bolder lbl-precalificacion">
@@ -830,8 +815,16 @@ const Casos = (props) => {
                         placeholder="Elegir tipo de caso..."
                       ></Select>
                     </div>
+                </div>
+
+                <div className="row">
+                  {input}
+                  {inputfm}
+                </div>
+                <div className="row">
+                  
                   </div>
-                  <div className="col-sm-4">
+                  {/* <div className="col-sm-4">
                     <div className="mb-2 p-2">
                       <label className="form-label fw-bolder lbl-precalificacion">
                         Derivar ?
@@ -847,8 +840,8 @@ const Casos = (props) => {
                         placeholder="..."
                       ></Select>
                     </div>
-                  </div>
-                  <div className="col-sm-4">
+                  </div> */}
+                  {/* <div className="col-sm-4">
                     <div className="mb-2 p-2">
                       <label className="form-label fw-bolder lbl-precalificacion required">
                         Area a Escalar
@@ -865,7 +858,7 @@ const Casos = (props) => {
                         required
                       ></Select>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="row">
@@ -1028,4 +1021,3 @@ const Casos = (props) => {
 };
 
 export default withRouter(Casos);
-

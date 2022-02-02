@@ -3,15 +3,22 @@ import { useDispatch, useSelector } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye } from '@fortawesome/free-solid-svg-icons'
 import { obtenerCasosId } from '../Redux/Casos'
+import { obtenerActividades } from '../Redux/Actividad'
+
 
 const SeleccionarMCA = ({ value }) => {
     const dispatch = useDispatch()
 
     const obtenerId = (id) => {
-        dispatch(obtenerCasosId(id));
-        console.log(id)
+        dispatch(obtenerCasosId(id))
+        setTimeout(() => {
+            obtenerActividadesPorID(id)
+        }, 500);
     }
 
+    const obtenerActividadesPorID = (id) =>{
+        dispatch(obtenerActividades(id))
+    }
     return (
         <div className="dropdown m-0">
             <button className="btn p-0 h-auto" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" data-bs-target="#modalMCA" aria-expanded="false">

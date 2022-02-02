@@ -2,6 +2,7 @@ import React from 'react'
 import Moment from 'moment'
 import Asuntos from './Asuntos'
 import SeleccionarMCA from './SeleccionarMCA'
+import AreaAescalar from './AreaAescalar'
 
 export const COLUMNASMCA = [
     {
@@ -69,6 +70,17 @@ export const COLUMNASMCA = [
     },
 
     {
+        Header: 'Area a Derivar',
+        accessor: '_new_areaaescalar_value',
+        // Cell: ({ value }) => { return value ? <p className=" m-0  texto-lista m-0">{value}</p> : '-' }
+        Cell: ({value}) => {
+            return(
+                <AreaAescalar id={value} />
+            )
+        }
+    },
+
+    {
         accessor: 'incidentid',
         Cell: ({ value }) => {
             return (
@@ -77,4 +89,5 @@ export const COLUMNASMCA = [
         }
     },
     
+   
 ]

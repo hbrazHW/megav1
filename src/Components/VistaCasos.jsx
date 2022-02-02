@@ -13,6 +13,7 @@ import MultiStepProgressBar from './MultiStepProgressBar'
 import Moment from 'moment'
 import { consultaFETCHcontacts } from '../Redux/Contact';
 import { COLUMNASCPR } from '../Tables/ColumnasCPR';
+import { obtenerActividades } from '../Redux/Actividad'
 
 const VistaCasos = () => {
 
@@ -41,6 +42,7 @@ const VistaCasos = () => {
     const [llamadaCorreoEletronico, setLlamadaCorreoEletronico] = React.useState(false)
     const [casosPayroll, setCasosPayroll] = React.useState([])
     const [llamadaCasosPr, setLlamadaCasosPr] = React.useState(false)
+    const [actividades, setActividades] = React.useState([])
 
 
     //selectores
@@ -51,6 +53,7 @@ const VistaCasos = () => {
     const casosFmSelector = useSelector(store => store.casos.casosFm)
     const correoEletronicoSelector = useSelector(store => store.correoEletronico.correoEletronico)
     const casosPayrollSelector = useSelector(store => store.casos.casosPayroll)
+    const actividadesSelector = useSelector(store => store.actividades.actividades)
 
     //Columnas
     const [columnasMisCasosActivos, setColumnasMisCasosActivos] = React.useState([])
@@ -99,6 +102,7 @@ const VistaCasos = () => {
     const [esperaRepuesto, setEsperaRepuesto] = React.useState([]);
     const [areaDeriva, setAreaDeriva] = React.useState([]);
 
+  const labelArray=['step1','step2','step3','step4','step5','step6','step7','step8','step9','step10','step11'];
 
     React.useEffect(() => {
         if (misCasosActivos.length === 0) {
@@ -204,15 +208,15 @@ const VistaCasos = () => {
 
         }
 
-        // if (areaAderivar.length === 0) {
-        //     if(areaAderivarSelector.length > 0 && llamadaAreaAderivar === true){
-        //         setAreaAderivar(areaAderivarSelector)
-        //     }else if (llamadaAreaAderivar === false) {
-        //         obtenerAreaAderivar()
-        //         setLlamadaAreaAderivar(true)
-        //     }
+        if (areaAderivar.length === 0) {
+            if(areaAderivarSelector.length > 0 && llamadaAreaAderivar === true){
+                setAreaAderivar(areaAderivarSelector)
+            }else if (llamadaAreaAderivar === false) {
+                obtenerAreaAderivar()
+                setLlamadaAreaAderivar(true)
+            }
 
-        // }
+        }
 
 
 
@@ -235,8 +239,15 @@ const VistaCasos = () => {
                 setLlamadaCasosPr(true)
             }
         }
+        if (actividadesSelector.length > 0) {
+            setActividades(actividadesSelector)
+            // if (document.getElementById("spinner4") !== null) {
+            //     document.getElementById("spinner4").hidden = true;
+            // }
+            document.getElementById("spinner4").style.display = 'none';
+        }
 
-    }, [misCasosActivosSelector, casosResueltosSelector, casoIdSelector, asuntosSelector, contactSelector, casosFmSelector, instalacionSedeSelector, correoEletronicoSelector, areaAderivarSelector, casosPayrollSelector])
+    }, [misCasosActivosSelector, casosResueltosSelector, casoIdSelector, asuntosSelector, contactSelector, casosFmSelector, instalacionSedeSelector, correoEletronicoSelector, areaAderivarSelector, casosPayrollSelector,actividades, actividadesSelector])
 
     console.log("hook:", casosPayroll)
 
@@ -308,7 +319,9 @@ const VistaCasos = () => {
         return nombreArea
     }
 
-
+    const obtenerTodasActividades = async () => {
+        dispatch(obtenerActividades())
+    }
 
 
     const completarCaso = (id) => {
@@ -480,6 +493,7 @@ const VistaCasos = () => {
 
     }
 
+  console.log(actividadesSelector)
 
     return (
 
@@ -514,12 +528,12 @@ const VistaCasos = () => {
                     </li>
                     <li className="nav-item" role="presentation">
                         <button className="nav-link fw-bolder text-dark" id="cfm-tab" data-bs-toggle="tab" data-bs-target="#cfm" type="button" role="tab" aria-controls="cfm" aria-selected="false">
-                            Casos Pendientes de FM
+                            Casos FM
                         </button>
                     </li>
                     <li className="nav-item" role="presentation">
                         <button className="nav-link fw-bolder text-dark" id="cpr-tab" data-bs-toggle="tab" data-bs-target="#cpr" type="button" role="tab" aria-controls="cpr" aria-selected="false">
-                            Casos Pendientes de Payroll
+                            Casos Payroll
                         </button>
                     </li>
                 </ul>
@@ -738,6 +752,23 @@ const VistaCasos = () => {
                                         </div>
                                     </div>
                                 </div>
+                                {/* <div className="col-4">
+                                        <h6 className="fw-bolder">Actividades</h6>
+                                        <div className="contenedor-spinner" id="spinner4">
+                                            <div className="lds-roller float-none w-100 d-flex justify-content-center mx--1" id="spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                                        </div>
+                                        <ul className="list-group">
+                                            {
+                                                actividadesSelector.map(item => {
+                                                    return (
+                                                        <li className="list-group-item d-flex align-items-center">
+                                                            <p className="fw-bolder"><FontAwesomeIcon icon={faEnvelope} className="fs-6 upload-file atras mx-1" color="#000" /></p>
+                                                        </li>
+                                                    )
+                                                })
+                                            }
+                                        </ul>
+                                    </div> */}
                             </div>
                         </div>
                     </div>
@@ -775,7 +806,7 @@ const VistaCasos = () => {
                             <div className="w-100 d-flex justify-content-center">
                                 <div className="card p-4 border-0 h-auto pad w-100 mb-4">
                                     <div >
-                                        <MultiStepProgressBar currentStep={step} />
+                                        <MultiStepProgressBar labelArray={labelArray} currentStep={step} />
                                     </div>
                                 </div>
                             </div>
@@ -890,6 +921,23 @@ const VistaCasos = () => {
                                                 </div>
                                             </div>
                                         </div>
+                                        <div className="col-4">
+                                        <h6 className="fw-bolder">Actividades</h6>
+                                        <div className="contenedor-spinner" id="spinner4">
+                                            <div className="lds-roller float-none w-100 d-flex justify-content-center mx--1" id="spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                                        </div>
+                                        <ul className="list-group">
+                                            {
+                                                actividadesSelector.map(item => {
+                                                    return (
+                                                        <li className="list-group-item d-flex align-items-center">
+                                                            <p className="fw-bolder"><FontAwesomeIcon icon={faEnvelope} className="fs-6 upload-file atras mx-1" color="#000" />{item.subject}</p>
+                                                        </li>
+                                                    )
+                                                })
+                                            }
+                                        </ul>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
