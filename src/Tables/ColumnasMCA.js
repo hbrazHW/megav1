@@ -69,16 +69,16 @@ export const COLUMNASMCA = [
         }
     },
 
-    {
-        Header: 'Area a Derivar',
-        accessor: '_new_areaaescalar_value',
-        // Cell: ({ value }) => { return value ? <p className=" m-0  texto-lista m-0">{value}</p> : '-' }
-        Cell: ({value}) => {
-            return(
-                <AreaAescalar id={value} />
-            )
-        }
-    },
+    // {
+    //     Header: 'Area a Derivar',
+    //     accessor: '_new_areaaescalar_value',
+    //     // Cell: ({ value }) => { return value ? <p className=" m-0  texto-lista m-0">{value}</p> : '-' }
+    //     Cell: ({value}) => {
+    //         return(
+    //             <AreaAescalar id={value} />
+    //         )
+    //     }
+    // },
 
     {
         accessor: 'incidentid',
