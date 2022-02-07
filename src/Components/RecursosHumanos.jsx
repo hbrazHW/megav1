@@ -1160,6 +1160,161 @@ const RecursosHumanos = (props) => {
                 <h6 className="fw-bolder">
                   Completar segun la Performance alcanzada
                 </h6>
+                <div className="row w-auto d-flex justify-content-">
+                    <hr className="hr-width hr-principal w-100" />
+                    <div className="row">
+                      <div className="col-sm-6">
+                        <h6 className="item fw-bolder">Item a Evaluar</h6>
+                      </div>
+                      <div class="col-sm-2">
+                        <h6 className="item fw-bolder">
+                          Resultado 1er. Mes (30 dias)
+                        </h6>
+                        <br />
+                      </div>
+                      <div class="col-sm-2">
+                        <h6 className="item fw-bolder">
+                          Resultado 2do. Mes (60 dias)
+                        </h6>
+                      </div>
+                      <div class="col-sm-2">
+                        <h6 className="item fw-bolder">
+                          Resultado 3er. Mes (80 dias)
+                        </h6>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <a href="">
+                          ¿Aplica el coaching de su líder para mejorar?
+                        </a>
+                        <br />
+                      </div>
+                      <div class="col-sm-2">
+                        <input type="text" class="form-control" />
+                        <br />
+                      </div>
+                      <div class="col-sm-2">
+                        <input type="text" class="form-control" />
+                      </div>
+                      <div class="col-sm-2">
+                        <input type="text" class="form-control" />
+                      </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <label></label>
+                        <a href="" className="evaluacion-perfo">
+                          ¿Cómo evaluaría su desempeño general?
+                        </a>
+                        <br />
+                      </div>
+                      <div class="col-sm-2">
+                        <input type="text" class="form-control" />
+                        <br />
+                      </div>
+                      <div class="col-sm-2">
+                        <input type="text" class="form-control" />
+                      </div>
+                      <div class="col-sm-2">
+                        <input type="text" class="form-control" />
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <a href="">
+                          ¿Como se desempeña en las tareas administrativas y
+                          cumplimiento de procesos?
+                        </a>
+                        <br />
+                      </div>
+                      <div class="col-sm-2">
+                        <input type="text" class="form-control" />
+                        <br />
+                      </div>
+                      <div class="col-sm-2">
+                        <input type="text" class="form-control" />
+                      </div>
+                      <div class="col-sm-2">
+                        <input type="text" class="form-control" />
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <a href="">
+                          ¿Cumple con las tareas asignadas y sigue las pautas de
+                          trabajo?
+                        </a>
+                        <br />
+                      </div>
+                      <div class="col-sm-2">
+                        <input type="text" class="form-control" />
+                        <br />
+                      </div>
+                      <div class="col-sm-2">
+                        <input type="text" class="form-control" />
+                      </div>
+                      <div class="col-sm-2">
+                        <input type="text" class="form-control" />
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <a href="">
+                          ¿Cumple con las tareas asignadas y sigue las pautas de
+                          trabajo?
+                        </a>
+                        <br />
+                      </div>
+                      <div class="col-sm-2">
+                        <input type="text" class="form-control" />
+                        <br />
+                      </div>
+                      <div class="col-sm-2">
+                        <input type="text" class="form-control" />
+                      </div>
+                      <div class="col-sm-2">
+                        <input type="text" class="form-control" />
+                      </div>
+                    </div>
+
+                    <nav aria-label="Page navigation example">
+                      <ul class="pagination justify-content-center">
+                        <li class="page-item disabled">
+                          <a
+                            class="page-link"
+                            href="#"
+                            tabindex="-1"
+                            aria-disabled="true"
+                          >
+                            Anterior
+                          </a>
+                        </li>
+                        <li class="page-item">
+                          <a class="page-link" href="#">
+                            1
+                          </a>
+                        </li>
+                        <li class="page-item">
+                          <a class="page-link" href="#">
+                            2
+                          </a>
+                        </li>
+                        <li class="page-item">
+                          <a class="page-link" href="#">
+                            3
+                          </a>
+                        </li>
+                        <li class="page-item">
+                          <a class="page-link" href="#">
+                            Siguiente
+                          </a>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
+                
                 <div className="row">
                   <h6 className="mt-3 ms-3 fw-bolder text-secondary">Comentarios</h6>
                 </div>

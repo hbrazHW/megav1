@@ -7,6 +7,7 @@ const dataInicial = {
   loading: false,
   legales: [],
   archivos: [],
+  sede: [],
   legalesId: '',
   ticket:'',
   resultadoCaso:''
@@ -16,6 +17,7 @@ const dataInicial = {
 const ADJUNTOS_EXITO = 'ADJUNTOS_EXITO'
 const OBTENER_LEGALES_EXITO = "OBTENER_LEGALES_EXITO";
 const LEGALESID_EXITO = "LEGALESID_EXITO"
+const OBTENER_SEDE_LEGALES = "OBTENER_SEDE_LEGALES"
 const CARGA_DATOS_EXITO = "CARGA_DATOS_EXITO"
 const LOADING = "LOADING";
 const ERROR = "ERROR";
@@ -34,6 +36,8 @@ export default function documentosLegalesReducers(state = dataInicial, action) {
       return { ...state, legales: action.payload, loading: false };
     case LEGALESID_EXITO:
       return  { ...state, legalesId: action.legalesId, loading: false };
+    case OBTENER_SEDE_LEGALES:
+      return  { ...state, sede: action.payload, loading: false };
       case ADJUNTOS_EXITO:
         return { ...state, archivos: action.payload };
     default:
@@ -81,6 +85,40 @@ export const obtenerLegales = () => async (dispatch) => {
     });
   }
 };
+
+//obtener Sede de legales
+export const obtenerSedeLegales = () => async (dispatch) => {
+  dispatch({
+    type: LOADING,
+  });
+  var entidad = "new_documentoslegaleses";
+  var fetch =
+  "<fetch mapping='logical' distinct='false'>" +
+  "<entity name='new_documentoslegales'>" +
+    "<attribute name='new_sede' />" +
+    "<attribute name='new_documentoslegalesid' />" +
+    "<order descending='false' attribute='new_sede' />" +
+    "<filter type='and'>" +
+      "<condition attribute='statecode' operator='eq' value='0' />" +
+    "</filter>" +
+  "</entity>" +
+"</fetch>";
+  try {
+    const response = await axios.get(
+      `${UrlApiDynamics}ConsultaFetch?Entidad=${entidad}&fetch=${fetch}&cuit=${Entidad}`
+    );
+    dispatch({
+      type: OBTENER_SEDE_LEGALES,
+      payload: response.data,
+      resultadoCaso: 'PENDING'
+    });
+  } catch (error) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+////////
 
 export const obtenerLegalesId = (id) => (dispatch) => {
   if (id !== undefined) {

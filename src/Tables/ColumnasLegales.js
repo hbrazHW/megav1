@@ -15,6 +15,13 @@ export const COLUMNASLEGALES = [
 
 
     {
+        Header: 'Sede',
+        footer: 'Sede',
+        accessor: '_new_sede_value',
+        Cell: ({ value }) => { return value ? <p className=" m-0  texto-lista m-0 fw-bolder">{value}</p> : '-' }
+    },
+
+    {
         Header: 'Persona que recepcionó',
         footer: 'Persona que recepcionó',
         accessor: '_new_personaquerecepcion_value',
