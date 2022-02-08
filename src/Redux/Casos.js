@@ -14,9 +14,15 @@ const dataInicial = {
   casoid: "",
   ticket: "",
   resultadoCaso: "",
+  casosPendientesFm: [],
+  casosSistemas: [],
+  resueltosSistemas: [],
 };
 
 //types
+const OBTENER_CASOS_RESUELTOS_SISTEMAS = "OBTENER_CASOS_RESUELTOS_SISTEMAS"
+const OBTENER_CASOS_SISTEMAS = "OBTENER_CASOS_SISTEMAS";
+const OBTENER_CASOS_PENDIENTES_FM = "OBTENER_CASOS_PENDIENTES_FM";
 const OBTENER_CASOS_PAYROLL = "OBTENER_CASOS_PAYROLL";
 const CARGA_CASOS_EXITO = "CARGA_CASOS_EXITO";
 const OBTENER_CASO_EXITO = "OBTENER_CASO_EXITO";
@@ -33,6 +39,12 @@ const ERROR = "ERROR";
 //reducer
 export default function casosReducers(state = dataInicial, action) {
   switch (action.type) {
+    case OBTENER_CASOS_RESUELTOS_SISTEMAS:
+      return { ...state, resueltosSistemas: action.payload, loading: false }
+    case OBTENER_CASOS_SISTEMAS:
+      return { ...state, casosSistemas: action.payload, loading: false }
+    case OBTENER_CASOS_PENDIENTES_FM:
+      return { ...state, casosPendientesFm: action.payload, loading: false }
     case OBTENER_CASOS_PAYROLL:
       return { ...state, casosPayroll: action.payload, loading: false };
     case CARGA_CASOS_EXITO:
@@ -198,6 +210,136 @@ export const consultaFETCHcasosFm = () => async (dispatch) => {
     );
     dispatch({
       type: OBTENER_CASOS_FM,
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+//CASOS PENDIENTES FM
+export const consultaFETCHcasosPendientesFm = () => async (dispatch) => {
+  dispatch({
+    type: LOADING,
+  });
+
+  var entidad = "incidents";
+  var fetch = "<fetch mapping='logical' distinct='false'>" +
+    "<entity name='incident'>" +
+    "<attribute name='ticketnumber' />" +
+    "<attribute name='new_vencimiento' />" +
+    "<attribute name='new_comentarios' />" +
+    "<attribute name='new_cliente' />" +
+    "<attribute name='subjectid' />" +
+    "<attribute name='customerid' />" +
+    "<attribute name='new_casovencido' />" +
+    "<attribute name='statuscode' />" +
+    "<attribute name='ownerid' />" +
+    "<attribute name='new_fechaalta' />" +
+    "<attribute name='new_areaaescalar' />" +
+    "<attribute name='incidentid' />" +
+    "<order attribute='new_vencimiento' descending='true' />" +
+    "<order attribute='ticketnumber' descending='false' />" +
+    "<filter type='and'>" +
+    "<condition attribute='statecode' operator='eq' value='0' />" +
+    "<condition attribute='new_asuntoprimario' operator='eq' value='4' />" +
+    "</filter>" +
+    "</entity>" +
+    "</fetch>";
+
+  try {
+    const response = await axios.get(
+      `${UrlApiDynamics}ConsultaFetch?Entidad=${entidad}&fetch=${fetch}&cuit=${Entidad}`
+    );
+    dispatch({
+      type: OBTENER_CASOS_PENDIENTES_FM,
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+//CASOS SISTEMAS
+export const consultaFETCHcasosSistemas = () => async (dispatch) => {
+  dispatch({
+    type: LOADING,
+  });
+
+  var entidad = "incidents";
+  var fetch = "<fetch mapping='logical' distinct='false'>" +
+    "<entity name='incident'>" +
+    "<attribute name='prioritycode' />" +
+    "<attribute name='ticketnumber' />" +
+    "<attribute name='title' />" +
+    "<attribute name='new_cliente' />" +
+    "<attribute name='new_fechaalta' />" +
+    "<attribute name='incidentid' />" +
+    "<attribute name='new_comentarios' />" +
+    "<order attribute='new_fechaalta' descending='true' />" +
+    "<filter type='and'>" +
+    "<condition attribute='statecode' operator='eq' value='0' />" +
+    "<condition attribute='new_asuntoprimario' operator='eq' value='1' />" +
+    "</filter>" +
+    "</entity>" +
+    "</fetch>";
+
+  try {
+    const response = await axios.get(
+      `${UrlApiDynamics}ConsultaFetch?Entidad=${entidad}&fetch=${fetch}&cuit=${Entidad}`
+    );
+    dispatch({
+      type: OBTENER_CASOS_SISTEMAS,
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ERROR,
+    });
+  }
+};
+
+//CASOS RESUELTOS SISTEMAS
+export const consultaFETCHcasosResueltosSistemas = () => async (dispatch) => {
+  dispatch({
+    type: LOADING,
+  });
+
+  var entidad = "incidents";
+  var fetch = "<fetch mapping='logical' distinct='false'>" +
+    "<entity name='incident'>" +
+    "<attribute name='ticketnumber' />" +
+    "<attribute name='new_vencimiento' />" +
+    "<attribute name='new_comentarios' />" +
+    "<attribute name='new_cliente' />" +
+    "<attribute name='subjectid' />" +
+    "<attribute name='customerid' />" +
+    "<attribute name='statuscode' />" +
+    "<attribute name='new_fechaalta' />" +
+    "<attribute name='new_propietario' />" +
+    "<attribute name='new_solicitante' />" +
+    "<attribute name='new_region' />" +
+    "<attribute name='new_puestodelsolicitante' />" +
+    "<attribute name='incidentid' />" +
+    "<order attribute='new_vencimiento' descending='false' />" +
+    "<order attribute='ticketnumber' descending='false' />" +
+    "<filter type='and'>" +
+    "<condition attribute='statecode' operator='eq' value='1' />" +
+    "<condition attribute='new_asuntoprimario' operator='eq' value='1' />" +
+    "</filter>" +
+    "</entity>" +
+    "</fetch>";
+
+  try {
+    const response = await axios.get(
+      `${UrlApiDynamics}ConsultaFetch?Entidad=${entidad}&fetch=${fetch}&cuit=${Entidad}`
+    );
+    dispatch({
+      type: OBTENER_CASOS_RESUELTOS_SISTEMAS,
       payload: response.data,
     });
   } catch (error) {
@@ -381,30 +523,30 @@ export const cargarForm =
     file,
     config
   ) =>
-  async (dispatch) => {
-    dispatch({
-      type: LOADING,
-      resultadoCaso: "LOADING",
-    });
-    try {
-      const response = await axios.post(
-        `${UrlApiDynamics}Casos?contactid=${contactid}&asunto=${asunto}&asuntoPrimario=${asuntoPrimario}&solicitante=${solicitante}&puestoSolicitante=${puestoSolicitante}&tipoCaso=${tipoCaso}&comentarios=${comentarios}&sucursal=${sucursal}&instalacionPorSede=${instalacionPorSede}&equipoDetenido=${equipoDetenido}&prioridad=${prioridad}&cuit=${Entidad}`,
-        file,
-        config
-      );
-      console.log("response", response);
+    async (dispatch) => {
       dispatch({
-        type: CARGA_CASOS_EXITO,
-        ticket: response.data,
-        resultadoCaso: "EXITO",
+        type: LOADING,
+        resultadoCaso: "LOADING",
       });
-    } catch (error) {
-      dispatch({
-        type: ERROR,
-        resultadoCaso: "ERROR",
-      });
-    }
-  };
+      try {
+        const response = await axios.post(
+          `${UrlApiDynamics}Casos?contactid=${contactid}&asunto=${asunto}&asuntoPrimario=${asuntoPrimario}&solicitante=${solicitante}&puestoSolicitante=${puestoSolicitante}&tipoCaso=${tipoCaso}&comentarios=${comentarios}&sucursal=${sucursal}&instalacionPorSede=${instalacionPorSede}&equipoDetenido=${equipoDetenido}&prioridad=${prioridad}&cuit=${Entidad}`,
+          file,
+          config
+        );
+        console.log("response", response);
+        dispatch({
+          type: CARGA_CASOS_EXITO,
+          ticket: response.data,
+          resultadoCaso: "EXITO",
+        });
+      } catch (error) {
+        dispatch({
+          type: ERROR,
+          resultadoCaso: "ERROR",
+        });
+      }
+    };
 
 export const cargarArchivos = (casoid, file, config, tipo) => (dispatch) => {
   try {

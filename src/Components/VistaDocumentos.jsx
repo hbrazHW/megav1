@@ -49,7 +49,19 @@ const VistaDocumentos = () => {
     React.useEffect(() => {
         if (legales.length === 0) {
             if (legalesSelector.length > 0 && llamadaLegales === true) {
-                setLegales(legalesSelector);
+                var documentos = []
+                legalesSelector.forEach(item => {
+                    var docuLegales = {
+                        new_documentoslegalesid: item.new_documentoslegalesid,
+                        new_name: item.new_name,
+                        _new_personaquerecepcion_value: item["_new_personaquerecepcion_value@OData.Community.Display.V1.FormattedValue"],
+                        new_descripcindeldocumento: item["new_descripcindeldocumento@OData.Community.Display.V1.FormattedValue"],
+                        createdon: item.createdon,
+                        _new_sede_value: item["_new_sede_value@OData.Community.Display.V1.FormattedValue"]
+                    }
+                    documentos.push(docuLegales)
+                })
+                setLegales(documentos);
                 setColumnasLegales(COLUMNASLEGALES);
                 setTimeout(() => {
                     if (document.getElementById("spinner-serie") !== null) {
@@ -101,8 +113,8 @@ const VistaDocumentos = () => {
     const completarLegales = (id) => {
         legales.filter(item => item.new_documentoslegalesid == id).map(item => {
             setAutor(item.new_name)
-            setPersonRecepciono(obtenerNombreContacto(item._new_personaquerecepcion_value))
-            setDescripcionDelDocumento(descripcionDocumento(item.new_descripcindeldocumento))
+            setPersonRecepciono(item._new_personaquerecepcion_value)
+            setDescripcionDelDocumento(item.new_descripcindeldocumento)
             setFechaCreacion(item.createdon)
             setObservaciones(item.new_observaciones)
         })

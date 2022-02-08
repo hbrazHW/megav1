@@ -1,9 +1,6 @@
 import React from 'react'
 import Moment from 'moment'
 import SeleccionarFila from '../Tables/SeleccionarFila'
-import Asuntos from './Asuntos'
-import Contacts from './Contacts'
-import Cuenta from './Cuenta'
 
 export const COLUMNASLEGALES = [
     {
@@ -26,45 +23,16 @@ export const COLUMNASLEGALES = [
         footer: 'Persona que recepcionó',
         accessor: '_new_personaquerecepcion_value',
         // Cell: ({ value }) => { return value ? <p className=" m-0  texto-lista m-0">{value}</p> : '-' }
-        Cell: ({value}) => {
-            return(
-                <Contacts id={value} />
-            )
-        }
+        Cell: ({ value }) => { return value ? <p className=" m-0  texto-lista m-0 fw-bolder">{value}</p> : '-' }
+
     },
 
     {
         Header: 'Descripción del Documento',
         footer: 'Descripción del Documento',
         accessor: 'new_descripcindeldocumento',
-        Cell: ({ value }) => {
-            switch (value) {
-                case 100000000:
-                    return <span class="badge badge-personalizado-naranja">CARTA DOCUMENTO</span>
-                case 100000001:
-                    return <span class="badge badge-personalizado-naranja">TELEGRAMA</span>
-                case 100000002:
-                    return <span class="badge badge-personalizado-naranja">CONTRATO</span>
-                case 100000003:
-                    return <span class="badge badge-personalizado-naranja">DENUNCIA</span>
-                case 100000004:
-                    return <span class="badge badge-personalizado-naranja">MANDAMIENTO DE INTIMACIÓN</span>
-                case 100000005:
-                    return <span class="badge badge-personalizado-naranja">ACTA</span>
-                case 100000006:
-                    return <span class="badge badge-personalizado-naranja">NOTA</span>
-                case 100000007:
-                    return <span class="badge badge-personalizado-naranja">OTROS</span>
-                case 100000008:
-                    return <span class="badge badge-personalizado-naranja">CÉDULA</span>
-                case 100000009:
-                    return <span class="badge badge-personalizado-naranja">OFICIO</span>
-                case 100000010:
-                    return <span class="badge badge-personalizado-naranja">DEMANDA</span>
-                default:
-                    return '---'
-            }
-        }
+        Cell: ({ value }) => { return value ? <p className=" m-0  texto-lista m-0 fw-bolder">{value}</p> : '-' }
+
     },
 
     {
@@ -72,6 +40,12 @@ export const COLUMNASLEGALES = [
         footer: 'Fecha de creación',
         accessor: 'createdon',
         Cell: ({ value }) => { return value ? <p className=" m-0 texto-lista m-0 fw-bolder">{Moment(value).format("DD-MM-YYYY")}</p> : '-' }
+    },
+    {
+        Header: 'Sede',
+        footer: 'Sede',
+        accessor: '_new_sede_value',
+        Cell: ({ value }) => { return value ? <p className=" m-0  texto-lista m-0 fw-bolder">{value}</p> : '-' }
     },
 
     {
