@@ -152,11 +152,11 @@ const Login = (props) => {
                                         >Ingresar</button>
                                     </div>
                                 </div>
-                                <div className="row mt-4">
+                                {/* <div className="row mt-4">
                                     <div className="col-sm-12">
                                     <Link className="link-registro" to="/registro">Registrarse?</Link>
                                     </div>
-                                </div>
+                                </div> */}
                             </form>
                         </div>
                     </div>

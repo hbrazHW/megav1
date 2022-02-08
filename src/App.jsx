@@ -73,7 +73,7 @@ function App() {
             <Route component={Cuenta} path="/cuenta" exact /> 
             {/* <Route component={PrecalificacionCrediticia} path="/precalificacion-crediticia" /> */}
             <Route component={RecuperoContrasena} path="/recupero" exact />
-            <Route component={Registro} path="/registro" exact /> 
+            {/* <Route component={Registro} path="/registro" exact />  */}
             <Route component={Legales} path="/Legales" exact />
             <Route component={Casos} path="/Casos" exact/>
             <Route component={RecursosHumanos} path="/RecursosHumanos" exact/>
