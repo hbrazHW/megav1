@@ -3,7 +3,7 @@ import { useSpring, animated } from "react-spring";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClipboardList, faIdBadge, faFile, faCheckCircle, faTimesCircle, faEnvelope } from '@fortawesome/free-solid-svg-icons'
-import { consultaFETCHcasosResueltos, consultaFETCHmisCasosActivos, consultaFETCHnombresAsuntos, consultaFETCHcasosFm, consultaFETCHinstalacionSede, consultaFETCHareaAderivar, consultaFETCHcasosPayroll } from "../Redux/Casos";
+import { consultaFETCHcasosResueltos, consultaFETCHmisCasosActivos, consultaFETCHnombresAsuntos, consultaFETCHcasosFm, consultaFETCHinstalacionSede, consultaFETCHareaAderivar, consultaFETCHcasosPayroll, consultaFETCHcasosPendientesFm, consultaFETCHcasosSistemas, consultaFETCHcasosResueltosSistemas } from "../Redux/Casos";
 import { consultaFETCHcorreoEletronico } from '../Redux/CorreoEletronico';
 import Tabla from '../Components/Tabla';
 import { COLUMNASMCA } from '../Tables/ColumnasMCA';
@@ -14,6 +14,9 @@ import Moment from 'moment'
 import { consultaFETCHcontacts } from '../Redux/Contact';
 import { COLUMNASCPR } from '../Tables/ColumnasCPR';
 import { obtenerActividades } from '../Redux/Actividad'
+import { COLUMNASCPFM } from '../Tables/ColumnasCPFM';
+import { COLUMNASCS } from '../Tables/ColumnasCS';
+import { COLUMNASCRS } from '../Tables/ColumnasCRS';
 
 const VistaCasos = () => {
 
@@ -43,9 +46,17 @@ const VistaCasos = () => {
     const [casosPayroll, setCasosPayroll] = React.useState([])
     const [llamadaCasosPr, setLlamadaCasosPr] = React.useState(false)
     const [actividades, setActividades] = React.useState([])
-
+    const [pendientesFm, setPendientesFm] = React.useState([])
+    const [llamadaCasosPenFm, setLlamadaCasosPenFm] = React.useState(false)
+    const [casosSistemas, setCasosSistemas] = React.useState([])
+    const [llamadaCasosSistemas, setLlamadasCasosSistemas] = React.useState(false)
+    const [casosResueltosSistemas, setCasosResueltosSistemas] = React.useState([])
+    const [llamadaResueltosSistema, setLlamadaResueltosSistemas] = React.useState(false)
 
     //selectores
+    const resueltosSistemasSelector = useSelector(store => store.casos.resueltosSistemas)
+    const casosSistemasSelector = useSelector(store => store.casos.casosSistemas)
+    const pendientesFmSelector = useSelector(store => store.casos.casosPendientesFm)
     const misCasosActivosSelector = useSelector(store => store.casos.misCasosActivos)
     const casosResueltosSelector = useSelector(store => store.casos.casosResueltos)
     const casoIdSelector = useSelector(store => store.casos.casoid)
@@ -60,6 +71,9 @@ const VistaCasos = () => {
     const [columnasCasosResueltos, setColumnasCasosResueltos] = React.useState([])
     const [columnasCFM, setColumnasCFM] = React.useState([])
     const [columnasCPR, setColumnasCPR] = React.useState([])
+    const [columnasCPFM, setColumnasCPFM] = React.useState([])
+    const [columnasCS, setColumnasCS] = React.useState([])
+    const [columnasCRS, setColumnasCRS] = React.useState([])
 
     //hooks para obtener nombres de asuntos
     const [asuntos, setAsuntos] = React.useState([])
@@ -102,7 +116,7 @@ const VistaCasos = () => {
     const [esperaRepuesto, setEsperaRepuesto] = React.useState([]);
     const [areaDeriva, setAreaDeriva] = React.useState([]);
 
-  const labelArray=['step1','step2','step3','step4','step5','step6','step7','step8','step9','step10','step11'];
+    const labelArray = ['step1', 'step2', 'step3', 'step4', 'step5', 'step6', 'step7', 'step8', 'step9', 'step10', 'step11'];
 
     React.useEffect(() => {
         if (misCasosActivos.length === 0) {
@@ -172,6 +186,71 @@ const VistaCasos = () => {
             }
         }
 
+        if(pendientesFmSelector.length > 0 && llamadaCasosPenFm === true){
+            var fm = []
+            setColumnasCPFM(COLUMNASCPFM)
+            pendientesFmSelector.forEach(item => {
+                var pendientes = {
+                    ticketnumber: item.ticketnumber,
+                    incidentid: item.incidentid,
+                    new_fechaalta: item.new_fechaalta,
+                    statuscode: item["statuscode@OData.Community.Display.V1.FormattedValue"],
+                    _customerid_value: item["_customerid_value@OData.Community.Display.V1.FormattedValue"],
+                    _new_areaaescalar_value: item["_new_areaaescalar_value@OData.Community.Display.V1.FormattedValue"],
+                    _new_cliente_value: item["_new_cliente_value@OData.Community.Display.V1.FormattedValue"],
+                    _ownerid_value: item["_ownerid_value@OData.Community.Display.V1.FormattedValue"],
+                    _subjectid_value: item["_subjectid_value@OData.Community.Display.V1.FormattedValue"]
+                }
+                fm.push(pendientes)
+            });
+            setPendientesFm(fm)
+        }else if(llamadaCasosPenFm === false){
+            obtenerPendientesFM()
+            setLlamadaCasosPenFm(true)
+        }
+
+        
+        if(casosSistemasSelector.length > 0 && llamadaCasosSistemas === true){
+            var sistemas = []
+            setColumnasCS(COLUMNASCS)
+            casosSistemasSelector.forEach(item => {
+                var casos = {
+                    ticketnumber: item.ticketnumber,
+                    incidentid: item.incidentid,
+                    new_comentarios: item.new_comentarios,
+                    new_fechaalta: item.new_fechaalta,
+                    prioritycode: item["prioritycode@OData.Community.Display.V1.FormattedValue"],
+                    title: item.title,
+                    _new_cliente_value: item["_new_cliente_value@OData.Community.Display.V1.FormattedValue"]
+                }
+                sistemas.push(casos)
+            })
+            setCasosSistemas(sistemas)
+        }else if(llamadaCasosSistemas === false){
+            obtenerCasosSistemas()
+            setLlamadasCasosSistemas(true)
+        }
+
+        if(resueltosSistemasSelector.length > 0 && llamadaResueltosSistema === true){
+            var casosR = []
+            setColumnasCRS(COLUMNASCRS)
+            resueltosSistemasSelector.forEach(item => {
+                var sistemas = {
+                    incidentid: item.incidentid,
+                    new_comentarios: item.new_comentarios,
+                    statuscode: item["statuscode@OData.Community.Display.V1.FormattedValue"],
+                    ticketnumber: item.ticketnumber,
+                    _customerid_value: item["_customerid_value@OData.Community.Display.V1.FormattedValue"],
+                    _subjectid_value: item["_subjectid_value@OData.Community.Display.V1.FormattedValue"]
+                }
+                casosR.push(sistemas)
+            })
+            setCasosResueltosSistemas(casosR)
+        }else if(llamadaResueltosSistema === false){
+            obtenerResueltosSistemas()
+            setLlamadaResueltosSistemas(true)
+        }
+
         if (correoEletronico.lenght === 0) {
             if (correoEletronicoSelector.lenght > 0 && llamadaCorreoEletronico === true) {
                 setCorreoEletronico(correoEletronicoSelector);
@@ -209,9 +288,9 @@ const VistaCasos = () => {
         }
 
         if (areaAderivar.length === 0) {
-            if(areaAderivarSelector.length > 0 && llamadaAreaAderivar === true){
+            if (areaAderivarSelector.length > 0 && llamadaAreaAderivar === true) {
                 setAreaAderivar(areaAderivarSelector)
-            }else if (llamadaAreaAderivar === false) {
+            } else if (llamadaAreaAderivar === false) {
                 obtenerAreaAderivar()
                 setLlamadaAreaAderivar(true)
             }
@@ -246,10 +325,23 @@ const VistaCasos = () => {
             // }
             document.getElementById("spinner4").style.display = 'none';
         }
+        
 
-    }, [misCasosActivosSelector, casosResueltosSelector, casoIdSelector, asuntosSelector, contactSelector, casosFmSelector, instalacionSedeSelector, correoEletronicoSelector, areaAderivarSelector, casosPayrollSelector,actividades, actividadesSelector])
+    }, [misCasosActivosSelector, casosResueltosSelector, casoIdSelector, asuntosSelector, contactSelector, casosFmSelector, instalacionSedeSelector, correoEletronicoSelector, areaAderivarSelector, casosPayrollSelector, actividades, actividadesSelector, pendientesFmSelector, casosSistemasSelector, resueltosSistemasSelector])
 
-    console.log("hook:", casosPayroll)
+    console.log("HOOK:", casosResueltosSistemas)
+
+    const obtenerResueltosSistemas = () => {
+        dispatch(consultaFETCHcasosResueltosSistemas())
+    }
+
+    const obtenerCasosSistemas = () => {
+        dispatch(consultaFETCHcasosSistemas())
+    }
+
+    const obtenerPendientesFM = () => {
+        dispatch(consultaFETCHcasosPendientesFm())
+    }
 
     const obtenerCasosPr = () => {
         dispatch(consultaFETCHcasosPayroll())
@@ -493,8 +585,6 @@ const VistaCasos = () => {
 
     }
 
-  console.log(actividadesSelector)
-
     return (
 
         <animated.div className="container" style={fade}>
@@ -521,19 +611,26 @@ const VistaCasos = () => {
                             Mis Casos Activos
                         </button>
                     </li>
-                    <li className="nav-item" role="presentation">
-                        <button className="nav-link fw-bolder text-dark" id="cr-tab" data-bs-toggle="tab" data-bs-target="#cr" type="button" role="tab" aria-controls="cr" aria-selected="false">
-                            Casos Resueltos
-                        </button>
-                    </li>
+
                     <li className="nav-item" role="presentation">
                         <button className="nav-link fw-bolder text-dark" id="cfm-tab" data-bs-toggle="tab" data-bs-target="#cfm" type="button" role="tab" aria-controls="cfm" aria-selected="false">
                             Casos FM
                         </button>
                     </li>
                     <li className="nav-item" role="presentation">
+                        <button className="nav-link fw-bolder text-dark" id="cpfm-tab" data-bs-toggle="tab" data-bs-target="#cpfm" type="button" role="tab" aria-controls="cpfm" aria-selected="false">
+                            Casos Pendientes FM
+                        </button>
+                    </li>
+                    <li className="nav-item" role="presentation">
                         <button className="nav-link fw-bolder text-dark" id="cpr-tab" data-bs-toggle="tab" data-bs-target="#cpr" type="button" role="tab" aria-controls="cpr" aria-selected="false">
                             Casos Payroll
+                        </button>
+                    </li>
+
+                    <li className="nav-item" role="presentation">
+                        <button className="nav-link fw-bolder text-dark" id="cs-tab" data-bs-toggle="tab" data-bs-target="#cs" type="button" role="tab" aria-controls="cs" aria-selected="false">
+                            Casos Sistemas
                         </button>
                     </li>
                 </ul>
@@ -562,26 +659,7 @@ const VistaCasos = () => {
                         </div>
                     </div>
 
-                    <div className="tab-pane fade show p-3" id="cr" role="tabpanel" aria-labelledby="cr-tab">
-                        <div className="col-sm-12 p-2 mt-3">
-                            <div className="card shadow p-3 border-0 h-auto d-flex justify-content-start pad">
 
-                                <div className="card pad borde-none">
-                                    <div className="lista-header color-header pad">
-                                        {casosResueltos.length > 0 ? (
-                                            <Tabla
-                                                lineas={casosResueltos}
-                                                columnas={columnasCasosResueltos}
-                                                titulo={"Casos-Resueltos"}
-                                                header={false}
-                                            />
-                                        ) : null}
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div className="tab-pane fade show p-3" id="cfm" role="tabpanel" aria-labelledby="cfm-tab">
                         <div className="col-sm-12 p-2 mt-3">
                             <div className="card shadow p-3 border-0 h-auto d-flex justify-content-start pad">
@@ -597,6 +675,25 @@ const VistaCasos = () => {
                                             />
                                         ) : null}
 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="tab-pane fade show p-3" id="cpfm" role="tabpanel" aria-labelledby="cpfm-tab">
+                        <div className="col-sm-12 p-2 mt-3">
+                            <div className="card shadow p-3 border-0 h-auto d-flex justify-content-start pad">
+                                <div className="card pad borde-none">
+                                    <div className="lista-header color-header pad">
+                                    {pendientesFm.length > 0 ? (
+                                            <Tabla
+                                                lineas={pendientesFm}
+                                                columnas={columnasCPFM}
+                                                titulo={"Casos-Pendientes-FM"}
+                                                header={false}
+                                            />
+                                        ) : null}
                                     </div>
                                 </div>
                             </div>
@@ -621,7 +718,104 @@ const VistaCasos = () => {
                             </div>
                         </div>
                     </div>
+
+                    <div className="tab-pane fade show p-3" id="cs" role="tabpanel" aria-labelledby="cs-tab">
+                        <div className="col-sm-12 p-2 mt-3">
+                            <div className="card shadow p-3 border-0 h-auto d-flex justify-content-start pad">
+                                <div className="card pad borde-none">
+                                    <div className="lista-header color-header pad">
+                                    {casosSistemas.length > 0 ? (
+                                            <Tabla
+                                                lineas={casosSistemas}
+                                                columnas={columnasCS}
+                                                titulo={"Mis-Casos-Activos"}
+                                                header={false}
+                                            />
+                                        ) : null}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+
+                <hr />
+
+                <ul className="nav nav-tabs" id="myTab2" role="tablist">
+                    <li className="nav-item" role="presentation">
+                        <button className="nav-link fw-bolder text-dark" id="cr-tab" data-bs-toggle="tab" data-bs-target="#cr" type="button" role="tab" aria-controls="cr" aria-selected="false">
+                            Casos Resueltos
+                        </button>
+                    </li>
+
+                    <li className="nav-item" role="presentation">
+                        <button className="nav-link fw-bolder text-dark" id="crs-tab" data-bs-toggle="tab" data-bs-target="#crs" type="button" role="tab" aria-controls="crs" aria-selected="false">
+                            Casos Resueltos Sistemas
+                        </button>
+                    </li>
+                    <li className="nav-item" role="presentation">
+                        <button className="nav-link fw-bolder text-dark" id="crpr-tab" data-bs-toggle="tab" data-bs-target="#crpr" type="button" role="tab" aria-controls="crpr" aria-selected="false">
+                            Casos Resueltos Payroll
+                        </button>
+                    </li>
+                </ul>
+
+                <div className="tab-content">
+                    <div className="tab-pane fade show p-3" id="cr" role="tabpanel" aria-labelledby="cr-tab">
+                        <div className="col-sm-12 p-2 mt-3">
+                            <div className="card shadow p-3 border-0 h-auto d-flex justify-content-start pad">
+
+                                <div className="card pad borde-none">
+                                    <div className="lista-header color-header pad">
+                                        {casosResueltos.length > 0 ? (
+                                            <Tabla
+                                                lineas={casosResueltos}
+                                                columnas={columnasCasosResueltos}
+                                                titulo={"Casos-Resueltos"}
+                                                header={false}
+                                            />
+                                        ) : null}
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div className="tab-pane fade show p-3" id="crs" role="tabpanel" aria-labelledby="crs-tab">
+                        <div className="col-sm-12 p-2 mt-3">
+                            <div className="card shadow p-3 border-0 h-auto d-flex justify-content-start pad">
+                                <div className="card pad borde-none">
+                                    <div className="lista-header color-header pad">
+                                    {casosResueltosSistemas.length > 0 ? (
+                                            <Tabla
+                                                lineas={casosResueltosSistemas}
+                                                columnas={columnasCRS}
+                                                titulo={"Casos-Resueltos-Sistemas"}
+                                                header={false}
+                                            />
+                                        ) : null}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="tab-pane fade show p-3" id="crpr" role="tabpanel" aria-labelledby="crpr-tab">
+                        <div className="col-sm-12 p-2 mt-3">
+                            <div className="card shadow p-3 border-0 h-auto d-flex justify-content-start pad">
+                                <div className="card pad borde-none">
+                                    <div className="lista-header color-header pad">
+                                        Casos Resueltos Payroll
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             {/* modal casos resueltos */}
@@ -922,22 +1116,22 @@ const VistaCasos = () => {
                                             </div>
                                         </div>
                                         <div className="col-4">
-                                        <h6 className="fw-bolder">Actividades</h6>
-                                        <div className="contenedor-spinner" id="spinner4">
-                                            <div className="lds-roller float-none w-100 d-flex justify-content-center mx--1" id="spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                                            <h6 className="fw-bolder">Actividades</h6>
+                                            <div className="contenedor-spinner" id="spinner4">
+                                                <div className="lds-roller float-none w-100 d-flex justify-content-center mx--1" id="spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                                            </div>
+                                            <ul className="list-group">
+                                                {
+                                                    actividadesSelector.map(item => {
+                                                        return (
+                                                            <li className="list-group-item d-flex align-items-center">
+                                                                <p className="fw-bolder"><FontAwesomeIcon icon={faEnvelope} className="fs-6 upload-file atras mx-1" color="#000" />{item.subject}</p>
+                                                            </li>
+                                                        )
+                                                    })
+                                                }
+                                            </ul>
                                         </div>
-                                        <ul className="list-group">
-                                            {
-                                                actividadesSelector.map(item => {
-                                                    return (
-                                                        <li className="list-group-item d-flex align-items-center">
-                                                            <p className="fw-bolder"><FontAwesomeIcon icon={faEnvelope} className="fs-6 upload-file atras mx-1" color="#000" />{item.subject}</p>
-                                                        </li>
-                                                    )
-                                                })
-                                            }
-                                        </ul>
-                                    </div>
                                     </div>
                                 </div>
                             </div>
